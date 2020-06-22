@@ -1,0 +1,39 @@
+﻿id;name;abbreviation;country_id;level;year;image_url
+1;AG2R La Mondiale;ALM;1103;UCI WorldTeams;2020;ALM2020.JPG
+2;Astana Pro Team;AST;1132;UCI WorldTeams;2020;AST2020.JPG
+3;Bahrain - McLaren;TBM;1061;UCI WorldTeams;2020;TBM2020.JPG
+4;BORA - hansgrohe;BOH;1092;UCI WorldTeams;2020;BOH2020.JPG
+5;CCC Team;CCC;1090;UCI WorldTeams;2020;CCC2020.JPG
+6;Cofidis, Solutions Crédits;COF;1103;UCI WorldTeams;2020;COF2020.JPG
+7;Deceuninck - Quick Step;DQT;1064;UCI WorldTeams;2020;DQT2020.JPG
+8;EF Pro Cycling;EF1;1236;UCI WorldTeams;2020;EF12020.JPG
+9;Groupama - FDJ;GFC;1103;UCI WorldTeams;2020;GFC2020.JPG
+10;Israel Start-Up Nation;ISN;1123;UCI WorldTeams;2020;ISN2020.JPG
+11;Lotto Soudal;LTS;1064;UCI WorldTeams;2020;LTS2020.JPG
+12;Mitchelton-Scott;MTS;1058;UCI WorldTeams;2020;MTS2020.JPG
+13;Movistar Team;MOV;1213;UCI WorldTeams;2020;MOV2020.JPG
+14;NTT Pro Cycling;NTT;1241;UCI WorldTeams;2020;NTT2020.JPG
+15;Team INEOS;INS;1234;UCI WorldTeams;2020;INS2020.JPG
+16;Team Jumbo-Visma;TJV;1168;UCI WorldTeams;2020;TJV2020.JPG
+17;Team Sunweb;SUN;1092;UCI WorldTeams;2020;SUN2020.JPG
+18;Trek - Segafredo;TFS;1236;UCI WorldTeams;2020;TFS2020.JPG
+19;UAE-Team Emirates;UAD;1235;UCI WorldTeams;2020;UAD2020.JPG
+20;Alpecin-Fenix;AFC;1064;UCI ProTeams;2020;AFC2020.JPG
+21;Androni Giocattoli - Sidermec;ANS;1124;UCI ProTeams;2020;ANS2020.JPG
+22;B&B Hotels - Vital Concept p/b KTM;BVC;1103;UCI ProTeams;2020;BVC2020.JPG
+23;Bardiani-CSF-Faizanè;BCF;1124;UCI ProTeams;2020;BCF2020.JPG
+24;Bingoal - Wallonie Bruxelles;WVA;1064;UCI ProTeams;2020;WVA2020.JPG
+25;Burgos-BH;BBH;1213;UCI ProTeams;2020;BBH2020.JPG
+26;Caja Rural - Seguros RGA;CJR;1213;UCI ProTeams;2020;CJR2020.JPG
+27;Circus - Wanty Gobert;CWG;1064;UCI ProTeams;2020;CWG2020.JPG
+28;Fundación - Orbea;FOR;1213;UCI ProTeams;2020;FOR2020.JPG
+29;Gazprom - RusVelo;GAZ;1194;UCI ProTeams;2020;GAZ2020.JPG
+30;NIPPO DELKO One Provence;NDP;1103;UCI ProTeams;2020;NDP2020.JPG
+31;Rally Cycling;RLY;1236;UCI ProTeams;2020;RLY2020.JPG
+32;Riwal Readynez Cycling Team;RIW;1088;UCI ProTeams;2020;RIW2020.JPG
+33;Sport Vlaanderen - Baloise;SVB;1064;UCI ProTeams;2020;SVB2020.JPG
+34;Team Arkéa Samsic;ARK;1103;UCI ProTeams;2020;ARK2020.JPG
+35;Team Novo Nordisk;TNN;1236;UCI ProTeams;2020;TNN2020.JPG
+36;Team Total Direct Energie;TDE;1103;UCI ProTeams;2020;TDE2020.JPG
+37;Uno-X Norwegian Development Team;UXT;1176;UCI ProTeams;2020;UXT2020.JPG
+38;Vini Zabù - KTM;THR;1124;UCI ProTeams;2020;THR2020.JPG

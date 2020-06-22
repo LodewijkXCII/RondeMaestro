@@ -1,0 +1,960 @@
+﻿fist_name;last_name;team_id;country_id;speciality_id;image_url;speciality_id_2
+Romain;Bardet;1;1103;4;/;6
+François;Bidard;1;1103;;/;
+Geoffrey;Bouchard;1;1103;;/;
+Clément;Champoussin;1;1103;4;/;
+Mikaël;Cherel;1;1103;;/;
+Clément;Chevrier;1;1103;;/;
+Benoît;Cosnefroy;1;1103;;/;
+Silvan;Dillier;1;1245;3;/;
+Axel;Domont;1;1103;;/;
+Julien;Duval;1;1103;;/;
+Mathias;Frank;1;1245;6;/;4
+Tony;Gallopin;1;1103;2;/;5
+Ben;Gastauer;1;1147;;/;
+Alexandre;Geniez;1;1103;4;/;
+Dorian;Godon;1;1103;;/;
+Alexis;Gougeard;1;1103;2;/;3
+Jaakko;Hänninen;1;1102;;/;
+Quentin;Jauregui;1;1103;;/;
+Pierre;Latour;1;1103;4;/;6
+Oliver;Naesen;1;1064;3;/;
+Lawrence;Naesen;1;1064;;/;
+Aurélien;Paret-Pientre;1;1103;;/;
+Nans;Peters;1;1103;2;/;
+Harry;Tanfield;1;1234;;/;
+Stijn;Vandenbergh;1;1064;3;/;
+Andrea;Vendrame;1;1124;7;/;
+Clément;Venturini;1;1103;7;/;
+Alexis;Vuillermoz;1;1103;5;/;2
+Larry;Warbasse;1;1236;4;/;
+Alex;Aranburu;2;1213;5;/;7
+Zhandos;Bizhigitov;2;1132;;/;
+Manuele;Boaro;2;1124;8;/;
+Hernando;Bohórquez;2;1081;;/;
+Rodrigo;Contreras;2;1081;;/;
+Laurens;de Vreese;2;1064;;/;
+Fabio;Felline;2;1124;5;/;7
+Daniil;Fominykh;2;1132;;/;
+Omar;Fraile;2;1213;2;/;4
+Jakob;Fuglsang;2;1088;6;/;5
+Yevgeniy;Gidich;2;1132;;/;
+Jonas;Gregaard;2;1088;;/;
+Dmitriy;Gruzdev;2;1132;8;/;
+Hugo;Houle;2;1077;;/;
+Ion;Izagirre;2;1213;6;/;5
+Gorka;Izagirre;2;1213;5;/;2
+Merhawi;Kudus;2;1097;4;/;2
+Miguel Ángel;Lopez;2;1081;4;/;6
+Alexey;Lutsenko;2;1132;5;/;6
+Davide;Martinelli;2;1124;7;/;
+Yuriy;Natarov;2;1132;;/;
+Vadim;Pronskiy;2;1132;;/;
+Óscar;Rodríguez;2;1213;;/;
+Luis León;Sánchez;2;1213;5;/;2
+Nikita;Stalnov;2;1132;;/;
+Harold;Tejada;2;1081;;/;
+Aleksandr;Vlasov;2;1194;;/;
+Artyom;Zakharov;2;1132;;/;
+Yukiya;Arashiro;3;1127;;/;
+Enrico;Battaglin;3;1124;2;/;
+Phil;Bauhaus;3;1092;;/;
+Pello;Bilbao;3;1213;4;/;
+Grega;Bole;3;1209;5;/;7
+Santiago;Buitrago;3;1081;;/;
+Eros;Capecchi;3;1124;;/;
+Damiano;Caruso;3;1124;4;/;
+Mark;Cavendish;3;1234;7;/;
+Sonny;Colbrelli;3;1124;5;/;7
+Scott;Davies;3;1234;;/;
+Chun Kai;Feng;3;1080;;/;
+Iván;García Cortina;3;1213;2;/;7
+Marco;Haller;3;1181;;/;
+Heinrich;Haussler;3;1058;2;/;5
+Kevin;Inkelaar;3;1168;;/;
+Mikel;Landa;3;1213;4;/;6
+Matej;Mohoric;3;1209;6;/;5
+Domen;Novak;3;1209;;/;
+Mark;Padun;3;1178;;/;
+Hermann;Pernsteiner;3;1181;;/;
+Luka;Pibernik;3;1209;;/;
+Wout;Poels;3;1168;4;/;6
+Marcel;Sieberg;3;1092;;/;
+Dylan;Teuns;3;1064;5;/;4
+Jan;Tratnik;3;1209;;/;
+Rafael;Valls;3;1213;;/;
+Stephen;Williams;3;1234;;/;
+Alfred;Wright;3;1234;;/;
+Pascal;Ackermann;4;1092;7;/;
+Erik;Baska;4;1210;;/;
+Cesare;Benedetti;4;1124;;/;
+Maciej;Bodnar;4;1190;8;/;
+Emanuel;Buchmann;4;1092;6;/;4
+Marcus;Burghardt;4;1092;;/;
+Jempy;Drucker;4;1147;;/;
+Matteo;Fabbro;4;1124;;/;
+Patrick;Gamper;4;1181;;/;
+Oscar;Gatto;4;1124;;/;
+Felix;Grossschartner;4;1181;;/;
+Lennard;Kämna;4;1092;;/;
+Patrick;Konrad;4;1181;5;/;
+Martin;Laas;4;1098;;/;
+Rafal;Majka;4;1190;6;/;4
+Jay;McCarthy;4;1058;;/;
+Gregor;Mühlberger;4;1181;;/;
+Daniel;Oss;4;1124;3;/;2
+Pawel;Poljanski;4;1190;;/;
+Lukas;Pöstlberger;4;1181;;/;
+Peter;Sagan;4;1210;7;/;5
+Juraj;Sagan;4;1210;;/;
+Maximilian;Schachmann;4;1092;6;/;5
+Ide;Schelling;4;1168;;/;
+Andreas;Schillinger;4;1092;;/;
+Michael;Schwarzmann;4;1092;;/;
+Rüdiger;Selig;4;1092;;/;
+Will;Barta;5;1236;;/;
+Patrick;Bevin;5;1171;;/;
+Josef;Cerný;5;1225;;/;
+Víctor;de la Parte;5;1213;;/;
+Alessandro;de Marchi;5;1124;2;/;
+Simon;Geschke;5;1092;;/;
+Kamil;Gradek;5;1190;;/;
+Jan;Hirt;5;1225;4;/;
+Jonas;Koch;5;1092;;/;
+Pavel;Kochetkov;5;1194;;/;
+Jakub;Mareczko;5;1124;7;/;
+Fausto;Masnada;5;1124;2;/;
+Kamil;Malecki;5;1190;;/;
+Michal;Paluta;5;1190;;/;
+Serge;Pauwels;5;1064;2;/;
+Joey;Rosskopf;5;1236;8;/;
+Szymon;Sajnok;5;1190;;/;
+Michael;Schär;5;1245;;/;
+Matteo;Trentin;5;1124;7;/;5
+Attila;Valter;5;1116;;/;
+Greg;van Avermaet;5;1064;3;/;5
+Gijs;van Hoecke;5;1064;;/;
+Nathan;van Hooydonck;5;1064;;/;
+Guillaume;van Keirsbulck;5;1064;3;/;
+Francisco José;Ventoso;5;1213;5;/;7
+Lukasz;Wisniowski;5;1190;;/;
+Ilnur;Zakarin;5;1194;6;/;4
+Georg;Zimmerman;5;1092;;/;
+Piet;Allegaert;6;1064;3;/;
+Fernando;Barceló;6;1213;;/;
+Natnael;Berhane;6;1097;2;/;4
+Dimitri;Claeys;6;1064;;/;
+Simone;Consonni;6;1124;7;/;
+Nicolas;Edet;6;1103;2;/;
+Eddy;Finé;6;1103;;/;
+Nathan;Haas;6;1058;5;/;
+Jesper;Hansen;6;1088;;/;
+Jesús;Herrada;6;1213;4;/;
+José;Herrada;6;1213;;/;
+Victor;Lafay;6;1103;;/;
+Christophe;Laporte;6;1103;7;/;
+Mathias;le Turnier;6;1103;;/;
+Cyril;Lemoine;6;1103;;/;
+Guillaume;Martin;6;1103;4;/;
+Luis Ángel;Maté;6;1213;2;/;
+Marco;Mathis;6;1092;8;/;
+Emmanuel;Morin;6;1103;;/;
+Anthony;Perez;6;1103;5;/;
+Pierre-Luc;Périchon;6;1103;;/;
+Stéphane;Rossetto;6;1103;;/;
+Fabio;Sabatini;6;1124;;/;
+Damien;Touzé;6;1103;;/;
+Kenneth;Vanbilsen;6;1064;;/;
+Julien;Vermote;6;1064;;/;
+Elia;Viviani;6;1124;7;/;
+Attilio;Viviani;6;1124;;/;
+Julian;Alaphillipe;7;1103;5;/;
+João;Almeida;7;1191;;/;
+Shane;Archbold;7;1171;;/;
+Kasper;Asgreen;7;1088;3;/;8
+Andrea;Bagioli;7;1124;;/;
+Davide;Ballerini;7;1124;2;/;3
+Sam;Bennett;7;1117;7;/;
+Mattia;Cattaneo;7;1124;;/;
+Rémi;Cavagna;7;1103;;/;
+Tim;Declerq;7;1064;;/;
+Dries;Devenyns;7;1064;2;/;5
+Remco;Evenepoel;7;1064;5;/;8
+Ian;Garrison;7;1236;;/;
+Álvaro José;Hodeg;7;1081;7;/;
+Mikkel Frolich;Honoré;7;1088;;/;
+Fabio;Jakobsen;7;1168;7;/;
+Bob;Jungels;7;1147;5;/;3
+Iljo;Keisse;7;1064;;/;
+James;Knox;7;1234;4;/;
+Yves;Lampaert;7;1064;2;/;
+Michael;Morkov;7;1088;;/;
+Florian;Sénéchal;7;1103;;/;
+Pieter;Serry;7;1064;;/;
+Stijn;Steels;7;1064;;/;
+Jannik;Steimle;7;1092;;/;
+Zdenek;Stybar;7;1225;3;/;
+Bert;van Lerberghe;7;1064;;/;
+Mauri;Vansevenant;7;1064;;/;
+Sean;Bennett;8;1236;;/;
+Alberto;Bettiol;8;1124;3;/;
+Stefan;Bissegger;8;1245;;/;
+Jonathan Klever;Caicedo;8;1093;;/;
+Hugh;Carthy;8;1234;4;/;
+Simon;Clarke;8;1058;5;/;2
+Magnus;Cort;8;1088;3;/;8
+Lawson;Craddock;8;1236;6;/;
+Mitchell;Docker;8;1058;;/;
+Ruben;Guerreiro;8;1191;;/;
+Kristoffer;Halvorsen;8;1176;7;/;
+Sergio;Higuita;8;1081;4;/;
+Moreno;Hofland;8;1168;7;/;5
+Alex;Howes;8;1236;;/;
+Tanel;Kangert;8;1098;2;/;4
+Jens;Keukeleire;8;1064;2;/;7
+Sebastian;Langeveld;8;1168;3;/;
+Daniel Felipe;Martínez;8;1081;4;/;
+Lachlan;Morton;8;1058;;/;
+Owen;Logan;8;1236;;/;
+Neilson;Powless;8;1236;;/;
+Jonas;Rutsch;8;1092;;/;
+Tom;Scully;8;1171;;/;
+Rigoberto;Urán;8;1081;4;/;6
+Julius;van den Berg;8;1168;7;/;
+Tejay;van Garderen;8;1236;6;/;8
+Sep;Vanmarcke;8;1064;3;/;
+Luis;Villalobos;8;1158;;/;
+James;Whelan;8;1058;;/;
+Michael;Woods;8;1077;4;/;
+Bruno;Armirail;9;1103;;/;
+William;Bonnet;9;1103;;/;
+Alexys;Brunel;9;1103;;/;
+Mickaël;Delage;9;1103;;/;
+Arnaud;Démare;9;1103;7;/;
+Antoine;Duchesne;9;1077;;/;
+Kilian;Frankiny;9;1245;;/;
+David;Gaudu;9;1103;4;/;6
+Kevin;Geniets;9;1147;;/;
+Jacopo;Guarnieri;9;1124;7;/;
+Simon;Guglielmi;9;1103;;/;
+Ignatas;Konovalovas;9;1146;8;/;
+Stefan;Küng;9;1245;8;/;
+Matthieu;Ladagnous;9;1103;;/;
+Olivier;Le Gac;9;1103;;/;
+Fabian;Lienhard;9;1245;;/;
+Tobias;Ludvigsson;9;1244;8;/;
+Valentin;Madouas;9;1103;;/;
+Rudy;Molard;9;1103;4;/;
+Thibaut;Pinot;9;1103;6;/;4
+Sébastien;Reichenbach;9;1245;4;/;
+Anthony;Roux;9;1103;;/;
+Marc;Sarreau;9;1103;7;/;
+Miles;Scotson;9;1058;;/;
+Romain;Seigle;9;1103;;/;
+Ramon;Sinkeldam;9;1168;7;/;
+Benjamin;Thomas;9;1103;;/;
+Léo;Vincent;9;1103;;/;
+Matteo;Badilatti;10;1245;;/;
+Rudy;Barbier;10;1103;;/;
+Jenthe;Biermans;10;1064;;/;
+Guillaume;Boivin;10;1077;;/;
+Matthias;Brändle;10;1181;8;/;
+Alexander;Cataford;10;1077;;/;
+Davide;Cimolai;10;1124;7;/;
+Alex;Dowsett;10;1234;8;/;
+Itamar;Einhorn;10;1123;;/;
+Omer;Goldstein;10;1123;;/;
+André;Greipel;10;1092;7;/;
+Ben;Hermans;10;1064;5;/;4
+Hugo;Hofstetter;10;1103;7;/;
+Reto;Hollenstein;10;1245;;/;
+Dan;Martin;10;1117;5;/;4
+Travis;McCabe;10;1236;;/;
+Daniel;Navarro;10;1213;4;/;2
+Krists;Neilands;10;1141;2;/;
+Guy;Niv;10;1123;;/;
+James;Piccoli;10;1077;;/;
+Nils;Politt;10;1092;3;/;
+Mihkel;Räim;10;1098;;/;
+Alexis;Renard;10;1103;;/;
+Guy;Sagiv;10;1123;;/;
+Patrick;Schelling;10;1245;;/;
+Rory;Sutherland;10;1058;;/;
+Norman;Vahtra;10;1098;;/;
+Tom;van Asbroeck;10;1064;;/;
+Mads;Würtz Schmidt;10;1088;3;/;
+Rick;Zabel;10;1092;7;/;
+Sander;Armée;11;1064;;/;
+Steff;Cras;11;1064;;/;
+Jasper;de Buyst;11;1064;;/;
+Thomas;de Gendt;11;1064;2;/;
+John;Degenkolb;11;1092;3;/;7
+Stan;Dewulf;11;1064;;/;
+Jonathan;Dibben;11;1234;8;/;
+Caleb;Ewan;11;1058;7;/;
+Frederik;Frison;11;1064;;/;
+Philippe;Gilbert;11;1064;5;/;3
+Kobe;Goossens;11;1064;;/;
+Carl Fredrik;Hagen;11;1176;6;/;
+Adam;Hansen;11;1058;;/;
+Matthew;Holmes;11;1234;;/;
+Rasmus;Iversen;11;1088;;/;
+Roger;Kluge;11;1092;;/;
+Nikolas;Maes;11;1064;;/;
+Tomasz;Marczynski;11;1190;2;/;
+Rémy;Mertz;11;1064;;/;
+Stefano;Oldani;11;1124;;/;
+Gerben;Thijssen;11;1064;;/;
+Tosh;van der Sande;11;1064;;/;
+Brian;van Goethem;11;1168;;/;
+Brent;van Moer;11;1064;;/;
+Harm;Vanhoucke;11;1064;;/;
+Florian;Vermeersch;11;1064;;/;
+Jelle;Wallays;11;1064;5;/;
+Tim;Wellens;11;1064;5;/;6
+Edoardo;Affini;12;1124;;/;
+Michael;Albasini;12;1245;;/;
+Jack;Bauer;12;1171;2;/;
+Sam;Bewley;12;1171;;/;
+Brent;Bookwalter;12;1236;8;/;
+Esteban;Chaves;12;1081;4;/;6
+Luke;Durbridge;12;1058;8;/;
+Alex;Edmondson;12;1058;;/;
+Tsgabu;Grmay;12;1099;4;/;
+Kaden;Groves;12;1058;7;/;
+Jack;Haig;12;1058;4;/;
+Lucas;Hamilton;12;1058;;/;
+Michael;Hepburn;12;1058;;/;
+Damien;Howson;12;1058;;/;
+Daryl;Impey;12;1241;5;/;7
+Christopher;Juul-Jensen;12;1088;;/;
+Alexander;Konychev;12;1124;;/;
+Cameron;Meyer;12;1058;8;/;
+Luka;Mezgec;12;1210;7;/;5
+Mikel;Nieve;12;1213;4;/;2
+Barnabás;Peák;12;1116;;/;
+Nick;Schultz;12;1058;;/;
+Callum;Scotson;12;1058;;/;
+Dion;Smith;12;1171;;/;
+Robert;Stannard;12;1058;;/;
+Adam;Yates;12;1234;4;/;6
+Simon;Yates;12;1234;6;/;4
+Andrey;Zeits;12;1132;;/;
+Juan Diego;Alba;13;1081;;/;
+Jorge;Arcas;13;1213;;/;
+Carlos;Betancur;13;1081;4;/;
+Héctor;Carretero;13;1213;;/;
+Dario;Cataldo;13;1124;;/;
+Gabriel;Cullaigh;13;1234;;/;
+Inigo;Elosegui;13;1213;;/;
+Imanol;Erviti;13;1213;3;/;2
+Juri;Hollmann;13;1092;;/;
+Johan;Jacobs;13;1245;3;/;
+Matteo;Jorgenson;13;1236;;/;
+Lluís;Mas;13;1213;;/;
+Enric;Mas;13;1213;4;/;6
+Sebastián;Mora;13;1213;;/;
+Mathias;Norsgaard;13;1088;;/;
+Nelson;Oliveira;13;1191;8;/;
+Antonio;Pedrero;13;1213;;/;
+Eduard;Prades;13;1213;;/;
+Jürgen;Roelandts;13;1064;3;/;
+José Joaquín;Rojas;13;1213;;/;
+Einer Augusto;Rubio;13;1081;;/;
+Sergio;Samitier;13;1213;;/;
+Eduardo;Sepúlveda;13;1056;;/;
+Marc;Soler;13;1213;4;/;6
+Albert;Torres;13;1213;;/;
+Alejandro;Valverde;13;1213;5;/;4
+Carlos;Verona;13;1213;;/;
+Davide;Villella;13;1124;;/;
+Carlos;Barbero;14;1213;7;/;
+Samuele;Battistella;14;1124;;/;
+Edvald;Boasson Hagen;14;1176;5;/;3
+Victor;Campenaerts;14;1064;8;/;
+Michael;Carbel;14;1088;;/;
+Stefan;De Bod;14;1241;;/;
+Nic;Dlamini;14;1241;;/;
+Benjamin;Dyball;14;1058;;/;
+Enrico;Gasparotto;14;1245;5;/;
+Amanuel;Ghebreigzabhier;14;1097;;/;
+Ryan;Gibbons;14;1241;;/;
+Michael;Gogl;14;1181;;/;
+Shotaro;Iribe;14;1127;;/;
+Reinardt;Janse van Rensburg;14;1241;;/;
+Ben;King;14;1236;;/;
+Roman;Kreuziger;14;1225;6;/;4
+Gino;Mäder;14;1245;;/;
+Louis;Meintjes;14;1241;4;/;6
+Giacomo;Nizzolo;14;1124;7;/;
+Ben;O'Connor;14;1058;;/;
+Domenico;Pozzovivo;14;1124;4;/;
+Matteo;Sobrero;14;1124;;/;
+Andreas;Stokbro;14;1088;;/;
+Dylan;Sunderland;14;1058;;/;
+Jay Robert;Thomson;14;1241;;/;
+Rasmus;Tiller;14;1176;;/;
+Michael;Valgren;14;1088;3;/;
+Max;Walscheid;14;1092;;/;
+Danilo;Wyss;14;1245;;/;
+Andrey;Amador;15;1085;;/;
+Leonardo;Basso;15;1124;;/;
+Egan;Bernal;15;1081;4;/;6
+Richard;Carapaz;15;1093;4;/;6
+Jonathan;Castroviejo;15;1213;8;/;
+Rohan;Dennis;15;1058;8;/;
+Owain;Doull;15;1234;;/;
+Eddie;Dunbar;15;1117;;/;
+Chris;Froome;15;1234;6;/;4
+Filippo;Ganna;15;1124;8;/;
+Tao;Geoghegan Hart;15;1234;;/;
+Michal;Golas;15;1190;;/;
+Ethan;Hayter;15;1234;;/;
+Sebastián;Henao;15;1081;;/;
+Vasil;Kiryienka;15;1238;;/;
+Christian;Knees;15;1092;;/;
+Michal;Kwiatkowski;15;1190;5;/;4
+Chris;Lawless;15;1234;;/;
+Gianni;Moscon;15;1124;5;/;
+Jhonatan;Narváez;15;1093;;/;
+Salvatore;Puccio;15;1124;4;/;
+Brandon Smith;Rivera;15;1081;;/;
+Carlos;Rodriguez;15;1213;;/;
+Luke;Rowe;15;1234;;/;
+Pavel;Sivakov;15;1194;4;/;
+Iván Ramiro;Sosa;15;1081;;/;
+Ian;Stannard;15;1234;3;/;
+Ben;Swift;15;1234;7;/;
+Geraint;Thomas;15;1234;6;/;4
+Dylan;van Baarle;15;1168;3;/;5
+Cameron;Wurf;15;1058;;/;
+George;Bennett;16;1171;6;/;
+Koen;Bouwman;16;1168;;/;
+Laurens;de Plus;16;1064;5;/;4
+Tom;Dumoulin;16;1168;8;/;6
+Pascal;Eenkhoorn;16;1168;;/;
+Tobias;Foss;16;1176;;/;
+Robert;Gesink;16;1168;4;/;5
+Dylan;Groenewegen;16;1168;7;/;
+Chris;Harper;16;1058;;/;
+Lennard;Hofstede;16;1168;;/;
+Amund Grondahl;Jansen;16;1176;;/;
+Steven;Kruijswijk;16;1168;6;/;4
+Sepp;Kuss;16;1236;4;/;
+Tom;Leezer;16;1168;;/;
+Bert-Jan;Lindeman;16;1168;2;/;
+Paul;Martens;16;1092;;/;
+Tony;Martin;16;1092;8;/;
+Christoph;Pfingsten;16;1092;;/;
+Primoz;Roglic;16;1209;6;/;8
+Timo;Roosen;16;1168;;/;
+Mike;Teunissen;16;1168;7;/;
+Antwan;Tolhoek;16;1168;;/;
+Wout;van Aert;16;1064;3;/;7
+Taco;van der Hoorn;16;1168;;/;
+Jos;van Emden;16;1168;8;/;
+Jonas;Vingegaard;16;1088;;/;
+Maarten;Wynants;16;1064;3;/;
+Thymen;Arensman;17;1168;;/;
+Nikias;Arndt;17;1062;2;/;
+Tiesj;Benoot;17;1064;5;/;6
+Cees;Bol;17;1168;7;/;
+Alberto;Dainese;17;1124;;/;
+Nico;Denz;17;1092;;/;
+Mark;Donovan;17;1234;;/;
+Nils;Eekhoff;17;1168;;/;
+Felix;Gall;17;1181;;/;
+Chad;Haga;17;1236;8;/;
+Chris;Hamilton;17;1058;;/;
+Jai;Hindley;17;1058;;/;
+Marc;Hirschi;17;1245;5;/;
+Max;Kanter;17;1092;;/;
+Wilco;Kelderman;17;1168;6;/;4
+Soren;Kragh Andersen;17;1088;5;/;3
+Asbjorn;Kragh Andersen;17;1088;;/;
+Michael;Matthews;17;1058;5;/;7
+Joris;Nieuwenhuis;17;1168;;/;
+Sam;Oomen;17;1168;4;/;
+Casper;Pedersen;17;1088;;/;
+Robert;Power;17;1058;;/;
+Nicolas;Roche;17;1117;5;/;2
+Martin;Salmon;17;1092;;/;
+Michael;Storer;17;1058;;/;
+Florian;Stork;17;1092;;/;
+Jasha;Sütterlin;17;1092;;/;
+Martijn;Tusveld;17;1168;;/;
+Ilan;van Wilder;17;1064;;/;
+Julien;Bernard;18;1103;;/;
+Gianluca;Brambilla;18;1124;;/;
+Giulio;Ciccone;18;1124;4;/;
+Will;Clarke;18;1058;;/;
+Nicola;Conci;18;1124;;/;
+Koen;de Kort;18;1168;;/;
+Niklas;Eg;18;1088;;/;
+Kenny;Elissonde;18;1103;4;/;
+Alexander;Kamp;18;1088;;/;
+Alex;Kirsch;18;1147;;/;
+Emils;Liepins;18;1141;;/;
+Juan Pedro;López;18;1213;;/;
+Bauke;Mollema;18;1168;6;/;5
+Jacopo;Mosca;18;1124;;/;
+Matteo;Moschetti;18;1124;;/;
+Ryan;Mullen;18;1117;;/;
+Vicenzo;Nibali;18;1124;6;/;4
+Antonio;Nibali;18;1124;;/;
+Mads;Pedersen;18;1088;3;/;
+Richie;Porte;18;1058;6;/;
+Charlie;Quarterman;18;1234;;/;
+Kiel;Reijnen;18;1236;;/;
+Michel;Ries;18;1147;;/;
+Quinn;Simmons;18;1236;;/;
+Toms;Skujins;18;1141;;/;
+Jasper;Stuyven;18;1064;3;/;
+Edward;Theuns;18;1064;;/;
+Andrés Camilo;Ardila;19;1081;;/;
+Fabio;Aru;19;1124;4;/;6
+Mikkel;Bjerg;19;1088;8;/;
+Tom;Bohli;19;1245;;/;
+Sven Erik;Bystrom;19;1176;;/;
+Valerio;Conti;19;1124;;/;
+Rui;Costa;19;1191;5;/;6
+Alessandro;Covi;19;1124;;/;
+David;de la Cruz;19;1213;4;/;
+Joe;Dombrowski;19;1236;;/;
+Davide;Formolo;19;1124;;/;
+Fernando;Gaviria;19;1081;7;/;
+Sergio;Henao;19;1081;4;/;6
+Alexander;Kristoff;19;1176;7;/;3
+Vegard Stake;Laengen;19;1176;;/;
+Marco;Marcato;19;1124;5;/;
+Brandon;McNulty;19;1236;;/;
+Yousif;Mirza;19;1235;;/;
+Juan Sebastián;Molano;19;1081;;/;
+Cristian Camilo;Munoz;19;1081;;/;
+Ivo;Oliveira;19;1191;;/;
+Rui;Oliveira;19;1191;;/;
+Jasper;Philipsen;19;1064;4;/;
+Tadej;Pogacar;19;1209;4;/;6
+Jan;Polanc;19;1209;;/;
+Edward;Ravasi;19;1124;;/;
+Alexandr;Riabushenko;19;1238;;/;
+Miximiliano;Richeze;19;1056;7;/;
+Oliveiro;Troia;19;1124;;/;
+Diego;Ulissi;19;1124;5;/;7
+Antoine;Benoist;20;1103;;/;
+Dries;de Bondt;20;1064;;/;
+Floris;de Tier;20;1064;;/;
+Petter;Fagerhaug;20;1176;;/;
+Samuele;Gaze;20;1171;;/;
+Lasse Norman;Hansen;20;1088;8;/;
+Roy;Jans;20;1064;7;/;
+Jimmy;Janssens;20;1064;;/;
+Alexander;Krieger;20;1092;;/;
+Senne;Leysen;20;1064;;/;
+Marcel;Meisen;20;1092;;/;
+Tim;Merlier;20;1064;;/;
+Sacha;Modolo;20;1124;7;/;
+Alexander;Richardson;20;1234;;/;
+Jonas;Rickaert;20;1064;;/;
+Oscar;Riesebeek;20;1168;2;/;
+Loris;Rouiller;20;1245;;/;
+Kristian;Sbaragli;20;1124;7;/;
+Scott;Thwaites;20;1234;;/;
+Ben;Tulett;20;1234;;/;
+Petr;Vakoc;20;1225;5;/;
+Mathieu;van der Poel;20;1168;5;/;7
+David;van der Poel;20;1168;;/;
+Otto;Vergaerde;20;1064;;/;
+Gianni;Vermeersch;20;1064;;/;
+Louis;Vervaeke;20;1064;;/;
+Philipp;Walsleben;20;1092;;/;
+Nicola;Bagioli;21;1124;;/;
+Mattia;Bais;21;1124;;/;
+Manuel;Belletti;21;1124;2;/;
+Alessandro;Bisolti;21;1124;;/;
+Jefferson Alexander;Cepeda;21;1093;;/;
+Luca;Chirico;21;1124;;/;
+Kevin;Colleoni;21;1124;;/;
+Filippo;Conca;21;1124;;/;
+Miguel Eduardo;Flórez;21;1081;;/;
+Mattia;Frapporti;21;1124;;/;
+Davide;Gabburo;21;1124;;/;
+Francesco;Gavazzi;21;1124;2;/;
+Daniel;Munoz;21;1081;;/;
+Luca;Pacioni;21;1124;;/;
+János;Pelikán;21;1116;;/;
+Simon;Pellaud;21;1245;;/;
+Simone;Ravanelli;21;1124;;/;
+Jhonatan;Restrepo;21;1081;2;/;
+Kevin;Rivera;21;1085;;/;
+Josip;Rumac;21;1138;;/;
+Matteo;Spreafico;21;1124;;/;
+Nicola;Venchiarutti;21;1124;;/;
+Mattia;Viel;21;1124;;/;
+Frederik;Backaert;22;1064;2;/;
+Cyril;Barthe;22;1103;;/;
+Kris;Boeckmans;22;1064;;/;
+Maxime;Cam;22;1103;;/;
+Maxime;Chevalier;22;1103;;/;
+Bryan;Coquard;22;1103;7;/;
+Arnaud;Courteille;22;1103;;/;
+Bert;de Backer;22;1064;;/;
+Jens;Debusschere;22;1064;7;/;3
+Adrien;Garel;22;1103;;/;
+Cyril;Gautier;22;1103;2;/;
+Johan;le Bon;22;1103;;/;
+Jérémy;Lecroq;22;1103;;/;
+Julien;Morice;22;1103;;/;
+Justin;Mottier;22;1103;;/;
+Luca;Mozzato;22;1124;;/;
+Quentin;Pacher;22;1103;;/;
+Kévin;Reza;22;1103;;/;
+Pierre;Rolland;22;1103;4;/;
+Sebastian;Schönberger;22;1181;;/;
+Tom-Jelte;Slagter;22;1168;5;/;
+Jimmy;Turgis;22;1103;;/;
+Jonas;van Genechten;22;1064;;/;
+Arthur;Vichot;22;1103;2;/;
+Veincenzo;Albanese;23;1124;;/;
+Marco;Benfatto;23;1124;;/;
+Giovanni;Carboni;23;1124;;/;
+Luca;Covili;23;1124;;/;
+Nicolas;dalla Valle;23;1124;;/;
+Iuri;Filosi;23;1124;;/;
+Filippo;Fiorelli;23;1124;;/;
+Giovanni;Lonardi;23;1124;;/;
+Mirco;Maestri;23;1124;;/;
+Fabio;Mazzucco;23;1124;;/;
+Alessandro;Monaco;23;1124;;/;
+Umberto;Orsini;23;1124;;/;
+Matteo;Pelucchi;23;1124;7;/;
+Alessandro;Pessot;23;1124;;/;
+Francesco;Romano;23;1124;;/;
+Daniel;Savini;23;1124;;/;
+Manuel;Senni;23;1124;;/;
+Alessandro;Tonelli;23;1124;;/;
+Filippo;Zaccanti;23;1124;;/;
+Filippo;Zana;23;1124;;/;
+Jonas;Castrique;24;1064;;/;
+Sean;de Bie;24;1064;;/;
+Laurens;Huys;24;1064;;/;
+Kevyn;Ista;24;1064;;/;
+Eliot;Lietaer;24;1064;;/;
+Arjen;Livyns;24;1064;;/;
+Kenny;Molly;24;1064;;/;
+Julien;Mortier;24;1064;;/;
+Aksel;Nommela;24;1098;;/;
+Mathijs;Paasschens;24;1168;;/;
+Dimitri;Peyskens;24;1064;;/;
+Baptiste;Planckaert;24;1064;7;/;
+Ludovic;Robeet;24;1064;;/;
+Franklin;Six;24;1064;;/;
+Joel;Suter;24;1245;;/;
+Lionel;Taminiaux;24;1064;;/;
+Boris;Vallée;24;1064;;/;
+Jelle;Vanendert;24;1064;5;/;
+Tom;Wirtgen;24;1147;;/;
+Luc;Wirtgen;24;1147;;/;
+Jetse;Bol;25;1168;2;/;
+Óscar;Cabedo;25;1213;;/;
+Carlos;Canal;25;1213;;/;
+Isaac;Cantón;25;1213;;/;
+Jorge;Cubero;25;1213;;/;
+Jesús;Ezquerra;25;1213;;/;
+Ángel;Fuentes;25;1213;;/;
+Matthew;Gibson;25;1234;;/;
+Pablo;Guerrero;25;1213;;/;
+Victor;Langellotti;25;1161;;/;
+Ángel;Madrazo;25;1213;2;/;4
+Alex;Molenaar;25;1168;;/;
+José Carlos Prates;Neves Fernandes;25;1191;;/;
+Juan Felipe;Osorio;25;1081;;/;
+Manuel;Penalver;25;1213;;/;
+Diego;Rubio;25;1213;;/;
+Nícolas;Sessler;25;1071;;/;
+Willie;Smit;25;1241;;/;
+Jaume;Sureda;25;1213;;/;
+Ricardo;Vilela;25;1191;;/;
+Jon;Aberasturi;26;1213;7;/;
+Julen;Amezqueta;26;1213;;/;
+Orluis;Aular;26;1233;;/;
+Aritz;Bagües;26;1213;;/;
+Juan Fernando;Calle;26;1081;;/;
+Xavier;Canellas;26;1213;;/;
+Jefferson Alveiro;Cepeda;26;1093;;/;
+Álvaro;Cuadros;26;1213;;/;
+Jhojan;García;26;1081;;/;
+David;González;26;1213;;/;
+Jon;Irisarri;26;1213;;/;
+Jonathan;Lastra;26;1213;;/;
+Oier;Lazkano;26;1213;;/;
+Matteo;Malucelli;26;1124;;/;
+Sergio Roman;Martín;26;1213;;/;
+Joel;Nicolau;26;1213;;/;
+Alejandro;Osorio;26;1081;;/;
+Cristián;Rodríguez;26;1213;;/;
+Héctor;Sáez;26;1213;;/;
+Gonzalo;Serrano;26;1213;;/;
+Carmelo;Urbano;26;1213;;/;
+Jan;Bakelants;27;1064;5;/;
+Jeremy;Bellicaud;27;1103;;/;
+Alfdan;de Decker;27;1064;;/;
+Aimé;de Gendt;27;1064;;/;
+Jasper;de Plus;27;1064;;/;
+Ludwig;de Winter;27;1064;;/;
+Thomas;Degand;27;1064;;/;
+Theo;Delacroix;27;1103;;/;
+Tom;Devriendt;27;1064;;/;
+Fabien;Doubey;27;1103;;/;
+Timothy;Dupont;27;1064;7;/;3
+Odd Christian;Eiking;27;1176;;/;
+Alexander;Evans;27;1058;;/;
+Quinten;Hermans;27;1064;;/;
+Wesley;Kreder;27;1168;;/;
+Maurits;Lammertink;27;1168;;/;
+Xandro;Meurisse;27;1064;5;/;
+Yoann;Offredo;27;1103;;/;
+Andrea;Pasqualon;27;1124;7;/;
+Simone;Petili;27;1124;;/;
+Corné;van Kessel;27;1168;;/;
+Kévin;van Melsen;27;1064;;/;
+Danny;van Poppel;27;1168;7;/;
+Boy;van Poppel;27;1168;;/;
+Pieter;Vanspeybrouck;27;1064;;/;
+Loïc;Vliegen;27;1064;;/;
+Mikel;Alonso;28;1213;;/;
+Antonio;Angulo;28;1213;;/;
+Jokin;Aranburu;28;1213;;/;
+Mikel;Aristi;28;1213;;/;
+Ibai;Azurmendi;28;1213;;/;
+Iker;Ballarin;28;1213;;/;
+Mikel;Bizkarra;28;1213;;/;
+Joan;Bou;28;1213;;/;
+Garikoitz;Bravo;28;1213;;/;
+Unai;Cuadrado;28;1213;;/;
+Rubén;Fernández;28;1213;6;/;
+Peio;Goikoetxea;28;1213;;/;
+Julen;Irizar;28;1213;;/;
+Mikel;Iturria;28;1213;;/;
+Txomin;Juaristi;28;1213;;/;
+Juan José;Lobato;28;1213;5;/;
+Diego;Lopez;28;1213;;/;
+Gotzon;Martin;28;1213;;/;
+Antonio Jesus;Soto;28;1213;;/;
+Dzmitry;Zhyhunou;28;1238;;/;
+Igor;Boev;29;1194;;/;
+Marco;Canola;29;1124;2;/;
+Nikolay;Cherkasov;29;1194;;/;
+Sergei;Chernetski;29;1194;;/;
+Damiano;Cima;29;1124;2;/;
+Imerio;Cima;29;1124;;/;
+Vladislav;Kulikov;29;1194;;/;
+Alexandr;Kulikovskiy;29;1194;;/;
+Stepan;Kurianov;29;1194;;/;
+Anton;Kuzmin;29;1132;;/;
+Viacheslav;Kuznetsov;29;1194;;/;
+Denis;Nekrasov;29;1194;;/;
+Artem;Nych;29;1194;;/;
+Petr;Rikunov;29;1194;;/;
+Ivan;Rovny;29;1194;;/;
+Aleksey;Rybalkin;29;1194;;/;
+Cristian;Scaroni;29;1124;;/;
+Evgeny;Shalunov;29;1194;;/;
+Dmitry;Strakhov;29;1194;;/;
+Simone;Velasco;29;1124;5;/;
+Pierre;Barbier;30;1103;;/;
+Fumiyuki;Beppu;30;1127;;/;
+Simon;Carr;30;1234;;/;
+Romain;Combaud;30;1103;;/;
+Lucas;de Rossi;30;1103;;/;
+José Manuel;Díaz;30;1213;;/;
+Julien;el Fares;30;1103;;/;
+Alessandro;Fedeli;30;1124;;/;
+Delio;Fernández;30;1213;;/;
+Mauro;Finetto;30;1124;;/;
+Bniam;Ghirmay Hailu;30;1097;;/;
+José;Goncalves;30;1191;;/;
+Eduard-Michael;Grosu;30;1193;7;/;
+Mulu Kinfe;Hailemichael;30;1099;;/;
+Masahiro;Ishigami;30;1127;;/;
+Justin;Jules;30;1103;;/;
+Riccardo;Minali;30;1124;;/;
+Hideto;Nakane;30;1127;;/;
+Ramunas;Navardauskas;30;1146;8;/;
+Atsushi;Oka;30;1127;;/;
+Dusan;Rajovic;30;1205;;/;
+Rémy;Rochas;30;1103;;/;
+Evaldas;Siskevicius;30;1146;;/;
+Julien;Trarieux;30;1103;;/;
+Ryan;Anderson;31;1077;;/;
+Stephen;Bassett;31;1236;;/;
+Rob;Britton;31;1077;;/;
+Nathan;Brown;31;1236;;/;
+Robin;Carpenter;31;1236;;/;
+Pier-André;Coté;31;1077;;/;
+Matteo;Dal-Cin;31;1077;;/;
+Adam;de Vos;31;1077;;/;
+Nigel;Ellsay;31;1077;;/;
+Colin;Joyce;31;1236;;/;
+Ty;Magner;31;1236;;/;
+Gavin;Mannion;31;1236;;/;
+John;Murphy;31;1236;;/;
+Kyle;Murphy;31;1236;;/;
+Emerson;Oronte;31;1236;;/;
+Nickolas;Zukowsky;31;1077;;/;
+Kristian;Aasvold;32;1176;;/;
+Martijn;Budding;32;1168;;/;
+Arvid;de Kleijn;32;1168;7;/;
+Sondre Holst;Enger;32;1176;;/;
+Lucas;Eriksson;32;1244;;/;
+Piotr;Havik;32;1168;;/;
+August;Jensen;32;1176;;/;
+Tobias;Kongstad;32;1088;;/;
+Andreas;Kron;32;1088;;/;
+Christoffer;Lisson;32;1088;;/;
+Sindre;Lunke;32;1176;;/;
+Kim;Magnusson;32;1244;;/;
+Rasmus;Quaade;32;1088;8;/;
+Elmar;Reinders;32;1168;;/;
+Jesper;Schultz;32;1088;;/;
+James;Shaw;32;1234;;/;
+Nick;van der Lijke;32;1168;;/;
+Torkil;Veyhe;32;1088;;/;
+Emil;Vinjebo;32;1088;;/;
+Rasmus Bogh;Wallin;32;1088;;/;
+Cédric;Beullens;33;1064;;/;
+Amaury;Capiot;33;1064;7;/;
+Kenny;de Ketele;33;1064;8;/;
+Sander;de Pestel;33;1064;;/;
+Lindsay;de Vylder;33;1064;;/;
+Gilles;de Wilde;33;1064;;/;
+Kevin;Deltombe;33;1064;;/;
+Robbe;Ghys;33;1064;;/;
+Milan;Menten;33;1064;;/;
+Julian;Mertens;33;1064;;/;
+Emiel;Planckaert;33;1064;;/;
+Edward;Planckaert;33;1064;;/;
+Thomas;Sprengers;33;1064;;/;
+Fabio;van den Bossche;33;1064;;/;
+Aaron;van Poucke;33;1064;;/;
+Kenneth;van Rooy;33;1064;;/;
+Aaron;Verwilst;33;1064;;/;
+Jordi;Warlop;33;1064;;/;
+Sasha;Weemaes;33;1064;;/;
+Thimo;Willems;33;1064;;/;
+Winner;Anacona;34;1081;;/;
+Warren;Barguil;34;1103;4;/;2
+Frankck;Bonnamour;34;1103;;/;
+Thomas;Boudat;34;1103;;/;
+Maxime;Bouet;34;1103;;/;
+Nacer;Bouhanni;34;1103;7;/;
+Benjamin;Declercq;34;1094;;/;
+Anthony;Delaplace;34;1103;;/;
+Élie;Gesbert;34;1103;;/;
+Donavan;Grondin;34;1103;;/;
+Thibault;Guernalec;34;1103;;/;
+Romain;Hardy;34;1103;;/;
+Benoit;Jarrier;34;1103;;/;
+Romain;le Roux;34;1103;;/;
+Kévin;Ledanois;34;1103;;/;
+Matis;Louvel;34;1103;;/;
+Daniel;McLay;34;1234;7;/;
+Christophe;Noppe;34;1064;;/;
+Lukasz;Owsian;34;1190;;/;
+Laurent;Pichon;34;1103;;/;
+Nairo;Quintana;34;1081;4;/;6
+Dayer;Quintana;34;1081;4;/;
+Alan;Riou;34;1103;;/;
+Diego;Rosa;34;1124;5;/;
+Clément;Russo;34;1103;;/;
+Connor;Swift;34;1234;;/;
+Florian;Vachon;34;1103;;/;
+Bram;Welten;34;1168;;/;
+Hamish;Beadle;35;1171;;/;
+Oliver;Behringer;35;1245;;/;
+Mehdi;Benhamouda;35;1103;;/;
+Sam;Brand;35;1234;;/;
+Stephen;Clancy;35;1117;;/;
+Gerd;de Keijzer;35;1168;;/;
+Joonas;Henttala;35;1102;;/;
+Declan;Irvine;35;1058;;/;
+Brian;Kamstra;35;1168;;/;
+Péter;Kusztor;35;1116;;/;
+David;Lozano;35;1213;;/;
+Samuel;Munday;35;1058;;/;
+Andrea;Peron;35;1124;;/;
+Charles;Planet;35;1103;;/;
+Umberto;Poli;35;1124;;/;
+Ulugbek;Saidov;35;1179;;/;
+Leonardo;Bonifazio;36;1124;;/;
+Niccolò;Bonifazio;36;1124;7;/;
+Mathieu;Burgaudeau;36;1103;;/;
+Jérémy;Cabot;36;1103;;/;
+Lilian;Calmejane;36;1103;2;/;
+Romain;Cardis;36;1103;;/;
+Jérome;Cousin;36;1103;;/;
+Valentin;Ferron;36;1103;;/;
+Marlon;Gaillard;36;1103;;/;
+Damien;Gaudin;36;1103;;/;
+Fabien;Grellier;36;1103;;/;
+Jonathan;Hivert;36;1103;;/;
+Pim;Ligthart;36;1168;2;/;
+Florian;Maitre;36;1103;;/;
+Lorrenzo;Manzin;36;1103;;/;
+Paul;Ourselin;36;1103;;/;
+Adrien;Petit;36;1103;;/;
+Simon;Sellier;36;1103;;/;
+Romain;Sicard;36;1103;;/;
+Julien;Simon;36;1103;5;/;
+Geoffrey;Soupe;36;1103;;/;
+Rein;Taaramäe;36;1098;4;/;
+Niki;Terpstra;36;1168;3;/;
+Anthony;Turgis;36;1103;;/;
+Dries;van Gestel;36;1064;;/;
+Jonas;Abrahamsen;37;1176;;/;
+Idar;Andersen;37;1176;;/;
+Erlend;Blikra;37;1176;;/;
+Jacob;Hindsgaul Madsen;37;1088;;/;
+Daniel;Hoelgaard;37;1176;;/;
+Markus;Hoelgaard;37;1176;;/;
+Morten;Hulgaard;37;1088;;/;
+Jonas Iversby;Hvideberg;37;1176;;/;
+Julius;Johansen;37;1088;;/;
+Kristian;Kulset;37;1176;;/;
+Sindre;Kulset;37;1176;;/;
+Niklas;Larsen;37;1088;;/;
+Andreas;Leknessund;37;1176;;/;
+Erik Nordsaeter;Resell;37;1176;;/;
+Frederik;Rodenberg;37;1088;;/;
+Lars;Saugstad;37;1176;;/;
+Iver;Skaarseth;37;1176;;/;
+Anders;Skaarseth;37;1176;;/;
+Torjus;Sleen;37;1176;;/;
+Torstein;Traeen;37;1176;;/;
+Martin;Urianstad;37;1176;;/;
+Syver;Waersted;37;1176;;/;
+Andrea;Bartolozzi;38;1124;;/;
+Gianmarco;Begnoni;38;1124;;/;
+Liam;Bertazzo;38;1124;;/;
+Simone;Bevilacqua;38;1124;;/;
+Mattia;Bevilacqua;38;1124;;/;
+Francesco Manuel;Bongiorno;38;1124;;/;
+Matteo;Busato;38;1124;;/;
+Matteo;de Bonis;38;1124;;/;
+Andrea;di Renzo;38;1124;;/;
+Lorenzo;Fortunato;38;1124;;/;
+Marco;Frapporti;38;1124;;/;
+Andrea;Garosio;38;1124;;/;
+Roberto Carlos;González;38;1186;;/;
+Alessandro;Iacchi;38;1124;;/;
+Umberto;Marengo;38;1124;;/;
+James;Mitri;38;1171;;/;
+Jan;Petelin;38;1147;;/;
+Lorenzo;Rota;38;1124;;/;
+Riccardo;Stacchiotti;38;1124;;/;
+Veljko;Stojnic;38;1205;;/;
+Leonardo;Tortomasi;38;1124;;/;
+Etienne;van Empel;38;1168;;/;
+Giovanni;Visconti;38;1124;5;/;
+Lucas;Wackermann;38;1124;;/;
+Edoardo;Zardini;38;1124;;/;

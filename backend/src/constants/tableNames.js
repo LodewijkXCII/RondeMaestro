@@ -1,0 +1,15 @@
+module.exports = {
+  entry: 'entry',
+  result: 'result',
+  startlist: 'startlist',
+  stage: 'stage',
+  cyclist: 'cyclist',
+  team: 'team',
+  race: 'race',
+  users: 'users',
+  country: 'country',
+  stage_type: 'stage_type',
+  speciality: 'speciality',
+  user_role: 'user_role',
+  season_time: 'season_time',
+};

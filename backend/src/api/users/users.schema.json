@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "title": "User",
+  "description": "The user",
+  "required": ["email", "name", "password"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "$id": "#/properties/id",
+      "type": "integer",
+      "title": "The id"
+    },
+    "email": {
+      "$id": "#/properties/email",
+      "type": "string",
+      "title": "The users email, must be unique",
+      "examples": ["loek@zweersdesign.com"]
+    },
+    "name": {
+      "$id": "#/properties/name",
+      "type": "string",
+      "title": "The username for the game",
+      "examples": ["RondeMaestro"]
+    },
+    "password": {
+      "$id": "#/properties/password",
+      "type": "string",
+      "title": "The password"
+    },
+    "user_role_id": {
+      "$id": "#/properties/role",
+      "type": "integer",
+      "title": "The role"
+    },
+    "created_at": {
+      "$id": "#/properties/created_at",
+      "type": "string",
+      "title": "The creation date"
+    },
+    "updated_at": {
+      "$id": "#/properties/updated_at",
+      "type": "string",
+      "title": "The updated date"
+    }
+  }
+}

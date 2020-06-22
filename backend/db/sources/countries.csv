@@ -1,0 +1,197 @@
+﻿id;name;abbreviation
+1050;Afghanistan;AF
+1051;Albanië;AL
+1052;Algerije;DZ
+1053;Andorra;AD
+1054;Angola;AO
+1055;Antigua en Barbuda;AG
+1056;Argentinië;AR
+1057;Armenië;AM
+1058;Australië;AU
+1059;Azerbeidzjan;AZ
+1060;Bahama's;BS
+1061;Bahrein;BH
+1062;Bangladesh;BD
+1063;Barbados;BB
+1064;België;BE
+1065;Belize;BZ
+1066;Benin;BJ
+1067;Bhutan;BT
+1068;Bolivia;BO
+1069;Bosnië en Herzegovina;BA
+1070;Botswana;BW
+1071;Brazilië;BR
+1072;Brunei;BN
+1073;Bulgarije;BG
+1074;Burkina Faso;BF
+1075;Burundi;BI
+1076;Cambodja;KH
+1077;Canada;CA
+1078;Centraal-Afrikaanse Republiek;CF
+1079;Chili;CL
+1080;China;CN
+1081;Colombia;CO
+1082;Comoren;KM
+1083;Congo-Brazzaville;CD
+1084;Congo-Kinshasa;CG
+1085;Costa Rica;CR
+1086;Cuba;CU
+1087;Cyprus;CY
+1088;Denemarken;DK
+1089;Djibouti;DJ
+1090;Dominica;DM
+1091;Dominicaanse Republiek;DO
+1092;Duitsland;DE
+1093;Ecuador;EC
+1094;Egypte;EG
+1095;El Salvador;SV
+1096;Equatoriaal-Guinea;GQ
+1097;Eritrea;ER
+1098;Estland;EE
+1099;Ethiopië;ET
+1100;Fiji;FJ
+1101;Filipijnen;PH
+1102;Finland;FI
+1103;Frankrijk;FR
+1104;Gabon;GA
+1105;Gambia;GM
+1106;Georgië;GE
+1107;Ghana;GH
+1108;Grenada;GD
+1109;Griekenland;GR
+1110;Guatemala;GT
+1111;Guinee;GN
+1112;Guinee-Bissau;GW
+1113;Guyana;GY
+1114;Haïti;HT
+1115;Honduras;HN
+1116;Hongarije;HU
+1117;Ierland;IE
+1118;IJsland;IS
+1119;India;IN
+1120;Indonesië;ID
+1121;Irak;IQ
+1122;Iran;IR
+1123;Israël;IL
+1124;Italië;IT
+1125;Ivoorkust;CI
+1126;Jamaica;JM
+1127;Japan;JP
+1128;Jemen;YE
+1129;Jordanië;JO
+1130;Kaapverdië;CV
+1131;Kameroen;CM
+1132;Kazachstan;KZ
+1133;Kenia;KE
+1134;Kirgizië;KG
+1135;Kiribati;KI
+1136;Koeweit;KW
+1137;Kosovo;XK
+1138;Kroatië;HR
+1139;Laos;LA
+1140;Lesotho;LS
+1141;Letland;LV
+1142;Libanon;LB
+1143;Liberia;LR
+1144;Libië;LY
+1145;Liechtenstein;LI
+1146;Litouwen;LT
+1147;Luxemburg;LU
+1148;Madagaskar;MG
+1149;Malawi;MW
+1150;Maldiven;MV
+1151;Maleisië;MY
+1152;Mali;ML
+1153;Malta;MT
+1154;Marokko;MA
+1155;Marshalleilanden;MH
+1156;Mauritanië;MR
+1157;Mauritius;MU
+1158;Mexico;MX
+1159;Micronesia;FM
+1160;Moldavië;MD
+1161;Monaco;MC
+1162;Mongolië;MN
+1163;Montenegro;ME
+1164;Mozambique;MZ
+1165;Myanmar;MM
+1166;Namibië;NA
+1167;Nauru;NR
+1168;Nederland;NL
+1169;Nepal;NP
+1170;Nicaragua;NI
+1171;Nieuw-Zeeland;NZ
+1172;Niger;NE
+1173;Nigeria;NG
+1174;Noord-Korea;KP
+1175;Noord-Macedonië;MK
+1176;Noorwegen;NO
+1177;Oeganda;UG
+1178;Oekraïne;UK
+1179;Oezbekistan;UZ
+1180;Oman;OM
+1181;Oostenrijk;AT
+1182;Oost-Timor;TL
+1183;Pakistan;PK
+1184;Palau;PW
+1185;Palestina;PS
+1186;Panama;PA
+1187;Papua-Nieuw-Guinea;PG
+1188;Paraguay;PY
+1189;Peru;PE
+1190;Polen;PL
+1191;Portugal;PT
+1192;Qatar;QA
+1193;Roemenië;RO
+1194;Rusland;RU
+1195;Rwanda;RW
+1196;Saint Kitts en Nevis;KN
+1197;Saint Lucia;LC
+1198;Saint Vincent en de Grenadines;VC
+1199;Salomonseilanden;SB
+1200;Samoa;WS
+1201;San Marino;SM
+1202;Sao Tomé en Principe;ST
+1203;Saoedi-Arabië;SA
+1204;Senegal;SN
+1205;Servië;RS
+1206;Seychellen;SC
+1207;Sierra Leone;SL
+1208;Singapore;SG
+1209;Slovenië;SI
+1210;Slowakije;SK
+1211;Soedan;SD
+1212;Somalië;SO
+1213;Spanje;ES
+1214;Sri Lanka;LK
+1215;Suriname;SR
+1216;Swaziland;SZ
+1217;Syrië;SY
+1218;Tadzjikistan;TJ
+1219;Tanzania;TZ
+1220;Thailand;TH
+1221;Togo;TG
+1222;Tonga;TO
+1223;Trinidad en Tobago;TT
+1224;Tsjaad;TD
+1225;Tsjechië;CZ
+1226;Tunesië;TN
+1227;Turkije;TR
+1228;Turkmenistan;TM
+1229;Tuvalu;TV
+1230;Uruguay;UY
+1231;Vanuatu;VU
+1232;Vaticaanstad;VA
+1233;Venezuela;VE
+1234;Verenigd Koninkrijk;UK
+1235;Verenigde Arabische Emiraten;AE
+1236;Verenigde Staten;US
+1237;Vietnam;VN
+1238;Wit-Rusland;BV
+1239;Zambia;ZM
+1240;Zimbabwe;ZW
+1241;Zuid-Afrika;ZA
+1242;Zuid-Korea;KR
+1243;Zuid-Soedan;SS
+1244;Zweden;SE
+1245;Zwitserland;CH
