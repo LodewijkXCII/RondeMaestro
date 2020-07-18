@@ -13,6 +13,7 @@ const userRole = require('./user_role/user_role.routes');
 const cyclist = require('./cyclists/cyclists.routes');
 const stage = require('./stages/stages.routes');
 const race = require('./races/race.routes');
+const startlist = require('./startlists/startlist.routes');
 
 const router = express.Router();
 
@@ -33,5 +34,6 @@ router.use('/user_role', userRole);
 router.use('/cyclists', cyclist);
 router.use('/stages', stage);
 router.use('/races', race);
+router.use('/startlist', startlist);
 
 module.exports = router;

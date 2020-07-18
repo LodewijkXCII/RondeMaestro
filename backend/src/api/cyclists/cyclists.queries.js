@@ -1,22 +1,30 @@
 const db = require('../../db');
 const tableNames = require('../../constants/tableNames');
+const Cyclist = require('../cyclists/cyclists.model');
+const { cyclist } = require('../../constants/tableNames');
 
 //TODO get related info nested
 
 const fields = [
-  'id',
-  'first_name',
-  'last_name',
-  'country_id',
-  'team_id',
-  'speciality_id',
-  'speciality_id_2',
-  'image_url',
+  'cyclist.id',
+  'cyclist.first_name',
+  'cyclist.last_name',
+  'country.abbreviation as country_name',
+  'team.name as team_name',
+  'speciality.name as speciality_name',
+  'speciality.name as speciality_name_2',
+  'cyclist.image_url',
 ];
 
 module.exports = {
   find(query) {
-    const cyclistQuery = db(tableNames.cyclist).select(fields);
+    const cyclistQuery = db(tableNames.cyclist)
+      .select(fields)
+      .from('cyclist')
+      .join('team', 'cyclist.team_id', 'team.id')
+      .join('country', 'cyclist.country_id', 'country.id')
+      .join('speciality', 'cyclist.speciality_id', 'speciality.id');
+
     if (query.country) {
       cyclistQuery.where('country_id', query.country);
     }
@@ -30,8 +38,8 @@ module.exports = {
     }
     if (query.name) {
       cyclistQuery
-        .where('first_name', 'like', `%${query.name}%`)
-        .orWhere('last_name', 'like', `%${query.name}%`);
+        .where('first_name', 'ilike', `%${query.name}%`)
+        .orWhere('last_name', 'ilike', `%${query.name}%`);
     }
 
     return cyclistQuery;

@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <div>
     <h1>Meld je aan</h1>
     <div v-if="errorMessage" role="alert">
       {{ errorMessage }}
@@ -31,9 +31,13 @@
         id="confirmPassword"
         required
       />
-      <button type="submit">Aanmelden</button>
+      <button class="btn btn-primary" type="submit">Aanmelden</button>
     </form>
-  </section>
+    <small
+      >Heb je al een account?
+      <router-link to="Signin">Login</router-link></small
+    >
+  </div>
 </template>
 
 <script>

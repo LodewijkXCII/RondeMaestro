@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <div>
     <h1>Login</h1>
     <form>
       <label for="email">Email:</label>
@@ -10,7 +10,7 @@
         id="email"
         required
       />
-      <label for="password">Password:</label>
+      <label for="password">Wachtwoord:</label>
       <input
         v-model="user.password"
         type="password"
@@ -18,9 +18,13 @@
         id="password"
         required
       />
-      <button type="submit">Login</button>
+      <button class="btn btn-primary" type="submit">Login</button>
     </form>
-  </section>
+    <small
+      >Nog geen account?
+      <router-link to="Signup">Meld je aan!</router-link></small
+    >
+  </div>
 </template>
 
 <script>

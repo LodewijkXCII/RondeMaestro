@@ -1,6 +1,8 @@
 <template>
   <nav>
-    <img :src="require('@/assets/logo.png')" />
+    <router-link :to="{ name: 'Home' }">
+      <img :src="require('@/assets/logo.png')" />
+    </router-link>
   </nav>
 </template>
 
@@ -9,8 +11,13 @@ export default {};
 </script>
 
 <style lang="scss">
-img {
-  width: 75px;
-  height: auto;
+@import '@/assets/styles.scss';
+
+nav {
+  border-bottom: 2px solid $primary-color;
+  img {
+    width: 75px;
+    height: auto;
+  }
 }
 </style>

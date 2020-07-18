@@ -12,7 +12,6 @@ router.get('/', async (req, res, next) => {
     if (stage) {
       res.json(stages);
     }
-    return next();
   } catch (error) {
     return next(error);
   }
@@ -25,7 +24,6 @@ router.get('/:id', async (req, res, next) => {
     if (stage) {
       res.json(stage);
     }
-    return next();
   } catch (error) {
     return next(error);
   }

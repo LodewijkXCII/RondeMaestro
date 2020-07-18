@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div>
     <h1>Welkom bij RondeMaestro</h1>
     <h2>Het wielerspel waarbij je dagelijks dezelfde kansen hebt!</h2>
     <p>
@@ -10,12 +10,14 @@
       repellat autem magnam officiis dolorem necessitatibus id nesciunt ipsa
       impedit! Natus.
     </p>
-    <router-link class="" :to="{ name: 'Signup' }" role="button">
-      Inschrijven
-    </router-link>
-    <router-link class="" :to="{ name: 'Signin' }" role="button">
-      Aanmelden
-    </router-link>
+    <div class="bottom-links">
+      <router-link :to="{ name: 'Signup' }" role="button">
+        Inschrijven
+      </router-link>
+      <router-link :to="{ name: 'Signin' }" role="button">
+        Aanmelden
+      </router-link>
+    </div>
   </div>
 </template>
 
@@ -25,3 +27,26 @@ export default {
   components: {},
 };
 </script>
+
+<style lang="scss">
+@import '@/assets/styles.scss';
+
+.bottom-links {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 2em 5em;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  background: $primary-color;
+
+  a {
+    color: $white-color;
+
+    &:first-of-type {
+      border-right: 2px solid black;
+    }
+  }
+}
+</style>

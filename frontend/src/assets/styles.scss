@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700;900&display=swap');
+
+$primary-color: #3b546f;
+$secondary-color: #3fc1c9;
+$white-color: #f5f5f5;
+$black-color: #303030;
+$alert-color: #ff5964;
+$danger-color: #ffe74c;
+
+/*
+    TYPOGRAPHY
+*/
+h1 {
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8;
+  line-height: 1;
+  margin-bottom: 0.2em;
+  color: $black-color;
+}
+
+h2 {
+  font-size: 1rem;
+  text-transform: uppercase;
+  color: $primary-color;
+}
+
+p {
+  line-height: 1.6;
+  margin-top: 1em;
+  margin-bottom: 2em;
+}
+
+strong {
+  font-weight: 700;
+}
+
+small {
+  font-size: 0.625rem;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+  color: $primary-color;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/*
+    BUTTONS
+*/
+.btn {
+  width: 100%;
+  padding: 1em;
+  margin-bottom: 1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-radius: 10px;
+
+  display: flex;
+  justify-content: center;
+
+  &-primary {
+    background: $primary-color;
+    border: 1px solid darken($color: $primary-color, $amount: 2);
+    color: $white-color;
+    transition: 0.3s;
+
+    &:hover {
+      background: lighten($color: $primary-color, $amount: 3);
+    }
+  }
+
+  &-alert {
+    background: $alert-color;
+    border: 2px solid darken($color: $alert-color, $amount: 5);
+    color: $white-color;
+  }
+}
+
+/*
+    FORM
+*/
+form {
+  margin: 2em 0 0.5em;
+}
+label,
+input,
+select {
+  display: block;
+  width: 100%;
+}
+
+label {
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+input,
+select {
+  border-radius: 5px;
+  border: 0.5px solid $black-color;
+  padding: 0.5em;
+  margin: 0.3em 0 1em;
+
+  &:focus {
+    outline: $primary-color;
+    border: none;
+    background: darken($color: white, $amount: 5);
+    box-shadow: 0 0 5px $primary-color;
+  }
+}
+
+/*
+    TABLE
+*/
+.table {
+  display: table;
+  width: 100%;
+  margin: 1em 0;
+
+  .table-row {
+    display: table-row;
+
+    &:nth-child(even) {
+      background: #fff;
+    }
+
+    .t-header {
+      display: table-cell;
+      font-size: 0.625rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 0.5em 0;
+    }
+    .t-cell {
+      display: table-cell;
+      padding: 0.75em 0;
+      font-size: 0.625rem;
+      color: $black-color;
+
+      &.regular {
+        font-size: 0.8125rem;
+      }
+
+      img {
+        width: 15px;
+        height: auto;
+      }
+    }
+  }
+}
