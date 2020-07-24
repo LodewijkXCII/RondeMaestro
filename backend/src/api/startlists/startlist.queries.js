@@ -8,6 +8,7 @@ const fields = [
   'race_id',
   'cyclist.first_name as first_name',
   'cyclist.last_name as last_name',
+  'cyclist.id as cyclist_id',
   'cyclist.team_id as team',
   'cyclist.country_id as country',
   'cyclist.image_url as cyclist_image',

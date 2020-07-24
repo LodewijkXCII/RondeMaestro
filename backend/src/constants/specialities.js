@@ -1,5 +1,10 @@
 module.exports = [
   {
+    id: 1,
+    name: 'None',
+    image_url: '/',
+  },
+  {
     id: 2,
     name: 'Aanvallen',
     image_url: '/',

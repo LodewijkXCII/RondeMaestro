@@ -12,11 +12,13 @@ const stage = Papa.parse(csvData, {
 });
 
 module.exports = stage.data.map(
-  ({ stage_nr, start_city, finish_city, distance, date }) => ({
+  ({ stage_nr, start_city, finish_city, distance, date, race_id, stage_type_id, }) => ({
     stage_nr,
     start_city,
     finish_city,
     distance,
     date,
+    race_id,
+    stage_type_id,
   })
 );

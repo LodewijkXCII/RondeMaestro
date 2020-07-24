@@ -11,9 +11,10 @@ const race = Papa.parse(csvData, {
   header: true,
 });
 
-module.exports = race.data.map(({ name, season_time_id, year, image_url }) => ({
+module.exports = race.data.map(({ name, season_time_id, year, image_url, country_id }) => ({
   name,
   season_time_id,
   year,
   image_url,
+  country_id
 }));

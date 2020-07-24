@@ -1,2 +1,2 @@
-﻿name;season_time_id;year;image_url
-Le Tour de France;3;2020;/
+﻿id;name;season_time_id;year;image_url;country_id
+1;Le Tour de France;3;2020;/;54

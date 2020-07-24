@@ -63,6 +63,8 @@ exports.up = async (knex) => {
     table.string('password', 127).notNullable();
     addDefaultColumns(table);
     table.datetime('last_login');
+    references(table, 'user_role');
+
   });
 
   await knex.schema.createTable(tableNames.race, (table) => {
@@ -70,9 +72,9 @@ exports.up = async (knex) => {
     table.string('name').notNullable().unique();
     table.string('image_url', 2000).notNullable();
     table.integer('year', 4).notNullable();
-    addDefaultColumns(table);
     references(table, 'country');
     references(table, 'season_time');
+    addDefaultColumns(table);
   });
 
   await knex.schema.createTable(tableNames.team, (table) => {
@@ -129,13 +131,15 @@ exports.up = async (knex) => {
     table.integer('points', 3).notNullable();
     references(table, 'stage');
     references(table, 'cyclist');
+    addDefaultColumns(table);
   });
 
   await knex.schema.createTable(tableNames.entry, (table) => {
     table.increments().notNullable();
-    references(table, 'user');
+    references(table, 'users');
     references(table, 'stage');
     references(table, 'cyclist');
+    addDefaultColumns(table);
   });
 };
 

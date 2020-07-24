@@ -23,6 +23,9 @@ export default new Vuex.Store({
     deleteSelectie: (state) => {
       state.selectie = [];
     },
+    setEtappes: (state, etappe) => {
+      state.stage = etappe;
+    },
   },
   actions: {
     removeSelectie: (context, renner) => {

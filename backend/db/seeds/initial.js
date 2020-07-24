@@ -21,8 +21,12 @@ exports.seed = async (knex) => {
     countries,
     '*'
   );
-  await knex(tableNames.stage_type).insert(stageType);
-  await knex(tableNames.user_role).insert(userRoles);
-  await knex(tableNames.speciality).insert(specialities);
-  await knex(tableNames.season_time).insert(seasonTime);
+  await knex(tableNames.stage_type).insert(stageType, '*');
+  await knex(tableNames.user_role).insert(userRoles, '*');
+  await knex(tableNames.speciality).insert(specialities, '*');
+  await knex(tableNames.season_time).insert(seasonTime, '*');
+  await knex(tableNames.race).insert(race, '*');
+  await knex(tableNames.stage).insert(stage, '*');
+  await knex(tableNames.team).insert(team, '*');
+  // await knex(tableNames.cyclist).insert(cyclist, '*');
 };

@@ -14,6 +14,8 @@ const fields = [
   'speciality.name as speciality_name',
   'speciality.name as speciality_name_2',
   'cyclist.image_url',
+  'startlist.race_number',
+  'startlist.withdraw'
 ];
 
 module.exports = {
@@ -23,7 +25,8 @@ module.exports = {
       .from('cyclist')
       .join('team', 'cyclist.team_id', 'team.id')
       .join('country', 'cyclist.country_id', 'country.id')
-      .join('speciality', 'cyclist.speciality_id', 'speciality.id');
+      .join('speciality', 'cyclist.speciality_id', 'speciality.id')
+      .join('startlist', 'cyclist.id', 'startlist.cyclist_id')
 
     if (query.country) {
       cyclistQuery.where('country_id', query.country);

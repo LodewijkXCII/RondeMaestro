@@ -9,11 +9,12 @@ const csvData = fs.readFileSync(
 
 const cyclist = Papa.parse(csvData, {
   header: true,
+  skipEmptyLines: true,
+  encoding: "utf-8"
 });
 
 module.exports = cyclist.data.map(
   ({
-    id,
     first_name,
     last_name,
     team_id,
@@ -22,7 +23,6 @@ module.exports = cyclist.data.map(
     image_url,
     speciality_id_2,
   }) => ({
-    id,
     first_name,
     last_name,
     team_id,

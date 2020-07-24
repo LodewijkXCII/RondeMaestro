@@ -39,9 +39,10 @@ export default {
 </script>
 
 <style lang="scss">
-.PrevNext {
+.PrevNext a {
 	display: flex;
-	justify-content: space-between;
+	// justify-content: space-between;
+	align-items: center;
 	width: 100%;
 	margin-bottom: 0.5em;
 

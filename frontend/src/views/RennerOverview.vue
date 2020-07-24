@@ -1,7 +1,11 @@
 <template>
 	<section>
 		<section class="PrevNext">
-			<div class="PrevNext__prev">
+			<router-link to="/etappe-overzicht">
+				<img src="@/assets/icons/chevrons-left.svg" alt="chevron-left" />
+				<span>Terug naar het etappe overzicht</span>
+			</router-link>
+			<!-- <div class="PrevNext__prev">
 				<router-link :to="{name: 'selectie', params: { etappeID: '2' }}">
 					<img src="@/assets/icons/chevrons-left.svg" alt="chevron-left" />
 					<span>Vorige Etappe</span>
@@ -10,7 +14,7 @@
 			<div class="PrevNext__next" @click="nextEtappe()">
 				<span>Volgende Etappe</span>
 				<img src="@/assets/icons/chevrons-right.svg" alt="chevron-right" />
-			</div>
+			</div>-->
 		</section>
 		<h1>Kies je renners voor etappe {{ etappe.stage_nr }}</h1>
 		<div class="etappeInfo">
@@ -38,7 +42,7 @@
         }"
 			>
 				<div class="renner__img">
-					<img v-if="renner.cyclist_image !== '/'" :src="renner.cyclist_image" alt />
+					<img v-if="renner.image_url !== '/'" :src="renner.image_url" alt />
 					<img v-else src="https://via.placeholder.com/50x50.png?" alt />
 				</div>
 				<div class="renner__info">
@@ -47,14 +51,14 @@
 							<h3>#{{ renner.race_number }}</h3>
 						</div>
 						<div class="renner__info-top--flag">
-							<flag iso="fr" :squared="false" />
+							<flag :iso="renner.country_name" :squared="false" />
 						</div>
 					</div>
 					<div class="renner__info--name">
 						{{ renner.first_name }}
 						<span class="lastName">{{ renner.last_name }}</span>
 					</div>
-					<div class="renner__info--team">{{ renner.team }}</div>
+					<div class="renner__info--team">{{ renner.team_name }}</div>
 				</div>
 				<div class="renner__extra">
 					<div class="renner__extra--speciality">
@@ -73,6 +77,7 @@
 <script>
 import PrevNext from "@/components/PrevNext.vue";
 import FilterOptions from "@/components/FilterOptions.vue";
+import axios from "axios";
 import lodash from "lodash";
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 
@@ -85,19 +90,29 @@ export default {
 	data() {
 		return {
 			renners: [],
+			selectie: [],
 			etappe: "",
+			etappeID: null,
 			error: false,
 			isSelected: false
 		};
 	},
 	computed: {
 		...mapState(["selectie"]),
-		...mapGetters(["countSelectie"])
+		...mapGetters(["countSelectie"]),
+
+		currentSelectie(state) {
+			this.selectie = state.selectie;
+		}
 	},
 	methods: {
-		...mapMutations(["addToSelectie"]),
+		...mapMutations(["addToSelectie", "setEtappes"]),
 		...mapActions(["removeSelectie"]),
+		...mapActions(["removeAll"]),
 
+		toEtappe(etappe) {
+			this.setEtappes(etappe);
+		},
 		toSelectie(renner, index) {
 			if (this.selectie.includes(renner)) {
 				this.removeSelectie(this.selectie.indexOf(renner));
@@ -105,35 +120,35 @@ export default {
 				console.error("teveel!");
 			} else {
 				this.addToSelectie(renner);
-				// console.log(renner);
 			}
-		},
-		prevEtappe() {
-			const prevStage = +this.etappe.id - 1;
-			this.$router.push({ name: "selectie", params: { etappeID: "2" } });
-		},
-		nextEtappe() {
-			const nextStage = +this.etappe.id + 1;
-			$router.resolve({
-				name: "selectie",
-				params: { etappeID: nextStage }
-			}).href;
-			console.log(nextStage);
 		}
 	},
+
 	created() {
-		fetch("http://localhost:1992/api/v1/startlist")
-			.then(response => response.json())
-			.then(result => {
-				this.renners = result.sort((a, b) =>
-					a.race_number > b.race_number ? 1 : -1
-				);
-			});
-		fetch(`http://localhost:1992/api/v1/stages/${this.$route.params.etappeID}`)
-			.then(response => response.json())
-			.then(result => {
-				this.etappe = result;
-			});
+		this.removeAll();
+
+		axios
+			.all([
+				axios.get("http://localhost:1992/api/v1/cyclists"),
+				axios.get(
+					`http://localhost:1992/api/v1/stages/${this.$route.params.etappeID}`
+				),
+				axios.get(
+					`http://localhost:1992/api/v1/entries?users_id=2&stage_id=${this.$route.params.etappeID}`
+				)
+			])
+			.then(
+				axios.spread((renners, etappeinfo, selectie) => {
+					this.renners = renners.data.sort((a, b) =>
+						a.race_number > b.race_number ? 1 : -1
+					);
+					this.etappe = etappeinfo.data;
+					this.toEtappe(etappeinfo.data.id);
+					selectie.data.forEach(cyclist => {
+						this.addToSelectie(cyclist);
+					});
+				})
+			);
 	}
 };
 </script>

@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "title": "The entry schema",
+  "required": [
+    "users_id",
+    "stage_id",
+    "cyclist_id"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "$id": "#/properties/id",
+      "type": "integer"
+    },
+    "users_id": {
+      "$id": "#/properties/users_id",
+      "type": "integer"
+    },
+    "stage_id": {
+      "$id": "#/properties/stage_id",
+      "type": "integer"
+    },
+    "cyclist_id": {
+      "$id": "#/properties/cyclist_id",
+      "type": "integer"
+    }
+  }
+}

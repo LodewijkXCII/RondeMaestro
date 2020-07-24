@@ -7,6 +7,8 @@ import Signup from '../views/Signup.vue';
 import EtappeOverzicht from '../views/Etappe/EtappeOverzicht.vue';
 import EtappeSingle from '../views/Etappe/_id.vue';
 import Selectie from '../views/RennerOverview.vue';
+import EtappeUitslag from '../views/Uitslag/EtappeUitslag.vue';
+import UitslagSingle from '../views/Uitslag/_id.vue';
 
 Vue.use(VueRouter);
 
@@ -45,6 +47,16 @@ const routes = [
     path: '/:etappeID/selectie',
     name: 'selectie',
     component: Selectie,
+  },
+  {
+    path: '/etappe-uitslag',
+    name: 'etappe-uitslag',
+    component: EtappeUitslag,
+  },
+  {
+    path: '/etappe-uitslag/:etappeID',
+    name: 'uitslag-single',
+    component: UitslagSingle,
   },
 ];
 
