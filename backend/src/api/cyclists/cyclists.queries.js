@@ -16,24 +16,34 @@ const fields = [
   'cyclist.image_url',
   'startlist.race_number',
   'startlist.withdraw'
+  // 'result.points'
 ];
 
 module.exports = {
   find(query) {
-    const cyclistQuery = db(tableNames.cyclist)
+    const cyclistQuery = db(cyclist)
+      .from(cyclist)
       .select(fields)
-      .from('cyclist')
       .join('team', 'cyclist.team_id', 'team.id')
       .join('country', 'cyclist.country_id', 'country.id')
       .join('speciality', 'cyclist.speciality_id', 'speciality.id')
-      .join('startlist', 'cyclist.id', 'startlist.cyclist_id')
+      .leftJoin('startlist', 'cyclist.id', 'startlist.cyclist_id')
+      // .join('result', 'cyclist.id', 'result.cyclist_id')
+      .options({ nestTables: true })
+    // .then(results => console.log(results))
 
     if (query.country) {
       cyclistQuery.where('country_id', query.country);
     }
+
+    if (query.startlist) {
+      cyclistQuery.whereNotNull('race_number', query.startlist);
+    }
+
     if (query.team) {
       cyclistQuery.where('team_id', query.team);
     }
+
     if (query.speciality) {
       cyclistQuery
         .where('speciality_id', query.speciality)

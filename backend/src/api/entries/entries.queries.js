@@ -35,6 +35,7 @@ module.exports = {
   },
   update(query) {
     const put = db(tableNames.entry)
+
       .where('users_id', query.users_id)
       .where('stage_id', query.stage_id)
       .where('cyclist_id', query.cyclist_id)

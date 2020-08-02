@@ -19,7 +19,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-//TODO IF DATE IS > 12:00 ERROR
+//TODO IF DATE IS > 12:00 --> ERROR
 function getStageTime(id) {
   const stageTime = stages.get(parseInt(id, 10) || 0)
   return stageTime
@@ -28,29 +28,36 @@ function getStageTime(id) {
 router.post('/', async (req, res, next) => {
   const { stage_id } = req.body
   try {
-    const submitTime = Date.now().toString();
-    const stagesTimes = await getStageTime(stage_id);
+    const submitTime = new Date();
+    const stageDate = await getStageTime(stage_id);
+    const stagesTime = new Date(stageDate.date);
 
-    console.log(stagesTimes.date);
+    if (submitTime < stagesTime) {
+      console.log('Eerder');
+      const entry = await Entry.query().insert(req.body);
+      res.json(entry)
+    } else {
+      console.log('Du bist du spass');
+      //TODO Propper error handeling
+      next()
+    }
 
-    const entry = await Entry.query().insert(req.body);
-    res.json(entry)
-    console.log(submitTime);
   } catch (error) {
-    throw (error)
+    next(error)
   }
 })
 
-router.put('/', async (req, res, next) => {
+router.put('/:id', async (req, res, next) => {
+  const { id } = req.params;
   const { users_id, stage_id, cyclist_id } = req.body
   try {
-    const updateEntry = await queries.update({ users_id, stage_id, cyclist_id })
+    const updateEntry = await queries.update({ users_id, stage_id, cyclist_id }, id)
     if (updateEntry) {
       res.json(updateEntry)
       console.log('putting')
     }
   } catch (error) {
-    throw (error)
+    next(error)
   }
 })
 

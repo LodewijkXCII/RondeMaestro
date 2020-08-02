@@ -9,6 +9,8 @@ import EtappeSingle from '../views/Etappe/_id.vue';
 import Selectie from '../views/RennerOverview.vue';
 import EtappeUitslag from '../views/Uitslag/EtappeUitslag.vue';
 import UitslagSingle from '../views/Uitslag/_id.vue';
+import Score from '../views/Score/Score.vue';
+import ScoreSingle from '../views/Score/_id.vue';
 
 Vue.use(VueRouter);
 
@@ -57,6 +59,16 @@ const routes = [
     path: '/etappe-uitslag/:etappeID',
     name: 'uitslag-single',
     component: UitslagSingle,
+  },
+  {
+    path: '/score/',
+    name: 'Score',
+    component: Score,
+  },
+  {
+    path: '/score/:etappeID',
+    name: 'score-single',
+    component: ScoreSingle,
   },
 ];
 

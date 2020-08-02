@@ -15,6 +15,7 @@ const stage = require('./stages/stages.routes');
 const race = require('./races/race.routes');
 const startlist = require('./startlists/startlist.routes');
 const entries = require('./entries/entries.routes');
+const results = require('./results/results.routes');
 
 const router = express.Router();
 
@@ -37,5 +38,6 @@ router.use('/stages', stage);
 router.use('/races', race);
 router.use('/startlist', startlist);
 router.use('/entries', entries);
+router.use('/results', results);
 
 module.exports = router;

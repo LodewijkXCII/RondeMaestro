@@ -1,0 +1,19 @@
+{
+    "id": 3,
+    "first_name": "Geoffrey",
+    "last_name": "Bouchard",
+    "country_name": "FR",
+    "team_name": "AG2R La Mondiale",
+    "speciality_name": "None",
+    "speciality_name_2": "None",
+    "image_url": "/",
+    "race_number": 1,
+    "withdraw": false,
+    "points": [
+        {
+            "stage": 1,
+            "position": 10,
+            "points": 12
+        }
+    ]
+}

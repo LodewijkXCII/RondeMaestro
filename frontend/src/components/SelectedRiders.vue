@@ -1,16 +1,20 @@
 <template>
-	<div class="selectedRiders">
-		<h3>Je selectie voor etappe {{stage}}</h3>
-		<h4>
-			Geselecteerd:
-			{{ countSelectie }}/8
-		</h4>
-		<ul>
-			<li v-for="renSelect in selectie" :key="renSelect.index">
-				<span @click="removeSelectie(renSelect)">X</span>
-				{{ renSelect.first_name.charAt(0) }}. {{ renSelect.last_name }}
-			</li>
-		</ul>
+	<div class="selectedRiders" :class="{show: ShowSelectie}">
+		<div class="selectedRiders__top" @click="showSelectie()">
+			<h4>
+				Geselecteerd:
+				{{ countSelectie }}
+				<span>/ 8</span>
+			</h4>
+		</div>
+		<!-- <h3>Je selectie voor etappe {{stage}}</h3> -->
+		<div class="selectedRiders__bottom">
+			<div v-for="(renSelect, index) in selectie" :key="index" class="selectedRiders__bottom--rider">
+				<img src="@/assets/icons/x-circle.svg" alt="delete" @click="removeFromSelectie(index)" />
+
+				<h5>{{ renSelect.first_name.charAt(0) }}. {{ renSelect.last_name.toUpperCase() }}</h5>
+			</div>
+		</div>
 		<div class="deleteSelected">
 			<button @click.prevent="delSelectie()">Wis selectie</button>
 		</div>
@@ -28,23 +32,25 @@ const URL = "http://localhost:1992/api/v1/entries";
 
 export default {
 	data() {
-		return {};
+		return {
+			ShowSelectie: false,
+		};
 	},
 	computed: {
 		...mapGetters(["countSelectie"]),
-		...mapState(["selectie", "stage"])
+		...mapState(["selectie", "stage"]),
 	},
 	methods: {
-		...mapMutations(["deleteSelectie"]),
+		...mapMutations(["deleteSelectie", "removeFromSelectie"]),
 		...mapActions(["removeAll", "removeSelectie"]),
 
 		delSelectie() {
 			this.removeAll();
 		},
-		// removeSelectie(renner) {
-		// 	this.removeSelectie();
-		// },
-
+		showSelectie() {
+			this.ShowSelectie = !this.ShowSelectie;
+			console.log("clicked");
+		},
 		async submitSelectie() {
 			if (this.countSelectie !== 8) {
 				window.alert("Er zijn er geen 8 ingevuld");
@@ -53,46 +59,105 @@ export default {
 					.get(
 						`http://localhost:1992/api/v1/entries?users_id=2&stage_id=${this.$route.params.etappeID}`
 					)
-					.then(response => {
-						response.data.forEach(selected => {
-							axios.put("http://localhost:1992/api/v1/entries", {
-								users_id: 2,
-								stage_id: this.stage,
-								cyclist_id: selected.id
-							});
-							console.log(selected.id);
+					.then((response) => {
+						response.data.forEach((selected) => {
+							axios.put(
+								`http://localhost:1992/api/v1/entries?users_id=2&stage_id=${this.$route.params.etappeID}`,
+								{
+									users_id: 2,
+									stage_id: this.stage,
+									cyclist_id: selected.cyclist_id,
+								}
+							);
 						});
 					});
 				// TODO USER_ID AS USER ID;
 
-				await this.selectie.forEach(renner => {
+				await this.selectie.forEach((renner) => {
 					axios
 						.post(URL, {
 							users_id: 2,
 							stage_id: this.stage,
-							cyclist_id: renner.id
+							cyclist_id: renner.id,
+							//TODO cyclist_id if renner is niet aangepast
 						})
-						.then(function(response) {
+						.then(function (response) {
 							console.log(response);
 						})
-						.catch(function(error) {
+						.catch(function (error) {
 							console.log(error);
 						});
 				});
 				this.removeAll();
 			}
-		}
-	}
+		},
+	},
 };
 </script>
 
 <style lang="scss">
+@import "@/assets/styles.scss";
+
 .selectedRiders {
 	position: fixed;
-	background: black;
-	top: 0;
-	color: white;
+	padding: 0.5rem 2rem;
+	background: white;
+	bottom: -85px;
 	right: 0;
-	z-index: 100;
+	left: 0;
+	z-index: 90;
+	border-radius: 10px 10px 0 0;
+	box-shadow: 0 0 15px 1px $primary-color;
+
+	h4 {
+		font-size: 0.9rem;
+		text-align: center;
+		position: relative;
+		margin: 0.5rem 0;
+
+		&::before {
+			content: "";
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			top: -10px;
+			width: 100px;
+			height: 6px;
+			background: #303030;
+			border-radius: 3px;
+		}
+
+		span {
+			font-size: 0.7rem;
+		}
+	}
+
+	&.show {
+		bottom: 75px;
+	}
+	&__bottom {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 0.25rem;
+		&--rider {
+			display: flex;
+			align-items: center;
+			margin: 0.125rem 0;
+
+			img {
+				margin: 0 0.2rem;
+				width: 15px;
+			}
+
+			img,
+			h5 {
+				cursor: pointer;
+			}
+
+			&:nth-child(even) {
+				flex-direction: row-reverse;
+			}
+		}
+	}
 }
 </style>

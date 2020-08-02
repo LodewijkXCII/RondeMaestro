@@ -1,5 +1,6 @@
 <template>
 	<section>
+		<SelectedRiders />
 		<section class="PrevNext">
 			<router-link to="/etappe-overzicht">
 				<img src="@/assets/icons/chevrons-left.svg" alt="chevron-left" />
@@ -20,7 +21,8 @@
 		<div class="etappeInfo">
 			<div class="etappeInfo__left">
 				<div>{{ etappe.start_city }} - {{ etappe.finish_city }}</div>
-				<div>Type: {{ etappe.stage_type_id }}</div>
+				<div>{{ etappe.name }}</div>
+				<div>Type: {{ etappe.stage_type }}</div>
 				<div>Afstand: {{ etappe.distance }} km</div>
 			</div>
 			<div class="etappeInfo__right">
@@ -62,7 +64,7 @@
 				</div>
 				<div class="renner__extra">
 					<div class="renner__extra--speciality">
-						<span v-if="renner.speciality_id">{{ renner.speciality_id }}</span>
+						<span v-if="renner.speciality_name">{{ renner.speciality_name }}</span>
 						<span v-if="renner.speciality_id_2">/ {{ renner.speciality_id_2 }}</span>
 					</div>
 					<div class="renner__extra--points">
@@ -75,8 +77,9 @@
 </template>
 
 <script>
-import PrevNext from "@/components/PrevNext.vue";
 import FilterOptions from "@/components/FilterOptions.vue";
+import SelectedRiders from "@/components/SelectedRiders.vue";
+
 import axios from "axios";
 import lodash from "lodash";
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
@@ -84,17 +87,16 @@ import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 export default {
 	name: "RennerOverview",
 	components: {
-		PrevNext,
-		FilterOptions
+		SelectedRiders,
+		FilterOptions,
 	},
 	data() {
 		return {
 			renners: [],
-			selectie: [],
 			etappe: "",
-			etappeID: null,
+
 			error: false,
-			isSelected: false
+			isSelected: false,
 		};
 	},
 	computed: {
@@ -103,7 +105,7 @@ export default {
 
 		currentSelectie(state) {
 			this.selectie = state.selectie;
-		}
+		},
 	},
 	methods: {
 		...mapMutations(["addToSelectie", "setEtappes"]),
@@ -114,6 +116,7 @@ export default {
 			this.setEtappes(etappe);
 		},
 		toSelectie(renner, index) {
+			//TODO verwijder renner doet het niet goed
 			if (this.selectie.includes(renner)) {
 				this.removeSelectie(this.selectie.indexOf(renner));
 			} else if (this.countSelectie >= 10) {
@@ -121,7 +124,7 @@ export default {
 			} else {
 				this.addToSelectie(renner);
 			}
-		}
+		},
 	},
 
 	created() {
@@ -129,13 +132,13 @@ export default {
 
 		axios
 			.all([
-				axios.get("http://localhost:1992/api/v1/cyclists"),
+				axios.get("http://localhost:1992/api/v1/cyclists?startlist=true"),
 				axios.get(
 					`http://localhost:1992/api/v1/stages/${this.$route.params.etappeID}`
 				),
 				axios.get(
 					`http://localhost:1992/api/v1/entries?users_id=2&stage_id=${this.$route.params.etappeID}`
-				)
+				),
 			])
 			.then(
 				axios.spread((renners, etappeinfo, selectie) => {
@@ -144,12 +147,12 @@ export default {
 					);
 					this.etappe = etappeinfo.data;
 					this.toEtappe(etappeinfo.data.id);
-					selectie.data.forEach(cyclist => {
+					selectie.data.forEach((cyclist) => {
 						this.addToSelectie(cyclist);
 					});
 				})
 			);
-	}
+	},
 };
 </script>
 
@@ -218,6 +221,31 @@ export default {
 			}
 			&--team {
 				font-size: 0.7rem;
+			}
+		}
+
+		&:hover {
+			cursor: pointer;
+		}
+
+		&.withdraw {
+			cursor: default;
+			background: #f7f7f7;
+			color: lightgray;
+
+			img,
+			span {
+				filter: gray; /* IE6-9 */
+				-webkit-filter: grayscale(1); /* Google Chrome, Safari 6+ & Opera 15+ */
+				filter: grayscale(1); /* Microsoft Edge and Firefox 35+ */
+			}
+
+			img {
+				border: lightgray;
+			}
+
+			h2 {
+				color: lightgray;
 			}
 		}
 	}

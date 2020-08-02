@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<h1>Etappe Overzicht</h1>
-		<h2>%RONDE%</h2>
+		<h2>{{ ronde }}</h2>
 
 		<div class="table">
 			<div class="table-row header-row">
@@ -38,18 +38,20 @@
 import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
-	//TODO bekijk of entrie al in ingevuld. 
+	//TODO bekijk of entrie al in ingevuld.
 	name: "EtappeOverzicht",
 	data() {
 		return {
-			etappes: {}
+			etappes: {},
+			ronde: null,
 		};
 	},
 	created() {
 		fetch("http://localhost:1992/api/v1/stages?race=1")
-			.then(response => response.json())
-			.then(result => {
+			.then((response) => response.json())
+			.then((result) => {
 				this.etappes = result;
+				this.ronde = result[0].name;
 			});
 	},
 	methods: {
@@ -57,8 +59,8 @@ export default {
 		setEtappe(etappe) {
 			console.log("clicked");
 			this.setEtappes(etappe);
-		}
-	}
+		},
+	},
 };
 </script>
 

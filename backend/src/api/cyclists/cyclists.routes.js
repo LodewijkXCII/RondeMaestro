@@ -6,9 +6,9 @@ const queries = require('./cyclists.queries');
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
-  const { country, team, speciality, name } = req.query;
+  const { country, team, speciality, name, startlist } = req.query;
   try {
-    const cyclists = await queries.find({ country, team, speciality, name });
+    const cyclists = await queries.find({ country, team, speciality, name, startlist });
     if (cyclists) {
       res.json(cyclists);
     }

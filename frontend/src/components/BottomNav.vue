@@ -2,15 +2,23 @@
   <section class="bottomNav">
     <div class="bottomNav__navItem">
       <router-link :to="{ name: 'etappe-overzicht' }">
-        Etappes
-      </router-link>
+        <img src="@/assets/icons/route-solid.svg" alt="" />
+        Etappes</router-link
+      >
     </div>
-    <div class="bottomNav__navItem">Team</div>
-    <div class="bottomNav__navItem">Score</div>
+    <div class="bottomNav__navItem">Klassement</div>
     <div class="bottomNav__navItem">
-      <router-link :to="{ name: 'Dashboard' }">
-        Dashboard
-      </router-link>
+      <router-link :to="{ name: 'Score' }"
+        ><img src="@/assets/icons/trophy-solid.svg" alt="" />Score</router-link
+      >
+    </div>
+    <div class="bottomNav__navItem">
+      <router-link :to="{ name: 'Dashboard' }"
+        ><img
+          src="@/assets/icons/dashboard-24px.svg"
+          alt=""
+        />Dashboard</router-link
+      >
     </div>
   </section>
 </template>
@@ -29,6 +37,7 @@ export default {};
   height: 50px;
   width: 100%;
   padding: 2em 2em 4em;
+  z-index: 100;
 
   background: $primary-color;
   color: $white-color;
