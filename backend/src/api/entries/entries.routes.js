@@ -21,12 +21,12 @@ router.get('/', async (req, res, next) => {
 
 //TODO IF DATE IS > 12:00 --> ERROR
 function getStageTime(id) {
-  const stageTime = stages.get(parseInt(id, 10) || 0)
-  return stageTime
-};
+  const stageTime = stages.get(parseInt(id, 10) || 0);
+  return stageTime;
+}
 
 router.post('/', async (req, res, next) => {
-  const { stage_id } = req.body
+  const { stage_id } = req.body;
   try {
     const submitTime = new Date();
     const stageDate = await getStageTime(stage_id);
@@ -35,30 +35,32 @@ router.post('/', async (req, res, next) => {
     if (submitTime < stagesTime) {
       console.log('Eerder');
       const entry = await Entry.query().insert(req.body);
-      res.json(entry)
+      res.json(entry);
     } else {
       console.log('Du bist du spass');
       //TODO Propper error handeling
-      next()
+      next();
     }
-
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
-router.put('/:id', async (req, res, next) => {
-  const { id } = req.params;
-  const { users_id, stage_id, cyclist_id } = req.body
+router.put('/', async (req, res, next) => {
+  const { users_id, stage_id, cyclist_id } = req.body;
   try {
-    const updateEntry = await queries.update({ users_id, stage_id, cyclist_id }, id)
+    const updateEntry = await queries.update({
+      users_id,
+      stage_id,
+      cyclist_id,
+    });
     if (updateEntry) {
-      res.json(updateEntry)
-      console.log('putting')
+      res.json(updateEntry);
+      console.log('putting');
     }
   } catch (error) {
-    next(error)
+    next(error);
   }
-})
+});
 
 module.exports = router;

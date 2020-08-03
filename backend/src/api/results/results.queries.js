@@ -22,20 +22,42 @@ module.exports = {
       .select(fields)
       .from(result)
       // .whereNull('deleted_at')
-      .join('cyclist', 'cyclist.id', 'result.cyclist_id')
+      .join('cyclist', 'cyclist.id', 'result.cyclist_id');
 
     if (query.stage_id) {
       resultQuery.where('stage_id', query.stage_id);
     }
-    return resultQuery
+    return resultQuery;
   },
   update(query) {
-    const put = db(tableNames.result)
+    const put = db(result)
       .where('points', query.points)
       .where('stage_id', query.stage_id)
       .where('cyclist_id', query.cyclist_id)
       .update(
-        { updated_at: new Date(Date.now()).toISOString().replace('T', ' ').replace('Z', '') }, ['points', 'id', 'stage_id', 'created_at', 'deleted_at'])
-    return put
-  }
+        {
+          updated_at: new Date(Date.now())
+            .toISOString()
+            .replace('T', ' ')
+            .replace('Z', ''),
+        },
+        ['points', 'id', 'stage_id', 'created_at', 'deleted_at']
+      );
+    return put;
+  },
+
+  async get(id) {
+    return (
+      db(result)
+        .select()
+        .from('users')
+        .innerJoin('entry', 'users.id', 'entry.users_id')
+        .innerJoin('result', {
+          'entry.cyclist_id': 'result.cyclist_id',
+          'entry.stage_id': 'result.stage_id',
+        })
+        // .join('cyclist', 'result.cyclist_id', 'cyclist.id')
+        .whereNull('entry.deleted_at')
+    );
+  },
 };

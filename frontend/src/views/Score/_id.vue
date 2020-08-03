@@ -51,7 +51,7 @@ export default {
     axios
       .all([
         axios.get(
-          `http://localhost:1992/api/v1/results?stage_id=${this.$route.params.etappeID}`
+          `http://localhost:1992/api/v1/results/${this.$route.params.etappeID}`
         ),
         axios.get(
           `http://localhost:1992/api/v1/stages/${this.$route.params.etappeID}`

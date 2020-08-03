@@ -1,7 +1,7 @@
 const db = require('../../db');
 const tableNames = require('../../constants/tableNames');
 const Entry = require('../entries/entries.model');
-const { entry } = require('../../constants/tableNames');
+const { entry, cyclist } = require('../../constants/tableNames');
 
 const fields = [
   'cyclist_id',
@@ -17,13 +17,13 @@ const fields = [
 
 module.exports = {
   find(query) {
-    const entriesQuery = db(tableNames.entry)
-      .select(fields)
-      .from(tableNames.entry)
+    const entriesQuery = db(entry)
+      .select()
+      .from(entry)
       .whereNull('entry.deleted_at')
-      .rightOuterJoin(tableNames.cyclist, function () {
-        this.on('cyclist.id', '=', 'entry.cyclist_id')
-      })
+      .rightOuterJoin(cyclist, function () {
+        this.on('cyclist.id', '=', 'entry.cyclist_id');
+      });
 
     if (query.users_id) {
       entriesQuery.where('users_id', query.users_id);
@@ -31,16 +31,22 @@ module.exports = {
     if (query.stage_id) {
       entriesQuery.where('stage_id', query.stage_id);
     }
-    return entriesQuery
+    return entriesQuery;
   },
   update(query) {
     const put = db(tableNames.entry)
-
       .where('users_id', query.users_id)
       .where('stage_id', query.stage_id)
       .where('cyclist_id', query.cyclist_id)
       .update(
-        { deleted_at: new Date(Date.now()).toISOString().replace('T', ' ').replace('Z', '') }, ['users_id', 'id', 'stage_id', 'created_at', 'deleted_at'])
-    return put
-  }
+        {
+          deleted_at: new Date(Date.now())
+            .toISOString()
+            .replace('T', ' ')
+            .replace('Z', ''),
+        },
+        ['users_id', 'stage_id', 'created_at', 'deleted_at']
+      );
+    return put;
+  },
 };

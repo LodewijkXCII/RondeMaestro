@@ -8,7 +8,13 @@ const router = express.Router();
 router.get('/', async (req, res, next) => {
   const { country, team, speciality, name, startlist } = req.query;
   try {
-    const cyclists = await queries.find({ country, team, speciality, name, startlist });
+    const cyclists = await queries.find({
+      country,
+      team,
+      speciality,
+      name,
+      startlist,
+    });
     if (cyclists) {
       res.json(cyclists);
     }
@@ -24,7 +30,6 @@ router.get('/:id', async (req, res, next) => {
     if (cyclist) {
       res.json(cyclist);
     }
-    return next();
   } catch (error) {
     return next(error);
   }

@@ -6,7 +6,7 @@ const { cyclist } = require('../../constants/tableNames');
 //TODO get related info nested
 
 const fields = [
-  'cyclist.id',
+  'cyclist.id as cyclist_id',
   'cyclist.first_name',
   'cyclist.last_name',
   'country.abbreviation as country_name',
@@ -15,7 +15,7 @@ const fields = [
   'speciality.name as speciality_name_2',
   'cyclist.image_url',
   'startlist.race_number',
-  'startlist.withdraw'
+  'startlist.withdraw',
   // 'result.points'
 ];
 
@@ -27,16 +27,13 @@ module.exports = {
       .join('team', 'cyclist.team_id', 'team.id')
       .join('country', 'cyclist.country_id', 'country.id')
       .join('speciality', 'cyclist.speciality_id', 'speciality.id')
-      .leftJoin('startlist', 'cyclist.id', 'startlist.cyclist_id')
-      // .join('result', 'cyclist.id', 'result.cyclist_id')
-      .options({ nestTables: true })
-    // .then(results => console.log(results))
+      .leftJoin('startlist', 'cyclist.id', 'startlist.cyclist_id');
 
     if (query.country) {
       cyclistQuery.where('country_id', query.country);
     }
 
-    if (query.startlist) {
+    if (query.startlist === 'true') {
       cyclistQuery.whereNotNull('race_number', query.startlist);
     }
 
@@ -57,12 +54,15 @@ module.exports = {
 
     return cyclistQuery;
   },
+
   async get(id) {
-    return db(tableNames.cyclist)
+    return db(cyclist)
       .select(fields)
-      .where({
-        id,
-      })
+      .where('cyclist.id', id)
+      .join('team', 'cyclist.team_id', 'team.id')
+      .join('country', 'cyclist.country_id', 'country.id')
+      .join('speciality', 'cyclist.speciality_id', 'speciality.id')
+      .leftJoin('startlist', 'cyclist.id', 'startlist.cyclist_id')
       .first();
   },
 };
