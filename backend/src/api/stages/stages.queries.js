@@ -8,13 +8,18 @@ const fields = [
   'finish_city',
   'distance',
   'date',
+  'race.image_url as image_url',
   'race.name as name',
   'stage_type.name as stage_type',
 ];
 
+//TODO StageType URL instead of name
+//TODO Image Url not as race.image_url
+
 module.exports = {
   find(query) {
-    const stageQuery = db(tableNames.stage).select(fields)
+    const stageQuery = db(tableNames.stage)
+      .select(fields)
       .join(tableNames.race, 'stage.race_id', 'race.id')
       .join(tableNames.stage_type, 'stage.stage_type_id', 'stage_type.id');
     if (query.race) {
@@ -27,9 +32,7 @@ module.exports = {
       .select(fields)
       .join(tableNames.race, 'stage.race_id', 'race.id')
       .join(tableNames.stage_type, 'stage.stage_type_id', 'stage_type.id')
-      .where(
-        'stage.id', id,
-      )
+      .where('stage.id', id)
       .first();
   },
 };

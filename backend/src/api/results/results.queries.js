@@ -4,16 +4,26 @@ const tableNames = require('../../constants/tableNames');
 const { result } = require('../../constants/tableNames');
 
 const fields = [
-  'cyclist_id',
-  'stage_id',
-  // 'users_id',
   'result.id',
-  'result.position',
-  'result.points',
-
+  'stage_id',
+  'result.position as position',
+  'result.points as points',
+  'result.deleted_at as deleted_at',
   'cyclist.first_name as first_name',
   'cyclist.last_name as last_name',
-  'cyclist.id as cyclist_id',
+];
+
+const fields_score = [
+  'result.id',
+  'users.name as name',
+  'result.points',
+  'entry.deleted_at',
+  'entry.created_at',
+  'result.position',
+  'result.stage_id',
+  'result.cyclist_id',
+  'cyclist.first_name as first_name',
+  'cyclist.last_name as last_name',
 ];
 
 module.exports = {
@@ -21,7 +31,7 @@ module.exports = {
     const resultQuery = db(result)
       .select(fields)
       .from(result)
-      // .whereNull('deleted_at')
+      .whereNull('result.deleted_at')
       .join('cyclist', 'cyclist.id', 'result.cyclist_id');
 
     if (query.stage_id) {
@@ -47,17 +57,16 @@ module.exports = {
   },
 
   async get(id) {
-    return (
-      db(result)
-        .select()
-        .from('users')
-        .innerJoin('entry', 'users.id', 'entry.users_id')
-        .innerJoin('result', {
-          'entry.cyclist_id': 'result.cyclist_id',
-          'entry.stage_id': 'result.stage_id',
-        })
-        // .join('cyclist', 'result.cyclist_id', 'cyclist.id')
-        .whereNull('entry.deleted_at')
-    );
+    return db(result)
+      .select(fields_score)
+      .from('users')
+      .where('result.stage_id', '=', id)
+      .innerJoin('entry', 'users.id', 'entry.users_id')
+      .innerJoin('result', {
+        'entry.cyclist_id': 'result.cyclist_id',
+        'entry.stage_id': 'result.stage_id',
+      })
+      .whereNull('entry.deleted_at')
+      .innerJoin('cyclist', 'result.cyclist_id', 'cyclist.id');
   },
 };

@@ -64,7 +64,6 @@ exports.up = async (knex) => {
     addDefaultColumns(table);
     table.datetime('last_login');
     references(table, 'user_role');
-
   });
 
   await knex.schema.createTable(tableNames.race, (table) => {
@@ -112,6 +111,7 @@ exports.up = async (knex) => {
     table.string('finish_city', 100).notNullable();
     table.integer('distance', 4).notNullable();
     table.dateTime('date').notNullable();
+    table.string('image_url', 2000);
     addDefaultColumns(table);
     references(table, 'race');
     references(table, 'stage_type');

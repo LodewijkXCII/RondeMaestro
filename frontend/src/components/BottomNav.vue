@@ -47,8 +47,20 @@ export default {};
   align-items: center;
 
   &__navItem {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
     a {
       color: $white-color;
+      display: flex;
+      flex-direction: column;
+
+      img {
+        margin-bottom: 0.2rem;
+        height: 20px;
+      }
     }
   }
 }

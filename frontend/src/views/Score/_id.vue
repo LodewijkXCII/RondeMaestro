@@ -13,26 +13,56 @@
       }}KM)
     </h2>
     <!-- TODO h3 in css aanmaken -->
-    <h3>Jouw behaalde punten:</h3>
-    <br />
-
-    <div class="scoreTable">
-      <div class="scoreTable__header">
-        <div class="scoreTable__header--number">#</div>
-        <div class="scoreTable__header--renner">renner</div>
-        <div class="scoreTable__header--points">punten</div>
-      </div>
-      <div
-        class="scoreTable__body"
-        v-for="result in result"
-        :key="result.index"
-      >
-        <div class="scoreTable__body--number">{{ result.position }}</div>
-        <div class="scoreTable__body--renner">
-          {{ result.first_name }} <span>{{ result.last_name }}</span>
+    <div v-if="result.length > 0">
+      <h3>Jouw behaalde punten: {{ score }}</h3>
+      <br />
+      <div class="scoreTable">
+        <h4>Deze score werd behaald met de volgende renners:</h4>
+        <div class="scoreTable__header">
+          <div class="scoreTable__header--number">#</div>
+          <div class="scoreTable__header--renner">renner</div>
+          <div class="scoreTable__header--points">punten</div>
         </div>
-        <div class="scoreTable__body--points">{{ result.points }}</div>
+        <div
+          class="scoreTable__body"
+          v-for="result in result"
+          :key="result.index"
+        >
+          <div class="scoreTable__body--number">{{ result.position }}</div>
+          <div class="scoreTable__body--renner">
+            {{ result.first_name }} <span>{{ result.last_name }}</span>
+          </div>
+          <div class="scoreTable__body--points">{{ result.points }}</div>
+        </div>
       </div>
+
+      <div class="scoreTable">
+        <h4>De uitslag van etappe {{ etappe.stage_nr }}:</h4>
+        <div class="scoreTable__header">
+          <div class="scoreTable__header--number">#</div>
+          <div class="scoreTable__header--renner">renner</div>
+          <div class="scoreTable__header--points">punten</div>
+        </div>
+        <div
+          class="scoreTable__body"
+          v-for="renner in stageResult"
+          :key="renner.index"
+        >
+          <div class="scoreTable__body--number">{{ renner.position }}</div>
+          <div class="scoreTable__body--renner">
+            {{ renner.first_name }} <span>{{ renner.last_name }}</span>
+          </div>
+          <div class="scoreTable__body--points">{{ renner.points }}</div>
+        </div>
+      </div>
+    </div>
+    <div v-else>
+      <br />
+      <h2>Er zijn nog geen resultaten voor deze etappe</h2>
+      <br />
+      <router-link :to="{ name: 'Score' }" class="btn btn-alert"
+        >Terug naar het overzicht</router-link
+      >
     </div>
   </section>
 </template>
@@ -45,6 +75,8 @@ export default {
     return {
       etappe: {},
       result: [],
+      stageResult: [],
+      score: null,
     };
   },
   created() {
@@ -56,13 +88,23 @@ export default {
         axios.get(
           `http://localhost:1992/api/v1/stages/${this.$route.params.etappeID}`
         ),
+        axios.get(
+          `http://localhost:1992/api/v1/results?stage_id=${this.$route.params.etappeID}`
+        ),
       ])
       .then(
-        axios.spread((result, etappeinfo) => {
+        axios.spread((result, etappeinfo, stageResult) => {
           this.result = result.data.sort((a, b) =>
             a.points < b.points ? 1 : -1
           );
+          for (var i = 0; i < this.result.length; i++) {
+            this.score += this.result[i].points;
+          }
+
           this.etappe = etappeinfo.data;
+          this.stageResult = stageResult.data.sort((a, b) =>
+            a.points < b.points ? 1 : -1
+          );
         })
       );
   },
@@ -72,10 +114,13 @@ export default {
 <style lang="scss">
 @import '@/assets/styles.scss';
 
-.scoreTable__header,
-.scoreTable__body {
-  display: grid;
-  grid-template-columns: 1fr 5fr 1fr;
+.scoreTable {
+  margin: 2rem 0;
+  &__header,
+  &__body {
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr;
+  }
 }
 
 .scoreTable__header {

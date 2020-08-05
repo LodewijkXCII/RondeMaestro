@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
   const { country, team, speciality, name, startlist } = req.query;
+  // const { startlist } = req.params;
   try {
     const cyclists = await queries.find({
       country,
@@ -23,7 +24,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/:id', async (req, res, next) => {
+router.get('/renner/:id', async (req, res, next) => {
   const { id } = req.params;
   try {
     const cyclist = await queries.get(parseInt(id, 10) || 0);

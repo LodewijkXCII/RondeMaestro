@@ -3,8 +3,6 @@ const tableNames = require('../../constants/tableNames');
 const Cyclist = require('../cyclists/cyclists.model');
 const { cyclist } = require('../../constants/tableNames');
 
-//TODO get related info nested
-
 const fields = [
   'cyclist.id as cyclist_id',
   'cyclist.first_name',
@@ -27,14 +25,15 @@ module.exports = {
       .join('team', 'cyclist.team_id', 'team.id')
       .join('country', 'cyclist.country_id', 'country.id')
       .join('speciality', 'cyclist.speciality_id', 'speciality.id')
-      .leftJoin('startlist', 'cyclist.id', 'startlist.cyclist_id');
+      .leftJoin('startlist', 'cyclist.id', 'startlist.cyclist_id')
+      .whereNotNull('race_number');
 
     if (query.country) {
       cyclistQuery.where('country_id', query.country);
     }
 
     if (query.startlist === 'true') {
-      cyclistQuery.whereNotNull('race_number', query.startlist);
+      cyclistQuery.whereNotNull('race_number');
     }
 
     if (query.team) {
@@ -49,7 +48,8 @@ module.exports = {
     if (query.name) {
       cyclistQuery
         .where('first_name', 'ilike', `%${query.name}%`)
-        .orWhere('last_name', 'ilike', `%${query.name}%`);
+        .orWhere('last_name', 'ilike', `%${query.name}%`)
+        .whereNotNull('race_number');
     }
 
     return cyclistQuery;

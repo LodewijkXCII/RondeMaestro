@@ -1,8 +1,6 @@
 const db = require('../../db');
 const tableNames = require('../../constants/tableNames');
 
-//TODO get related info nested
-
 const fields = [
   'id',
   'name',

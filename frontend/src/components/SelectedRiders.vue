@@ -1,7 +1,7 @@
 <template>
   <div class="selectedRiders" :class="{ show: ShowSelectie }">
     <div class="selectedRiders__top" @click="showSelectie()">
-      <h4>
+      <h4 :class="{ error: error }">
         Geselecteerd:
         {{ countSelectie }}
         <span>/ 8</span>
@@ -26,11 +26,14 @@
         </h5>
       </div>
     </div>
-    <div class="deleteSelected">
-      <button @click.prevent="delSelectie()">Wis selectie</button>
-    </div>
-    <div class="submit">
-      <button @click.prevent="submitSelectie()">Verstuur</button>
+    <div class="selectedRiders__buttons">
+      <button @click.prevent="delSelectie()" class="btn btn-danger">
+        Wis selectie
+      </button>
+
+      <button @click.prevent="submitSelectie()" class="btn btn-primary">
+        Verstuur
+      </button>
     </div>
   </div>
 </template>
@@ -45,11 +48,20 @@ export default {
   data() {
     return {
       ShowSelectie: false,
+      error: false,
     };
   },
   computed: {
     ...mapGetters(['countSelectie']),
     ...mapState(['selectie', 'stage']),
+
+    errorSelected() {
+      if (this.countSelectie > 8) {
+        this.error = true;
+      } else {
+        this.error = false;
+      }
+    },
   },
   methods: {
     ...mapMutations(['deleteSelectie', 'removeFromSelectie']),
@@ -62,6 +74,7 @@ export default {
       this.ShowSelectie = !this.ShowSelectie;
       console.log('clicked');
     },
+
     async submitSelectie() {
       if (this.countSelectie !== 8) {
         window.alert('Er zijn er geen 8 ingevuld');
@@ -113,43 +126,55 @@ export default {
   position: fixed;
   padding: 0.5rem 2rem;
   background: white;
-  bottom: -85px;
+  bottom: -125px;
   right: 0;
   left: 0;
   z-index: 90;
   border-radius: 10px 10px 0 0;
   box-shadow: 0 0 15px 1px $primary-color;
 
-  h4 {
-    font-size: 0.9rem;
-    text-align: center;
-    position: relative;
-    margin: 0.5rem 0;
-
-    &::before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      top: -10px;
-      width: 100px;
-      height: 6px;
-      background: #303030;
-      border-radius: 3px;
+  &__top {
+    &.error {
+      color: $alert-color;
     }
+    h4 {
+      font-size: 0.9rem;
+      text-align: center;
+      position: relative;
+      margin: 0.5rem 0;
+      cursor: pointer;
 
-    span {
-      font-size: 0.7rem;
+      &::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: -10px;
+        width: 100px;
+        height: 6px;
+        background: #303030;
+        border-radius: 3px;
+      }
+
+      span {
+        font-size: 0.7rem;
+      }
     }
   }
 
   &.show {
-    bottom: 75px;
+    transform: translateY(-195px);
+    transition: 0.5s ease-out;
   }
+
   &__bottom {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(5, 1fr);
     gap: 0.25rem;
+    height: 125px;
+    margin-bottom: 1rem;
+
     &--rider {
       display: flex;
       align-items: center;
@@ -169,6 +194,11 @@ export default {
         flex-direction: row-reverse;
       }
     }
+  }
+  &__buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
   }
 }
 </style>

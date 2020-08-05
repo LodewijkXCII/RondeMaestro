@@ -19,7 +19,6 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-//TODO IF DATE IS > 12:00 --> ERROR
 function getStageTime(id) {
   const stageTime = stages.get(parseInt(id, 10) || 0);
   return stageTime;
