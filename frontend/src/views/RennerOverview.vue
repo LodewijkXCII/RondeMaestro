@@ -219,9 +219,11 @@ export default {
           this.etappe = etappeinfo.data;
 
           this.toEtappe(etappeinfo.data.id);
-          selectie.data.forEach((cyclist) => {
-            this.addToSelectie(cyclist);
-          });
+          if (selectie) {
+            selectie.data.forEach((cyclist) => {
+              this.addToSelectie(cyclist);
+            });
+          }
         })
       );
   },
@@ -274,7 +276,7 @@ label {
     background: white;
     padding: 0.5em 0.2em;
 
-    &:nth-child(8n) {
+    &:nth-child(6n) {
       margin-bottom: 1rem;
     }
     &__img {
