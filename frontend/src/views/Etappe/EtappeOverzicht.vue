@@ -53,7 +53,7 @@ export default {
     };
   },
   created() {
-    fetch('https://rondemaestro-test.herokuapp.com/api/v1/stages?race=2')
+    fetch('https://rondemaestro-test.herokuapp.com/api/v1/stages?race=3')
       .then((response) => response.json())
       .then((result) => {
         this.etappes = result;

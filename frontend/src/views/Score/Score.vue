@@ -44,7 +44,7 @@ export default {
   },
   created() {
     axios
-      .get('https://rondemaestro-test.herokuapp.com/api/v1/stages?race=2')
+      .get('https://rondemaestro-test.herokuapp.com/api/v1/stages?race=3')
       .then((etappes) => {
         this.etappes = etappes.data;
       });
