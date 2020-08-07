@@ -42,7 +42,7 @@
 import { mapGetters, mapState, mapMutations, mapActions } from 'vuex';
 import axios from 'axios';
 
-const URL = 'http://localhost:1992/api/v1/entries';
+const URL = 'https://rondemaestro-test.herokuapp.com/api/v1/entries';
 
 export default {
   data() {
@@ -83,12 +83,12 @@ export default {
         this.sendButton = 'Versturen...';
         await axios
           .get(
-            `http://localhost:1992/api/v1/entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
+            `https://rondemaestro-test.herokuapp.com/api/v1/entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
           )
           .then((response) => {
             response.data.forEach((selected) => {
               axios.put(
-                `http://localhost:1992/api/v1/entries?users_id=2&stage_id=${this.$route.params.etappeID}`,
+                `https://rondemaestro-test.herokuapp.com/v1/entries?users_id=2&stage_id=${this.$route.params.etappeID}`,
                 {
                   users_id: +activeUser,
                   stage_id: this.stage,

@@ -48,7 +48,7 @@
 <script>
 import * as yup from 'yup';
 
-const URL = 'http://localhost:1992/api/v1/auth/signup';
+const URL = 'https://rondemaestro-test.herokuapp.com/api/v1/auth/signup';
 
 const schema = yup.object().shape({
   name: yup

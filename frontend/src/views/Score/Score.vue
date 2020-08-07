@@ -43,9 +43,11 @@ export default {
     };
   },
   created() {
-    axios.get('http://localhost:1992/api/v1/stages?race=2').then((etappes) => {
-      this.etappes = etappes.data;
-    });
+    axios
+      .get('https://rondemaestro-test.herokuapp.com/api/v1/stages?race=2')
+      .then((etappes) => {
+        this.etappes = etappes.data;
+      });
   },
 };
 </script>

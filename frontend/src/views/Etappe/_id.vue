@@ -42,7 +42,9 @@ export default {
     };
   },
   created() {
-    fetch(`http://localhost:1992/api/v1/stages/${this.$route.params.etappeID}`)
+    fetch(
+      `https://rondemaestro-test.herokuapp.com/api/v1/stages/${this.$route.params.etappeID}`
+    )
       .then((response) => response.json())
       .then((result) => {
         this.etappe = result;
