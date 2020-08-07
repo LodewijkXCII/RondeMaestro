@@ -31,7 +31,7 @@
 import * as yup from 'yup';
 import axios from 'axios';
 
-const URL = 'http://localhost:1992/api/v1/auth/signin';
+const URL = 'https://rondemaestro-test.herokuapp.com/api/v1/auth/signin';
 
 const schema = yup.object().shape({
   email: yup

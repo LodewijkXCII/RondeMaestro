@@ -167,7 +167,7 @@ export default {
     },
     async searchRiders() {
       const searchrider = await axios.get(
-        `http://localhost:1992/api/v1/cyclists?name=${this.name}`
+        `https://rondemaestro-test.herokuapp.com/api/v1/cyclists?name=${this.name}`
       );
       this.renners = searchrider.data.sort((a, b) =>
         a.race_number > b.race_number ? 1 : -1
@@ -175,7 +175,7 @@ export default {
     },
     async searchRidersTeam(e) {
       const searchrider = await axios.get(
-        `http://localhost:1992/api/v1/cyclists?team=${e.target.value}`
+        `https://rondemaestro-test.herokuapp.com/api/v1/cyclists?team=${e.target.value}`
       );
       this.renners = searchrider.data.sort((a, b) =>
         a.race_number > b.race_number ? 1 : -1
@@ -189,12 +189,12 @@ export default {
 
     axios
       .all([
-        axios.get('http://localhost:1992/api/v1/cyclists'),
+        axios.get('https://rondemaestro-test.herokuapp.com/api/v1/cyclists'),
         axios.get(
-          `http://localhost:1992/api/v1/stages/${this.$route.params.etappeID}`
+          `https://rondemaestro-test.herokuapp.com/api/v1/stages/${this.$route.params.etappeID}`
         ),
         axios.get(
-          `http://localhost:1992/api/v1/entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
+          `https://rondemaestro-test.herokuapp.com/api/v1/entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
         ),
       ])
       .then(

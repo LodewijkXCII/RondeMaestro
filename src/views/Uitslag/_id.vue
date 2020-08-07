@@ -26,8 +26,9 @@
 <script>
 import axios from 'axios';
 
-const URL_CYCLIST = 'http://localhost:1992/api/v1/cyclists?startlist=true';
-const URL_RESULT = 'http://localhost:1992/api/v1/results';
+const URL_CYCLIST =
+  'https://rondemaestro-test.herokuapp.com/api/v1/cyclists?startlist=true';
+const URL_RESULT = 'https://rondemaestro-test.herokuapp.com/api/v1/results';
 
 export default {
   data() {
