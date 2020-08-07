@@ -19,4 +19,18 @@ router.post('/', async (req, res) => {
   }
 });
 
+// GOOGLE ROUTES
+// router.get('/', async (req, res) => {
+//   const users = await User.query().select().where('deleted_at', null);
+//   res.json(users);
+// });
+
+// router.post('/', async (req, res) => {
+//   try {
+//     const user = await User.query().insert(req.body);
+//   } catch (error) {
+//     throw error;
+//   }
+// });
+
 module.exports = router;

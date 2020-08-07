@@ -63,7 +63,6 @@ export default {
   methods: {
     ...mapMutations(['setEtappes']),
     setEtappe(etappe) {
-      console.log('clicked');
       this.setEtappes(etappe);
     },
   },

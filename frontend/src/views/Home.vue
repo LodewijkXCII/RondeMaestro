@@ -43,10 +43,6 @@ export default {
 
   a {
     color: $white-color;
-
-    &:first-of-type {
-      border-right: 2px solid black;
-    }
   }
 }
 </style>

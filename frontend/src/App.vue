@@ -50,7 +50,7 @@ body {
 .container {
   padding: 2em 0.5em;
   max-width: 350px;
-  margin-bottom: 4em;
+  margin-bottom: 8em;
 }
 
 /*
@@ -162,11 +162,12 @@ select {
   border: 0.5px solid $black-color;
   padding: 0.5em;
   margin: 0.3em 0 1em;
+  background: lighten($color: $white-color, $amount: 5);
 
   &:focus {
     outline: $primary-color;
     border: none;
-    background: darken($color: white, $amount: 5);
+    background: lighten($color: $white-color, $amount: 1);
     box-shadow: 0 0 5px $primary-color;
   }
 }

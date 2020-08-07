@@ -7,7 +7,13 @@
         <span>Terug naar het etappe overzicht</span>
       </router-link>
     </section>
-    <h1>Kies je renners voor etappe {{ etappe.stage_nr }}</h1>
+    <h1 v-if="etappe.name !== 'Klassiekers'">
+      Kies je renners voor etappe {{ etappe.stage_nr }}
+    </h1>
+    <h1 else>
+      Kies je renners voor {{ etappe.start_city }} - {{ etappe.finish_city }}
+    </h1>
+
     <div class="etappeInfo">
       <div class="etappeInfo__left">
         <div>{{ etappe.start_city }} - {{ etappe.finish_city }}</div>
@@ -21,6 +27,7 @@
         </router-link>
       </div>
     </div>
+
     <section class="filter">
       <label for="name">Zoek op naam:</label>
       <input
@@ -34,17 +41,29 @@
       <div class="half">
         <div class="half--block">
           <label for="team">Zoek op team:</label>
-          <select name="team" id="team" v-model="team">
-            <option value></option>
+
+          <select
+            name="team"
+            id="team"
+            v-model="team"
+            @change="searchRidersTeam($event)"
+          >
+            <option
+              :value="team.team_id"
+              v-for="team in teams"
+              :key="team.index"
+            >
+              {{ team.team_name }}
+            </option>
           </select>
         </div>
 
-        <div class="half--block">
+        <!-- <div class="half--block">
           <label for="spec">Zoek op specialisme:</label>
           <select name="spec" id="spec" v-model="spec">
             <option value></option>
           </select>
-        </div>
+        </div> -->
       </div>
     </section>
     <div class="renners">
@@ -78,17 +97,20 @@
           <div class="renner__info--team">{{ renner.team_name }}</div>
         </div>
         <div class="renner__extra">
-          <div class="renner__extra--speciality">
+          <div class="renner__extra--teamIMG">
+            <img :src="renner.team_img" :alt="renner.team_name" />
+          </div>
+          <!-- <div class="renner__extra--speciality">
             <span v-if="renner.speciality_name">{{
               renner.speciality_name
             }}</span>
             <span v-if="renner.speciality_id_2"
               >/ {{ renner.speciality_id_2 }}</span
             >
-          </div>
-          <div class="renner__extra--points">
+          </div> -->
+          <!-- <div class="renner__extra--points">
             <h2>100pt</h2>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -96,11 +118,8 @@
 </template>
 
 <script>
-// import FilterOptions from '@/components/FilterOptions.vue';
 import SelectedRiders from '@/components/SelectedRiders.vue';
-
 import axios from 'axios';
-import lodash from 'lodash';
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
@@ -112,6 +131,7 @@ export default {
   data() {
     return {
       renners: [],
+      teams: [],
       etappe: '',
       name: '',
       team: '',
@@ -153,21 +173,28 @@ export default {
         a.race_number > b.race_number ? 1 : -1
       );
     },
+    async searchRidersTeam(e) {
+      const searchrider = await axios.get(
+        `http://localhost:1992/api/v1/cyclists?team=${e.target.value}`
+      );
+      this.renners = searchrider.data.sort((a, b) =>
+        a.race_number > b.race_number ? 1 : -1
+      );
+    },
   },
 
-  watch: {},
-
   created() {
+    const activeUser = window.localStorage.getItem('user_id');
     this.removeAll();
 
     axios
       .all([
-        axios.get('http://localhost:1992/api/v1/cyclists?startlist=true'),
+        axios.get('http://localhost:1992/api/v1/cyclists'),
         axios.get(
           `http://localhost:1992/api/v1/stages/${this.$route.params.etappeID}`
         ),
         axios.get(
-          `http://localhost:1992/api/v1/entries?users_id=2&stage_id=${this.$route.params.etappeID}`
+          `http://localhost:1992/api/v1/entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
         ),
       ])
       .then(
@@ -175,7 +202,22 @@ export default {
           this.renners = renners.data.sort((a, b) =>
             a.race_number > b.race_number ? 1 : -1
           );
+
+          this.teams = [
+            ...new Map(
+              renners.data.map((item) => [
+                item['team_name'],
+                {
+                  team_name: item.team_name,
+                  team_id: item.team_id,
+                  team_img: item.team_img,
+                },
+              ])
+            ).values(),
+          ];
+
           this.etappe = etappeinfo.data;
+
           this.toEtappe(etappeinfo.data.id);
           selectie.data.forEach((cyclist) => {
             this.addToSelectie(cyclist);
@@ -263,6 +305,17 @@ label {
       }
       &--team {
         font-size: 0.7rem;
+      }
+    }
+
+    &__extra {
+      &--teamIMG {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        img {
+          height: 50px;
+        }
       }
     }
 

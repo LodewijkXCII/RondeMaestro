@@ -4,6 +4,11 @@
     <div v-if="errorMessage" role="alert">
       {{ errorMessage }}
     </div>
+    <!-- <button class="btn btn-google">
+      <a href="http://localhost:1992/api/v1/auth/google">
+        Signup With Google
+      </a>
+    </button> -->
     <form @submit.prevent="signup()">
       <label for="name">Gebruikersnaam:</label>
       <input v-model="user.name" type="name" name="name" id="name" required />
@@ -98,6 +103,10 @@ export default {
     },
   },
   methods: {
+    googleSignup() {
+      this.errorMessage = '';
+    },
+
     signup() {
       this.errorMessage = '';
       if (this.validUser()) {

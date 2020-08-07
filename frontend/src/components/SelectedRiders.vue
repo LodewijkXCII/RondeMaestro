@@ -32,7 +32,7 @@
       </button>
 
       <button @click.prevent="submitSelectie()" class="btn btn-primary">
-        Verstuur
+        {{ sendButton }}
       </button>
     </div>
   </div>
@@ -49,6 +49,7 @@ export default {
     return {
       ShowSelectie: false,
       error: false,
+      sendButton: 'Verstuur',
     };
   },
   computed: {
@@ -72,23 +73,24 @@ export default {
     },
     showSelectie() {
       this.ShowSelectie = !this.ShowSelectie;
-      console.log('clicked');
     },
 
     async submitSelectie() {
+      const activeUser = window.localStorage.getItem('user_id');
       if (this.countSelectie !== 8) {
         window.alert('Er zijn er geen 8 ingevuld');
       } else {
+        this.sendButton = 'Versturen...';
         await axios
           .get(
-            `http://localhost:1992/api/v1/entries?users_id=2&stage_id=${this.$route.params.etappeID}`
+            `http://localhost:1992/api/v1/entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
           )
           .then((response) => {
             response.data.forEach((selected) => {
               axios.put(
                 `http://localhost:1992/api/v1/entries?users_id=2&stage_id=${this.$route.params.etappeID}`,
                 {
-                  users_id: 2,
+                  users_id: +activeUser,
                   stage_id: this.stage,
                   cyclist_id: selected.cyclist_id,
                 }
@@ -98,21 +100,23 @@ export default {
         // TODO USER_ID AS USER ID;
 
         await this.selectie.forEach((renner) => {
+          console.log(activeUser);
           axios
             .post(URL, {
-              users_id: 2,
+              users_id: +activeUser,
               stage_id: this.stage,
               cyclist_id: renner.cyclist_id,
               //TODO cyclist_id if renner is niet aangepast
             })
-            .then(function(response) {
-              console.log(response);
+            .then((response) => {
+              this.sendButton = 'verstuurd';
+              setTimeout(() => (this.sendButton = 'verstuur'), 5000);
+              this.removeAll();
             })
-            .catch(function(error) {
-              console.log(error);
+            .catch((error) => {
+              this.error = error.message;
             });
         });
-        this.removeAll();
       }
     },
   },

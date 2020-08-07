@@ -43,7 +43,7 @@ export default {
     };
   },
   created() {
-    axios.get('http://localhost:1992/api/v1/stages?race=1').then((etappes) => {
+    axios.get('http://localhost:1992/api/v1/stages?race=2').then((etappes) => {
       this.etappes = etappes.data;
     });
   },

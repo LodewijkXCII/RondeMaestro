@@ -6,7 +6,12 @@
         <span>Terug naar het score overzicht</span>
       </router-link>
     </section>
-    <h1>Etappe {{ etappe.id }} Uitslag</h1>
+
+    <h1 v-if="etappe.name !== 'Klassiekers'">
+      Etappe {{ etappe.stage_nr }} Uitslag
+    </h1>
+    <h1 else>Uitslag {{ etappe.start_city }} - {{ etappe.finish_city }}</h1>
+
     <h2>
       {{ etappe.start_city }} - {{ etappe.finish_city }} ({{
         etappe.distance

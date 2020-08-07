@@ -28,6 +28,11 @@
       "type": "string",
       "title": "The password"
     },
+    "googleid": {
+      "$id": "#/properties/googleid",
+      "type": "string",
+      "title": "The googleid"
+    },
     "user_role_id": {
       "$id": "#/properties/role",
       "type": "integer",

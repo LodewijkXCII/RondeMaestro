@@ -32,7 +32,6 @@ router.post('/', async (req, res, next) => {
     const stagesTime = new Date(stageDate.date);
 
     if (submitTime < stagesTime) {
-      console.log('Eerder');
       const entry = await Entry.query().insert(req.body);
       res.json(entry);
     } else {
