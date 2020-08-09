@@ -183,29 +183,16 @@ export default {
     },
   },
 
-  created() {
+  async created() {
     const activeUser = window.localStorage.getItem('user_id');
     this.removeAll();
 
-    axios
-      .all([
-        axios.get('https://rondemaestro-test.herokuapp.com/api/v1/cyclists'),
-        axios.get(
-          `https://rondemaestro-test.herokuapp.com/api/v1/stages/${this.$route.params.etappeID}`
-        ),
-        axios.get(
-          `https://rondemaestro-test.herokuapp.com/api/v1/entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
-        ),
-      ])
-      .then(
-        axios.spread((renners, etappeinfo, selectie) => {
-          this.renners = renners.data.sort((a, b) =>
-            a.race_number > b.race_number ? 1 : -1
-          );
-
-          this.teams = [
+    
+        const cyclists = await axios.get('https://rondemaestro-test.herokuapp.com/api/v1/cyclists');
+        this.renners = cyclists.data.sort((a, b) => a.race_number > b.race_number ?1 :-1);
+        this.teams = [
             ...new Map(
-              renners.data.map((item) => [
+              cyclists.data.map((item) => [
                 item['team_name'],
                 {
                   team_name: item.team_name,
@@ -216,16 +203,23 @@ export default {
             ).values(),
           ];
 
-          this.etappe = etappeinfo.data;
 
+        const stage = await axios.get(
+          `https://rondemaestro-test.herokuapp.com/api/v1/stages/${this.$route.params.etappeID}`
+        );
+          this.etappe = stage.data;
+
+        if(activeUser){
+          const entries = await axios.get(
+            `https://rondemaestro-test.herokuapp.com/api/v1/entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
+          )
+        }
           this.toEtappe(etappeinfo.data.id);
-          if (selectie) {
-            selectie.data.forEach((cyclist) => {
+          if (entries) {
+            entries.data.forEach((cyclist) => {
               this.addToSelectie(cyclist);
             });
           }
-        })
-      );
   },
 };
 </script>

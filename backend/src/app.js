@@ -16,10 +16,10 @@ app.use(morgan('tiny'));
 app.use(compression());
 app.use(helmet());
 app.use(
-  cors()
-  //   {
-  //   origin: 'http://localhost:8080',
-  // }
+  cors(
+    {
+    origin: '*',
+  })
 );
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
