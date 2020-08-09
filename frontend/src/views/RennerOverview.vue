@@ -214,7 +214,7 @@ export default {
             `https://rondemaestro-test.herokuapp.com/api/v1/entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
           )
         }
-          this.toEtappe(etappeinfo.data.id);
+          this.toEtappe(stage.data.id);
           if (entries) {
             entries.data.forEach((cyclist) => {
               this.addToSelectie(cyclist);
