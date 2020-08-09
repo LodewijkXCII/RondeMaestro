@@ -205,4 +205,13 @@ export default {
     gap: 1rem;
   }
 }
+
+/* Desktops and laptops ----------- */
+@media only screen and (min-width: 1224px) {
+  .selectedRiders {
+    
+      padding: .5rem 20rem;
+    
+  }
+}
 </style>

@@ -8,7 +8,7 @@
     </section>
     <h1>Uitslag Etappe {{ stage }}</h1>
 
-    <div v-for="input in uitslag" :key="input.index" class="etappeUitslag">
+    <div v-for="input in uitslag" :key="input.position" class="etappeUitslag">
       <label :for="input.position">{{ input.position }}:</label>
 
       <select v-model="input.id">

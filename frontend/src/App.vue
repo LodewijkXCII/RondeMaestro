@@ -53,6 +53,25 @@ body {
   margin-bottom: 8em;
 }
 
+/* Desktops and laptops ----------- */
+@media only screen and (min-width: 1224px) {
+  body {
+    width: 950px;
+    margin: auto;
+  }
+
+  .container {
+    margin: auto;
+    min-width: 100%;
+    margin-bottom: 8rem;
+  }
+}
+
+/* Large screens ----------- */
+@media only screen and (min-width: 1824px) {
+  /* Styles */
+}
+
 /*
     TYPOGRAPHY
 */

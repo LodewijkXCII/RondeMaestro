@@ -49,8 +49,8 @@ module.exports = {
     }
     if (query.name) {
       cyclistQuery
-        .where('first_name', 'ilike', `%${query.name}%`)
-        .orWhere('last_name', 'ilike', `%${query.name}%`)
+        .where('first_name', 'ilike', `${query.name}%`)
+        .orWhere('last_name', 'ilike', `${query.name}%`)
         .whereNotNull('race_number');
     }
 

@@ -1,5 +1,6 @@
 <template>
-  <section class="bottomNav">
+<section class="bottomnavi">
+  <div class="bottomNav">
     <div class="bottomNav__navItem">
       <router-link :to="{ name: 'etappe-overzicht' }">
         <img src="@/assets/icons/route-solid.svg" alt="" />
@@ -20,6 +21,7 @@
         />Dashboard</router-link
       >
     </div>
+  </div>
   </section>
 </template>
 
@@ -30,7 +32,7 @@ export default {};
 <style lang="scss">
 @import '@/assets/styles.scss';
 
-.bottomNav {
+.bottomnavi {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -45,7 +47,7 @@ export default {};
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+.bottomNav {
   &__navItem {
     height: 100%;
     display: flex;
@@ -62,6 +64,20 @@ export default {};
         height: 20px;
       }
     }
+  }
+  }
+}
+
+/* Desktops and laptops ----------- */
+@media only screen and (min-width: 1224px) {
+  .bottomnavi {
+    width: 100%;
+  }
+  .bottomNav {
+   width: 650px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
   }
 }
 </style>

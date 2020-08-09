@@ -48,6 +48,12 @@
             v-model="team"
             @change="searchRidersTeam($event)"
           >
+          <option
+            value=0
+            disabled
+            >
+            -
+          </option>
             <option
               :value="team.team_id"
               v-for="team in teams"
@@ -166,6 +172,7 @@ export default {
       }
     },
     async searchRiders() {
+      this.team = 0;
       const searchrider = await axios.get(
         `https://rondemaestro-test.herokuapp.com/api/v1/cyclists?name=${this.name}`
       );
@@ -174,6 +181,7 @@ export default {
       );
     },
     async searchRidersTeam(e) {
+      
       const searchrider = await axios.get(
         `https://rondemaestro-test.herokuapp.com/api/v1/cyclists?team=${e.target.value}`
       );
@@ -339,6 +347,14 @@ label {
         color: lightgray;
       }
     }
+  }
+}
+
+/* Desktops and laptops ----------- */
+@media only screen and (min-width: 1224px) {
+  .renners {
+   grid-template-columns: repeat(2, 1fr);
+   column-gap: .8rem;
   }
 }
 </style>
