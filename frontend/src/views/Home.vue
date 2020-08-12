@@ -10,14 +10,14 @@
       repellat autem magnam officiis dolorem necessitatibus id nesciunt ipsa
       impedit! Natus.
     </p>
-    <div class="bottom-links">
+    <!-- <div class="bottom-links">
       <router-link :to="{ name: 'Signup' }" role="button">
         Inschrijven
       </router-link>
       <router-link :to="{ name: 'Signin' }" role="button">
         Aanmelden
       </router-link>
-    </div>
+    </div> -->
   </div>
 </template>
 

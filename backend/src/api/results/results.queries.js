@@ -2,6 +2,7 @@ const db = require('../../db');
 const tableNames = require('../../constants/tableNames');
 
 const { result } = require('../../constants/tableNames');
+const Result = require('./results.model');
 
 const fields = [
   'result.id',
@@ -15,7 +16,8 @@ const fields = [
 
 const fields_score = [
   'result.id',
-  'users.name as name',
+  'users.name as user_name',
+  'users.id as user_id',
   'result.points',
   'entry.deleted_at',
   'entry.created_at',
@@ -56,17 +58,46 @@ module.exports = {
     return put;
   },
 
-  async get(id) {
-    return db(result)
+  async get(query) {
+    const resultQuery = db(result)
       .select(fields_score)
       .from('users')
-      .where('result.stage_id', '=', id)
       .innerJoin('entry', 'users.id', 'entry.users_id')
       .innerJoin('result', {
         'entry.cyclist_id': 'result.cyclist_id',
         'entry.stage_id': 'result.stage_id',
       })
+      .innerJoin('cyclist', 'result.cyclist_id', 'cyclist.id')
+      .whereNull('entry.deleted_at');
+
+    if (query.user_id) {
+      resultQuery.where('users.id', '=', query.user_id);
+    }
+    if (query.stage_id) {
+      resultQuery.where('result.stage_id', '=', query.stage_id);
+    }
+    if (query.race_id) {
+      resultQuery.where('race_id', '=', query.race_id);
+    }
+    return resultQuery;
+  },
+
+  async getSUM(query) {
+    const summedRes = db(result)
+      .select('name', db.raw('SUM(points)'))
+      .groupBy('name')
+      .from(tableNames.users)
+      .innerJoin('entry', 'users.id', 'entry.users_id')
       .whereNull('entry.deleted_at')
-      .innerJoin('cyclist', 'result.cyclist_id', 'cyclist.id');
+      .innerJoin('result', {
+        'entry.cyclist_id': 'result.cyclist_id',
+        'entry.stage_id': 'result.stage_id',
+      });
+
+    if (query.stage_id) {
+      summedRes.where('stage_id', '=', 22);
+    }
+
+    return summedRes;
   },
 };

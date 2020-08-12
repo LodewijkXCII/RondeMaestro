@@ -16,10 +16,24 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/:id', async (req, res, next) => {
-  const { id } = req.params;
+router.get('/score', async (req, res, next) => {
+  const { stage_id, race_id, user_id } = req.query;
+
   try {
-    const entries = await queries.get(parseInt(id, 10) || 0);
+    const entries = await queries.get({ stage_id, race_id, user_id });
+    if (entries) {
+      res.json(entries);
+    }
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.get('/totalscore', async (req, res, next) => {
+  const { stage_id, race_id } = req.query;
+
+  try {
+    const entries = await queries.getSUM({ stage_id, race_id });
     if (entries) {
       res.json(entries);
     }

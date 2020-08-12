@@ -12,8 +12,11 @@ passport.serializeUser(function (user, done) {
   done(null, user);
 });
 
-passport.deserializeUser(function (obj, done) {
-  done(null, obj);
+passport.deserializeUser(async function (obj, done) {
+  const existingUser = await User.query().where('googleid', profile.id).first();
+  if (existingUser) {
+    return done(null, profile);
+  }
 });
 
 passport.use(
@@ -21,9 +24,13 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: 'http://localhost:1992/api/v1/auth/google/callback',
+      // callbackURL: 'http://localhost:1992/api/v1/auth/google/callback',
+      callbackURL: 'http://localhost:8080',
     },
     async function (accessToken, refreshToken, profile, done) {
+      // console.log('accessToken:', accessToken);
+      // console.log('refreshToken:', refreshToken);
+
       const existingUser = await User.query()
         .where('googleid', profile.id)
         .first();
@@ -42,6 +49,9 @@ passport.use(
 
         return done(null, insertUser);
       }
+      // User.get(accessToken, refreshToken, profile, function (err, user) {
+      //   return done(null, user);
+      // });
     }
   )
 );
@@ -54,36 +64,47 @@ router.get(
 router.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/login' }),
-  async function (req, res) {
-    // console.log(req);
-
-    const payload = {
+  function (req, res, next) {
+    if (!req.user) {
+      return res.status(200).send('User Not Authenticated');
+    }
+    req.auth = {
       id: req.user.id,
-      name: req.user.name,
-      email: req.user.email,
     };
-    const token = await jwt.sign(payload);
+    next();
 
-    const htmlWithEmbeddedJWT = `
-    <html>
-      <script>
-        // Save JWT to localStorage
-        window.localStorage.setItem('JWT', '${token}');
-        // Redirect browser to root of application
-        window.location.href = 'http://localhost:8080/#/';
-      </script>
-    </html>
-    `;
-
-    res.send(htmlWithEmbeddedJWT);
+    // const payload = {
+    //   id: req.user.id,
+    //   name: req.user.name,
+    //   // email: req.user.email,
+    // };
+    // const token = await jwt.sign(payload);
 
     // res.status(200).json({
     //   success: true,
     //   user: payload,
     //   token,
     // });
-    // res.redirect('http://localhost:8080/#/');
-    console.log('sucess! 🚵🏽‍♀️🚵🏽‍♀️');
+
+    // .redirect('/');
+
+    // console.log('sucess! 🚵🏽‍♀️🚵🏽‍♀️');
+  },
+  async function generateToken(req, res, next) {
+    const payload = {
+      id: req.user.id,
+      name: req.user.name,
+      // email: req.user.email,
+    };
+    console.log(payload);
+    req.token = await jwt.sign(payload);
+    next();
+  },
+  function sendToken(req, res) {
+    res.setHeader('x-auth-token', req.token);
+    // console.log(req.token);
+    return res.status(200).send(JSON.stringify(req.token));
+    // return res.status(200).send('Hoera');
   }
 );
 

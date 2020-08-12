@@ -1,27 +1,34 @@
 <template>
-<section class="bottomnavi">
-  <div class="bottomNav">
-    <div class="bottomNav__navItem">
-      <router-link :to="{ name: 'etappe-overzicht' }">
-        <img src="@/assets/icons/route-solid.svg" alt="" />
-        Etappes</router-link
-      >
+  <section class="bottomnavi">
+    <div class="bottomNav">
+      <div class="bottomNav__navItem">
+        <router-link :to="{ name: 'etappe-overzicht' }">
+          <img src="@/assets/icons/route-solid.svg" alt="" />
+          Etappes</router-link
+        >
+      </div>
+      <div class="bottomNav__navItem">
+        <router-link :to="{ name: 'klassement' }">
+          Klassement
+        </router-link>
+      </div>
+      <div class="bottomNav__navItem">
+        <router-link :to="{ name: 'Score' }"
+          ><img
+            src="@/assets/icons/trophy-solid.svg"
+            alt=""
+          />Score</router-link
+        >
+      </div>
+      <div class="bottomNav__navItem">
+        <router-link :to="{ name: 'Dashboard' }"
+          ><img
+            src="@/assets/icons/dashboard-24px.svg"
+            alt=""
+          />Dashboard</router-link
+        >
+      </div>
     </div>
-    <div class="bottomNav__navItem">Klassement</div>
-    <div class="bottomNav__navItem">
-      <router-link :to="{ name: 'Score' }"
-        ><img src="@/assets/icons/trophy-solid.svg" alt="" />Score</router-link
-      >
-    </div>
-    <div class="bottomNav__navItem">
-      <router-link :to="{ name: 'Dashboard' }"
-        ><img
-          src="@/assets/icons/dashboard-24px.svg"
-          alt=""
-        />Dashboard</router-link
-      >
-    </div>
-  </div>
   </section>
 </template>
 
@@ -47,37 +54,38 @@ export default {};
   display: flex;
   justify-content: space-between;
   align-items: center;
-.bottomNav {
-  &__navItem {
-    height: 100%;
+  .bottomNav {
     display: flex;
-    justify-content: center;
-    align-items: flex-start;
-
-    a {
-      color: $white-color;
+    justify-content: space-between;
+    width: 100%;
+    align-items: flex-end;
+    &__navItem {
+      height: 100%;
       display: flex;
-      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
 
-      img {
-        margin-bottom: 0.2rem;
-        height: 20px;
+      a {
+        color: $white-color;
+        display: flex;
+        flex-direction: column;
+
+        img {
+          margin-bottom: 0.2rem;
+          height: 20px;
+        }
       }
     }
-  }
   }
 }
 
 /* Desktops and laptops ----------- */
 @media only screen and (min-width: 1224px) {
   .bottomnavi {
-    width: 100%;
-  }
-  .bottomNav {
-   width: 650px;
-    margin: auto;
-    display: flex;
-    justify-content: space-between;
+    .bottomNav {
+      width: 650px;
+      margin: auto;
+    }
   }
 }
 </style>

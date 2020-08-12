@@ -42,6 +42,7 @@
 
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
+import config from '@/utils/config';
 
 export default {
   //TODO bekijk of entrie al in ingevuld.
@@ -53,7 +54,7 @@ export default {
     };
   },
   created() {
-    fetch('https://rondemaestro-test.herokuapp.com/api/v1/stages?race=3')
+    fetch(`${config.DEV_URL}stages?race=2`)
       .then((response) => response.json())
       .then((result) => {
         this.etappes = result;

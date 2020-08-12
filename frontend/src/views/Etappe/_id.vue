@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import config from '@/utils/config';
+
 export default {
   data() {
     return {
@@ -42,9 +44,7 @@ export default {
     };
   },
   created() {
-    fetch(
-      `https://rondemaestro-test.herokuapp.com/api/v1/stages/${this.$route.params.etappeID}`
-    )
+    fetch(`${config.DEV_URL}stages/${this.$route.params.etappeID}`)
       .then((response) => response.json())
       .then((result) => {
         this.etappe = result;

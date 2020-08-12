@@ -16,9 +16,9 @@ app.use(morgan('tiny'));
 app.use(compression());
 app.use(helmet());
 app.use(
-  cors(
-    {
-    origin: '*',
+  cors({
+    origin: 'http://localhost:8080',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   })
 );
 app.use(express.urlencoded({ extended: false }));

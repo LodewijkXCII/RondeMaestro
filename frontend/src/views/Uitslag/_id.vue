@@ -12,28 +12,34 @@
       <label :for="input.position">{{ input.position }}:</label>
 
       <select v-model="input.id">
-        <option v-for="renner in renners" :key="renner.index" :value="renner.id"
+        <option
+          v-for="renner in renners"
+          :key="renner.index"
+          :value="renner.cyclist_id"
           >#{{ renner.race_number }} - {{ renner.first_name }}
           {{ renner.last_name }}</option
         >
       </select>
     </div>
 
-    <button class="btn btn-alert" v-on:click="etappeSubmit()">Verstuur</button>
+    <button class="btn btn-alert" v-on:click="etappeSubmit()">
+      {{ sendMessage }}
+    </button>
   </section>
 </template>
 
 <script>
 import axios from 'axios';
+import config from '@/utils/config';
 
-const URL_CYCLIST =
-  'https://rondemaestro-test.herokuapp.com/api/v1/cyclists?startlist=true';
-const URL_RESULT = 'https://rondemaestro-test.herokuapp.com/api/v1/results';
+const URL_CYCLIST = `${config.DEV_URL}cyclists?startlist=true`;
+const URL_RESULT = `${config.DEV_URL}results`;
 
 export default {
   data() {
     return {
       renners: [],
+      sendMessage: 'Verstuur',
       stage: parseInt(this.$route.params.etappeID, 10 || 0),
       uitslag: [
         { id: null, points: 100, position: 1 },
@@ -63,21 +69,21 @@ export default {
   },
   methods: {
     etappeSubmit() {
-      this.uitslag.forEach((renner) => {
-        axios
-          .post(URL_RESULT, {
+      this.sendMessage = 'Versturen';
+      this.uitslag.forEach(async (renner) => {
+        try {
+          response = await axios.post(URL_RESULT, {
             position: renner.position,
             points: renner.points,
             stage_id: this.stage,
-            cyclist_id: renner.id,
-          })
-          .then(function(response) {
-            console.log(response);
-          })
-          .catch(function(error) {
-            console.log(error);
+            cyclist_id: renner.cyclist_id,
           });
+        } catch (error) {
+          console.error(error.message);
+        }
       });
+      this.sendMessage = 'Verstuurd';
+      this.$router.push({ name: 'etappe-uitslag' });
     },
   },
 };

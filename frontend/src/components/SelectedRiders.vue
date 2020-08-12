@@ -41,8 +41,9 @@
 <script>
 import { mapGetters, mapState, mapMutations, mapActions } from 'vuex';
 import axios from 'axios';
+import config from '@/utils/config';
 
-const URL = 'https://rondemaestro-test.herokuapp.com/api/v1/entries';
+const URL = 'entries';
 
 export default {
   data() {
@@ -76,42 +77,41 @@ export default {
     },
 
     async submitSelectie() {
-      const activeUser = window.localStorage.getItem('user_id');
+      const activeUser = JSON.parse(window.localStorage.getItem('user'));
       if (this.countSelectie !== 8) {
         window.alert('Er zijn er geen 8 ingevuld');
       } else {
         this.sendButton = 'Versturen...';
         await axios
           .get(
-            `https://rondemaestro-test.herokuapp.com/api/v1/entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
+            `${config.DEV_URL}entries?users_id=${activeUser.id}&stage_id=${this.$route.params.etappeID}`
           )
           .then((response) => {
+            // console.log(response.data);
             response.data.forEach((selected) => {
               axios.put(
-                `https://rondemaestro-test.herokuapp.com/v1/entries?users_id=2&stage_id=${this.$route.params.etappeID}`,
+                `${config.DEV_URL}entries?users_id=2&stage_id=${this.$route.params.etappeID}`,
                 {
-                  users_id: +activeUser,
+                  users_id: +activeUser.id,
                   stage_id: this.stage,
                   cyclist_id: selected.cyclist_id,
                 }
               );
             });
           });
-        // TODO USER_ID AS USER ID;
 
         await this.selectie.forEach((renner) => {
-          console.log(activeUser);
           axios
-            .post(URL, {
-              users_id: +activeUser,
+            .post(`${config.DEV_URL}entries`, {
+              users_id: +activeUser.id,
               stage_id: this.stage,
               cyclist_id: renner.cyclist_id,
-              //TODO cyclist_id if renner is niet aangepast
             })
             .then((response) => {
               this.sendButton = 'verstuurd';
               setTimeout(() => (this.sendButton = 'verstuur'), 5000);
               this.removeAll();
+              this.$router.push({ name: 'etappe-overzicht' }).catch(() => {});
             })
             .catch((error) => {
               this.error = error.message;
@@ -208,10 +208,12 @@ export default {
 
 /* Desktops and laptops ----------- */
 @media only screen and (min-width: 1224px) {
-  .selectedRiders {
-    
-      padding: .5rem 20rem;
-    
+  .selectedriders {
+    bottom: -105px !important;
+  }
+  .selectedRiders > * {
+    width: 650px;
+    margin: auto;
   }
 }
 </style>

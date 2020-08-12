@@ -3,11 +3,50 @@
     <router-link :to="{ name: 'Home' }">
       <img :src="require('@/assets/logo.png')" />
     </router-link>
+    <div class="rightNav">
+      <div class="rightNav__user" v-if="loggedIn">
+        <div class="rightNav__user--username">{{ username.name }}</div>
+        <div class="rightNav__user--logout" @click="logout">
+          Logout
+        </div>
+      </div>
+      <div class="rightNav__sign" v-else>
+        <router-link :to="{ name: 'Signup' }" class="rightNav__sign--nav-link"
+          >Inschrijven</router-link
+        >
+        <router-link :to="{ name: 'Signin' }" class="rightNav__sign--nav-link"
+          >Aanmelden</router-link
+        >
+      </div>
+    </div>
   </nav>
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      loggedIn: false,
+      username: '',
+    };
+  },
+  methods: {
+    logout() {
+      let currentPath = this.$route.path;
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      if (currentPath !== '/') {
+        this.$router.go('/');
+      }
+    },
+  },
+  mounted() {
+    this.username = JSON.parse(window.localStorage.getItem('user'));
+    if (this.username.name) {
+      this.loggedIn = true;
+    }
+  },
+};
 </script>
 
 <style lang="scss">
@@ -15,9 +54,34 @@ export default {};
 
 nav {
   border-bottom: 2px solid $primary-color;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
   img {
     width: 75px;
     height: auto;
+  }
+
+  .rightNav {
+    text-transform: uppercase;
+    color: $primary-color;
+    font-weight: 700;
+    &__user {
+      display: flex;
+      &--logout,
+      &--username {
+        margin: 0 0.5rem;
+      }
+      &--logout {
+        cursor: pointer;
+      }
+    }
+    &__sign {
+      &--nav-link {
+        margin: 0 0.5rem;
+      }
+    }
   }
 }
 </style>

@@ -29,9 +29,8 @@
 
 <script>
 import * as yup from 'yup';
+import config from '@/utils/config';
 import axios from 'axios';
-
-const URL = 'https://rondemaestro-test.herokuapp.com/api/v1/auth/signin';
 
 const schema = yup.object().shape({
   email: yup
@@ -62,37 +61,39 @@ export default {
     };
   },
   methods: {
-    login() {
+    async login() {
+      const data = {
+        email: this.user.email,
+        password: this.user.password,
+      };
+      const axiosHeaders = {
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Access-Control-Allow-Origin': '*',
+        },
+      };
       this.errorMessage = '';
       // if (this.validUser()) {
       //   this.logginIn = true;
 
       try {
         axios
-          .post(URL, {
-            email: this.user.email,
-            password: this.user.password,
-            headers: {
-              'content-type': 'application/json',
-            },
-          })
+          .post(`${config.DEV_URL}auth/signin`, data, axiosHeaders)
+
           .then((response) => {
             if (response.status == 200) {
-              return response.data;
-            }
-            // return response.data.then((error) => {
-            //   throw new Error(error.message);
-            // });
-          })
-          .then((result) => {
-            localStorage.token = result.token;
-            localStorage.user_id = result.user.id;
+              localStorage.token = response.data.token;
+              localStorage.user = JSON.stringify(response.data.user);
 
-            setTimeout(() => {
-              this.logginIn = false;
-              this.$router.push('/dashboard');
-            }, 1000);
+              setTimeout(() => {
+                this.logginIn = false;
+                this.$router.push('/dashboard');
+              }, 1000);
+            }
           });
+        return response.data.then((error) => {
+          throw new Error(error.message);
+        });
       } catch (error) {
         console.error(error);
       }

@@ -90,6 +90,11 @@ h2 {
   color: $primary-color;
 }
 
+h3 {
+  margin: 1rem 0;
+  text-transform: uppercase;
+}
+
 p {
   line-height: 1.6;
   margin-top: 1em;

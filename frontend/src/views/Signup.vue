@@ -4,11 +4,13 @@
     <div v-if="errorMessage" role="alert">
       {{ errorMessage }}
     </div>
-    <!-- <button class="btn btn-google">
-      <a href="http://localhost:1992/api/v1/auth/google">
-        Signup With Google
-      </a>
-    </button> -->
+    <!-- <GoogleLogin
+      :params="params"
+      :renderParams="renderParams"
+      :onSuccess="onSuccess"
+      :onFailure="onFailure"
+    ></GoogleLogin> -->
+    <button @click.prevent="GoogleLogin">Google</button>
     <form @submit.prevent="signup()">
       <label for="name">Gebruikersnaam:</label>
       <input v-model="user.name" type="name" name="name" id="name" required />
@@ -47,8 +49,9 @@
 
 <script>
 import * as yup from 'yup';
-
-const URL = 'https://rondemaestro-test.herokuapp.com/api/v1/auth/signup';
+import axios from 'axios';
+import config from '@/utils/config';
+import GoogleLogin from 'vue-google-login';
 
 const schema = yup.object().shape({
   name: yup
@@ -82,6 +85,10 @@ const schema = yup.object().shape({
 });
 
 export default {
+  components: {
+    GoogleLogin,
+  },
+
   data() {
     return {
       errorMessage: '',
@@ -92,6 +99,16 @@ export default {
         password: '',
         confirmPassword: '',
       },
+      // params: {
+      //   client_id:
+      //     '441260892947-0v6crtbd381n83d9r54k59ob4m586496.apps.googleusercontent.com',
+      // },
+      // // only needed if you want to render the button with the google ui
+      // renderParams: {
+      //   width: 250,
+      //   height: 50,
+      //   longtitle: true,
+      // },
     };
   },
   watch: {
@@ -106,6 +123,44 @@ export default {
     googleSignup() {
       this.errorMessage = '';
     },
+    GoogleLogin() {
+      // const axiosHeaders = {
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'Access-Control-Allow-Origin': '*',
+      //   },
+      // };
+      // axios
+      //   .get('http://localhost:1992/api/v1/auth/google', axiosHeaders)
+      fetch('http://localhost:1992/api/v1/auth/google', {
+        method: 'GET',
+        // credentials: 'include',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Credentials': true,
+          'Access-Control-Allow-Origin': '*',
+        },
+      })
+        .then((response) => {
+          console.log(response);
+          //   if (response.status === 200) return response.json();
+          //   throw new Error('failed to authenticate user');
+          // })
+          // .then((responseJson) => {
+          //   this.setState({
+          //     authenticated: true,
+          //     user: responseJson.user,
+          //   });
+        })
+        .catch((error) => {
+          console.log('errorhiero:', error.message);
+          // this.setState({
+          //   authenticated: false,
+          //   error: 'Failed to authenticate user',
+          // });
+        });
+    },
 
     signup() {
       this.errorMessage = '';
@@ -118,7 +173,7 @@ export default {
         };
         this.sigingUp = true;
 
-        fetch(URL, {
+        fetch(`${config.DEV_URL}auth/signup`, {
           method: 'POST',
           body: JSON.stringify(body),
           headers: {

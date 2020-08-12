@@ -6,7 +6,15 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   const users = await User.query()
-    .select('id', 'email', 'name', 'user_role_id', 'created_at', 'updated_at')
+    .select(
+      'id',
+      'email',
+      'name',
+      'user_role_id',
+      'created_at',
+      'updated_at'
+      // 'googleid'
+    )
     .where('deleted_at', null);
   res.json(users);
 });

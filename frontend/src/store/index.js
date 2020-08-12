@@ -8,6 +8,11 @@ export default new Vuex.Store({
     stage: null,
     selectie: [],
   },
+  user: {
+    name: '',
+    user_id: null,
+    user_type_id: null,
+  },
   getters: {
     countSelectie: (state) => {
       return state.selectie.length;

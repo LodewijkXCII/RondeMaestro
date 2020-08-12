@@ -48,12 +48,9 @@
             v-model="team"
             @change="searchRidersTeam($event)"
           >
-          <option
-            value=0
-            disabled
-            >
-            -
-          </option>
+            <option value="0" disabled>
+              -
+            </option>
             <option
               :value="team.team_id"
               v-for="team in teams"
@@ -126,6 +123,7 @@
 <script>
 import SelectedRiders from '@/components/SelectedRiders.vue';
 import axios from 'axios';
+import config from '@/utils/config';
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
@@ -174,16 +172,15 @@ export default {
     async searchRiders() {
       this.team = 0;
       const searchrider = await axios.get(
-        `https://rondemaestro-test.herokuapp.com/api/v1/cyclists?name=${this.name}`
+        `${config.DEV_URL}cyclists?name=${this.name}`
       );
       this.renners = searchrider.data.sort((a, b) =>
         a.race_number > b.race_number ? 1 : -1
       );
     },
     async searchRidersTeam(e) {
-      
       const searchrider = await axios.get(
-        `https://rondemaestro-test.herokuapp.com/api/v1/cyclists?team=${e.target.value}`
+        `${config.DEV_URL}cyclists?team=${e.target.value}`
       );
       this.renners = searchrider.data.sort((a, b) =>
         a.race_number > b.race_number ? 1 : -1
@@ -192,42 +189,42 @@ export default {
   },
 
   async created() {
-    const activeUser = window.localStorage.getItem('user_id');
+    const activeUser = JSON.parse(window.localStorage.getItem('user'));
     this.removeAll();
 
-    
-        const cyclists = await axios.get('https://rondemaestro-test.herokuapp.com/api/v1/cyclists');
-        this.renners = cyclists.data.sort((a, b) => a.race_number > b.race_number ?1 :-1);
-        this.teams = [
-            ...new Map(
-              cyclists.data.map((item) => [
-                item['team_name'],
-                {
-                  team_name: item.team_name,
-                  team_id: item.team_id,
-                  team_img: item.team_img,
-                },
-              ])
-            ).values(),
-          ];
+    const cyclists = await axios.get(`${config.DEV_URL}cyclists`);
+    this.renners = cyclists.data.sort((a, b) =>
+      a.race_number > b.race_number ? 1 : -1
+    );
+    this.teams = [
+      ...new Map(
+        cyclists.data.map((item) => [
+          item['team_name'],
+          {
+            team_name: item.team_name,
+            team_id: item.team_id,
+            team_img: item.team_img,
+          },
+        ])
+      ).values(),
+    ];
 
+    const stage = await axios.get(
+      `${config.DEV_URL}stages/${this.$route.params.etappeID}`
+    );
+    this.etappe = stage.data;
+    this.toEtappe(stage.data.id);
 
-        const stage = await axios.get(
-          `https://rondemaestro-test.herokuapp.com/api/v1/stages/${this.$route.params.etappeID}`
-        );
-          this.etappe = stage.data;
-          this.toEtappe(stage.data.id);
-
-        if(activeUser){
-          const entries = await axios.get(
-            `https://rondemaestro-test.herokuapp.com/api/v1/entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
-          )
-          if (entries) {
-            entries.data.forEach((cyclist) => {
-              this.addToSelectie(cyclist);
-            });
-          }
-        }
+    if (activeUser) {
+      const entries = await axios.get(
+        `${config.DEV_URL}entries?users_id=${activeUser.id}&stage_id=${this.$route.params.etappeID}`
+      );
+      if (entries) {
+        entries.data.forEach((cyclist) => {
+          this.addToSelectie(cyclist);
+        });
+      }
+    }
   },
 };
 </script>
@@ -278,9 +275,6 @@ label {
     background: white;
     padding: 0.5em 0.2em;
 
-    &:nth-child(6n) {
-      margin-bottom: 1rem;
-    }
     &__img {
       margin: 0.5em auto;
 
@@ -298,6 +292,12 @@ label {
         display: flex;
         &--number {
           margin-right: 0.5em;
+          h3 {
+            margin: 0;
+          }
+        }
+        &--flag {
+          align-self: center;
         }
       }
       &--name {
@@ -326,6 +326,15 @@ label {
     &:hover {
       cursor: pointer;
     }
+    &:nth-child(6n) {
+      margin-bottom: 1rem;
+    }
+    &:active {
+      transform: scale(0.98);
+      /* Scaling button to 0.98 to its original size */
+      box-shadow: 2px 1px 11px 1px rgba(0, 0, 0, 0.24);
+      /* Lowering the shadow */
+    }
 
     &.withdraw {
       cursor: default;
@@ -353,8 +362,13 @@ label {
 /* Desktops and laptops ----------- */
 @media only screen and (min-width: 1224px) {
   .renners {
-   grid-template-columns: repeat(2, 1fr);
-   column-gap: .8rem;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 0.8rem;
+    .renner {
+      &:nth-child(6n) {
+        margin-bottom: 0rem;
+      }
+    }
   }
 }
 </style>
