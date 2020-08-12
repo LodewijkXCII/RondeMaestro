@@ -173,7 +173,7 @@ export default {
         };
         this.sigingUp = true;
 
-        fetch(`${config.DEV_URL}auth/signup`, {
+        fetch(`${config.PROD_URL}auth/signup`, {
           method: 'POST',
           body: JSON.stringify(body),
           headers: {

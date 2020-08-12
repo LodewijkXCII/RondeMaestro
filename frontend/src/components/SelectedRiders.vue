@@ -84,13 +84,13 @@ export default {
         this.sendButton = 'Versturen...';
         await axios
           .get(
-            `${config.DEV_URL}entries?users_id=${activeUser.id}&stage_id=${this.$route.params.etappeID}`
+            `${config.PROD_URL}entries?users_id=${activeUser.id}&stage_id=${this.$route.params.etappeID}`
           )
           .then((response) => {
             // console.log(response.data);
             response.data.forEach((selected) => {
               axios.put(
-                `${config.DEV_URL}entries?users_id=2&stage_id=${this.$route.params.etappeID}`,
+                `${config.PROD_URL}entries?users_id=2&stage_id=${this.$route.params.etappeID}`,
                 {
                   users_id: +activeUser.id,
                   stage_id: this.stage,
@@ -102,7 +102,7 @@ export default {
 
         await this.selectie.forEach((renner) => {
           axios
-            .post(`${config.DEV_URL}entries`, {
+            .post(`${config.PROD_URL}entries`, {
               users_id: +activeUser.id,
               stage_id: this.stage,
               cyclist_id: renner.cyclist_id,

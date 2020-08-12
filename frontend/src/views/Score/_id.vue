@@ -111,15 +111,15 @@ export default {
     };
     axios
       .all([
-        // axios.get(`${config.DEV_URL}results/${this.$route.params.etappeID}`, {
+        // axios.get(`${config.PROD_URL}results/${this.$route.params.etappeID}`, {
         //   params: { user_id: +activeUser.id },
         // }),
-        axios.get(`${config.DEV_URL}results/score/`, {
+        axios.get(`${config.PROD_URL}results/score/`, {
           params: { user_id: 13 },
         }),
-        axios.get(`${config.DEV_URL}stages/${this.$route.params.etappeID}`),
+        axios.get(`${config.PROD_URL}stages/${this.$route.params.etappeID}`),
         axios.get(
-          `${config.DEV_URL}results?stage_id=${this.$route.params.etappeID}`
+          `${config.PROD_URL}results?stage_id=${this.$route.params.etappeID}`
         ),
       ])
       .then(

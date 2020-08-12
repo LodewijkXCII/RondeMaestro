@@ -51,7 +51,7 @@ export default {
     };
   },
   created() {
-    fetch(`${config.DEV_URL}stages?race=2`)
+    fetch(`${config.PROD_URL}stages?race=2`)
       .then((response) => response.json())
       .then((result) => {
         this.etappes = result;

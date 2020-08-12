@@ -44,7 +44,7 @@ export default {
     };
   },
   created() {
-    axios.get(`${config.DEV_URL}stages?race=2`).then((etappes) => {
+    axios.get(`${config.PROD_URL}stages?race=2`).then((etappes) => {
       this.etappes = etappes.data;
     });
   },

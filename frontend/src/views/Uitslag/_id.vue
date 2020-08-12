@@ -32,8 +32,8 @@
 import axios from 'axios';
 import config from '@/utils/config';
 
-const URL_CYCLIST = `${config.DEV_URL}cyclists?startlist=true`;
-const URL_RESULT = `${config.DEV_URL}results`;
+const URL_CYCLIST = `${config.PROD_URL}cyclists?startlist=true`;
+const URL_RESULT = `${config.PROD_URL}results`;
 
 export default {
   data() {

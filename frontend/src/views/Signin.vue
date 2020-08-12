@@ -78,7 +78,7 @@ export default {
 
       try {
         axios
-          .post(`${config.DEV_URL}auth/signin`, data, axiosHeaders)
+          .post(`${config.PROD_URL}auth/signin`, data, axiosHeaders)
 
           .then((response) => {
             if (response.status == 200) {

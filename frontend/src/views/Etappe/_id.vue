@@ -44,7 +44,7 @@ export default {
     };
   },
   created() {
-    fetch(`${config.DEV_URL}stages/${this.$route.params.etappeID}`)
+    fetch(`${config.PROD_URL}stages/${this.$route.params.etappeID}`)
       .then((response) => response.json())
       .then((result) => {
         this.etappe = result;
