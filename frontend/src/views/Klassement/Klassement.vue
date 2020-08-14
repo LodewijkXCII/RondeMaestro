@@ -1,10 +1,14 @@
 <template>
   <section>
-    <router-link :to="{ name: 'algemeen-klassement' }">
-      <h1>
-        Algemeen klassement
-        <img src="@/assets/icons/chevrons-right.svg" alt="edit" />
-      </h1>
+    <h1>
+      Klassement per etappe
+    </h1>
+    <router-link
+      :to="{ name: 'algemeen-klassement' }"
+      class="btn btn-alert"
+      style="margin: 2rem 0"
+    >
+      Ga naar het algemene klassement
     </router-link>
 
     <h2>Etappe Overzicht</h2>
@@ -51,7 +55,7 @@ export default {
     };
   },
   created() {
-    fetch(`${config.PROD_URL}stages?race=2`)
+    fetch(`${config.DEV_URL}stages?race=1`)
       .then((response) => response.json())
       .then((result) => {
         this.etappes = result;
@@ -67,7 +71,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .rmTable__header,
 .rmTable__body {
   display: grid;

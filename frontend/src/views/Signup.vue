@@ -4,13 +4,7 @@
     <div v-if="errorMessage" role="alert">
       {{ errorMessage }}
     </div>
-    <!-- <GoogleLogin
-      :params="params"
-      :renderParams="renderParams"
-      :onSuccess="onSuccess"
-      :onFailure="onFailure"
-    ></GoogleLogin> -->
-    <button @click.prevent="GoogleLogin">Google</button>
+
     <form @submit.prevent="signup()">
       <label for="name">Gebruikersnaam:</label>
       <input v-model="user.name" type="name" name="name" id="name" required />
@@ -51,7 +45,6 @@
 import * as yup from 'yup';
 import axios from 'axios';
 import config from '@/utils/config';
-import GoogleLogin from 'vue-google-login';
 
 const schema = yup.object().shape({
   name: yup
@@ -85,10 +78,6 @@ const schema = yup.object().shape({
 });
 
 export default {
-  components: {
-    GoogleLogin,
-  },
-
   data() {
     return {
       errorMessage: '',
@@ -99,16 +88,6 @@ export default {
         password: '',
         confirmPassword: '',
       },
-      // params: {
-      //   client_id:
-      //     '441260892947-0v6crtbd381n83d9r54k59ob4m586496.apps.googleusercontent.com',
-      // },
-      // // only needed if you want to render the button with the google ui
-      // renderParams: {
-      //   width: 250,
-      //   height: 50,
-      //   longtitle: true,
-      // },
     };
   },
   watch: {
@@ -120,48 +99,6 @@ export default {
     },
   },
   methods: {
-    googleSignup() {
-      this.errorMessage = '';
-    },
-    GoogleLogin() {
-      // const axiosHeaders = {
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //     'Access-Control-Allow-Origin': '*',
-      //   },
-      // };
-      // axios
-      //   .get('http://localhost:1992/api/v1/auth/google', axiosHeaders)
-      fetch('http://localhost:1992/api/v1/auth/google', {
-        method: 'GET',
-        // credentials: 'include',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Credentials': true,
-          'Access-Control-Allow-Origin': '*',
-        },
-      })
-        .then((response) => {
-          console.log(response);
-          //   if (response.status === 200) return response.json();
-          //   throw new Error('failed to authenticate user');
-          // })
-          // .then((responseJson) => {
-          //   this.setState({
-          //     authenticated: true,
-          //     user: responseJson.user,
-          //   });
-        })
-        .catch((error) => {
-          console.log('errorhiero:', error.message);
-          // this.setState({
-          //   authenticated: false,
-          //   error: 'Failed to authenticate user',
-          // });
-        });
-    },
-
     signup() {
       this.errorMessage = '';
       if (this.validUser()) {
@@ -173,7 +110,7 @@ export default {
         };
         this.sigingUp = true;
 
-        fetch(`${config.PROD_URL}auth/signup`, {
+        fetch(`${config.DEV_URL}auth/signup`, {
           method: 'POST',
           body: JSON.stringify(body),
           headers: {
@@ -190,6 +127,8 @@ export default {
           })
           .then((result) => {
             localStorage.token = result.token;
+            localStorage.user = result.user.name;
+            localStorage.user_id = result.user.id;
             setTimeout(() => {
               this.sigingIn = false;
               this.$router.push('/dashboard');

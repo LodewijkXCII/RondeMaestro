@@ -145,7 +145,7 @@ router.beforeEach((to, from, next) => {
         query: { nextUrl: to.fullPath },
       });
     } else {
-      let user = JSON.parse(localStorage.getItem('user'));
+      let user = localStorage.getItem('user');
       // if (to.matched.some((record) => record.meta.is_admin)) {
       //   if (user.is_admin == 1) {
       //     next();

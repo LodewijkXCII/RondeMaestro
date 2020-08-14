@@ -10,6 +10,14 @@
       repellat autem magnam officiis dolorem necessitatibus id nesciunt ipsa
       impedit! Natus.
     </p>
+
+    <router-link
+      :to="{ name: 'Dashboard' }"
+      role="button"
+      v-if="loggedIn == true"
+    >
+      Ga naar het Dashboard
+    </router-link>
     <!-- <div class="bottom-links">
       <router-link :to="{ name: 'Signup' }" role="button">
         Inschrijven
@@ -24,7 +32,18 @@
 <script>
 export default {
   name: 'Home',
+  data() {
+    return {
+      loggedIn: false,
+    };
+  },
   components: {},
+  mounted() {
+    const user = window.localStorage.user;
+    if (user) {
+      this.loggedIn = true;
+    }
+  },
 };
 </script>
 

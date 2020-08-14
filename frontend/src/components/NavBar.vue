@@ -5,7 +5,7 @@
     </router-link>
     <div class="rightNav">
       <div class="rightNav__user" v-if="loggedIn">
-        <div class="rightNav__user--username">{{ username.name }}</div>
+        <div class="rightNav__user--username">{{ username }}</div>
         <div class="rightNav__user--logout" @click="logout">
           Logout
         </div>
@@ -41,8 +41,8 @@ export default {
     },
   },
   mounted() {
-    this.username = JSON.parse(window.localStorage.getItem('user'));
-    if (this.username.name) {
+    this.username = window.localStorage.user;
+    if (this.username) {
       this.loggedIn = true;
     }
   },

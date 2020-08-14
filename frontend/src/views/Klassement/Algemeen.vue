@@ -41,7 +41,7 @@ export default {
     };
   },
   created() {
-    axios.get(`${config.PROD_URL}results/totalscore`).then((result) => {
+    axios.get(`${config.DEV_URL}results/totalscore`).then((result) => {
       this.scores = result.data.sort((a, b) => (a.sum < b.sum ? 1 : -1));
     });
   },

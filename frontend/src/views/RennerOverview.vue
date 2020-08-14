@@ -172,7 +172,7 @@ export default {
     async searchRiders() {
       this.team = 0;
       const searchrider = await axios.get(
-        `${config.PROD_URL}cyclists?name=${this.name}`
+        `${config.DEV_URL}cyclists?name=${this.name}`
       );
       this.renners = searchrider.data.sort((a, b) =>
         a.race_number > b.race_number ? 1 : -1
@@ -180,7 +180,7 @@ export default {
     },
     async searchRidersTeam(e) {
       const searchrider = await axios.get(
-        `${config.PROD_URL}cyclists?team=${e.target.value}`
+        `${config.DEV_URL}cyclists?team=${e.target.value}`
       );
       this.renners = searchrider.data.sort((a, b) =>
         a.race_number > b.race_number ? 1 : -1
@@ -189,10 +189,10 @@ export default {
   },
 
   async created() {
-    const activeUser = JSON.parse(window.localStorage.getItem('user'));
+    const activeUser = window.localStorage.user_id;
     this.removeAll();
 
-    const cyclists = await axios.get(`${config.PROD_URL}cyclists`);
+    const cyclists = await axios.get(`${config.DEV_URL}cyclists`);
     this.renners = cyclists.data.sort((a, b) =>
       a.race_number > b.race_number ? 1 : -1
     );
@@ -210,14 +210,14 @@ export default {
     ];
 
     const stage = await axios.get(
-      `${config.PROD_URL}stages/${this.$route.params.etappeID}`
+      `${config.DEV_URL}stages/${this.$route.params.etappeID}`
     );
     this.etappe = stage.data;
     this.toEtappe(stage.data.id);
 
     if (activeUser) {
       const entries = await axios.get(
-        `${config.PROD_URL}entries?users_id=${activeUser.id}&stage_id=${this.$route.params.etappeID}`
+        `${config.DEV_URL}entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
       );
       if (entries) {
         entries.data.forEach((cyclist) => {

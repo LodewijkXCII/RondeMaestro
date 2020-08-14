@@ -77,23 +77,22 @@ export default {
     },
 
     async submitSelectie() {
-      const activeUser = JSON.parse(window.localStorage.getItem('user'));
+      const activeUser = window.localStorage.user_id;
       if (this.countSelectie !== 8) {
         window.alert('Er zijn er geen 8 ingevuld');
       } else {
         this.sendButton = 'Versturen...';
         await axios
           .get(
-            `${config.PROD_URL}entries?users_id=${activeUser.id}&stage_id=${this.$route.params.etappeID}`
+            `${config.DEV_URL}entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
           )
           .then((response) => {
-            // console.log(response.data);
             response.data.forEach((selected) => {
               axios.put(
-                `${config.PROD_URL}entries?users_id=2&stage_id=${this.$route.params.etappeID}`,
+                `${config.DEV_URL}entries?users_id=${this.activeUser}&stage_id=${this.$route.params.etappeID}`,
                 {
-                  users_id: +activeUser.id,
-                  stage_id: this.stage,
+                  users_id: +activeUser,
+                  stage_id: this.$route.params.etappeID,
                   cyclist_id: selected.cyclist_id,
                 }
               );
@@ -102,9 +101,9 @@ export default {
 
         await this.selectie.forEach((renner) => {
           axios
-            .post(`${config.PROD_URL}entries`, {
-              users_id: +activeUser.id,
-              stage_id: this.stage,
+            .post(`${config.DEV_URL}entries`, {
+              users_id: +activeUser,
+              stage_id: 2,
               cyclist_id: renner.cyclist_id,
             })
             .then((response) => {

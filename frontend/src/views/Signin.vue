@@ -78,22 +78,25 @@ export default {
 
       try {
         axios
-          .post(`${config.PROD_URL}auth/signin`, data, axiosHeaders)
+          .post(`${config.DEV_URL}auth/signin`, data, axiosHeaders)
 
           .then((response) => {
             if (response.status == 200) {
               localStorage.token = response.data.token;
-              localStorage.user = JSON.stringify(response.data.user);
+              localStorage.user = response.data.user.name;
+              localStorage.user_id = response.data.user.id;
 
-              setTimeout(() => {
-                this.logginIn = false;
-                this.$router.push('/dashboard');
-              }, 1000);
+              this.logginIn = false;
+              this.$router.push('/dashboard');
+            } else {
+              return response.data.then((error) => {
+                throw new Error(error.message);
+              });
             }
+          })
+          .catch((error) => {
+            console.log(error);
           });
-        return response.data.then((error) => {
-          throw new Error(error.message);
-        });
       } catch (error) {
         console.error(error);
       }

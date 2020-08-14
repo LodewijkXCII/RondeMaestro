@@ -42,7 +42,7 @@ export default {
     };
   },
   created() {
-    fetch(`${config.PROD_URL}stages?race=2`)
+    fetch(`${config.DEV_URL}stages?race=1`)
       .then((response) => response.json())
       .then((result) => {
         this.etappes = result;
