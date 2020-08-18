@@ -117,6 +117,7 @@ export default {
           data: JSON.stringify(body),
           headers: {
             'content-type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
           },
         })
           .then((response) => {
