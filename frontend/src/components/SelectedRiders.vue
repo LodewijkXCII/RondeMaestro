@@ -51,6 +51,7 @@ export default {
       ShowSelectie: false,
       error: false,
       sendButton: 'Verstuur',
+      toMuch: false,
     };
   },
   computed: {
@@ -137,15 +138,15 @@ export default {
   box-shadow: 0 0 15px 1px $primary-color;
 
   &__top {
-    &.error {
-      color: $alert-color;
-    }
     h4 {
       font-size: 0.9rem;
       text-align: center;
       position: relative;
       margin: 0.5rem 0;
       cursor: pointer;
+      &.error {
+        color: $alert-color;
+      }
 
       &::before {
         content: '';

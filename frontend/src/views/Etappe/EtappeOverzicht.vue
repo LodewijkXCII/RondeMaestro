@@ -96,6 +96,11 @@ export default {
     padding-bottom: 0.2rem;
     margin-bottom: 0.1rem;
     padding: 0 0.25rem;
+
+    &--distance,
+    &--date {
+      text-align: center;
+    }
   }
 
   &__body {

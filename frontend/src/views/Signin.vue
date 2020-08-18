@@ -68,7 +68,7 @@ export default {
       };
       const axiosHeaders = {
         headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
+          'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*',
         },
       };
@@ -78,8 +78,11 @@ export default {
 
       try {
         axios
-          .post(`${config.DEV_URL}auth/signin`, data, axiosHeaders)
-
+          // .post(`${config.DEV_URL}auth/signin`, data, axiosHeaders)
+          .post(`${config.DEV_URL}auth/signin`, {
+            email: this.user.email,
+            password: this.user.password,
+          })
           .then((response) => {
             if (response.status == 200) {
               localStorage.token = response.data.token;

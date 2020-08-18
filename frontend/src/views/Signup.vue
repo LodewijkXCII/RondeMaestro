@@ -109,37 +109,55 @@ export default {
           password: this.user.password,
         };
         this.sigingUp = true;
+        // url: `${config.DEV_URL}auth/signup`,
 
-        fetch(`${config.DEV_URL}auth/signup`, {
-          method: 'POST',
-          body: JSON.stringify(body),
+        axios({
+          method: 'post',
+          url: `http://localhost:1992/api/v1/auth/signup`,
+          data: JSON.stringify(body),
           headers: {
             'content-type': 'application/json',
           },
         })
           .then((response) => {
-            if (response.ok) {
-              return response.json();
-            }
-            return response.json().then((error) => {
-              throw new Error(error);
-            });
-          })
-          .then((result) => {
-            localStorage.token = result.token;
-            localStorage.user = result.user.name;
-            localStorage.user_id = result.user.id;
-            setTimeout(() => {
-              this.sigingIn = false;
-              this.$router.push('/dashboard');
-            }, 1000);
+            console.log(response.data);
           })
           .catch((error) => {
-            setTimeout(() => {
-              this.sigingIn = false;
-              this.errorMessage = error;
-            }, 1000);
+            console.log(error);
           });
+
+        // fetch(`${config.DEV_URL}auth/signup`, {
+        //   method: 'POST',
+        //   body: JSON.stringify(body),
+        //   headers: {
+        //     'content-type': 'application/json',
+        //   },
+        // })
+        //   .then((response) => {
+        //     console.log(response.data);
+        //     if (response.ok) {
+        //       return response.json();
+        //     }
+        //     return response.json().then((error) => {
+        //       throw new Error(error);
+        //     });
+        //   })
+        //   .then((result) => {
+        //     localStorage.token = result.token;
+        //     localStorage.user = result.user.name;
+        //     localStorage.user_id = result.user.id;
+        //     setTimeout(() => {
+        //       this.sigingIn = false;
+        //       this.$router.push('/dashboard');
+        //     }, 1000);
+        //   })
+        //   .catch((error) => {
+        //     console.log('Gaat helemaal mis:', error);
+        //     setTimeout(() => {
+        //       this.sigingIn = false;
+        //       this.errorMessage = error;
+        //     }, 1000);
+        //   });
       }
     },
     validUser() {

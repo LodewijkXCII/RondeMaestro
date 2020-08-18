@@ -10,7 +10,7 @@
     <h1 v-if="etappe.name !== 'Klassiekers'">
       Kies je renners voor etappe {{ etappe.stage_nr }}
     </h1>
-    <h1 else>
+    <h1 v-else>
       Kies je renners voor {{ etappe.start_city }} - {{ etappe.finish_city }}
     </h1>
 
@@ -340,6 +340,11 @@ label {
       cursor: default;
       background: #f7f7f7;
       color: lightgray;
+
+      &:active {
+        transform: none;
+        box-shadow: none;
+      }
 
       img,
       span {

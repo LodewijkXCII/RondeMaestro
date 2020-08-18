@@ -17,7 +17,9 @@ app.use(compression());
 app.use(helmet());
 app.use(
   cors({
-    origin: 'http://localhost:8080',
+    // origin: 'http://localhost:8080',
+    // origin: 'https://rondemaestro-test.herokuapp.com/',
+    origin: 'https://rondemaestro.netlify.app/#/',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   })
 );
