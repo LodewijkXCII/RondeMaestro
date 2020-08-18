@@ -113,7 +113,7 @@ export default {
 
         axios({
           method: 'post',
-          url: `http://localhost:1992/api/v1/auth/signup`,
+          url: `${config.DEV_URL}auth/signup`,
           data: JSON.stringify(body),
           headers: {
             'content-type': 'application/json',
