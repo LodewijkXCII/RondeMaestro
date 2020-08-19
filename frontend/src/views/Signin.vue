@@ -109,11 +109,11 @@ export default {
       if (result.error === null) {
         return true;
       }
-      // if (result.error.message.includes('email')) {
-      //   this.errorMessage = 'Email adres verkeerd';
-      // } else {
-      //   this.errorMessage = 'Verkeerd wachtwoord';
-      // }
+      if (result.error.message.includes('email')) {
+        this.errorMessage = 'Email adres verkeerd';
+      } else {
+        this.errorMessage = 'Verkeerd wachtwoord';
+      }
       return false;
     },
   },

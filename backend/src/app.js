@@ -19,7 +19,7 @@ app.use(
   cors({
     // origin: 'http://localhost:8080',
     // origin: 'https://rondemaestro-test.herokuapp.com/',
-    origin: 'https://rondemaestro.netlify.app/',
+    origin: 'https://www.rondemaestro.com',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   })
 );

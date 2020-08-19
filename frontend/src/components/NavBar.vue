@@ -34,7 +34,8 @@ export default {
     logout() {
       let currentPath = this.$route.path;
       localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      localStorage.removeItem('user_name');
+      localStorage.removeItem('user_id');
       if (currentPath !== '/') {
         this.$router.go('/');
       }

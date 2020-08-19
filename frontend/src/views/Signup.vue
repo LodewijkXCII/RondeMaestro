@@ -116,15 +116,34 @@ export default {
           url: `${config.DEV_URL}auth/signup`,
           data: JSON.stringify(body),
           headers: {
-            'content-type': 'application/json',
+            'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
           },
         })
           .then((response) => {
             console.log(response.data);
+            if (response.ok) {
+              return response.json();
+            }
+            return response.json().then((error) => {
+              throw new Error(error);
+            });
+          })
+          .then((result) => {
+            localStorage.token = result.token;
+            localStorage.user = result.user.name;
+            localStorage.user_id = result.user.id;
+            setTimeout(() => {
+              this.sigingIn = false;
+              this.$router.push('/dashboard');
+            }, 1000);
           })
           .catch((error) => {
-            console.log(error);
+            console.log('Gaat helemaal mis:', error);
+            setTimeout(() => {
+              this.sigingIn = false;
+              this.errorMessage = error;
+            }, 1000);
           });
 
         // fetch(`${config.DEV_URL}auth/signup`, {
@@ -143,22 +162,7 @@ export default {
         //       throw new Error(error);
         //     });
         //   })
-        //   .then((result) => {
-        //     localStorage.token = result.token;
-        //     localStorage.user = result.user.name;
-        //     localStorage.user_id = result.user.id;
-        //     setTimeout(() => {
-        //       this.sigingIn = false;
-        //       this.$router.push('/dashboard');
-        //     }, 1000);
-        //   })
-        //   .catch((error) => {
-        //     console.log('Gaat helemaal mis:', error);
-        //     setTimeout(() => {
-        //       this.sigingIn = false;
-        //       this.errorMessage = error;
-        //     }, 1000);
-        //   });
+        //
       }
     },
     validUser() {
