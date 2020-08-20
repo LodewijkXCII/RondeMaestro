@@ -192,7 +192,8 @@ export default {
     const activeUser = window.localStorage.user_id;
     this.removeAll();
 
-    const cyclists = await axios.get(`${config.DEV_URL}cyclists`);
+    // const cyclists = await axios.get(`${config.DEV_URL}cyclists`);
+    const cyclists = await axios.get(`http://localhost:1992/api/v1/cyclists`);
     this.renners = cyclists.data.sort((a, b) =>
       a.race_number > b.race_number ? 1 : -1
     );

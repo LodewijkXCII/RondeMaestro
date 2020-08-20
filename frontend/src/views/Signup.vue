@@ -16,22 +16,36 @@
         id="email"
         required
       />
-      <label for="password">Wachtwoord:</label>
-      <input
-        v-model="user.password"
-        type="password"
-        name="password"
-        id="password"
-        required
-      />
-      <label for="confirmPassword">Herhaal wachtwoord:</label>
-      <input
-        v-model="user.confirmPassword"
-        type="password"
-        name="confirmPassword"
-        id="confirmPassword"
-        required
-      />
+      <div class="password">
+        <div class="password__input">
+          <label for="password">Wachtwoord:</label>
+          <input
+            v-model="user.password"
+            type="password"
+            name="password"
+            id="password"
+            required
+          />
+          <label for="confirmPassword">Herhaal wachtwoord:</label>
+          <input
+            v-model="user.confirmPassword"
+            type="password"
+            name="confirmPassword"
+            id="confirmPassword"
+            required
+          />
+        </div>
+        <div class="password__rules">
+          <small>
+            Wachtwoord moet bestaan uit
+            <ul>
+              <li>Minimaal 8 karakters</li>
+              <li>Minimaal 1 hoofdletter</li>
+              <li>Minimaal 1 speciaal teken</li>
+            </ul>
+          </small>
+        </div>
+      </div>
       <button class="btn btn-primary" type="submit">Aanmelden</button>
     </form>
     <small
@@ -166,20 +180,44 @@ export default {
       }
     },
     validUser() {
-      //TODO kijken naar validatie!
       if (this.user.password !== this.user.confirmPassword) {
         this.errorMessage = 'Wachtwoorden zijn niet gelijk 🚴🏽‍♂️';
         return false;
       }
-      const result = schema.validate(this.user, schema);
-      if (result.error === null) {
-        return true;
-      }
-
+      const result = schema
+        .validate(this.user, schema)
+        .then((result) => {
+          console.log('Gelukt:', result);
+          return true;
+        })
+        .catch((error) => {
+          console.log('Mislukt:', error);
+          if (error.message.includes('email')) {
+            this.errorMessage = 'Email adres verkeerd';
+          } else {
+            this.errorMessage = 'Verkeerd wachtwoord';
+          }
+        });
       return true;
     },
   },
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.password {
+  display: grid;
+
+  &__rules {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+}
+
+@media only screen and (min-width: 1224px) {
+  .password {
+    grid-template-columns: 3fr 1fr;
+  }
+}
+</style>

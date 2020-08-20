@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>Login</h1>
+    <h3 v-if="errorMessage">{{ errorMessage }}</h3>
     <form @submit.prevent="login()">
       <label for="email">Email:</label>
       <input
@@ -73,48 +74,63 @@ export default {
         },
       };
       this.errorMessage = '';
-      // if (this.validUser()) {
-      //   this.logginIn = true;
+      if (this.validUser()) {
+        this.logginIn = true;
 
-      try {
-        axios
-          // .post(`${config.DEV_URL}auth/signin`, data, axiosHeaders)
-          .post(`${config.DEV_URL}auth/signin`, {
-            email: this.user.email,
-            password: this.user.password,
-          })
-          .then((response) => {
-            if (response.status == 200) {
-              localStorage.token = response.data.token;
-              localStorage.user = response.data.user.name;
-              localStorage.user_id = response.data.user.id;
+        try {
+          axios
+            .post(`${config.DEV_URL}auth/signin`, {
+              email: this.user.email,
+              password: this.user.password,
+            })
+            .then((response) => {
+              if (response.status == 200) {
+                localStorage.token = response.data.token;
+                localStorage.user = response.data.user.name;
+                localStorage.user_id = response.data.user.id;
 
-              this.logginIn = false;
-              this.$router.push('/dashboard');
-            } else {
-              return response.data.then((error) => {
-                throw new Error(error.message);
-              });
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      } catch (error) {
-        console.error(error);
+                this.logginIn = false;
+                this.$router.push('/dashboard');
+              } else {
+                return response.data.then((error) => {
+                  throw new Error(error.message);
+                });
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        } catch (error) {
+          console.error(error);
+        }
       }
     },
     validUser() {
-      const result = schema.validate(this.user, schema);
-      if (result.error === null) {
-        return true;
-      }
-      if (result.error.message.includes('email')) {
-        this.errorMessage = 'Email adres verkeerd';
-      } else {
-        this.errorMessage = 'Verkeerd wachtwoord';
-      }
-      return false;
+      const result = schema
+        .validate(this.user, schema)
+        // .then((result) => {
+        //   console.log('Gelukt:', result);
+        //   result;
+        // })
+        .catch((error) => {
+          console.log('Mislukt:', error);
+          if (error.message.includes('email')) {
+            this.errorMessage = 'Email adres verkeerd';
+          } else {
+            this.errorMessage = 'Verkeerd wachtwoord';
+          }
+          return false;
+        });
+      return true;
+      // if (result.error === null) {
+      //   return true;
+      // }
+      // if (result) {
+      //   console.log('Gekkig');
+      // }
+      // console.log(result);
+
+      // console.log(result);
     },
   },
 };

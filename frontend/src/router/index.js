@@ -14,6 +14,7 @@ import ScoreSingle from '../views/Score/_id.vue';
 import Klassement from '../views/Klassement/Klassement.vue';
 import AlgKlassement from '../views/Klassement/Algemeen.vue';
 import KlassementSingle from '../views/Klassement/_id.vue';
+import Startlist from '../views/Startlist/Startlist.vue';
 
 // import { isLoggedIn } from '../utils/auth';
 
@@ -129,6 +130,14 @@ const routes = [
     component: KlassementSingle,
     meta: {
       requiresAuth: true,
+    },
+  },
+  {
+    path: '/startlist/',
+    name: 'startlist',
+    component: Startlist,
+    meta: {
+      requiresAuth: false,
     },
   },
 ];
