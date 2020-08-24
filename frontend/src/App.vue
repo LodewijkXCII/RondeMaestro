@@ -9,8 +9,8 @@
 </template>
 
 <script>
-import NavBar from '@/components/NavBar.vue';
-import BottomNav from '@/components/BottomNav.vue';
+import NavBar from "@/components/NavBar.vue";
+import BottomNav from "@/components/BottomNav.vue";
 
 export default {
   components: {
@@ -24,14 +24,14 @@ export default {
 
   computed: {
     isHome() {
-      return this.$route.name === 'Home';
+      return this.$route.name === "Home";
     },
   },
 };
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 
 * {
   box-sizing: border-box;
@@ -39,7 +39,7 @@ export default {
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 0.8125rem;
   margin: 0;
   padding: 1.2em;
@@ -51,6 +51,11 @@ body {
   padding: 2em 0.5em;
   max-width: 350px;
   margin-bottom: 8em;
+  img {
+    width: 100%;
+    height: auto;
+    margin-bottom: 2rem;
+  }
 }
 
 /* Desktops and laptops ----------- */

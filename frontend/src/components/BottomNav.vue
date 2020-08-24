@@ -3,30 +3,28 @@
     <div class="bottomNav">
       <div class="bottomNav__navItem">
         <router-link :to="{ name: 'etappe-overzicht' }">
-          <img src="@/assets/icons/route-solid.svg" alt="" />
+          <font-awesome-icon icon="route" size="lg" />
           Etappes</router-link
         >
       </div>
       <div class="bottomNav__navItem">
         <router-link :to="{ name: 'klassement' }">
+          <font-awesome-icon icon="list-ul" size="lg" />
+
           Klassement
         </router-link>
       </div>
       <div class="bottomNav__navItem">
-        <router-link :to="{ name: 'Score' }"
-          ><img
-            src="@/assets/icons/trophy-solid.svg"
-            alt=""
-          />Score</router-link
-        >
+        <router-link :to="{ name: 'Score' }">
+          <font-awesome-icon icon="trophy" size="lg" />
+          Score
+        </router-link>
       </div>
       <div class="bottomNav__navItem">
-        <router-link :to="{ name: 'Dashboard' }"
-          ><img
-            src="@/assets/icons/dashboard-24px.svg"
-            alt=""
-          />Dashboard</router-link
-        >
+        <router-link :to="{ name: 'Dashboard' }">
+          <font-awesome-icon icon="th-large" size="lg" />
+          Dashboard
+        </router-link>
       </div>
     </div>
   </section>
@@ -37,7 +35,7 @@ export default {};
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 
 .bottomnavi {
   position: fixed;
@@ -69,9 +67,11 @@ export default {};
         color: $white-color;
         display: flex;
         flex-direction: column;
+        justify-items: center;
+        align-items: center;
 
-        img {
-          margin-bottom: 0.2rem;
+        svg {
+          margin-bottom: 0.25rem;
           height: 20px;
         }
       }
