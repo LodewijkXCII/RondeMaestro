@@ -49,7 +49,7 @@ body {
 //CONFIG//
 .container {
   padding: 2em 0.5em;
-  max-width: 350px;
+  // max-width: 350px;
   margin-bottom: 8em;
   img {
     width: 100%;

@@ -1,7 +1,10 @@
 <template>
   <nav>
-    <router-link :to="{ name: 'Home' }">
+    <router-link :to="{ name: 'Home' }" class="brand">
       <img :src="require('@/assets/logo.png')" />
+      <span>
+        RondeMaestro
+      </span>
     </router-link>
     <div class="rightNav">
       <div class="rightNav__user" v-if="loggedIn">
@@ -27,17 +30,17 @@ export default {
   data() {
     return {
       loggedIn: false,
-      username: '',
+      username: "",
     };
   },
   methods: {
     logout() {
       let currentPath = this.$route.path;
-      localStorage.removeItem('token');
-      localStorage.removeItem('user_name');
-      localStorage.removeItem('user_id');
-      if (currentPath !== '/') {
-        this.$router.go('/');
+      localStorage.removeItem("token");
+      localStorage.removeItem("user_name");
+      localStorage.removeItem("user_id");
+      if (currentPath !== "/") {
+        this.$router.go("/");
       }
     },
   },
@@ -51,13 +54,22 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 
 nav {
   border-bottom: 2px solid $primary-color;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  .brand {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    span {
+      display: none;
+    }
+  }
 
   img {
     width: 75px;
@@ -81,6 +93,15 @@ nav {
     &__sign {
       &--nav-link {
         margin: 0 0.5rem;
+      }
+    }
+  }
+}
+@media only screen and (min-width: 1224px) {
+  nav {
+    .brand {
+      span {
+        display: initial;
       }
     }
   }

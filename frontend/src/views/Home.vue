@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section>
     <img
       src="@/assets/img/howard-bouchevereau-cOfR4XmEzd8-unsplash.jpg"
       alt="RondeMaestro topimage"
@@ -35,49 +35,34 @@
 
     <h2>Beta testing</h2>
     <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde enim
-      praesentium atque quas iusto, iste nam possimus, esse debitis libero nihil
-      cum aliquid quisquam vel impedit beatae aliquam eaque ea dignissimos
-      accusantium voluptas officia illo provident? Soluta harum, nulla ipsum
-      quidem velit ea et reiciendis. Ipsa, officiis! Iste quasi impedit, vitae
-      velit, aspernatur, amet voluptas quia aliquid corrupti provident ducimus?
+      Op dit moment is RondeMaestro nog in volle ontwikkeling. Echter hebben we
+      de feedback van de gebruikers nodig om nog aanpassingen door te kunnen
+      voeren om een nog beter spel te kunnen maken.
     </p>
-
-    <h2>Puntentelling</h2>
-    <p>De Puntentelling is als volgt:</p>
-    <ol>
-      <li>100 pnt</li>
-      <li>80 pnt</li>
-      <li>63 pnt</li>
-      <li>50 pnt</li>
-      <li>41 pnt</li>
-      <li>34 pnt</li>
-      <li>29 pnt</li>
-      <li>24 pnt</li>
-      <li>19 pnt</li>
-      <li>15 pnt</li>
-      <li>12 pnt</li>
-      <li>9 pnt</li>
-      <li>7 pnt</li>
-      <li>6 pnt</li>
-      <li>5 pnt</li>
-    </ol>
+    <p>
+      We vragen je dan ook mild te zijn met de opmerkingen wanneer iets niet
+      werkt op de manier zoals je dat zelf verwacht.
+    </p>
+    <router-link
+      :to="{ name: 'Spelregels' }"
+      role="button"
+      class="btn btn-danger"
+    >
+      Spelregels
+    </router-link>
     <router-link
       :to="{ name: 'Dashboard' }"
       role="button"
       v-if="loggedIn == true"
+      class="btn btn-primary"
     >
       Ga naar het Dashboard
     </router-link>
-    <!-- <div class="bottom-links">
-      <router-link :to="{ name: 'Signup' }" role="button">
-        Inschrijven
-      </router-link>
-      <router-link :to="{ name: 'Signin' }" role="button">
-        Aanmelden
-      </router-link>
-    </div> -->
-  </div>
+
+    <footer>
+      <h2>&copy; RondeMaestro - 2020</h2>
+    </footer>
+  </section>
 </template>
 
 <script>
@@ -114,5 +99,13 @@ export default {
   a {
     color: $white-color;
   }
+}
+
+footer {
+  margin-top: 3rem;
+  border-top: 2px solid $primary-color;
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 0.9rem;
 }
 </style>
