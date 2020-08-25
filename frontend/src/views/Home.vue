@@ -3,6 +3,7 @@
     <img
       src="@/assets/img/howard-bouchevereau-cOfR4XmEzd8-unsplash.jpg"
       alt="RondeMaestro topimage"
+      class="headerImage"
     />
     <h1>Welkom bij RondeMaestro</h1>
     <h2>Het wielerspel waarbij je dagelijks dezelfde kansen hebt!</h2>
@@ -43,21 +44,13 @@
       We vragen je dan ook mild te zijn met de opmerkingen wanneer iets niet
       werkt op de manier zoals je dat zelf verwacht.
     </p>
-    <router-link
-      :to="{ name: 'Spelregels' }"
-      role="button"
-      class="btn btn-danger"
-    >
-      Spelregels
-    </router-link>
+    <router-link :to="{ name: 'Spelregels' }" role="button" class="btn btn-danger">Spelregels</router-link>
     <router-link
       :to="{ name: 'Dashboard' }"
       role="button"
       v-if="loggedIn == true"
       class="btn btn-primary"
-    >
-      Ga naar het Dashboard
-    </router-link>
+    >Ga naar het Dashboard</router-link>
 
     <footer>
       <h2>&copy; RondeMaestro - 2020</h2>

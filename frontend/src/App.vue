@@ -51,7 +51,7 @@ body {
   padding: 2em 0.5em;
   // max-width: 350px;
   margin-bottom: 8em;
-  img {
+  .headerImage {
     width: 100%;
     height: auto;
     margin-bottom: 2rem;

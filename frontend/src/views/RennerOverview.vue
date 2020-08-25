@@ -7,12 +7,8 @@
         <span>Terug naar het etappe overzicht</span>
       </router-link>
     </section>
-    <h1 v-if="etappe.name !== 'Klassiekers'">
-      Kies je renners voor etappe {{ etappe.stage_nr }}
-    </h1>
-    <h1 v-else>
-      Kies je renners voor {{ etappe.start_city }} - {{ etappe.finish_city }}
-    </h1>
+    <h1 v-if="etappe.name !== 'Klassiekers'">Kies je renners voor etappe {{ etappe.stage_nr }}</h1>
+    <h1 v-else>Kies je renners voor {{ etappe.start_city }} - {{ etappe.finish_city }}</h1>
 
     <div class="etappeInfo">
       <div class="etappeInfo__left">
@@ -42,22 +38,13 @@
         <div class="half--block">
           <label for="team">Zoek op team:</label>
 
-          <select
-            name="team"
-            id="team"
-            v-model="team"
-            @change="searchRidersTeam($event)"
-          >
-            <option value="0" disabled>
-              -
-            </option>
+          <select name="team" id="team" v-model="team" @change="searchRidersTeam($event)">
+            <option value="0" disabled>-</option>
             <option
               :value="team.team_id"
               v-for="team in teams"
               :key="team.index"
-            >
-              {{ team.team_name }}
-            </option>
+            >{{ team.team_name }}</option>
           </select>
         </div>
 
@@ -66,7 +53,7 @@
           <select name="spec" id="spec" v-model="spec">
             <option value></option>
           </select>
-        </div> -->
+        </div>-->
       </div>
     </section>
     <div class="renners">
@@ -81,7 +68,11 @@
         }"
       >
         <div class="renner__img">
-          <img v-if="renner.image_url !== '/'" :src="renner.image_url" alt />
+          <img
+            v-if="renner.image_url !== '/'"
+            src="https://rondemaestro.s3.eu-central-1.amazonaws.com/renners/alan-riou-2020.jpeg"
+            alt
+          />
           <img v-else src="https://via.placeholder.com/50x50.png?" alt />
         </div>
         <div class="renner__info">
@@ -110,10 +101,10 @@
             <span v-if="renner.speciality_id_2"
               >/ {{ renner.speciality_id_2 }}</span
             >
-          </div> -->
+          </div>-->
           <!-- <div class="renner__extra--points">
             <h2>100pt</h2>
-          </div> -->
+          </div>-->
         </div>
       </div>
     </div>
@@ -121,13 +112,13 @@
 </template>
 
 <script>
-import SelectedRiders from '@/components/SelectedRiders.vue';
-import axios from 'axios';
-import config from '@/utils/config';
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
+import SelectedRiders from "@/components/SelectedRiders.vue";
+import axios from "axios";
+import config from "@/utils/config";
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
-  name: 'RennerOverview',
+  name: "RennerOverview",
   components: {
     SelectedRiders,
     // FilterOptions,
@@ -136,26 +127,26 @@ export default {
     return {
       renners: [],
       teams: [],
-      etappe: '',
-      name: '',
-      team: '',
-      spec: '',
+      etappe: "",
+      name: "",
+      team: "",
+      spec: "",
       error: false,
       isSelected: false,
     };
   },
   computed: {
-    ...mapState(['selectie']),
-    ...mapGetters(['countSelectie']),
+    ...mapState(["selectie"]),
+    ...mapGetters(["countSelectie"]),
 
     currentSelectie(state) {
       this.selectie = state.selectie;
     },
   },
   methods: {
-    ...mapMutations(['addToSelectie', 'setEtappes']),
-    ...mapActions(['removeSelectie']),
-    ...mapActions(['removeAll']),
+    ...mapMutations(["addToSelectie", "setEtappes"]),
+    ...mapActions(["removeSelectie"]),
+    ...mapActions(["removeAll"]),
 
     toEtappe(etappe) {
       this.setEtappes(etappe);
@@ -164,7 +155,7 @@ export default {
       if (this.selectie.includes(renner)) {
         this.removeSelectie(this.selectie.indexOf(renner));
       } else if (this.countSelectie >= 10) {
-        console.error('teveel!');
+        console.error("teveel!");
       } else {
         this.addToSelectie(renner);
       }
@@ -192,15 +183,15 @@ export default {
     const activeUser = window.localStorage.user_id;
     this.removeAll();
 
-    // const cyclists = await axios.get(`${config.DEV_URL}cyclists`);
-    const cyclists = await axios.get(`http://localhost:1992/api/v1/cyclists`);
+    const cyclists = await axios.get(`${config.DEV_URL}cyclists`);
+    // const cyclists = await axios.get(`http://localhost:1992/api/v1/cyclists`);
     this.renners = cyclists.data.sort((a, b) =>
       a.race_number > b.race_number ? 1 : -1
     );
     this.teams = [
       ...new Map(
         cyclists.data.map((item) => [
-          item['team_name'],
+          item["team_name"],
           {
             team_name: item.team_name,
             team_id: item.team_id,
@@ -231,7 +222,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 
 .etappeInfo {
   display: grid;
