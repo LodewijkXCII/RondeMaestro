@@ -70,7 +70,7 @@
         <div class="renner__img">
           <img
             v-if="renner.image_url !== '/'"
-            src="https://rondemaestro.s3.eu-central-1.amazonaws.com/renners/{{renner.image_url}}"
+            :src="`https://rondemaestro.s3.eu-central-1.amazonaws.com/renners/${renner.image_url}`"
             alt
           />
           <img v-else src="https://via.placeholder.com/50x50.png?" alt />
@@ -269,13 +269,19 @@ label {
 
     &__img {
       margin: 0.5em auto;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 1px solid #3fc1c9;
+      overflow: hidden;
 
       img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        border: 1px solid $secondary-color;
-        margin: 0 auto;
+        // width: 50px;
+        // height: 50px;
+        // border-radius: 50%;
+        // border: 1px solid $secondary-color;
+        // margin: 0 auto;
+        min-width: 100%;
       }
     }
 
@@ -318,7 +324,7 @@ label {
     &:hover {
       cursor: pointer;
     }
-    &:nth-child(6n) {
+    &:nth-child(8n) {
       margin-bottom: 1rem;
     }
     &:active {
