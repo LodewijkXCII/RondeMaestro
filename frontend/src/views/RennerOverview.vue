@@ -70,7 +70,7 @@
         <div class="renner__img">
           <img
             v-if="renner.image_url !== '/'"
-            src="https://rondemaestro.s3.eu-central-1.amazonaws.com/renners/alan-riou-2020.jpeg"
+            src="https://rondemaestro.s3.eu-central-1.amazonaws.com/renners/{{alan-riou-2020.jpeg}}"
             alt
           />
           <img v-else src="https://via.placeholder.com/50x50.png?" alt />
