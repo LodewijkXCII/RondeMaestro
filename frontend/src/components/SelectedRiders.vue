@@ -14,11 +14,7 @@
         :key="index"
         class="selectedRiders__bottom--rider"
       >
-        <img
-          src="@/assets/icons/x-circle.svg"
-          alt="delete"
-          @click="removeFromSelectie(index)"
-        />
+        <img src="@/assets/icons/x-circle.svg" alt="delete" @click="removeFromSelectie(index)" />
 
         <h5>
           {{ renSelect.first_name.charAt(0) }}.
@@ -27,36 +23,32 @@
       </div>
     </div>
     <div class="selectedRiders__buttons">
-      <button @click.prevent="delSelectie()" class="btn btn-danger">
-        Wis selectie
-      </button>
+      <button @click.prevent="delSelectie()" class="btn btn-danger">Wis selectie</button>
 
-      <button @click.prevent="submitSelectie()" class="btn btn-primary">
-        {{ sendButton }}
-      </button>
+      <button @click.prevent="submitSelectie()" class="btn btn-primary">{{ sendButton }}</button>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapState, mapMutations, mapActions } from 'vuex';
-import axios from 'axios';
-import config from '@/utils/config';
+import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
+import axios from "axios";
+import config from "@/utils/config";
 
-const URL = 'entries';
+const URL = "entries";
 
 export default {
   data() {
     return {
       ShowSelectie: false,
       error: false,
-      sendButton: 'Verstuur',
+      sendButton: "Verstuur",
       toMuch: false,
     };
   },
   computed: {
-    ...mapGetters(['countSelectie']),
-    ...mapState(['selectie', 'stage']),
+    ...mapGetters(["countSelectie"]),
+    ...mapState(["selectie", "stage"]),
 
     errorSelected() {
       if (this.countSelectie > 8) {
@@ -67,8 +59,8 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['deleteSelectie', 'removeFromSelectie']),
-    ...mapActions(['removeAll', 'removeSelectie']),
+    ...mapMutations(["deleteSelectie", "removeFromSelectie"]),
+    ...mapActions(["removeAll", "removeSelectie"]),
 
     delSelectie() {
       this.removeAll();
@@ -80,9 +72,9 @@ export default {
     async submitSelectie() {
       const activeUser = window.localStorage.user_id;
       if (this.countSelectie !== 8) {
-        window.alert('Er zijn er geen 8 ingevuld');
+        window.alert("Er zijn er geen 8 ingevuld");
       } else {
-        this.sendButton = 'Versturen...';
+        this.sendButton = "Versturen...";
         await axios
           .get(
             `${config.DEV_URL}entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
@@ -104,14 +96,14 @@ export default {
           axios
             .post(`${config.DEV_URL}entries`, {
               users_id: +activeUser,
-              stage_id: 2,
+              stage_id: this.$route.params.etappeID,
               cyclist_id: renner.cyclist_id,
             })
             .then((response) => {
-              this.sendButton = 'verstuurd';
-              setTimeout(() => (this.sendButton = 'verstuur'), 5000);
+              this.sendButton = "verstuurd";
+              setTimeout(() => (this.sendButton = "verstuur"), 5000);
               this.removeAll();
-              this.$router.push({ name: 'etappe-overzicht' }).catch(() => {});
+              this.$router.push({ name: "etappe-overzicht" }).catch(() => {});
             })
             .catch((error) => {
               this.error = error.message;
@@ -124,7 +116,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 
 .selectedRiders {
   position: fixed;
@@ -149,7 +141,7 @@ export default {
       }
 
       &::before {
-        content: '';
+        content: "";
         position: absolute;
         left: 50%;
         transform: translateX(-50%);

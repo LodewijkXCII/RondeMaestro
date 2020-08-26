@@ -281,7 +281,7 @@ label {
         // border-radius: 50%;
         // border: 1px solid $secondary-color;
         // margin: 0 auto;
-        min-width: 100%;
+        max-width: 100%;
       }
     }
 
