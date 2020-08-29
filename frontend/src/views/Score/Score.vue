@@ -45,7 +45,7 @@ export default {
   },
   created() {
     axios.get(`${config.DEV_URL}stages?race=1`).then((etappes) => {
-      this.etappes = etappes.data;
+      this.etappes = etappes.data.sort((a, b) => (a.date > b.date ? 1 : -1));
     });
   },
 };

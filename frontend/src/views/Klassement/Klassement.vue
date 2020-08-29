@@ -58,7 +58,7 @@ export default {
     fetch(`${config.DEV_URL}stages?race=1`)
       .then((response) => response.json())
       .then((result) => {
-        this.etappes = result;
+        this.etappes = result.sort((a, b) => (a.date > b.date ? 1 : -1));
         this.ronde = result[0].name;
       });
   },
