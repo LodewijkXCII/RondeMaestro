@@ -72,7 +72,7 @@ export default {
       this.sendMessage = 'Versturen';
       this.uitslag.forEach(async (renner) => {
         try {
-          response = await axios.post(URL_RESULT, {
+          const response = await axios.post(URL_RESULT, {
             position: renner.position,
             points: renner.points,
             stage_id: this.stage,
