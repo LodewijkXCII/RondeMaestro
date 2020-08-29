@@ -73,10 +73,10 @@ export default {
       this.uitslag.forEach(async (renner) => {
         try {
           response = await axios.post(URL_RESULT, {
-            position: uitslag.position,
-            points: uitslag.points,
+            position: renner.position,
+            points: renner.points,
             stage_id: this.stage,
-            cyclist_id: renner.cyclist_id,
+            cyclist_id: renner.id,
           });
         } catch (error) {
           console.error(error.message);
