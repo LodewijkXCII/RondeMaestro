@@ -35,7 +35,7 @@ export default {};
 </script>
 
 <style lang="scss">
-@import "@/assets/styles.scss";
+@import '@/assets/styles.scss';
 
 .bottomnavi {
   position: fixed;
@@ -52,11 +52,13 @@ export default {};
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   .bottomNav {
     display: flex;
     justify-content: space-between;
     width: 100%;
     align-items: flex-end;
+
     &__navItem {
       height: 100%;
       display: flex;

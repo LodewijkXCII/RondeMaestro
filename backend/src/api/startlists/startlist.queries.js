@@ -18,16 +18,18 @@ module.exports = {
   find(query) {
     const startlistQuery = db(tableNames.startlist)
       .select(fields)
-      .join('cyclist', 'startlist.cyclist_id', 'cyclist.id')
+      .join('cyclist', 'startlist.cyclist_id', 'cyclist.id');
     if (query.race) {
       startlistQuery.where('race_id', query.race);
     }
-    if (query.name) {
-      startlistQuery
-        .where('first_name', 'ilike', `%${query.name}%`)
-        .orWhere('last_name', 'ilike', `%${query.name}%`);
-    }
-
     return startlistQuery;
+  },
+
+  update(query) {
+    const update = db(tableNames.startlist)
+      .where('cyclist_id', query.cyclist_id)
+      .where('race_id', query.race)
+      .update({ withdraw: true });
+    return update;
   },
 };
