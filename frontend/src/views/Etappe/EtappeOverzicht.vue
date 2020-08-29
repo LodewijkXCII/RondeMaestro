@@ -19,12 +19,8 @@
         >
           <div class="rmTable__body--number">{{ etappe.stage_nr }}.</div>
           <div class="rmTable__body--date">{{ etappe.date | formatDate }}</div>
-          <div class="rmTable__body--city">
-            {{ etappe.start_city }} - {{ etappe.finish_city }}
-          </div>
-          <div class="rmTable__body--type">
-            {{ etappe.stage_type.charAt(0) }}
-          </div>
+          <div class="rmTable__body--city">{{ etappe.start_city }} - {{ etappe.finish_city }}</div>
+          <div class="rmTable__body--type">{{ etappe.stage_type.charAt(0) }}</div>
           <div class="rmTable__body--distance">{{ etappe.distance }}KM</div>
           <div class="rmTable__body--button">
             <router-link
@@ -41,12 +37,12 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
-import config from '@/utils/config';
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import config from "@/utils/config";
 
 export default {
   //TODO bekijk of entrie al in ingevuld.
-  name: 'EtappeOverzicht',
+  name: "EtappeOverzicht",
   data() {
     return {
       etappes: {},
@@ -57,12 +53,12 @@ export default {
     fetch(`${config.DEV_URL}stages?race=1`)
       .then((response) => response.json())
       .then((result) => {
-        this.etappes = result;
+        this.etappes = result.sort((a, b) => (a.date > b.date ? 1 : -1));
         this.ronde = result[0].name;
       });
   },
   methods: {
-    ...mapMutations(['setEtappes']),
+    ...mapMutations(["setEtappes"]),
     setEtappe(etappe) {
       this.setEtappes(etappe);
     },
@@ -71,7 +67,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 
 .rmTable {
   margin: 2rem 0;
