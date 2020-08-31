@@ -93,9 +93,10 @@ module.exports = {
         'entry.cyclist_id': 'result.cyclist_id',
         'entry.stage_id': 'result.stage_id',
       });
+    // .where('entry.stage_id', '=', 1);
 
     if (query.stage_id) {
-      summedRes.where('stage_id', '=', 22);
+      summedRes.where('entry.stage_id', '=', query.stage_id);
     }
 
     return summedRes;

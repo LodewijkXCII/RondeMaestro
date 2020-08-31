@@ -41,9 +41,12 @@ export default {
     };
   },
   created() {
-    axios.get(`${config.DEV_URL}results/totalscore`).then((result) => {
-      this.scores = result.data.sort((a, b) => (a.sum < b.sum ? 1 : -1));
-    });
+    const params = this.$route.params.etappeID;
+    axios
+      .get(`${config.DEV_URL}results/totalscore?stage_id=${params}`)
+      .then((result) => {
+        this.scores = result.data.sort((a, b) => (a.sum < b.sum ? 1 : -1));
+      });
   },
 };
 </script>
