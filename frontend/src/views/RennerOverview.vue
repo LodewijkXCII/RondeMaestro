@@ -222,7 +222,7 @@ export default {
       `${config.DEV_URL}stages/${this.$route.params.etappeID}`
     );
     this.etappe = stage.data;
-    this.toEtappe(stage.data.id);
+    this.toEtappe(stage.data);
 
     if (activeUser) {
       const entries = await axios.get(

@@ -93,7 +93,7 @@ export default {
                 `${config.DEV_URL}entries?users_id=${this.activeUser}&stage_id=${this.$route.params.etappeID}`,
                 {
                   users_id: +activeUser,
-                  stage_id: this.etappe.id,
+                  stage_id: +this.$route.params.etappeID,
                   cyclist_id: selected.cyclist_id,
                 }
               );
