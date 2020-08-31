@@ -109,13 +109,17 @@ export default {
     const data = {
       user_id: activeUser,
     };
+    const params = {
+      user_id: activeUser,
+      stage_id: +this.$route.params.etappeID,
+    };
     axios
       .all([
         // axios.get(`${config.DEV_URL}results/${this.$route.params.etappeID}`, {
         //   params: { user_id: +activeUser.id },
         // }),
-        axios.get(`${config.DEV_URL}results/score/`, {
-          params: { user_id: activeUser },
+        axios.get(`${config.DEV_URL}results/score`, {
+          params,
         }),
         axios.get(`${config.DEV_URL}stages/${this.$route.params.etappeID}`),
         axios.get(
