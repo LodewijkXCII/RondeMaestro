@@ -6,6 +6,7 @@ import FlagIcon from 'vue-flag-icon';
 import moment from 'moment';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
+require('dotenv').config();
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
