@@ -92,7 +92,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @import '@/assets/styles.scss';
 .renners {
   grid-template-columns: 1fr;

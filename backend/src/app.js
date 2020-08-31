@@ -21,6 +21,7 @@ app.use(
     // origin: 'https://rondemaestro-test.herokuapp.com/',
     // origin: 'https://www.rondemaestro.com',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    // headers: 'Origin,X-Requested-With,Content-Type,Accept',
   })
 );
 app.use(express.urlencoded({ extended: false }));

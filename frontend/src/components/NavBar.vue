@@ -30,17 +30,17 @@ export default {
   data() {
     return {
       loggedIn: false,
-      username: "",
+      username: '',
     };
   },
   methods: {
     logout() {
       let currentPath = this.$route.path;
-      localStorage.removeItem("token");
-      localStorage.removeItem("user_name");
-      localStorage.removeItem("user_id");
-      if (currentPath !== "/") {
-        this.$router.go("/");
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('user_id');
+      if (currentPath !== '/') {
+        this.$router.go('/');
       }
     },
   },
@@ -54,7 +54,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/assets/styles.scss";
+@import '@/assets/styles.scss';
 
 nav {
   border-bottom: 2px solid $primary-color;

@@ -7,8 +7,12 @@
         <span>Terug naar het etappe overzicht</span>
       </router-link>
     </section>
-    <h1 v-if="etappe.name !== 'Klassiekers'">Kies je renners voor etappe {{ etappe.stage_nr }}</h1>
-    <h1 v-else>Kies je renners voor {{ etappe.start_city }} - {{ etappe.finish_city }}</h1>
+    <h1 v-if="etappe.name !== 'Klassiekers'">
+      Kies je renners voor etappe {{ etappe.stage_nr }}
+    </h1>
+    <h1 v-else>
+      Kies je renners voor {{ etappe.start_city }} - {{ etappe.finish_city }}
+    </h1>
 
     <div class="etappeInfo">
       <div class="etappeInfo__left">
@@ -38,13 +42,19 @@
         <div class="half--block">
           <label for="team">Zoek op team:</label>
 
-          <select name="team" id="team" v-model="team" @change="searchRidersTeam($event)">
+          <select
+            name="team"
+            id="team"
+            v-model="team"
+            @change="searchRidersTeam($event)"
+          >
             <option value="0" disabled>-</option>
             <option
               :value="team.team_id"
               v-for="team in teams"
               :key="team.index"
-            >{{ team.team_name }}</option>
+              >{{ team.team_name }}</option
+            >
           </select>
         </div>
 
@@ -70,7 +80,9 @@
         <div class="renner__img">
           <img
             v-if="renner.image_url !== '/'"
-            :src="`https://rondemaestro.s3.eu-central-1.amazonaws.com/renners/${renner.image_url}`"
+            :src="
+              `https://rondemaestro.s3.eu-central-1.amazonaws.com/renners/${renner.image_url}`
+            "
             alt
           />
           <img v-else src="https://via.placeholder.com/50x50.png?" alt />
@@ -112,13 +124,13 @@
 </template>
 
 <script>
-import SelectedRiders from "@/components/SelectedRiders.vue";
-import axios from "axios";
-import config from "@/utils/config";
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
+import SelectedRiders from '@/components/SelectedRiders.vue';
+import axios from 'axios';
+import config from '@/utils/config';
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
-  name: "RennerOverview",
+  name: 'RennerOverview',
   components: {
     SelectedRiders,
     // FilterOptions,
@@ -127,26 +139,26 @@ export default {
     return {
       renners: [],
       teams: [],
-      etappe: "",
-      name: "",
-      team: "",
-      spec: "",
+      etappe: '',
+      name: '',
+      team: '',
+      spec: '',
       error: false,
       isSelected: false,
     };
   },
   computed: {
-    ...mapState(["selectie"]),
-    ...mapGetters(["countSelectie"]),
+    ...mapState(['selectie']),
+    ...mapGetters(['countSelectie']),
 
     currentSelectie(state) {
       this.selectie = state.selectie;
     },
   },
   methods: {
-    ...mapMutations(["addToSelectie", "setEtappes"]),
-    ...mapActions(["removeSelectie"]),
-    ...mapActions(["removeAll"]),
+    ...mapMutations(['addToSelectie', 'setEtappes']),
+    ...mapActions(['removeSelectie']),
+    ...mapActions(['removeAll']),
 
     toEtappe(etappe) {
       this.setEtappes(etappe);
@@ -155,7 +167,12 @@ export default {
       if (this.selectie.includes(renner)) {
         this.removeSelectie(this.selectie.indexOf(renner));
       } else if (this.countSelectie >= 10) {
-        console.error("teveel!");
+        console.error('teveel!');
+      } else if (renner.withdraw == true) {
+        // const selected = renner;
+        // selected.style.backgroundColor = '#025764';
+
+        console.error(renner, 'kan niet he');
       } else {
         this.addToSelectie(renner);
       }
@@ -191,7 +208,7 @@ export default {
     this.teams = [
       ...new Map(
         cyclists.data.map((item) => [
-          item["team_name"],
+          item['team_name'],
           {
             team_name: item.team_name,
             team_id: item.team_id,
@@ -222,7 +239,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import "@/assets/styles.scss";
+@import '@/assets/styles.scss';
 
 .etappeInfo {
   display: grid;
@@ -329,9 +346,9 @@ label {
     }
     &:active {
       transform: scale(0.98);
-      /* Scaling button to 0.98 to its original size */
       box-shadow: 2px 1px 11px 1px rgba(0, 0, 0, 0.24);
-      /* Lowering the shadow */
+      outline: 2px solid $succes-color;
+      background: lighten($color: $succes-color, $amount: 60%);
     }
 
     &.withdraw {
@@ -365,13 +382,13 @@ label {
 /* Desktops and laptops ----------- */
 @media only screen and (min-width: 1224px) {
   .renners {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr;
     column-gap: 0.8rem;
-    .renner {
-      &:nth-child(6n) {
-        margin-bottom: 0rem;
-      }
-    }
+    // .renner {
+    //   &:nth-child(8n) {
+    //     margin-bottom: 0rem;
+    //   }
+    // }
   }
 }
 </style>
