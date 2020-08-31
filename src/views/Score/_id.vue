@@ -6,21 +6,30 @@
         <span>Terug naar het score overzicht</span>
       </router-link>
     </section>
+    <div class="stageInfo">
+      <div class="stageInfo__left">
+        <h1 v-if="etappe.name !== 'Klassiekers'">
+          Etappe {{ etappe.stage_nr }} Uitslag
+        </h1>
+        <h1 else>Uitslag {{ etappe.start_city }} - {{ etappe.finish_city }}</h1>
 
-    <h1 v-if="etappe.name !== 'Klassiekers'">
-      Etappe {{ etappe.stage_nr }} Uitslag
-    </h1>
-    <h1 else>Uitslag {{ etappe.start_city }} - {{ etappe.finish_city }}</h1>
+        <h2>
+          {{ etappe.start_city }} - {{ etappe.finish_city }} ({{
+            etappe.distance
+          }}KM)
+        </h2>
+      </div>
+      <div class="stageInfo__right">
+        <div class="score">
+          <small class="score__text">Score:</small>
+          <div class="score__points">{{ score }}<span>PT</span></div>
+        </div>
+      </div>
+    </div>
 
-    <h2>
-      {{ etappe.start_city }} - {{ etappe.finish_city }} ({{
-        etappe.distance
-      }}KM)
-    </h2>
-    <!-- TODO h3 in css aanmaken -->
     <div v-if="result.length > 0">
-      <h3>Jouw behaalde punten: {{ score }}</h3>
       <br />
+
       <div class="scoreTable">
         <h4>Deze score werd behaald met de volgende renners:</h4>
         <div class="scoreTable__header">
@@ -60,6 +69,16 @@
           <div class="scoreTable__body--points">{{ renner.points }}</div>
         </div>
       </div>
+
+      <router-link
+        class="btn btn-alert"
+        :to="{
+          name: 'klassement-single',
+          params: { etappeID: etappe.id },
+        }"
+      >
+        <span>Bekijk het klassement</span>
+      </router-link>
     </div>
     <div v-else>
       <br />
@@ -74,6 +93,7 @@
 
 <script>
 import axios from 'axios';
+import config from '@/utils/config';
 
 export default {
   data() {
@@ -85,16 +105,25 @@ export default {
     };
   },
   created() {
+    const activeUser = window.localStorage.user_id;
+    const data = {
+      user_id: activeUser,
+    };
+    const params = {
+      user_id: activeUser,
+      stage_id: +this.$route.params.etappeID,
+    };
     axios
       .all([
+        // axios.get(`${config.DEV_URL}results/${this.$route.params.etappeID}`, {
+        //   params: { user_id: +activeUser.id },
+        // }),
+        axios.get(`${config.DEV_URL}results/score`, {
+          params,
+        }),
+        axios.get(`${config.DEV_URL}stages/${this.$route.params.etappeID}`),
         axios.get(
-          `https://rondemaestro-test.herokuapp.com/api/v1/results/${this.$route.params.etappeID}`
-        ),
-        axios.get(
-          `https://rondemaestro-test.herokuapp.com/api/v1/stages/${this.$route.params.etappeID}`
-        ),
-        axios.get(
-          `https://rondemaestro-test.herokuapp.com/api/v1/results?stage_id=${this.$route.params.etappeID}`
+          `${config.DEV_URL}results?stage_id=${this.$route.params.etappeID}`
         ),
       ])
       .then(
@@ -102,7 +131,7 @@ export default {
           this.result = result.data.sort((a, b) =>
             a.points < b.points ? 1 : -1
           );
-          for (var i = 0; i < this.result.length; i++) {
+          for (var i = 0; i < this.result.length; i += 1) {
             this.score += this.result[i].points;
           }
 
@@ -118,6 +147,35 @@ export default {
 
 <style lang="scss">
 @import '@/assets/styles.scss';
+.stageInfo {
+  display: flex;
+  justify-content: space-between;
+}
+
+.score {
+  display: flex;
+  color: $white-color;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.75rem;
+  background: $black-color;
+  border-radius: 0.3rem;
+
+  &__text {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  &__points {
+    color: $secondary-color;
+    font-size: 2rem;
+
+    span {
+      font-size: 0.5rem;
+    }
+  }
+}
 
 .scoreTable {
   margin: 2rem 0;
@@ -136,6 +194,11 @@ export default {
   padding-bottom: 0.2rem;
   margin-bottom: 0.1rem;
   padding: 0 0.25rem;
+
+  &--points {
+    text-align: right;
+    padding-right: 0.25rem;
+  }
 }
 
 .scoreTable__body {

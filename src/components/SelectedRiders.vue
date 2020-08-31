@@ -31,7 +31,7 @@
         Wis selectie
       </button>
 
-      <button @click.prevent="submitSelectie()" class="btn btn-primary">
+      <button @click.prevent="submitSelectie()" class="btn btn-succes">
         {{ sendButton }}
       </button>
     </div>
@@ -41,8 +41,9 @@
 <script>
 import { mapGetters, mapState, mapMutations, mapActions } from 'vuex';
 import axios from 'axios';
+import config from '@/utils/config';
 
-const URL = 'https://rondemaestro-test.herokuapp.com/api/v1/entries';
+const URL = 'entries';
 
 export default {
   data() {
@@ -50,6 +51,7 @@ export default {
       ShowSelectie: false,
       error: false,
       sendButton: 'Verstuur',
+      toMuch: false,
     };
   },
   computed: {
@@ -76,42 +78,40 @@ export default {
     },
 
     async submitSelectie() {
-      const activeUser = window.localStorage.getItem('user_id');
+      const activeUser = window.localStorage.user_id;
       if (this.countSelectie !== 8) {
         window.alert('Er zijn er geen 8 ingevuld');
       } else {
         this.sendButton = 'Versturen...';
         await axios
           .get(
-            `https://rondemaestro-test.herokuapp.com/api/v1/entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
+            `${config.DEV_URL}entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
           )
           .then((response) => {
             response.data.forEach((selected) => {
               axios.put(
-                `https://rondemaestro-test.herokuapp.com/v1/entries?users_id=2&stage_id=${this.$route.params.etappeID}`,
+                `${config.DEV_URL}entries?users_id=${this.activeUser}&stage_id=${this.$route.params.etappeID}`,
                 {
                   users_id: +activeUser,
-                  stage_id: this.stage,
+                  stage_id: +this.$route.params.etappeID,
                   cyclist_id: selected.cyclist_id,
                 }
               );
             });
           });
-        // TODO USER_ID AS USER ID;
 
         await this.selectie.forEach((renner) => {
-          console.log(activeUser);
           axios
-            .post(URL, {
+            .post(`${config.DEV_URL}entries`, {
               users_id: +activeUser,
-              stage_id: this.stage,
-              cyclist_id: renner.cyclist_id,
-              //TODO cyclist_id if renner is niet aangepast
+              stage_id: +this.$route.params.etappeID,
+              cyclist_id: +renner.cyclist_id,
             })
             .then((response) => {
               this.sendButton = 'verstuurd';
               setTimeout(() => (this.sendButton = 'verstuur'), 5000);
               this.removeAll();
+              this.$router.push({ name: 'etappe-overzicht' }).catch(() => {});
             })
             .catch((error) => {
               this.error = error.message;
@@ -138,15 +138,15 @@ export default {
   box-shadow: 0 0 15px 1px $primary-color;
 
   &__top {
-    &.error {
-      color: $alert-color;
-    }
     h4 {
       font-size: 0.9rem;
       text-align: center;
       position: relative;
       margin: 0.5rem 0;
       cursor: pointer;
+      &.error {
+        color: $alert-color;
+      }
 
       &::before {
         content: '';
@@ -203,6 +203,17 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
+  }
+}
+
+/* Desktops and laptops ----------- */
+@media only screen and (min-width: 1224px) {
+  .selectedRiders {
+    bottom: -105px;
+  }
+  .selectedRiders > * {
+    width: 650px;
+    margin: auto;
   }
 }
 </style>

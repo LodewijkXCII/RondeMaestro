@@ -33,6 +33,7 @@
 
 <script>
 import axios from 'axios';
+import config from '@/utils/config';
 
 export default {
   //TODO bekijk of entry al in ingevuld.
@@ -43,11 +44,9 @@ export default {
     };
   },
   created() {
-    axios
-      .get('https://rondemaestro-test.herokuapp.com/api/v1/stages?race=2')
-      .then((etappes) => {
-        this.etappes = etappes.data;
-      });
+    axios.get(`${config.DEV_URL}stages?race=1`).then((etappes) => {
+      this.etappes = etappes.data.sort((a, b) => (a.date > b.date ? 1 : -1));
+    });
   },
 };
 </script>

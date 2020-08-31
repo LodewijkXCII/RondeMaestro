@@ -7,6 +7,20 @@ import moment from 'moment';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import {
+  faRoute,
+  faTrophy,
+  faThLarge,
+  faListUl,
+  faCheck,
+  faTimes,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+library.add(faRoute, faTrophy, faThLarge, faListUl, faCheck, faTimes);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+
 Vue.use(FlagIcon);
 Vue.use(VueAxios, axios);
 

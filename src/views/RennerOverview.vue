@@ -10,7 +10,7 @@
     <h1 v-if="etappe.name !== 'Klassiekers'">
       Kies je renners voor etappe {{ etappe.stage_nr }}
     </h1>
-    <h1 else>
+    <h1 v-else>
       Kies je renners voor {{ etappe.start_city }} - {{ etappe.finish_city }}
     </h1>
 
@@ -48,13 +48,13 @@
             v-model="team"
             @change="searchRidersTeam($event)"
           >
+            <option value="0" disabled>-</option>
             <option
               :value="team.team_id"
               v-for="team in teams"
               :key="team.index"
+              >{{ team.team_name }}</option
             >
-              {{ team.team_name }}
-            </option>
           </select>
         </div>
 
@@ -63,7 +63,7 @@
           <select name="spec" id="spec" v-model="spec">
             <option value></option>
           </select>
-        </div> -->
+        </div>-->
       </div>
     </section>
     <div class="renners">
@@ -78,7 +78,13 @@
         }"
       >
         <div class="renner__img">
-          <img v-if="renner.image_url !== '/'" :src="renner.image_url" alt />
+          <img
+            v-if="renner.image_url !== '/'"
+            :src="
+              `https://rondemaestro.s3.eu-central-1.amazonaws.com/renners/${renner.image_url}`
+            "
+            alt
+          />
           <img v-else src="https://via.placeholder.com/50x50.png?" alt />
         </div>
         <div class="renner__info">
@@ -107,10 +113,10 @@
             <span v-if="renner.speciality_id_2"
               >/ {{ renner.speciality_id_2 }}</span
             >
-          </div> -->
+          </div>-->
           <!-- <div class="renner__extra--points">
             <h2>100pt</h2>
-          </div> -->
+          </div>-->
         </div>
       </div>
     </div>
@@ -120,6 +126,7 @@
 <script>
 import SelectedRiders from '@/components/SelectedRiders.vue';
 import axios from 'axios';
+import config from '@/utils/config';
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
@@ -161,13 +168,19 @@ export default {
         this.removeSelectie(this.selectie.indexOf(renner));
       } else if (this.countSelectie >= 10) {
         console.error('teveel!');
+      } else if (renner.withdraw == true) {
+        // const selected = renner;
+        // selected.style.backgroundColor = '#025764';
+
+        console.error(renner, 'kan niet he');
       } else {
         this.addToSelectie(renner);
       }
     },
     async searchRiders() {
+      this.team = 0;
       const searchrider = await axios.get(
-        `https://rondemaestro-test.herokuapp.com/api/v1/cyclists?name=${this.name}`
+        `${config.DEV_URL}cyclists?name=${this.name}`
       );
       this.renners = searchrider.data.sort((a, b) =>
         a.race_number > b.race_number ? 1 : -1
@@ -175,7 +188,7 @@ export default {
     },
     async searchRidersTeam(e) {
       const searchrider = await axios.get(
-        `https://rondemaestro-test.herokuapp.com/api/v1/cyclists?team=${e.target.value}`
+        `${config.DEV_URL}cyclists?team=${e.target.value}`
       );
       this.renners = searchrider.data.sort((a, b) =>
         a.race_number > b.race_number ? 1 : -1
@@ -183,47 +196,44 @@ export default {
     },
   },
 
-  created() {
-    const activeUser = window.localStorage.getItem('user_id');
+  async created() {
+    const activeUser = window.localStorage.user_id;
     this.removeAll();
 
-    axios
-      .all([
-        axios.get('https://rondemaestro-test.herokuapp.com/api/v1/cyclists'),
-        axios.get(
-          `https://rondemaestro-test.herokuapp.com/api/v1/stages/${this.$route.params.etappeID}`
-        ),
-        axios.get(
-          `https://rondemaestro-test.herokuapp.com/api/v1/entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
-        ),
-      ])
-      .then(
-        axios.spread((renners, etappeinfo, selectie) => {
-          this.renners = renners.data.sort((a, b) =>
-            a.race_number > b.race_number ? 1 : -1
-          );
+    const cyclists = await axios.get(`${config.DEV_URL}cyclists`);
+    // const cyclists = await axios.get(`http://localhost:1992/api/v1/cyclists`);
+    this.renners = cyclists.data.sort((a, b) =>
+      a.race_number > b.race_number ? 1 : -1
+    );
+    this.teams = [
+      ...new Map(
+        cyclists.data.map((item) => [
+          item['team_name'],
+          {
+            team_name: item.team_name,
+            team_id: item.team_id,
+            team_img: item.team_img,
+          },
+        ])
+      ).values(),
+    ];
 
-          this.teams = [
-            ...new Map(
-              renners.data.map((item) => [
-                item['team_name'],
-                {
-                  team_name: item.team_name,
-                  team_id: item.team_id,
-                  team_img: item.team_img,
-                },
-              ])
-            ).values(),
-          ];
+    const stage = await axios.get(
+      `${config.DEV_URL}stages/${this.$route.params.etappeID}`
+    );
+    this.etappe = stage.data;
+    this.toEtappe(stage.data);
 
-          this.etappe = etappeinfo.data;
-
-          this.toEtappe(etappeinfo.data.id);
-          selectie.data.forEach((cyclist) => {
-            this.addToSelectie(cyclist);
-          });
-        })
+    if (activeUser) {
+      const entries = await axios.get(
+        `${config.DEV_URL}entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
       );
+      if (entries) {
+        entries.data.forEach((cyclist) => {
+          this.addToSelectie(cyclist);
+        });
+      }
+    }
   },
 };
 </script>
@@ -274,18 +284,21 @@ label {
     background: white;
     padding: 0.5em 0.2em;
 
-    &:nth-child(8n) {
-      margin-bottom: 1rem;
-    }
     &__img {
       margin: 0.5em auto;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 1px solid #3fc1c9;
+      overflow: hidden;
 
       img {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        border: 1px solid $secondary-color;
-        margin: 0 auto;
+        // width: 50px;
+        // height: 50px;
+        // border-radius: 50%;
+        // border: 1px solid $secondary-color;
+        // margin: 0 auto;
+        max-width: 100%;
       }
     }
 
@@ -294,6 +307,12 @@ label {
         display: flex;
         &--number {
           margin-right: 0.5em;
+          h3 {
+            margin: 0;
+          }
+        }
+        &--flag {
+          align-self: center;
         }
       }
       &--name {
@@ -322,11 +341,25 @@ label {
     &:hover {
       cursor: pointer;
     }
+    &:nth-child(8n) {
+      margin-bottom: 1rem;
+    }
+    &:active {
+      transform: scale(0.98);
+      box-shadow: 2px 1px 11px 1px rgba(0, 0, 0, 0.24);
+      outline: 2px solid $succes-color;
+      background: lighten($color: $succes-color, $amount: 60%);
+    }
 
     &.withdraw {
       cursor: default;
       background: #f7f7f7;
       color: lightgray;
+
+      &:active {
+        transform: none;
+        box-shadow: none;
+      }
 
       img,
       span {
@@ -343,6 +376,19 @@ label {
         color: lightgray;
       }
     }
+  }
+}
+
+/* Desktops and laptops ----------- */
+@media only screen and (min-width: 1224px) {
+  .renners {
+    grid-template-columns: 1fr;
+    column-gap: 0.8rem;
+    // .renner {
+    //   &:nth-child(8n) {
+    //     margin-bottom: 0rem;
+    //   }
+    // }
   }
 }
 </style>

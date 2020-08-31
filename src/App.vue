@@ -49,8 +49,32 @@ body {
 //CONFIG//
 .container {
   padding: 2em 0.5em;
-  max-width: 350px;
+  // max-width: 350px;
   margin-bottom: 8em;
+  .headerImage {
+    width: 100%;
+    height: auto;
+    margin-bottom: 2rem;
+  }
+}
+
+/* Desktops and laptops ----------- */
+@media only screen and (min-width: 1224px) {
+  body {
+    width: 950px;
+    margin: auto;
+  }
+
+  .container {
+    margin: auto;
+    max-width: 60%;
+    margin-bottom: 8rem;
+  }
+}
+
+/* Large screens ----------- */
+@media only screen and (min-width: 1824px) {
+  /* Styles */
 }
 
 /*
@@ -69,6 +93,11 @@ h2 {
   font-size: 1rem;
   text-transform: uppercase;
   color: $primary-color;
+}
+
+h3 {
+  margin: 1rem 0;
+  text-transform: uppercase;
 }
 
 p {
@@ -124,6 +153,15 @@ a {
 
     &:hover {
       background: lighten($color: $alert-color, $amount: 3);
+    }
+  }
+  &-succes {
+    background: $succes-color;
+    border: 2px solid darken($color: $succes-color, $amount: 5);
+    color: $white-color;
+
+    &:hover {
+      background: lighten($color: $succes-color, $amount: 3);
     }
   }
   &-danger {

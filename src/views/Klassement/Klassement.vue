@@ -1,7 +1,17 @@
 <template>
   <section>
-    <h1>Etappe uitslag invullen</h1>
+    <h1>
+      Klassement per etappe
+    </h1>
+    <router-link
+      :to="{ name: 'algemeen-klassement' }"
+      class="btn btn-alert"
+      style="margin: 2rem 0"
+    >
+      Ga naar het algemene klassement
+    </router-link>
 
+    <h2>Etappe Overzicht</h2>
     <div class="rmTable">
       <div class="rmTable__header">
         <div class="rmTable__header--number">#</div>
@@ -20,10 +30,10 @@
 
         <div class="rmTable__body--button">
           <router-link
-            :to="{ name: 'uitslag-single', params: { etappeID: etappe.id } }"
+            :to="{ name: 'klassement-single', params: { etappeID: etappe.id } }"
             :id="etappe.id"
           >
-            <img src="@/assets/icons/edit.svg" alt="edit" />
+            <img src="@/assets/icons/chevrons-right.svg" alt="edit" />
           </router-link>
         </div>
       </div>
@@ -32,21 +42,31 @@
 </template>
 
 <script>
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 import config from '@/utils/config';
-export default {
-  //TODO bekijk of entry al in ingevuld.
 
+export default {
+  //TODO bekijk of entrie al in ingevuld.
+  name: 'EtappeOverzicht',
   data() {
     return {
       etappes: {},
+      ronde: null,
     };
   },
   created() {
     fetch(`${config.DEV_URL}stages?race=1`)
       .then((response) => response.json())
       .then((result) => {
-        this.etappes = result;
+        this.etappes = result.sort((a, b) => (a.date > b.date ? 1 : -1));
+        this.ronde = result[0].name;
       });
+  },
+  methods: {
+    ...mapMutations(['setEtappes']),
+    setEtappe(etappe) {
+      this.setEtappes(etappe);
+    },
   },
 };
 </script>
