@@ -148,7 +148,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['selectie']),
+    ...mapState(['selectie', 'stage']),
     ...mapGetters(['countSelectie']),
 
     currentSelectie(state) {
@@ -221,8 +221,10 @@ export default {
     const stage = await axios.get(
       `${config.DEV_URL}stages/${this.$route.params.etappeID}`
     );
-    this.etappe = stage.data;
-    this.toEtappe(stage.data);
+    if (stage) {
+      this.etappe = stage.data;
+      this.toEtappe(stage.data);
+    }
 
     if (activeUser) {
       const entries = await axios.get(

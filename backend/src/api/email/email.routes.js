@@ -37,4 +37,13 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.post('/result', async (req, res, next) => {
+  try {
+    await sgMail.send();
+    res.send('Result email sent!');
+  } catch (error) {
+    return next(error);
+  }
+});
+
 module.exports = router;
