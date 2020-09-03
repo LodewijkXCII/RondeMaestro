@@ -42,7 +42,7 @@ export default {
   },
   created() {
     axios.get(`${config.DEV_URL}results/totalscore`).then((result) => {
-      this.scores = result.data.sort((a, b) => (a.sum < b.sum ? 1 : -1));
+      this.scores = result.data.sort((a, b) => b.sum - a.sum);
     });
   },
 };

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <NavBar />
-    <router-view class="container" />
+    <router-view :class="{ container: !isHome }" />
     <section v-if="!isHome">
       <BottomNav />
     </section>
