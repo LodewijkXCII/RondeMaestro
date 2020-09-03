@@ -45,7 +45,7 @@ export default {
     axios
       .get(`${config.DEV_URL}results/totalscore?stage_id=${params}`)
       .then((result) => {
-        this.scores = result.data.sort((a, b) => (a.sum < b.sum ? 1 : -1));
+        this.scores = result.data.sort((a, b) => (a.sum - b.sum));
       });
   },
 };
