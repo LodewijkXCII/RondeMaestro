@@ -29,7 +29,7 @@
     </div>
 
     <section class="filter">
-      <label for="name">Zoek op naam:</label>
+      <label for="name">Zoek op renner:</label>
       <input
         type="text"
         name="name"
@@ -177,6 +177,7 @@ export default {
         this.addToSelectie(renner);
       }
     },
+    // RENNER ZOEKEN
     async searchRiders() {
       this.team = 0;
       const searchrider = await axios.get(
@@ -201,7 +202,6 @@ export default {
     this.removeAll();
 
     const cyclists = await axios.get(`${config.DEV_URL}cyclists`);
-    // const cyclists = await axios.get(`http://localhost:1992/api/v1/cyclists`);
     this.renners = cyclists.data.sort((a, b) =>
       a.race_number > b.race_number ? 1 : -1
     );

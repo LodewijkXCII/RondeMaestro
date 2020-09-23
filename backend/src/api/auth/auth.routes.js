@@ -97,6 +97,7 @@ router.post('/signin', async (req, res, next) => {
     const payload = {
       id: user.id,
       name: user.name,
+      user_type: user.user_role_id,
       email,
     };
     const token = await jwt.sign(payload);

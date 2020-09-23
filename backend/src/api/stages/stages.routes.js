@@ -29,4 +29,19 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
+router.put('/:id', async (req, res, next) => {
+  const { id } = req.params;
+  try {
+    const updateStage = await queries.update({
+      id,
+    });
+    if (updateStage) {
+      res.json(updateStage);
+      console.log('putting');
+    }
+  } catch (error) {
+    return next(error);
+  }
+});
+
 module.exports = router;

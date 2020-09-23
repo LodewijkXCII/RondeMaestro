@@ -30,10 +30,10 @@ router.get('/score', async (req, res, next) => {
 });
 
 router.get('/totalscore', async (req, res, next) => {
-  const { stage_id, race_id } = req.query;
+  const { stage_id, race_id, user_id } = req.query;
 
   try {
-    const entries = await queries.getSUM({ stage_id, race_id });
+    const entries = await queries.getSUM({ stage_id, race_id, user_id });
     if (entries) {
       res.json(entries);
     }

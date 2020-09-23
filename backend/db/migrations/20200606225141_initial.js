@@ -112,6 +112,7 @@ exports.up = async (knex) => {
     table.string('finish_city', 100).notNullable();
     table.integer('distance', 4).notNullable();
     table.dateTime('date').notNullable();
+    table.boolean('done').defaultTo(false);
     table.string('image_url', 2000);
     addDefaultColumns(table);
     references(table, 'race');

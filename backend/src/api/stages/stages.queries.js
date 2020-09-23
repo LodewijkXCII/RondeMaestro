@@ -1,5 +1,6 @@
 const db = require('../../db');
 const tableNames = require('../../constants/tableNames');
+const { update } = require('../../db');
 
 const fields = [
   'stage.id',
@@ -8,6 +9,7 @@ const fields = [
   'finish_city',
   'distance',
   'date',
+  'done',
   'stage.image_url',
   'race.name as name',
   'stage_type.name as stage_type',
@@ -34,5 +36,13 @@ module.exports = {
       .join(tableNames.stage_type, 'stage.stage_type_id', 'stage_type.id')
       .where('stage.id', id)
       .first();
+  },
+
+  update(query) {
+    const updateStage = db(tableNames.stage)
+      .where('stage.id', query.id)
+      .update({ done: true }, ['stage.id', 'stage_nr', 'done']);
+
+    return updateStage;
   },
 };

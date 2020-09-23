@@ -39,6 +39,7 @@ export default {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       localStorage.removeItem('user_id');
+      localStorage.removeItem('user_type_id');
       if (currentPath !== '/') {
         this.$router.go('/');
       }

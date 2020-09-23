@@ -94,7 +94,9 @@ module.exports = {
         'entry.stage_id': 'result.stage_id',
       });
     // .where('entry.stage_id', '=', 1);
-
+    if (query.user_id) {
+      summedRes.where('user.id', '=', query.user_id);
+    }
     if (query.stage_id) {
       summedRes.where('entry.stage_id', '=', query.stage_id);
     }

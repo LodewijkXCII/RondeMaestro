@@ -88,6 +88,7 @@ export default {
                 localStorage.token = response.data.token;
                 localStorage.user = response.data.user.name;
                 localStorage.user_id = response.data.user.id;
+                localStorage.user_type_id = response.data.user.user_type;
 
                 this.logginIn = false;
                 this.$router.push('/dashboard');

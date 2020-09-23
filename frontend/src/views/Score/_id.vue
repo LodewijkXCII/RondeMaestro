@@ -113,6 +113,7 @@ export default {
       user_id: activeUser,
       stage_id: +this.$route.params.etappeID,
     };
+
     axios
       .all([
         // axios.get(`${config.DEV_URL}results/${this.$route.params.etappeID}`, {
