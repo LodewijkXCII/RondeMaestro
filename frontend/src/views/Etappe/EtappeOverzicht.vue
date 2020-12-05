@@ -33,7 +33,7 @@
               {{ etappe.start_city }} - {{ etappe.finish_city }}
             </div>
             <div class="rmTable__body--type">
-              {{ etappe.stage_type.charAt(0) }}
+              <img :src="etappe.stage_type" />
             </div>
             <div class="rmTable__body--distance">{{ etappe.distance }}KM</div>
             <div class="rmTable__body--button">
@@ -47,19 +47,31 @@
           </router-link>
         </div>
         <div class="rmTable__bottom">
-          <div class="rmTable__bottom--selection" v-if="etappe.selection">
-            <div v-for="renner in etappe.selection" :key="renner.id">
-              {{ renner.last_name }}{{ renner.first_name }}
+          <div class="rmTable__bottom--selection">
+            <div
+              v-for="renner in etappe.selection"
+              :key="renner.id"
+              class="rennerInfo"
+            >
+              <div class="rennerInfo--name">
+                {{ renner.first_name }}
+                <div class="lastName">{{ renner.last_name }}</div>
+              </div>
             </div>
           </div>
-          <div
-            class="rmTable__bottom--team"
-            @click="openSelection(etappe, index)"
-          >
-            Bekijk je team
-          </div>
-          <div class="rmTable__bottom--done" v-if="etappe.done === true">
-            Bekijk de score
+          <div class="rmTable__bottom--links">
+            <div
+              class="rmTable__bottom--team"
+              @click="openSelection(etappe, index)"
+            >
+              Bekijk je team
+            </div>
+            <div class="rmTable__bottom--done" v-if="etappe.done === true">
+              <router-link
+                :to="{ name: 'score-single', params: { etappeID: etappe.id } }"
+                >Bekijk de score</router-link
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -84,6 +96,7 @@ export default {
 
   created() {
     // const currentDate = new Date();
+    
     fetch(`${config.DEV_URL}stages?race=1`)
       .then((response) => response.json())
       .then((result) => {
@@ -98,18 +111,17 @@ export default {
       this.setEtappes(etappe);
     },
     async openSelection(etappe, index) {
-      console.log(index);
-      const activeUser = window.localStorage.user_id;
+      if (this.etappes[index].selection.length === 0) {
+        const activeUser = window.localStorage.user_id;
 
-      const entry = await axios.get(
-        `${config.DEV_URL}entries?users_id=${activeUser}&stage_id=${etappe.id}`
-      );
-      if (entry) {
-        console.log(entry.data);
-        this.etappes[index].selection = entry.data;
-        entry.data.forEach((renner) => {
-          console.log(renner.cyclist_id);
-        });
+        const entry = await axios.get(
+          `${config.DEV_URL}entries?users_id=${activeUser}&stage_id=${etappe.id}`
+        );
+        if (entry) {
+          this.etappes[index].selection = entry.data;
+        }
+      } else {
+        this.etappes[index].selection = null;
       }
     },
   },
@@ -165,7 +177,7 @@ export default {
   &__body {
     background: #fff;
     position: relative;
-    padding: 0.5rem 0.25rem;
+    padding: 0.5rem;
     font-size: 0.6rem;
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
     &--date,
@@ -174,6 +186,9 @@ export default {
     &--type {
       justify-self: center;
       align-self: center;
+      img {
+        max-width: 15px;
+      }
     }
 
     &--city {
@@ -216,21 +231,44 @@ export default {
   }
 
   &__bottom {
-    display: flex;
-    justify-content: space-evenly;
-    margin-left: 2rem;
+    margin-left: 0.75rem;
     margin-right: 5px;
     background: darken($color: #fff, $amount: 1);
     border-radius: 0px 0px 10px 10px;
     box-shadow: inset 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+
+    &--links {
+      display: flex;
+      justify-content: space-evenly;
+    }
     &--team,
-    &--done {
+    &--done,
+    &--score {
       padding: 0.2rem 2rem;
       text-transform: uppercase;
       font-size: 0.6rem;
       color: $primary-color;
       font-weight: 700;
     }
+    &--team {
+      cursor: pointer;
+    }
+    &--selection {
+      display: grid;
+      gap: 0.5rem;
+      grid-template-columns: repeat(4, 1fr);
+      text-align: center;
+      margin: 0 1rem 0.2rem;
+      padding-top: 0.3rem;
+      font-size: 0.6rem;
+    }
   }
+}
+
+.rennerInfo {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  margin: auto;
 }
 </style>

@@ -12,7 +12,7 @@ const fields = [
   'done',
   'stage.image_url',
   'race.name as name',
-  'stage_type.name as stage_type',
+  'stage_type.image_url as stage_type',
 ];
 
 //TODO StageType URL instead of name

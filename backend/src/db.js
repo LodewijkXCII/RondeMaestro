@@ -1,5 +1,6 @@
 const knex = require('knex');
 const { Model } = require('objection');
+require('dotenv').config();
 
 const knexConfig = require('../knexfile');
 

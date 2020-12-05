@@ -1,31 +1,17 @@
+const message = require('./messages');
+
 const express = require('express');
 const sgMail = require('@sendgrid/mail');
+require('dotenv').config();
 
 const router = express.Router();
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-const msg = {
-  to: 'loekzweers@gmail.com',
-  from: 'rondemaestro@gmail.com', // Use the email address or domain you verified above
-  subject: 'Welkom bij RondeMaestro!',
-  text:
-    'Hallo, Wat leuk dat je mee doet aan RondeMaestro! We vinden je nu al een held dat je mee wil doen! Je kan nu dagelijks meedoen voor de eeuwige roem en de beste verhalen bij het koffiezetapparaat. Tot ziens op RondeMaestro! Met vriendelijke groet, De RondeMaestro’s',
-  html: `Hallo,<br/>
-  <p>
-  Wat leuk dat je mee doet aan RondeMaestro! We vinden je nu al een held dat je mee wil doen! Je kan nu dagelijks meedoen voor de eeuwige roem en de beste verhalen bij het koffiezetapparaat. 
-  </p>
-  <p>
-  Tot ziens op RondeMaestro!
-  </p>
-  <p>
-  Met vriendelijke groet,<br/>
-  De RondeMaestro’s</p>`,
-};
-
-router.get('/', async (req, res, next) => {
+router.post('/welkom', async (req, res, next) => {
   try {
-    await sgMail.send(msg);
+    /* Haalt het bericht uit messages.js */
+    await sgMail.send(message.welkom);
     res.send('Successfully! Sent mail');
   } catch (error) {
     console.error(error);
@@ -33,15 +19,6 @@ router.get('/', async (req, res, next) => {
       console.error(error.response.body);
       next(error);
     }
-    return next(error);
-  }
-});
-
-router.post('/result', async (req, res, next) => {
-  try {
-    await sgMail.send();
-    res.send('Result email sent!');
-  } catch (error) {
     return next(error);
   }
 });

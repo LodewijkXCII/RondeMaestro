@@ -295,11 +295,6 @@ label {
       overflow: hidden;
 
       img {
-        // width: 50px;
-        // height: 50px;
-        // border-radius: 50%;
-        // border: 1px solid $secondary-color;
-        // margin: 0 auto;
         max-width: 100%;
       }
     }
@@ -357,6 +352,7 @@ label {
       cursor: default;
       background: #f7f7f7;
       color: lightgray;
+      filter: grayscale(100%);
 
       &:active {
         transform: none;
@@ -378,6 +374,29 @@ label {
         color: lightgray;
       }
     }
+  }
+}
+
+.lastName {
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.renner__img {
+  margin: 0.5em auto;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid #3fc1c9;
+  overflow: hidden;
+
+  img {
+    // width: 50px;
+    // height: 50px;
+    // border-radius: 50%;
+    // border: 1px solid $secondary-color;
+    // margin: 0 auto;
+    max-width: 100%;
   }
 }
 

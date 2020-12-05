@@ -6,7 +6,7 @@ function sign(payload) {
       payload,
       process.env.JWT_SECRET,
       {
-        expiresIn: '1d',
+        expiresIn: '1h',
       },
       (error, token) => {
         if (error) return reject(error);

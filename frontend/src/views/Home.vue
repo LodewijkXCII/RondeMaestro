@@ -46,6 +46,20 @@
         We vragen je dan ook mild te zijn met de opmerkingen wanneer iets niet
         werkt op de manier zoals je dat zelf verwacht.
       </p>
+      <div class="buttons">
+        <router-link
+          :to="{ name: 'Signin' }"
+          role="button"
+          class="btn btn-primary"
+          >Aanmelden</router-link
+        >
+        <router-link
+          :to="{ name: 'Signup' }"
+          role="button"
+          class="btn btn-primary"
+          >Inschrijven</router-link
+        >
+      </div>
       <router-link
         :to="{ name: 'Spelregels' }"
         role="button"
@@ -90,6 +104,17 @@ export default {
 
 .headerImage {
   width: 100%;
+}
+
+.buttons {
+  display: flex;
+
+  a:first-of-type {
+    margin-right: 0.5em;
+  }
+  a:last-child {
+    margin-left: 0.5em;
+  }
 }
 
 .bottom-links {

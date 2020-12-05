@@ -5,6 +5,8 @@ const helmet = require('helmet');
 const cors = require('cors');
 const passport = require('passport');
 
+require('dotenv').config();
+
 const middlewares = require('./middlewares');
 const api = require('./api');
 const project = require('./constants/project');

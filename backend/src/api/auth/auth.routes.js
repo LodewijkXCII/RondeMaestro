@@ -22,8 +22,9 @@ const schema = yup.object().shape({
 });
 
 const errorMessages = {
-  invalidLogin: 'Invalid login.',
-  emailOrNameInUse: 'Email or name in use.',
+  invalidLogin: 'Email of wachtwoord verkeerd',
+  invalidEmail: 'Emailadres niet bekend',
+  emailOrNameInUse: 'Email or name in gebruik.',
 };
 
 router.post('/signup', async (req, res, next) => {
@@ -42,8 +43,7 @@ router.post('/signup', async (req, res, next) => {
     const existingName = await User.query().where({ name }).first();
 
     if (existingUser || existingName) {
-      const error = new Error(errorMessages.emailOrNameInUse);
-      res.status(403);
+      res.status(401).send({ error: errorMessages.emailOrNameInUse });
       throw error;
     }
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -74,7 +74,7 @@ router.post('/signin', async (req, res, next) => {
   try {
     await schema.validate(
       {
-        name: 'DocD',
+        name: 'Loek',
         email,
         password,
       },
@@ -82,18 +82,18 @@ router.post('/signin', async (req, res, next) => {
         abortEarly: false,
       }
     );
+
+    /* CONTROLEER USER EN GEEF FOUTCODE WANNEER NIET GEVONDEN IS */
     const user = await User.query().where({ email }).first();
     if (!user) {
-      const error = new Error(errorMessages.invalidLogin);
-      res.status(403);
-      throw error;
+      res.status(401).send({ error: errorMessages.invalidEmail });
     }
+    /* CONTROLEER WACHTWOORD EN GEEF FOUTCODE ONJUIST IS */
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
-      const error = new Error(errorMessages.invalidLogin);
-      res.status(403);
-      throw error;
+      res.status(401).send({ error: errorMessages.invalidLogin });
     }
+
     const payload = {
       id: user.id,
       name: user.name,

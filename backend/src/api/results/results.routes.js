@@ -16,6 +16,32 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.post('/', async (req, res, next) => {
+  try {
+    const entry = await Result.query().insert(req.body);
+    res.json(entry);
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.put('/', async (req, res, next) => {
+  const { position, stage_id, cyclist_id } = req.body;
+  try {
+    const updateEntry = await queries.update({
+      position,
+      stage_id,
+      cyclist_id,
+    });
+    if (updateEntry) {
+      res.json(updateEntry);
+      console.log('putting');
+    }
+  } catch (error) {
+    throw error;
+  }
+});
+
 router.get('/score', async (req, res, next) => {
   const { stage_id, race_id, user_id } = req.query;
 
@@ -42,29 +68,28 @@ router.get('/totalscore', async (req, res, next) => {
   }
 });
 
-router.post('/', async (req, res, next) => {
+router.get('/userscore', async (req, res, next) => {
+  const { user_id } = req.query;
   try {
-    const entry = await Result.query().insert(req.body);
-    res.json(entry);
+    const entries = await queries.getUserScores({ user_id });
+    if (entries) {
+      res.json(entries);
+    }
   } catch (error) {
     return next(error);
   }
 });
 
-router.put('/', async (req, res, next) => {
-  const { position, stage_id, cyclist_id } = req.body;
+router.get('/rennerscore', async (req, res, next) => {
+  const { stage_id, race_id, user_id } = req.query;
+
   try {
-    const updateEntry = await queries.update({
-      position,
-      stage_id,
-      cyclist_id,
-    });
-    if (updateEntry) {
-      res.json(updateEntry);
-      console.log('putting');
+    const entries = await queries.getSUMRenner({ stage_id, race_id, user_id });
+    if (entries) {
+      res.json(entries);
     }
   } catch (error) {
-    throw error;
+    return next(error);
   }
 });
 

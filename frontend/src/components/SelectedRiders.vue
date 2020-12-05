@@ -85,7 +85,7 @@ export default {
       const stagesTime = new Date(this.stage.date);
 
       if (this.countSelectie !== 8) {
-        this.errorMsg = 'Er zijn er geen 8 ingevuld!';
+        this.errorMsg = 'Er zijn niet precies 8 renners ingevuld!';
         this.error = true;
         setTimeout(() => {
           (this.errorMsg = ''), (this.error = false);

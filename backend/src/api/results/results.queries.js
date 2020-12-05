@@ -29,6 +29,7 @@ const fields_score = [
 ];
 
 module.exports = {
+  //Find result from stage
   find(query) {
     const resultQuery = db(result)
       .select(fields)
@@ -41,6 +42,7 @@ module.exports = {
     }
     return resultQuery;
   },
+  //Update result
   update(query) {
     const put = db(result)
       .where('points', query.points)
@@ -71,13 +73,13 @@ module.exports = {
       .whereNull('entry.deleted_at');
 
     if (query.user_id) {
-      resultQuery.where('users.id', '=', query.user_id);
+      resultQuery.where('users.id', query.user_id);
     }
     if (query.stage_id) {
-      resultQuery.where('result.stage_id', '=', query.stage_id);
+      resultQuery.where('result.stage_id', query.stage_id);
     }
     if (query.race_id) {
-      resultQuery.where('race_id', '=', query.race_id);
+      resultQuery.where('race_id', query.race_id);
     }
     return resultQuery;
   },
@@ -93,14 +95,42 @@ module.exports = {
         'entry.cyclist_id': 'result.cyclist_id',
         'entry.stage_id': 'result.stage_id',
       });
-    // .where('entry.stage_id', '=', 1);
+
     if (query.user_id) {
-      summedRes.where('user.id', '=', query.user_id);
+      summedRes.where('users.id', '=', query.user_id);
     }
     if (query.stage_id) {
       summedRes.where('entry.stage_id', '=', query.stage_id);
     }
 
     return summedRes;
+  },
+
+  async getUserScores(query) {
+    const userscores = db(result)
+      .select('name', 'entry.stage_id', db.raw('SUM(points)'))
+      .groupBy('name', 'entry.stage_id')
+      .from(tableNames.users)
+      .where('users.id', '=', query.user_id)
+      .innerJoin('entry', 'users.id', 'entry.users_id')
+      .whereNull('entry.deleted_at')
+      .innerJoin('result', {
+        'entry.cyclist_id': 'result.cyclist_id',
+        'entry.stage_id': 'result.stage_id',
+      });
+
+    return userscores;
+  },
+
+  async getSUMRenner(query) {
+    const summedCyclistRes = await db(result)
+      .select('cyclist.id', db.raw('SUM(points)'))
+      .groupBy('cyclist.id')
+      .from(tableNames.cyclist)
+      .whereNull('result.deleted_at')
+      .innerJoin('result', {
+        'cyclist.id': 'result.cyclist_id',
+      });
+    return summedCyclistRes;
   },
 };

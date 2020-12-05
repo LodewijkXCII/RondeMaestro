@@ -18,7 +18,7 @@ import Startlist from '../views/Admin/Startlist/Startlist.vue';
 import Spelregels from '../views/Spelregels/Spelregels.vue';
 import Admin from '../views/Admin/Admin.vue';
 
-// import { isLoggedIn } from '../utils/auth';
+import { isAuthenticated } from '../utils/auth';
 
 Vue.use(VueRouter);
 
@@ -27,6 +27,15 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
+    beforeEnter: (to, from, next) => {
+      if (localStorage.user_id) {
+        next({
+          path: '/dashboard',
+        });
+      }
+      console.log(`${from.path} to ${to.path}?`);
+      next();
+    },
   },
   {
     path: '/spelregels',
@@ -171,7 +180,9 @@ router.beforeEach((to, from, next) => {
         query: { nextUrl: to.fullPath },
       });
     } else {
-      let user = localStorage.getItem('user');
+      // let token = localStorage.getItem('token');
+      // isAuthenticated(token);
+
       // if (to.matched.some((record) => record.meta.is_admin)) {
       //   if (user.is_admin == 1) {
       //     next();
@@ -183,7 +194,7 @@ router.beforeEach((to, from, next) => {
       // }
     }
   } else if (to.matched.some((record) => record.meta.guest)) {
-    if (localStorage.getItem('jwt') == null) {
+    if (localStorage.getItem('token') == null) {
       next();
     } else {
       next({ name: 'dashboard' });
