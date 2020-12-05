@@ -12,62 +12,124 @@
         <div class="rmTable__header--distance">Afstand</div>
         <div class="rmTable__header--button"></div>
       </div>
-      <div class="rmTable__body" v-for="etappe in etappes" :key="etappe.id">
-        <router-link
-          :to="{ name: 'selectie', params: { etappeID: etappe.id } }"
-          class="rmTable__bodya"
+      <div
+        class="rmTable__wrapper"
+        v-for="(etappe, index) in etappes"
+        :key="etappe.id"
+      >
+        <div
+          class="rmTable__body"
+          :class="etappe.done === true ? 'done' : 'not-done'"
         >
-          <div class="rmTable__body--number">{{ etappe.stage_nr }}.</div>
-          <div class="rmTable__body--date">{{ etappe.date | formatDate }}</div>
-          <div class="rmTable__body--city">{{ etappe.start_city }} - {{ etappe.finish_city }}</div>
-          <div class="rmTable__body--type">{{ etappe.stage_type.charAt(0) }}</div>
-          <div class="rmTable__body--distance">{{ etappe.distance }}KM</div>
-          <div class="rmTable__body--button">
-            <router-link
-              :to="{ name: 'etappe-single', params: { etappeID: etappe.id } }"
-              :id="etappe.id"
+          <router-link
+            :to="{ name: 'selectie', params: { etappeID: etappe.id } }"
+            class="rmTable__bodya"
+          >
+            <div class="rmTable__body--number">{{ etappe.stage_nr }}.</div>
+            <div class="rmTable__body--date">
+              {{ etappe.date | formatDate }}
+            </div>
+            <div class="rmTable__body--city">
+              {{ etappe.start_city }} - {{ etappe.finish_city }}
+            </div>
+            <div class="rmTable__body--type">
+              <img :src="etappe.stage_type" />
+            </div>
+            <div class="rmTable__body--distance">{{ etappe.distance }}KM</div>
+            <div class="rmTable__body--button">
+              <router-link
+                :to="{ name: 'etappe-single', params: { etappeID: etappe.id } }"
+                :id="etappe.id"
+              >
+                <img src="@/assets/icons/info.svg" alt="info" />
+              </router-link>
+            </div>
+          </router-link>
+        </div>
+        <div class="rmTable__bottom">
+          <div class="rmTable__bottom--selection">
+            <div
+              v-for="renner in etappe.selection"
+              :key="renner.id"
+              class="rennerInfo"
             >
-              <img src="@/assets/icons/info.svg" alt="info" />
-            </router-link>
+              <div class="rennerInfo--name">
+                {{ renner.first_name }}
+                <div class="lastName">{{ renner.last_name }}</div>
+              </div>
+            </div>
           </div>
-        </router-link>
+          <div class="rmTable__bottom--links">
+            <div
+              class="rmTable__bottom--team"
+              @click="openSelection(etappe, index)"
+            >
+              Bekijk je team
+            </div>
+            <div class="rmTable__bottom--done" v-if="etappe.done === true">
+              <router-link
+                :to="{ name: 'score-single', params: { etappeID: etappe.id } }"
+                >Bekijk de score</router-link
+              >
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
-import config from "@/utils/config";
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
+import config from '@/utils/config';
+import axios from 'axios';
 
 export default {
   //TODO bekijk of entrie al in ingevuld.
-  name: "EtappeOverzicht",
+  name: 'EtappeOverzicht',
   data() {
     return {
       etappes: {},
       ronde: null,
     };
   },
+
   created() {
+    // const currentDate = new Date();
+    
     fetch(`${config.DEV_URL}stages?race=1`)
       .then((response) => response.json())
       .then((result) => {
-        this.etappes = result.sort((a, b) => (a.date > b.date ? 1 : -1));
+        const fetched = result.sort((a, b) => (a.date > b.date ? 1 : -1));
+        this.etappes = fetched.map((v) => ({ ...v, selection: [] }));
         this.ronde = result[0].name;
       });
   },
   methods: {
-    ...mapMutations(["setEtappes"]),
+    ...mapMutations(['setEtappes']),
     setEtappe(etappe) {
       this.setEtappes(etappe);
+    },
+    async openSelection(etappe, index) {
+      if (this.etappes[index].selection.length === 0) {
+        const activeUser = window.localStorage.user_id;
+
+        const entry = await axios.get(
+          `${config.DEV_URL}entries?users_id=${activeUser}&stage_id=${etappe.id}`
+        );
+        if (entry) {
+          this.etappes[index].selection = entry.data;
+        }
+      } else {
+        this.etappes[index].selection = null;
+      }
     },
   },
 };
 </script>
 
 <style lang="scss">
-@import "@/assets/styles.scss";
+@import '@/assets/styles.scss';
 
 .rmTable {
   margin: 2rem 0;
@@ -99,21 +161,34 @@ export default {
     }
   }
 
-  &__body {
-    background: #fff;
-    padding: 0.5rem 0.25rem;
-    font-size: 0.6rem;
+  &__wrapper {
+    margin-bottom: 3px;
+    // background: #fff;
+    // padding: 0.5rem 0.25rem;
+    // font-size: 0.6rem;
 
-    &:nth-child(odd) {
+    &:nth-child(odd) .rmTable__body {
       background: $white-color;
     }
-
+    &:nth-child(odd) .rmTable__bottom {
+      background: darken($color: $white-color, $amount: 2);
+    }
+  }
+  &__body {
+    background: #fff;
+    position: relative;
+    padding: 0.5rem;
+    font-size: 0.6rem;
+    box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
     &--date,
     &--number,
     &--distance,
     &--type {
       justify-self: center;
       align-self: center;
+      img {
+        max-width: 15px;
+      }
     }
 
     &--city {
@@ -132,6 +207,68 @@ export default {
     a {
       text-transform: none;
     }
+
+    &.done::after {
+      background: $succes-color;
+      content: '';
+      position: absolute;
+      width: 5px;
+      height: 100%;
+
+      right: 0;
+      top: 0;
+    }
+    &.not-done::after {
+      background: $danger-color;
+      content: '';
+      position: absolute;
+      width: 5px;
+      height: 100%;
+
+      right: 0;
+      top: 0;
+    }
   }
+
+  &__bottom {
+    margin-left: 0.75rem;
+    margin-right: 5px;
+    background: darken($color: #fff, $amount: 1);
+    border-radius: 0px 0px 10px 10px;
+    box-shadow: inset 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+
+    &--links {
+      display: flex;
+      justify-content: space-evenly;
+    }
+    &--team,
+    &--done,
+    &--score {
+      padding: 0.2rem 2rem;
+      text-transform: uppercase;
+      font-size: 0.6rem;
+      color: $primary-color;
+      font-weight: 700;
+    }
+    &--team {
+      cursor: pointer;
+    }
+    &--selection {
+      display: grid;
+      gap: 0.5rem;
+      grid-template-columns: repeat(4, 1fr);
+      text-align: center;
+      margin: 0 1rem 0.2rem;
+      padding-top: 0.3rem;
+      font-size: 0.6rem;
+    }
+  }
+}
+
+.rennerInfo {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  margin: auto;
 }
 </style>

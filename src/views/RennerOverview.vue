@@ -29,7 +29,7 @@
     </div>
 
     <section class="filter">
-      <label for="name">Zoek op naam:</label>
+      <label for="name">Zoek op renner:</label>
       <input
         type="text"
         name="name"
@@ -148,7 +148,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(['selectie']),
+    ...mapState(['selectie', 'stage']),
     ...mapGetters(['countSelectie']),
 
     currentSelectie(state) {
@@ -177,6 +177,7 @@ export default {
         this.addToSelectie(renner);
       }
     },
+    // RENNER ZOEKEN
     async searchRiders() {
       this.team = 0;
       const searchrider = await axios.get(
@@ -201,7 +202,6 @@ export default {
     this.removeAll();
 
     const cyclists = await axios.get(`${config.DEV_URL}cyclists`);
-    // const cyclists = await axios.get(`http://localhost:1992/api/v1/cyclists`);
     this.renners = cyclists.data.sort((a, b) =>
       a.race_number > b.race_number ? 1 : -1
     );
@@ -221,8 +221,10 @@ export default {
     const stage = await axios.get(
       `${config.DEV_URL}stages/${this.$route.params.etappeID}`
     );
-    this.etappe = stage.data;
-    this.toEtappe(stage.data);
+    if (stage) {
+      this.etappe = stage.data;
+      this.toEtappe(stage.data);
+    }
 
     if (activeUser) {
       const entries = await axios.get(
@@ -293,11 +295,6 @@ label {
       overflow: hidden;
 
       img {
-        // width: 50px;
-        // height: 50px;
-        // border-radius: 50%;
-        // border: 1px solid $secondary-color;
-        // margin: 0 auto;
         max-width: 100%;
       }
     }
@@ -355,6 +352,7 @@ label {
       cursor: default;
       background: #f7f7f7;
       color: lightgray;
+      filter: grayscale(100%);
 
       &:active {
         transform: none;
@@ -376,6 +374,29 @@ label {
         color: lightgray;
       }
     }
+  }
+}
+
+.lastName {
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.renner__img {
+  margin: 0.5em auto;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid #3fc1c9;
+  overflow: hidden;
+
+  img {
+    // width: 50px;
+    // height: 50px;
+    // border-radius: 50%;
+    // border: 1px solid $secondary-color;
+    // margin: 0 auto;
+    max-width: 100%;
   }
 }
 

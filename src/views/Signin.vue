@@ -19,7 +19,13 @@
         id="password"
         required
       />
-      <button class="btn btn-primary" type="submit">Login</button>
+      <button
+        class="btn"
+        :class="errorMessage ? 'btn-alert' : 'btn-primary'"
+        type="submit"
+      >
+        Login
+      </button>
     </form>
     <small>
       Nog geen account?
@@ -32,23 +38,7 @@
 import * as yup from 'yup';
 import config from '@/utils/config';
 import axios from 'axios';
-
-const schema = yup.object().shape({
-  email: yup
-    .string()
-    .trim()
-    .email()
-    .required(),
-  password: yup
-    .string()
-    .min(8)
-    .max(200)
-    .matches(/[^A-Za-z0-9]/, 'password must contain a special character')
-    .matches(/[A-Z]/, 'password must contain an uppercase letter')
-    .matches(/[a-z]/, 'password must contain a lowercase letter')
-    .matches(/[0-9]/, 'password must contain a number')
-    .required(),
-});
+import schema from '@/utils/yup';
 
 export default {
   data() {
@@ -88,16 +78,21 @@ export default {
                 localStorage.token = response.data.token;
                 localStorage.user = response.data.user.name;
                 localStorage.user_id = response.data.user.id;
+                localStorage.user_type_id = response.data.user.user_type;
 
                 this.logginIn = false;
                 this.$router.push('/dashboard');
               } else {
-                return response.data.then((error) => {
-                  throw new Error(error.message);
-                });
+                this.errorMessage =
+                  'Er is iets mis gegaan, neem contact op met rondemaestro@gmail.com om te achterhalen wat.';
+                console.log(response);
               }
             })
             .catch((error) => {
+              this.errorMessage = error.response.data.error;
+              setTimeout(() => {
+                this.errorMessage = '';
+              }, 5000);
               console.log(error);
             });
         } catch (error) {
@@ -105,13 +100,10 @@ export default {
         }
       }
     },
+
     validUser() {
-      const result = schema
+      const result = schema.schema
         .validate(this.user, schema)
-        // .then((result) => {
-        //   console.log('Gelukt:', result);
-        //   result;
-        // })
         .catch((error) => {
           console.log('Mislukt:', error);
           if (error.message.includes('email')) {
@@ -122,18 +114,7 @@ export default {
           return false;
         });
       return true;
-      // if (result.error === null) {
-      //   return true;
-      // }
-      // if (result) {
-      //   console.log('Gekkig');
-      // }
-      // console.log(result);
-
-      // console.log(result);
     },
   },
 };
 </script>
-
-<style></style>

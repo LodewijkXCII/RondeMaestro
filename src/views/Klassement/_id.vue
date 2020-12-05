@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1>Algemeen klassement</h1>
+    <h1>Klassement van etappe {{ $route.params.etappeID }}</h1>
 
     <h2></h2>
 
@@ -45,7 +45,7 @@ export default {
     axios
       .get(`${config.DEV_URL}results/totalscore?stage_id=${params}`)
       .then((result) => {
-        this.scores = result.data.sort((a, b) => (a.sum < b.sum ? 1 : -1));
+        this.scores = result.data.sort((a, b) => b.sum - a.sum);
       });
   },
 };

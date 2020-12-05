@@ -101,33 +101,32 @@ export default {
       etappe: {},
       result: [],
       stageResult: [],
-      score: null,
+      score: 0,
+      entry: [],
     };
   },
   created() {
     const activeUser = window.localStorage.user_id;
-    const data = {
-      user_id: activeUser,
-    };
+
     const params = {
       user_id: activeUser,
       stage_id: +this.$route.params.etappeID,
     };
+
     axios
       .all([
-        // axios.get(`${config.DEV_URL}results/${this.$route.params.etappeID}`, {
-        //   params: { user_id: +activeUser.id },
-        // }),
         axios.get(`${config.DEV_URL}results/score`, {
           params,
         }),
+        axios.get(`${config.DEV_URL}entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`),
         axios.get(`${config.DEV_URL}stages/${this.$route.params.etappeID}`),
         axios.get(
           `${config.DEV_URL}results?stage_id=${this.$route.params.etappeID}`
         ),
+        
       ])
       .then(
-        axios.spread((result, etappeinfo, stageResult) => {
+        axios.spread((result, entries, etappeinfo, stageResult) => {
           this.result = result.data.sort((a, b) =>
             a.points < b.points ? 1 : -1
           );
@@ -135,10 +134,15 @@ export default {
             this.score += this.result[i].points;
           }
 
+          this.entry = entries.data;
+
           this.etappe = etappeinfo.data;
+
           this.stageResult = stageResult.data.sort((a, b) =>
             a.points < b.points ? 1 : -1
           );
+
+
         })
       );
   },

@@ -6,6 +6,7 @@
         {{ countSelectie }}
         <span>/ 8</span>
       </h4>
+      <p>{{ errorMsg }}</p>
     </div>
     <!-- <h3>Je selectie voor etappe {{stage}}</h3> -->
     <div class="selectedRiders__bottom">
@@ -52,6 +53,7 @@ export default {
       error: false,
       sendButton: 'Verstuur',
       toMuch: false,
+      errorMsg: '',
     };
   },
   computed: {
@@ -79,8 +81,21 @@ export default {
 
     async submitSelectie() {
       const activeUser = window.localStorage.user_id;
+      const submitTime = new Date();
+      const stagesTime = new Date(this.stage.date);
+
       if (this.countSelectie !== 8) {
-        window.alert('Er zijn er geen 8 ingevuld');
+        this.errorMsg = 'Er zijn niet precies 8 renners ingevuld!';
+        this.error = true;
+        setTimeout(() => {
+          (this.errorMsg = ''), (this.error = false);
+        }, 5000);
+      } else if (submitTime > stagesTime) {
+        this.errorMsg = 'Je kan helaas niet meer invullen';
+        this.error = true;
+        setTimeout(() => {
+          (this.errorMsg = ''), (this.error = false);
+        }, 5000);
       } else {
         this.sendButton = 'Versturen...';
         await axios
@@ -163,6 +178,13 @@ export default {
       span {
         font-size: 0.7rem;
       }
+    }
+    p {
+      text-transform: uppercase;
+      font-weight: 700;
+      text-align: center;
+      margin: 0.1rem;
+      color: $alert-color;
     }
   }
 

@@ -1,10 +1,17 @@
-const AUTH_TOKEN_KEY = 'token';
+function isAuthenticated(token) {
+  const refreshToken = localStorage.getItem('refreshToken');
+  try {
+    decode(token);
 
-export function getAuthToken() {
-  return localStorage.getItem(AUTH_TOKEN_KEY);
+    const { exp } = decode(refreshToken);
+
+    if (Date.now() >= exp * 1000) {
+      return false;
+    }
+  } catch (err) {
+    return false;
+  }
+  return true;
 }
 
-export function isLoggedIn() {
-  let authToken = getAuthToken();
-  return !!authToken && !isTokenExpired(authToken);
-}
+export default isAuthenticated;

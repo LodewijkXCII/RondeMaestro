@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <NavBar />
-    <router-view class="container" />
+    <router-view :class="{ container: !isHome }" />
     <section v-if="!isHome">
       <BottomNav />
     </section>
@@ -101,7 +101,7 @@ h3 {
 }
 
 p {
-  line-height: 1.6;
+  line-height: 1.7em;
   margin-top: 1em;
   margin-bottom: 2em;
 }
@@ -181,6 +181,10 @@ a {
 */
 form {
   margin: 2em 0 0.5em;
+
+  button {
+    margin-top: 1.5rem;
+  }
 }
 label,
 input,
@@ -192,14 +196,16 @@ select {
 label {
   text-transform: uppercase;
   font-weight: 700;
+  margin: 1.5rem 0 0;
 }
 
 input,
 select {
+  font-family: 'Roboto', sans-serif;
   border-radius: 5px;
-  border: 0.5px solid $black-color;
-  padding: 0.5em;
-  margin: 0.3em 0 1em;
+  border: 0.5px solid darken($color: #f5f5f5, $amount: 15);
+  padding: 0.75em 1em;
+  margin: 0.75em 0 1em;
   background: lighten($color: $white-color, $amount: 5);
 
   &:focus {
