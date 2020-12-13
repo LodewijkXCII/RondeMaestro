@@ -19,11 +19,12 @@ router.get('/', async (req, res, next) => {
 });
 
 router.put('/', async (req, res, next) => {
-  const { cyclist_id, race } = req.body;
+  const { cyclist_id, race, updateValue } = req.body;
   try {
     const updateStartlist = await queries.update({
       cyclist_id,
       race,
+      updateValue,
     });
     if (updateStartlist) {
       res.json(updateStartlist);

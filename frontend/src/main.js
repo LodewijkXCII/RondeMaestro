@@ -9,7 +9,7 @@ import VueAxios from 'vue-axios';
 
 require('dotenv').config();
 
-/* Fontawesome import en icons select */
+/* Fontawesome SOLID ICONS import en icons select  */
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faRoute,
@@ -18,11 +18,23 @@ import {
   faListUl,
   faCheck,
   faTimes,
-  faPray,
+  faUsers,
 } from '@fortawesome/free-solid-svg-icons';
-import { faUser } from '@fortawesome/free-regular-svg-icons';
+
+/* Fontawesome REGULAR ICONS import en icons select  */
+import { faUser, faEdit } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-library.add(faRoute, faTrophy, faThLarge, faListUl, faCheck, faTimes, faUser);
+library.add(
+  faRoute,
+  faTrophy,
+  faThLarge,
+  faListUl,
+  faCheck,
+  faTimes,
+  faUser,
+  faEdit,
+  faUsers
+);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(FlagIcon);

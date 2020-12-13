@@ -27,8 +27,11 @@ module.exports = {
       .join('team', 'cyclist.team_id', 'team.id')
       .join('country', 'cyclist.country_id', 'country.id')
       .join('speciality', 'cyclist.speciality_id', 'speciality.id')
-      .leftJoin('startlist', 'cyclist.id', 'startlist.cyclist_id')
-      .whereNotNull('race_number');
+      .leftJoin('startlist', 'cyclist.id', 'startlist.cyclist_id');
+
+    // if (query.startlist) {
+    //   cyclistQuery.whereNotNull('race_number');
+    // }
 
     if (query.country) {
       cyclistQuery.where('country_id', query.country);

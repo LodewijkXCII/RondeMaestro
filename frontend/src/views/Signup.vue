@@ -85,7 +85,7 @@ export default {
     },
   },
   methods: {
-    signup() {
+    async signup() {
       this.errorMessage = '';
       if (this.validUser()) {
         const body = {
@@ -95,7 +95,7 @@ export default {
         };
         this.sigingIn = true;
         try {
-          axios({
+          await axios({
             method: 'post',
             url: `${config.DEV_URL}auth/signup`,
             data: JSON.stringify(body),
@@ -120,8 +120,29 @@ export default {
                 localStorage.user_id = response.data.user.id;
                 localStorage.user_type_id = response.data.user.user_type;
                 this.sigingIn = false;
+
+                axios({
+                  method: 'post',
+                  url: `${config.DEV_URL}email/new-user`,
+                  data: {
+                    user_name: this.user,
+                    email: this.email,
+                  },
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                  },
+                }).then((response) => {
+                  console.log(response.data);
+                  if (response.ok) {
+                    return response.json();
+                  }
+                  return response.json().then((error) => {
+                    throw new Error(error);
+                  });
+                });
+
                 this.$router.push('/dashboard');
-                //TODO Email toevoegen
               } else {
                 this.errorMessage =
                   'Er is iets mis gegaan, neem contact op met rondemaestro@gmail.com om te achterhalen wat.';

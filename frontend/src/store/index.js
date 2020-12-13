@@ -7,11 +7,7 @@ export default new Vuex.Store({
   state: {
     stage: '',
     selectie: [],
-  },
-  user: {
-    name: '',
-    user_id: null,
-    user_type_id: null,
+    userName: '',
   },
   getters: {
     countSelectie: (state) => {
@@ -30,6 +26,9 @@ export default new Vuex.Store({
     },
     setEtappes: (state, etappe) => {
       state.stage = etappe;
+    },
+    setUser: (state, user) => {
+      state.userName = user;
     },
   },
   actions: {

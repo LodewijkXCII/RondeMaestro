@@ -40,6 +40,8 @@ import config from '@/utils/config';
 import axios from 'axios';
 import schema from '@/utils/yup';
 
+import { mapState, mapMutations } from 'vuex';
+
 export default {
   data() {
     return {
@@ -51,7 +53,12 @@ export default {
       },
     };
   },
+  computed: {},
   methods: {
+    ...mapMutations(['setUser']),
+    newUser(user) {
+      this.setUser(user);
+    },
     async login() {
       const data = {
         email: this.user.email,
@@ -79,6 +86,7 @@ export default {
                 localStorage.user = response.data.user.name;
                 localStorage.user_id = response.data.user.id;
                 localStorage.user_type_id = response.data.user.user_type;
+                this.newUser(response.data.user.name);
 
                 this.logginIn = false;
                 this.$router.push('/dashboard');

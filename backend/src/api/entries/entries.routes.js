@@ -35,9 +35,9 @@ router.post('/', async (req, res, next) => {
       const entry = await Entry.query().insert(req.body);
       res.json(entry);
     } else {
-      console.log('Du bist du spass');
-      //TODO Propper error handeling
-      next();
+      res
+        .status(403)
+        .send({ error: 'Je mag niet meer insturen, het is te laat' });
     }
   } catch (error) {
     next(error);

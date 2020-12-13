@@ -33,7 +33,11 @@
               {{ etappe.start_city }} - {{ etappe.finish_city }}
             </div>
             <div class="rmTable__body--type">
-              <img :src="etappe.stage_type" />
+              <img
+                :src="
+                  `https://rondemaestro.s3.eu-central-1.amazonaws.com/icons/${etappe.stage_type}`
+                "
+              />
             </div>
             <div class="rmTable__body--distance">{{ etappe.distance }}KM</div>
             <div class="rmTable__body--button">
@@ -96,12 +100,12 @@ export default {
 
   created() {
     // const currentDate = new Date();
-    
+
     fetch(`${config.DEV_URL}stages?race=1`)
       .then((response) => response.json())
       .then((result) => {
         const fetched = result.sort((a, b) => (a.date > b.date ? 1 : -1));
-        this.etappes = fetched.map((v) => ({ ...v, selection: [] }));
+        this.etappes = fetched.map((etappe) => ({ ...etappe, selection: [] }));
         this.ronde = result[0].name;
       });
   },
@@ -121,7 +125,7 @@ export default {
           this.etappes[index].selection = entry.data;
         }
       } else {
-        this.etappes[index].selection = null;
+        this.etappes[index].selection = [];
       }
     },
   },

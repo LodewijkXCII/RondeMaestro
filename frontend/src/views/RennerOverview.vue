@@ -18,7 +18,15 @@
       <div class="etappeInfo__left">
         <div>{{ etappe.start_city }} - {{ etappe.finish_city }}</div>
         <div>{{ etappe.name }}</div>
-        <div>Type: {{ etappe.stage_type }}</div>
+        <div>
+          Type:
+          <img
+            :src="
+              `https://rondemaestro.s3.eu-central-1.amazonaws.com/icons/${etappe.stage_type}`
+            "
+            alt=""
+          />
+        </div>
         <div>Afstand: {{ etappe.distance }} km</div>
       </div>
       <div class="etappeInfo__right">
@@ -104,7 +112,12 @@
         </div>
         <div class="renner__extra">
           <div class="renner__extra--teamIMG">
-            <img :src="renner.team_img" :alt="renner.team_name" />
+            <img
+              :src="
+                `https://rondemaestro.s3.eu-central-1.amazonaws.com/teams/${renner.team_img}`
+              "
+              :alt="renner.team_name"
+            />
           </div>
           <!-- <div class="renner__extra--speciality">
             <span v-if="renner.speciality_name">{{
@@ -201,7 +214,9 @@ export default {
     const activeUser = window.localStorage.user_id;
     this.removeAll();
 
-    const cyclists = await axios.get(`${config.DEV_URL}cyclists`);
+    const cyclists = await axios.get(
+      `${config.DEV_URL}cyclists?startlist=true`
+    );
     this.renners = cyclists.data.sort((a, b) =>
       a.race_number > b.race_number ? 1 : -1
     );

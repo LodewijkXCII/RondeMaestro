@@ -34,6 +34,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   data() {
     return {
@@ -41,6 +43,17 @@ export default {
       username: '',
     };
   },
+
+  computed: {
+    ...mapState(['userName']),
+  },
+
+  watch: {
+    userName(userName) {
+      this.username = userName;
+    },
+  },
+
   methods: {
     logout() {
       let currentPath = this.$route.path;
@@ -54,6 +67,7 @@ export default {
     },
   },
   mounted() {
+    this.username = this.userName;
     this.username = window.localStorage.user;
     if (this.username) {
       this.loggedIn = true;

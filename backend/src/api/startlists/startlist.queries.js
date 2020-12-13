@@ -1,5 +1,6 @@
 const db = require('../../db');
 const tableNames = require('../../constants/tableNames');
+const { boolean } = require('yup');
 
 const fields = [
   'startlist.id',
@@ -29,7 +30,7 @@ module.exports = {
     const update = db(tableNames.startlist)
       .where('cyclist_id', query.cyclist_id)
       .where('race_id', query.race)
-      .update({ withdraw: true });
+      .update({ withdraw: query.updateValue });
     return update;
   },
 };

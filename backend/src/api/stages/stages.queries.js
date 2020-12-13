@@ -15,8 +15,6 @@ const fields = [
   'stage_type.image_url as stage_type',
 ];
 
-//TODO StageType URL instead of name
-
 module.exports = {
   find(query) {
     const stageQuery = db(tableNames.stage)
