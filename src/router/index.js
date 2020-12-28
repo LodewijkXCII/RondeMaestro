@@ -17,6 +17,7 @@ import KlassementSingle from '../views/Klassement/_id.vue';
 import Startlist from '../views/Admin/Startlist/Startlist.vue';
 import Spelregels from '../views/Spelregels/Spelregels.vue';
 import Admin from '../views/Admin/Admin.vue';
+import adRenners from '../views/Admin/Renners/Renners.vue';
 
 import { isAuthenticated } from '../utils/auth';
 
@@ -33,7 +34,6 @@ const routes = [
           path: '/dashboard',
         });
       }
-      console.log(`${from.path} to ${to.path}?`);
       next();
     },
   },
@@ -163,7 +163,17 @@ const routes = [
     name: 'startlist',
     component: Startlist,
     meta: {
-      requiresAuth: false,
+      requiresAuth: true,
+      isAdmin: true,
+    },
+  },
+  {
+    path: '/admin/renners/',
+    name: 'adRenners',
+    component: adRenners,
+    meta: {
+      requiresAuth: true,
+      isAdmin: true,
     },
   },
 ];
@@ -179,25 +189,15 @@ router.beforeEach((to, from, next) => {
         path: '/signin',
         query: { nextUrl: to.fullPath },
       });
+    } else if (to.matched.some((record) => record.meta.isAdmin)) {
+      if (+localStorage.user_type_id === 3) {
+        next();
+      } else {
+        console.error('Je hebt geen admin rechten');
+        next({ name: 'Dashboard' });
+      }
     } else {
-      // let token = localStorage.getItem('token');
-      // isAuthenticated(token);
-
-      // if (to.matched.some((record) => record.meta.is_admin)) {
-      //   if (user.is_admin == 1) {
-      //     next();
-      //   } else {
-      //     next({ name: 'dashboard' });
-      //   }
-      // } else {
       next();
-      // }
-    }
-  } else if (to.matched.some((record) => record.meta.guest)) {
-    if (localStorage.getItem('token') == null) {
-      next();
-    } else {
-      next({ name: 'dashboard' });
     }
   } else {
     next();

@@ -7,15 +7,14 @@ export default new Vuex.Store({
   state: {
     stage: '',
     selectie: [],
-  },
-  user: {
-    name: '',
-    user_id: null,
-    user_type_id: null,
+    userName: '',
   },
   getters: {
     countSelectie: (state) => {
       return state.selectie.length;
+    },
+    getUserName: (state) => {
+      return state.userName;
     },
   },
   mutations: {
@@ -30,6 +29,16 @@ export default new Vuex.Store({
     },
     setEtappes: (state, etappe) => {
       state.stage = etappe;
+    },
+    setUser: (state, user) => {
+      state.userName = user;
+    },
+    setSearchRennner: (state, renner) => {
+      console.log('he hallo');
+      state.searchRenner = renner;
+    },
+    setSearchTeam: (state, team) => {
+      state.searchTeam = team;
     },
   },
   actions: {

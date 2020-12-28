@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1>Klassement van etappe {{ $route.params.etappeID }}</h1>
+    <h1>Uitslag van etappe {{ $route.params.etappeID }}</h1>
 
     <h2></h2>
 

@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="container">
     <h1>Spelregels</h1>
     <h4>
       Het idee van Ronde Maestro is simpel. Voor elke etappe of wedstrijd
@@ -8,10 +8,8 @@
       einde is diegene met de meeste punten de winnaar.
     </h4>
     <p>
-      <p
-        >Hoe het precies werkt staat hieronder uitgelegd, samen met enkele
-        huisregels.</p
-      >
+      Hoe het precies werkt staat hieronder uitgelegd, samen met enkele
+      huisregels.
     </p>
     <h2>Het Doel</h2>
     <p>

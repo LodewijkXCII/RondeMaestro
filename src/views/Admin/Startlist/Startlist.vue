@@ -4,7 +4,13 @@
     <div class="renners">
       <div class="renner" v-for="renner in renners" :key="renner.index">
         <div class="renner__img">
-          <img v-if="renner.image_url !== '/'" :src="renner.image_url" alt />
+          <img
+            v-if="renner.image_url !== '/'"
+            :src="
+              `https://rondemaestro.s3.eu-central-1.amazonaws.com/renners/${renner.image_url}`
+            "
+            alt
+          />
           <img v-else src="https://via.placeholder.com/50x50.png?" alt />
         </div>
         <div class="renner__info">
@@ -24,7 +30,12 @@
         </div>
         <div class="renner__extra">
           <div class="renner__extra--teamIMG">
-            <img :src="renner.team_img" :alt="renner.team_name" />
+            <img
+              :src="
+                `https://rondemaestro.s3.eu-central-1.amazonaws.com/teams/${renner.team_img}`
+              "
+              :alt="renner.team_name"
+            />
           </div>
           <div
             class="renner__extra--withdraw"
@@ -59,32 +70,33 @@ export default {
       renners: [],
     };
   },
-  // computed: {
-  //   updatedCyclist(cyclist_id) {
-  //     const updatedCyclist = this.renners.find(
-  //       (ren) => ren.cyclist_id == cyclist_id
-  //     );
-  //     console.log(updatedCyclist.withdraw);
-  //     updatedCyclist.withdraw = true;
-  //     console.log(updatedCyclist.withdraw);
-  //   },
-  // },
+
   methods: {
     async updateSelection(cyclist_id) {
-      const startlist = await axios.put(`${config.DEV_URL}startlist`, {
-        cyclist_id,
-        race: 1,
-      });
-
       const updatedCyclist = this.renners.find(
         (ren) => ren.cyclist_id == cyclist_id
       );
 
-      updatedCyclist.withdraw = true;
+      let updateValue;
+      if (updatedCyclist.withdraw === true) {
+        updateValue = false;
+        updatedCyclist.withdraw = false;
+      } else {
+        updateValue = true;
+        updatedCyclist.withdraw = true;
+      }
+      const startlist = await axios.put(`${config.DEV_URL}startlist`, {
+        cyclist_id,
+        race: 1,
+        updateValue,
+        //TODO race_id is nu altijd tour
+      });
     },
   },
   async created() {
-    const cyclists = await axios.get(`${config.DEV_URL}cyclists`);
+    const cyclists = await axios.get(
+      `${config.DEV_URL}cyclists?startlist=true`
+    );
     this.renners = cyclists.data.sort((a, b) =>
       a.race_number > b.race_number ? 1 : -1
     );

@@ -3,17 +3,44 @@
     <router-link :to="{ name: 'Home' }" class="brand">
       <img :src="require('@/assets/logo.png')" />
     </router-link>
+    <div class="leftNav">
+      <div class="navItem">
+        <router-link :to="{ name: 'Dashboard' }">
+          Dashboard
+        </router-link>
+      </div>
+      <div class="navItem">
+        <router-link :to="{ name: 'etappe-overzicht' }"> Etappes</router-link>
+      </div>
+      <div class="navItem">
+        <router-link :to="{ name: 'klassement' }">
+          Klassement
+        </router-link>
+      </div>
+      <div class="navItem">
+        <router-link :to="{ name: 'Score' }">
+          Score
+        </router-link>
+      </div>
+
+      <div class="navItem">
+        <router-link :to="{ name: 'Spelregels' }">
+          Spelregels
+        </router-link>
+      </div>
+    </div>
     <div class="rightNav">
-      <router-link :to="{ name: 'Spelregels' }">
-        Spelregels
-      </router-link>
       <div class="rightNav__fixed">
         <div class="rightNav__fixed--user" v-if="loggedIn">
-          <div class="rightNav__fixed--user username">
-            <font-awesome-icon :icon="['far', 'user']" />{{ username }}
-          </div>
           <div class="rightNav__fixed--user logout" @click="logout">
             Afmelden
+          </div>
+          <div class="rightNav__fixed--user username">
+            <font-awesome-icon :icon="['far', 'user']" />
+            {{ username }}
+
+            <!-- TODO pagina naar profiel aanmaken -->
+            <font-awesome-icon :icon="['fas', 'caret-down']" />
           </div>
         </div>
         <div class="rightNav__fixed--sign" v-else>
@@ -34,6 +61,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
   data() {
     return {
@@ -41,6 +70,19 @@ export default {
       username: '',
     };
   },
+
+  computed: {
+    ...mapState(['userName']),
+  },
+
+  watch: {
+    userName(userName, newValue, oldValue) {
+      this.loggedIn = true;
+      console.log(`Updating from ${oldValue} to ${newValue}`);
+      this.username = userName;
+    },
+  },
+
   methods: {
     logout() {
       let currentPath = this.$route.path;
@@ -54,6 +96,7 @@ export default {
     },
   },
   mounted() {
+    this.username = this.userName;
     this.username = window.localStorage.user;
     if (this.username) {
       this.loggedIn = true;
@@ -67,8 +110,8 @@ export default {
 
 nav {
   border-bottom: 2px solid $primary-color;
+  margin-bottom: 3rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 
   .brand {
@@ -81,8 +124,15 @@ nav {
     width: 75px;
     height: auto;
   }
+  .leftNav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+  }
 
   .rightNav {
+    margin-left: auto;
     display: flex;
     align-items: center;
     text-transform: uppercase;
@@ -104,7 +154,7 @@ nav {
           margin: 0 0.5rem;
 
           svg {
-            margin-right: 5px;
+            margin: 0 7px;
           }
         }
         &.logout {
@@ -116,6 +166,26 @@ nav {
           margin: 0 0.5rem;
         }
       }
+    }
+  }
+
+  .navItem {
+    margin: 0 1.2em;
+
+    a {
+      transition: 0.3s;
+
+      &:hover {
+        color: darken($color: $primary-color, $amount: 7);
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 1224px) {
+  nav {
+    .leftNav {
+      display: inherit;
     }
   }
 }
