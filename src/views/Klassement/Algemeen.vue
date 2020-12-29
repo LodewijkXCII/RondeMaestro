@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="container">
     <h1>Algemeen klassement</h1>
 
     <h2></h2>

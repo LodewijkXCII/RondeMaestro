@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="container">
     <h1>Etappe uitslagen</h1>
 
     <!-- <div v-for="stage in results" :key="stage.key">

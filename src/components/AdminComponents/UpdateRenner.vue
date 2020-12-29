@@ -1,7 +1,7 @@
 <template>
   <section>
     <h2>Update Renner</h2>
-    <!-- <p>pagina {{ offset }}</p> -->
+
     <button
       class="btn btn-primary"
       v-on:click="updateSelection(1)"

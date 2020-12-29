@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="container">
     <img
       src="@/assets/img/howard-bouchevereau-cOfR4XmEzd8-unsplash.jpg"
       alt="RondeMaestro topimage"

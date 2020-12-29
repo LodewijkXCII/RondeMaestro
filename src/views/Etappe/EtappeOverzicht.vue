@@ -185,8 +185,12 @@ export default {
     background: #fff;
     position: relative;
     padding: 0.75rem 1rem;
-
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+
+    &:nth-child(odd) {
+      background: darken($color: #fff, $amount: 3);
+    }
+
     &--date,
     &--number,
     &--distance,

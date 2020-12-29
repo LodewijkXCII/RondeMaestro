@@ -23,9 +23,9 @@
             <li
               v-for="link in adminLinks"
               :key="link.index"
-              v-on:click="currentTab = link"
+              v-on:click="currentTab = link.component"
             >
-              {{ link }}
+              {{ link.name }}
             </li>
           </ul>
         </div>
@@ -39,15 +39,22 @@
 
 <script>
 import { mapState } from 'vuex';
-import EtappeUitslag from '@/views/Admin/Uitslag/EtappeUitslag.vue';
+
 import NewRenner from '@/components/AdminComponents/NewRenner.vue';
 import UpdateRenner from '@/components/AdminComponents/UpdateRenner.vue';
+import AddTeam from '@/components/AdminComponents/AddTeam.vue';
+import UpdateTeam from '@/components/AdminComponents/UpdateTeam.vue';
+import UpdateStartlist from '@/components/AdminComponents/UpdateStartlist.vue';
+import InsertResult from '@/components/AdminComponents/InsertResult.vue';
 
 export default {
   components: {
-    EtappeUitslag,
     NewRenner,
     UpdateRenner,
+    AddTeam,
+    UpdateTeam,
+    UpdateStartlist,
+    InsertResult,
   },
 
   data() {
@@ -55,16 +62,45 @@ export default {
       username: '',
       isAdmin: false,
       adminLinks: [
-        'UpdateRenner',
-        'NewRenner',
-        'UpdateTeam',
-        'AddTeam',
-        'AddStartlist',
-        'UpdateStartlist',
-        'UpdateUser',
-        'InsertResult',
+        {
+          component: 'UpdateRenner',
+          name: 'Renner updaten',
+        },
+        {
+          component: 'NewRenner',
+          name: 'Renner toevoegen',
+        },
+        {
+          component: 'UpdateTeam',
+          name: 'Team updaten',
+        },
+
+        {
+          component: 'AddTeam',
+          name: 'Team toevoegen',
+        },
+
+        {
+          component: 'AddStartlist',
+          name: 'Startlijst aanmaken',
+        },
+
+        {
+          component: 'UpdateStartlist',
+          name: 'Startlijst updaten',
+        },
+
+        {
+          component: 'UpdateUser',
+          name: 'Gebruiker updaten',
+        },
+
+        {
+          component: 'InsertResult',
+          name: 'Uitslag invoeren',
+        },
       ],
-      currentTab: 'NewRenner',
+      currentTab: '',
     };
   },
   computed: {

@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="container">
     <section class="PrevNext">
       <router-link to="/etappe-overzicht">
         <img src="@/assets/icons/chevrons-left.svg" alt="chevron-left" />
@@ -10,7 +10,7 @@
     <h1>Etappe {{ etappe.stage_nr }}</h1>
     <h2>
       {{ etappe.start_city }} - {{ etappe.finish_city }} ({{
-      etappe.distance
+        etappe.distance
       }}KM)
     </h2>
     <img :src="etappe.image_url" alt class="etappeImg" />
@@ -27,19 +27,20 @@
       :to="`/${this.$route.params.etappeID}/selectie`"
       role="button"
       class="btn btn-alert"
-    >Vul je Renners in</router-link>
+      >Vul je Renners in</router-link
+    >
 
     <h2>Over de rit</h2>
   </section>
 </template>
 
 <script>
-import config from "@/utils/config";
+import config from '@/utils/config';
 
 export default {
   data() {
     return {
-      etappe: "",
+      etappe: '',
     };
   },
   created() {

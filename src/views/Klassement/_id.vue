@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="container">
     <h1>Uitslag van etappe {{ $route.params.etappeID }}</h1>
 
     <h2></h2>

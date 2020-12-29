@@ -1,6 +1,18 @@
 <template>
   <section>
-    <h1>Startlist</h1>
+    <h1>Startlijst aanpassen</h1>
+    <label for="race">Kies de ronde:</label>
+    <div class="formInline">
+      <!-- <input type="number" min="2020" value="2020" v-model.number="year" /> -->
+      <select name="race" id="race" v-model="race">
+        <option :value="race.id" v-for="race in races" :key="race.index">
+          {{ race.name }}
+        </option>
+      </select>
+      <button v-on:click.prevent="getRenners()" class="btn btn-primary">
+        Zoek
+      </button>
+    </div>
     <div class="renners">
       <div class="renner" v-for="renner in renners" :key="renner.index">
         <div class="renner__img">
@@ -59,6 +71,7 @@
 </template>
 
 <script>
+// TODO ADD
 import axios from 'axios';
 import config from '@/utils/config';
 
@@ -68,10 +81,20 @@ export default {
   data() {
     return {
       renners: [],
+      races: [],
     };
   },
 
   methods: {
+    async getRenners() {
+      const response = await axios.get(
+        `${config.DEV_URL}cyclists?startlist=true`
+      );
+
+      this.renners = response.data.sort((a, b) =>
+        a.race_number > b.race_number ? 1 : -1
+      );
+    },
     async updateSelection(cyclist_id) {
       const updatedCyclist = this.renners.find(
         (ren) => ren.cyclist_id == cyclist_id
@@ -94,17 +117,14 @@ export default {
     },
   },
   async created() {
-    const cyclists = await axios.get(
-      `${config.DEV_URL}cyclists?startlist=true`
-    );
-    this.renners = cyclists.data.sort((a, b) =>
-      a.race_number > b.race_number ? 1 : -1
-    );
+    const response = await axios.get(`${config.DEV_URL}races`);
+    console.log(response.data);
+    this.races = response.data;
   },
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import '@/assets/styles.scss';
 .renners {
   grid-template-columns: 1fr;
