@@ -1,0 +1,34 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "title": "The stage schema",
+    "required": [
+        "race_number",
+        "race_id",
+        "cyclist_id"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "$id": "#/properties/id",
+        "type": "integer"
+      },
+      "race_number": {
+          "$id": "#/properties/race_number",
+          "type": "integer"
+      },
+      "withdraw": {
+        "$id": "#/properties/withdraw",
+        "type": "boolean",
+        "default": "false"
+      },
+      "race_id": {
+        "$id": "#/properties/race_id",
+        "type": "integer"
+      },
+      "cyclist_id": {
+        "$id": "#/properties/cyclist_id",
+        "type": "integer"
+      }
+    }
+  }

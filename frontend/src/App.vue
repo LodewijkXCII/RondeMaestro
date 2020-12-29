@@ -1,10 +1,9 @@
 <template>
   <div id="app">
     <NavBar />
-    <router-view :class="{ container: !isHome }" />
-    <section v-if="!isHome">
-      <BottomNav />
-    </section>
+    <router-view />
+
+    <!-- <BottomNav v-if="!isHome" /> -->
   </div>
 </template>
 
@@ -49,7 +48,7 @@ body {
 //CONFIG//
 .container {
   padding: 2em 0.5em;
-  // max-width: 350px;
+  max-width: 350px;
   margin-bottom: 8em;
   .headerImage {
     width: 100%;
@@ -58,17 +57,73 @@ body {
   }
 }
 
+.label {
+  background: $white-color;
+  display: inline-block;
+  width: auto;
+  font-size: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 5px;
+  margin: 0.75rem 0;
+  a {
+    color: $white-color;
+    font-weight: 400;
+  }
+
+  &-primary {
+    background: $primary-color;
+    border: 1px solid darken($color: $primary-color, $amount: 2);
+    color: $white-color;
+  }
+
+  &-alert {
+    background: $alert-color;
+    border: 2px solid darken($color: $alert-color, $amount: 5);
+    color: $white-color;
+  }
+  &-succes {
+    background: $succes-color;
+    border: 2px solid darken($color: $succes-color, $amount: 5);
+    color: $white-color;
+  }
+  &-danger {
+    background: $danger-color;
+    border: 1px solid darken($color: $danger-color, $amount: 5);
+    color: $black-color;
+  }
+}
+
+.bg-lg {
+  background: #ececec;
+}
+
+.show {
+  display: inherit;
+}
+
 /* Desktops and laptops ----------- */
 @media only screen and (min-width: 1224px) {
   body {
-    width: 950px;
     margin: auto;
+    padding: 1em 0;
   }
 
   .container {
+    max-width: 1200px;
     margin: auto;
-    max-width: 60%;
     margin-bottom: 8rem;
+  }
+
+  .grid-1-2 {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: min-content;
+    column-gap: 0.8rem;
+    row-gap: 1rem;
   }
 }
 
@@ -124,16 +179,23 @@ a {
 /*
     BUTTONS
 */
+button {
+  &:hover {
+    cursor: pointer;
+  }
+}
 .btn {
-  width: 100%;
-  padding: 1em;
-  margin-bottom: 1em;
+  padding: 1em 1.3em;
+  margin-right: 1em;
   text-transform: uppercase;
   font-weight: 700;
   border-radius: 10px;
   font-size: 0.75rem;
-  display: flex;
-  justify-content: center;
+  display: inline;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   &-primary {
     background: $primary-color;

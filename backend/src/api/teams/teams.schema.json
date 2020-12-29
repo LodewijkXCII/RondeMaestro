@@ -1,0 +1,44 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "title": "The team schema",
+    "required": [
+      "name",
+      "abbreviation",
+      "country_id",
+      "level",
+      "year",
+      "image_url"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "$id": "#/properties/id",
+        "type": "integer"
+      },
+      "name": {
+        "$id": "#/properties/name",
+        "type": "string"
+      },
+      "abbreviation": {
+        "$id": "#/properties/abbreviation",
+        "type": "string"
+      },
+      "country_id": {
+        "$id": "#/properties/country_id",
+        "type": "integer"
+      },
+      "level": {
+        "$id": "#/properties/level",
+        "type": "string"
+      },
+      "year": {
+          "$id": "#/properties/year",
+          "type": "integer"
+      },
+      "image_url": {
+        "$id": "#/properties/image_url",
+        "type": "string"
+      }
+    }
+  }

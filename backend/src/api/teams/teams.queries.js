@@ -12,13 +12,19 @@ const fields = [
 ];
 
 module.exports = {
-  find() {
-    return db(tableNames.team)
+  find(year) {
+    const getTeams = db(tableNames.team)
       .select(fields)
       .join('country', 'team.country_id', 'country.id')
-      .where('year', '2020')
       .orderBy('id', 'asc');
+
+    if (year) {
+      getTeams.where('year', year).orderBy('name', 'asc');
+    }
+
+    return getTeams;
   },
+
   async get(id) {
     return db(tableNames.team)
       .select(fields)
@@ -29,5 +35,16 @@ module.exports = {
       .first();
   },
 
-  //TODO Make put query
+  update(query, params) {
+    const put = db(tableNames.team)
+      .where('id', params)
+      .update({
+        ...query,
+        updated_at: new Date(Date.now())
+          .toISOString()
+          .replace('T', ' ')
+          .replace('Z', ''),
+      });
+    return put;
+  },
 };

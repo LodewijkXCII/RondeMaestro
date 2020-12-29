@@ -6,29 +6,20 @@
     "first_name",
     "last_name",
     "country_id",
-    "team",
+    "team_id",
     "speciality_id",
-    "speciality_id_2",
     "image_url"
   ],
   "additionalProperties": false,
   "properties": {
     "id": {
       "$id": "#/properties/id",
-      "type": "integer",
-      "title": "The id schema",
-      "description": "An explanation about the purpose of this instance.",
-      "default": 0,
-      "examples": [
-        3
-      ]
+      "type": "integer"
     },
     "first_name": {
       "$id": "#/properties/first_name",
       "type": "string",
       "title": "The first_name schema",
-      "description": "An explanation about the purpose of this instance.",
-      "default": "",
       "examples": [
         "Romain"
       ]
@@ -37,273 +28,35 @@
       "$id": "#/properties/last_name",
       "type": "string",
       "title": "The last_name schema",
-      "description": "An explanation about the purpose of this instance.",
-      "default": "",
       "examples": [
         "Bardet"
       ]
     },
     "country_id": {
       "$id": "#/properties/country_id",
-      "type": "object",
-      "title": "The country_id schema",
-      "description": "An explanation about the purpose of this instance.",
-      "examples": [
-        {
-          "id": 54,
-          "name": "Frankrijk",
-          "abbreviation": "FR"
-        }
-      ],
-      "required": [
-        "id",
-        "name",
-        "abbreviation"
-      ],
-      "additionalProperties": false,
-      "properties": {
-        "id": {
-          "$id": "#/properties/country_id/id",
-          "type": "integer",
-          "title": "The id schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": 0,
-          "examples": [
-            54
-          ]
-        },
-        "name": {
-          "$id": "#/properties/country_id/properties/name",
-          "type": "string",
-          "title": "The name schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": "",
-          "examples": [
-            "Frankrijk"
-          ]
-        },
-        "abbreviation": {
-          "$id": "#/properties/country_id/properties/abbreviation",
-          "type": "string",
-          "title": "The abbreviation schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": "",
-          "examples": [
-            "FR"
-          ]
-        }
-      }
+      "type": "integer",
+      "title": "The country_id schema"
     },
-    "team": {
+    "team_id": {
       "$id": "#/properties/team_id",
-      "type": "object",
-      "title": "The team_id schema",
-      "description": "An explanation about the purpose of this instance.",
-      "default": {},
-      "examples": [
-        {
-          "id": 1,
-          "name": "AG2R La Mondiale",
-          "abbreviation": "ALM",
-          "country_id": 54,
-          "level": "UCI WorldTeams",
-          "year": 2020,
-          "image_url": "ALM2020.JPG"
-        }
-      ],
-      "required": [
-        "id",
-        "name",
-        "abbreviation",
-        "country_id",
-        "level",
-        "year",
-        "image_url"
-      ],
-      "additionalProperties": true,
-      "properties": {
-        "id": {
-          "$id": "#/properties/team_id/id",
-          "type": "integer",
-          "title": "The id schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": 0,
-          "examples": [
-            1
-          ]
-        },
-        "name": {
-          "$id": "#/properties/team_id/name",
-          "type": "string",
-          "title": "The name schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": "",
-          "examples": [
-            "AG2R La Mondiale"
-          ]
-        },
-        "abbreviation": {
-          "$id": "#/properties/team_id/properties/abbreviation",
-          "type": "string",
-          "title": "The abbreviation schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": "",
-          "examples": [
-            "ALM"
-          ]
-        },
-        "country_id": {
-          "$id": "#/properties/team_id/country_id",
-          "type": "integer",
-          "title": "The country_id schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": 0,
-          "examples": [
-            54
-          ]
-        },
-        "level": {
-          "$id": "#/properties/team_id/level",
-          "type": "string",
-          "title": "The level schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": "",
-          "examples": [
-            "UCI WorldTeams"
-          ]
-        },
-        "year": {
-          "$id": "#/properties/team_id/year",
-          "type": "integer",
-          "title": "The year schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": 0,
-          "examples": [
-            2020
-          ]
-        },
-        "image_url": {
-          "$id": "#/properties/team_id/image_url",
-          "type": "string",
-          "title": "The image_url schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": "",
-          "examples": [
-            "ALM2020.JPG"
-          ]
-        }
-      }
+      "type": "integer",
+      "title": "The team_id schema"
     },
     "speciality_id": {
       "$id": "#/properties/speciality_id",
-      "type": "object",
-      "title": "The speciality_id schema",
-      "description": "An explanation about the purpose of this instance.",
-      "default": {},
-      "examples": [
-        {
-          "id": 4,
-          "name": "Klimmen",
-          "image_url": "/"
-        }
-      ],
-      "required": [
-        "id",
-        "name",
-        "image_url"
-      ],
-      "additionalProperties": true,
-      "properties": {
-        "id": {
-          "$id": "#/properties/speciality_id/properties/id",
-          "type": "integer",
-          "title": "The id schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": 0,
-          "examples": [
-            4
-          ]
-        },
-        "name": {
-          "$id": "#/properties/speciality_id/properties/name",
-          "type": "string",
-          "title": "The name schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": "",
-          "examples": [
-            "Klimmen"
-          ]
-        },
-        "image_url": {
-          "$id": "#/properties/speciality_id/properties/image_url",
-          "type": "string",
-          "title": "The image_url schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": "",
-          "examples": [
-            "/"
-          ]
-        }
-      }
+      "type": "integer",
+      "title": "The speciality_id schema"
     },
     "speciality_id_2": {
       "$id": "#/properties/speciality_id_2",
       "type": "object",
-      "title": "The speciality_id_2 schema",
-      "description": "An explanation about the purpose of this instance.",
-      "default": {},
-      "examples": [
-        {
-          "id": 6,
-          "name": "Rondes",
-          "image_url": "/"
-        }
-      ],
-      "required": [
-        "id",
-        "name",
-        "image_url"
-      ],
-      "additionalProperties": true,
-      "properties": {
-        "id": {
-          "$id": "#/properties/speciality_id_2/properties/id",
-          "type": "integer",
-          "title": "The id schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": 0,
-          "examples": [
-            6
-          ]
-        },
-        "name": {
-          "$id": "#/properties/speciality_id_2/properties/name",
-          "type": "string",
-          "title": "The name schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": "",
-          "examples": [
-            "Rondes"
-          ]
-        },
-        "image_url": {
-          "$id": "#/properties/speciality_id_2/properties/image_url",
-          "type": "string",
-          "title": "The image_url schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": "",
-          "examples": [
-            "/"
-          ]
-        }
-      }
+      "title": "The speciality_id_2 schema"
     },
     "image_url": {
       "$id": "#/properties/image_url",
       "type": "string",
       "title": "The image_url schema",
-      "description": "An explanation about the purpose of this instance.",
-      "default": "",
+      "default": "/",
       "examples": [
         "/"
       ]

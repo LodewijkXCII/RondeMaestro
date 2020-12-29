@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h1>Etappe Overzicht</h1>
     <h2>{{ ronde }}</h2>
 
@@ -21,34 +21,29 @@
           class="rmTable__body"
           :class="etappe.done === true ? 'done' : 'not-done'"
         >
-          <router-link
-            :to="{ name: 'selectie', params: { etappeID: etappe.id } }"
-            class="rmTable__bodya"
-          >
-            <div class="rmTable__body--number">{{ etappe.stage_nr }}.</div>
-            <div class="rmTable__body--date">
-              {{ etappe.date | formatDate }}
-            </div>
-            <div class="rmTable__body--city">
-              {{ etappe.start_city }} - {{ etappe.finish_city }}
-            </div>
-            <div class="rmTable__body--type">
-              <img
-                :src="
-                  `https://rondemaestro.s3.eu-central-1.amazonaws.com/icons/${etappe.stage_type}`
-                "
-              />
-            </div>
-            <div class="rmTable__body--distance">{{ etappe.distance }}KM</div>
-            <div class="rmTable__body--button">
-              <router-link
-                :to="{ name: 'etappe-single', params: { etappeID: etappe.id } }"
-                :id="etappe.id"
-              >
-                <img src="@/assets/icons/info.svg" alt="info" />
-              </router-link>
-            </div>
-          </router-link>
+          <div class="rmTable__body--number">{{ etappe.stage_nr }}.</div>
+          <div class="rmTable__body--date">
+            {{ etappe.date | formatDate }}
+          </div>
+          <div class="rmTable__body--city">
+            {{ etappe.start_city }} - {{ etappe.finish_city }}
+          </div>
+          <div class="rmTable__body--type">
+            <img
+              :src="
+                `https://rondemaestro.s3.eu-central-1.amazonaws.com/icons/${etappe.stage_type}`
+              "
+            />
+          </div>
+          <div class="rmTable__body--distance">{{ etappe.distance }}KM</div>
+          <div class="rmTable__body--button">
+            <router-link
+              :to="{ name: 'etappe-single', params: { etappeID: etappe.id } }"
+              :id="etappe.id"
+            >
+              <img src="@/assets/icons/info.svg" alt="info" />
+            </router-link>
+          </div>
         </div>
         <div class="rmTable__bottom">
           <div class="rmTable__bottom--selection">
@@ -64,6 +59,13 @@
             </div>
           </div>
           <div class="rmTable__bottom--links">
+            <div class="rmTable__bottom--link">
+              <router-link
+                :to="{ name: 'selectie', params: { etappeID: etappe.id } }"
+              >
+                Renners invullen
+              </router-link>
+            </div>
             <div
               class="rmTable__bottom--team"
               @click="openSelection(etappe, index)"
@@ -137,9 +139,10 @@ export default {
 
 .rmTable {
   margin: 2rem 0;
+  font-size: 0.8em;
 
   &__header,
-  &__bodya {
+  &__body {
     display: grid;
     gap: 0.1rem;
     grid-template-columns:
@@ -152,7 +155,7 @@ export default {
   &__header {
     color: $primary-color;
     font-weight: 700;
-    font-size: 0.55rem;
+
     text-transform: uppercase;
     border-bottom: 1px solid $primary-color;
     padding-bottom: 0.2rem;
@@ -181,9 +184,13 @@ export default {
   &__body {
     background: #fff;
     position: relative;
-    padding: 0.5rem;
-    font-size: 0.6rem;
+    padding: 0.75rem 1rem;
     box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+
+    &:nth-child(odd) {
+      background: darken($color: #fff, $amount: 3);
+    }
+
     &--date,
     &--number,
     &--distance,
@@ -196,7 +203,6 @@ export default {
     }
 
     &--city {
-      font-size: 0.8rem;
       padding: 0 0.2rem;
       align-self: center;
     }
@@ -210,6 +216,7 @@ export default {
     }
     a {
       text-transform: none;
+      margin: 0.2rem;
     }
 
     &.done::after {
@@ -243,14 +250,17 @@ export default {
 
     &--links {
       display: flex;
-      justify-content: space-evenly;
+      font-size: 0.8em;
+      padding: 0.5rem 0;
+      // justify-content: flex-end;
     }
+    &--link,
     &--team,
     &--done,
     &--score {
-      padding: 0.2rem 2rem;
+      padding: 0.2rem 0.5rem;
       text-transform: uppercase;
-      font-size: 0.6rem;
+
       color: $primary-color;
       font-weight: 700;
     }
@@ -262,11 +272,33 @@ export default {
       gap: 0.5rem;
       grid-template-columns: repeat(4, 1fr);
       text-align: center;
-      margin: 0 1rem 0.2rem;
-      padding-top: 0.3rem;
-      font-size: 0.6rem;
     }
   }
+}
+
+@media only screen and (min-width: 1224px) {
+  .rmTable {
+    font-size: 1rem;
+
+    &__header,
+    &__body {
+      grid-template-columns:
+        minmax(15px, 30px) minmax(20px, 120px) 4fr minmax(15px, 45px)
+        1fr minmax(15px, 20px);
+    }
+    &__bottom {
+      &--link,
+      &--team,
+      &--done,
+      &--score {
+        padding: 0.2rem 2rem;
+      }
+
+      &--links {
+        padding: 0.5rem 0 0.75rem;
+      }
+    }
+  } /* Styles */
 }
 
 .rennerInfo {

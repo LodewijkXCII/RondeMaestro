@@ -1,12 +1,15 @@
 <template>
   <section>
-    <section class="PrevNext">
-      <router-link to="/etappe-uitslag">
-        <img src="@/assets/icons/chevrons-left.svg" alt="chevron-left" />
-        <span>Terug naar het etappe overzicht</span>
-      </router-link>
-    </section>
-    <h1>Uitslag Etappe {{ stage }}</h1>
+    <h1>Uitslag Etappe</h1>
+    <label for="race">Kies de etappe:</label>
+    <div class="formInline">
+      <!-- <input type="number" min="2020" value="2020" v-model.number="year" /> -->
+      <select name="stage" id="stage" v-model="stage">
+        <option :value="stage.id" v-for="stage in stages" :key="stage.index">
+          {{ stage.stage_nr }}. {{ stage.start_city }}-{{ stage.finish_city }}
+        </option>
+      </select>
+    </div>
 
     <div v-for="input in uitslag" :key="input.position" class="etappeUitslag">
       <label :for="input.position">{{ input.position }}:</label>
@@ -40,7 +43,8 @@ export default {
     return {
       renners: [],
       sendMessage: 'Verstuur',
-      stage: parseInt(this.$route.params.etappeID, 10 || 0),
+      stages: [],
+      stage: null,
       uitslag: [
         { id: null, points: 100, position: 1 },
         { id: null, points: 80, position: 2 },
@@ -60,12 +64,14 @@ export default {
       ],
     };
   },
-  created() {
-    axios.get(URL_CYCLIST).then((renners) => {
+  async created() {
+    await axios.get(URL_CYCLIST).then((renners) => {
       this.renners = renners.data.sort((a, b) =>
         a.race_number > b.race_number ? 1 : -1
       );
     });
+    const stages = await axios.get(`${config.DEV_URL}stages`);
+    this.stages = stages.data;
   },
   methods: {
     etappeSubmit() {
@@ -83,7 +89,6 @@ export default {
         }
       });
       this.sendMessage = 'Verstuurd';
-      this.$router.push({ name: 'etappe-uitslag' });
     },
   },
 };

@@ -37,7 +37,7 @@ router.post('/', async (req, res, next) => {
     } else {
       res
         .status(403)
-        .send({ error: 'Je mag niet meer insturen, het is te laat' });
+        .send({ error: 'Je kunt niet meer insturen, het is te laat' });
     }
   } catch (error) {
     next(error);
@@ -45,16 +45,12 @@ router.post('/', async (req, res, next) => {
 });
 
 router.put('/', async (req, res, next) => {
-  const { users_id, stage_id, cyclist_id } = req.body;
+  // const { users_id, stage_id, cyclist_id } = req.body;
   try {
-    const updateEntry = await queries.update({
-      users_id,
-      stage_id,
-      cyclist_id,
-    });
+    const updateEntry = await queries.update(req.body);
     if (updateEntry) {
       res.json(updateEntry);
-      console.log('putting');
+      console.log('Deleting');
     }
   } catch (error) {
     next(error);

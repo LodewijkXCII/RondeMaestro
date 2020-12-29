@@ -1,5 +1,5 @@
 const express = require('express');
-
+const Stage = require('./stages.model');
 const queries = require('./stages.queries');
 const { stage } = require('../../constants/tableNames');
 
@@ -31,14 +31,36 @@ router.get('/:id', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   const { id } = req.params;
-  try {
-    const updateStage = await queries.update({
-      id,
-    });
-    if (updateStage) {
-      res.json(updateStage);
-      console.log('putting');
+  /* First check if user want to change status of stage, else update entire stage */
+  if (req.body.setDone === true) {
+    try {
+      const updateStage = await queries.setDone({
+        id,
+      });
+      if (updateStage) {
+        res.json(updateStage);
+        console.log('Updating set done of stage');
+      }
+    } catch (error) {
+      return next(error);
     }
+  } else {
+    try {
+      const updateStage = await queries.updateStage(req.body, req.params.id);
+      if (updateStage) {
+        res.json(updateStage);
+        console.log('Updating');
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+});
+
+router.post('/', async (req, res, next) => {
+  try {
+    const newStage = await Stage.query().insert(req.body);
+    res.json(newStage);
   } catch (error) {
     return next(error);
   }

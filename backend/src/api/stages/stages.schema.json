@@ -1,0 +1,59 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "title": "The stage schema",
+    "required": [
+      "stage_nr",
+      "start_city",
+      "finish_city",
+      "distance",
+      "date",
+      "race_id",
+      "stage_type_id"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "$id": "#/properties/id",
+        "type": "integer"
+      },
+      "stage_nr": {
+          "$id": "#/properties/stage_nr",
+          "type": "integer"
+      },
+      "start_city": {
+        "$id": "#/properties/start_city",
+        "type": "string"
+      },
+      "finish_city": {
+        "$id": "#/properties/finish_city",
+        "type": "string"
+      },
+      "distance": {
+        "$id": "#/properties/distance",
+        "type": "integer"
+      },
+      "date": {
+        "$id": "#/properties/date",
+        "type": "string",
+        "format": "date-time"
+      },
+      "done": {
+        "$id": "#/properties/date",
+        "type": "boolean",
+        "default": "false"
+      },
+      "race_id": {
+          "$id": "#/properties/race_id",
+          "type": "integer"
+      },
+      "stage_type_id": {
+        "$id": "#/properties/stage_type_id",
+        "type": "integer"
+      },
+      "image_url": {
+        "$id": "#/properties/stage_type_id",
+        "type": "string"
+      }
+    }
+  }

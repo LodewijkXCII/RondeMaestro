@@ -1,12 +1,21 @@
 const express = require('express');
 const url = require('url');
+const Cyclist = require('./cyclists.model');
 
 const queries = require('./cyclists.queries');
 
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
-  const { country, team, speciality, name, startlist } = req.query;
+  const {
+    country,
+    team,
+    speciality,
+    name,
+    startlist,
+    limit,
+    offset,
+  } = req.query;
   // const { startlist } = req.params;
   try {
     const cyclists = await queries.find({
@@ -15,6 +24,8 @@ router.get('/', async (req, res, next) => {
       speciality,
       name,
       startlist,
+      limit,
+      offset,
     });
     if (cyclists) {
       res.json(cyclists);
@@ -24,7 +35,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/renner/:id', async (req, res, next) => {
+router.get('/cyclist/:id', async (req, res, next) => {
   const { id } = req.params;
   try {
     const cyclist = await queries.get(parseInt(id, 10) || 0);
@@ -33,6 +44,27 @@ router.get('/renner/:id', async (req, res, next) => {
     }
   } catch (error) {
     return next(error);
+  }
+});
+
+router.post('/', async (req, res, next) => {
+  try {
+    const newCyclist = await Cyclist.query().insert(req.body);
+    res.json(newCyclist);
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.put('/:id', async (req, res, next) => {
+  try {
+    const updateCyclist = await queries.update(req.body, req.params.id);
+    if (updateCyclist) {
+      res.json(updateCyclist);
+      console.log('Updating');
+    }
+  } catch (error) {
+    next(error);
   }
 });
 

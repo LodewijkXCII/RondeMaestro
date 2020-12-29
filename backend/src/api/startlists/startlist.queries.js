@@ -20,17 +20,31 @@ module.exports = {
     const startlistQuery = db(tableNames.startlist)
       .select(fields)
       .join('cyclist', 'startlist.cyclist_id', 'cyclist.id');
+
     if (query.race) {
       startlistQuery.where('race_id', query.race);
     }
     return startlistQuery;
   },
 
-  update(query) {
+  updateWithdraw(query) {
     const update = db(tableNames.startlist)
       .where('cyclist_id', query.cyclist_id)
       .where('race_id', query.race)
       .update({ withdraw: query.updateValue });
     return update;
+  },
+
+  updateStartlist(query, params) {
+    const put = db(tableNames.startlist)
+      .where('id', params)
+      .update({
+        ...query,
+        updated_at: new Date(Date.now())
+          .toISOString()
+          .replace('T', ' ')
+          .replace('Z', ''),
+      });
+    return put;
   },
 };

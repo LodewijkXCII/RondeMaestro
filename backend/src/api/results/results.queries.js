@@ -43,13 +43,12 @@ module.exports = {
     return resultQuery;
   },
   //Update result
-  update(query) {
+  update(query, params) {
     const put = db(result)
-      .where('points', query.points)
-      .where('stage_id', query.stage_id)
-      .where('cyclist_id', query.cyclist_id)
+      .where('id', params)
       .update(
         {
+          ...query,
           updated_at: new Date(Date.now())
             .toISOString()
             .replace('T', ' ')

@@ -1,5 +1,5 @@
 const db = require('../../db');
-const tableNames = require('../../constants/tableNames');
+
 const Cyclist = require('../cyclists/cyclists.model');
 const { cyclist } = require('../../constants/tableNames');
 
@@ -16,7 +16,7 @@ const fields = [
   'cyclist.image_url',
   'startlist.race_number',
   'startlist.withdraw',
-  // 'result.points'
+  // 'result.points',
 ];
 
 module.exports = {
@@ -39,6 +39,7 @@ module.exports = {
 
     if (query.startlist === 'true') {
       cyclistQuery.whereNotNull('race_number');
+      cyclistQuery.orderBy('race_number');
     }
 
     if (query.team) {
@@ -57,6 +58,13 @@ module.exports = {
         .whereNotNull('race_number');
     }
 
+    if (query.limit && query.offset) {
+      cyclistQuery
+        .limit(query.limit)
+        .offset(query.offset)
+        .orderBy('last_name', 'asc');
+    }
+
     return cyclistQuery;
   },
 
@@ -69,5 +77,18 @@ module.exports = {
       .join('speciality', 'cyclist.speciality_id', 'speciality.id')
       .leftJoin('startlist', 'cyclist.id', 'startlist.cyclist_id')
       .first();
+  },
+
+  async update(query, params) {
+    const put = await db(cyclist)
+      .where('id', params)
+      .update({
+        ...query,
+        updated_at: new Date(Date.now())
+          .toISOString()
+          .replace('T', ' ')
+          .replace('Z', ''),
+      });
+    return put;
   },
 };

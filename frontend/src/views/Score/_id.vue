@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="container">
     <section class="PrevNext">
       <router-link to="/score">
         <img src="@/assets/icons/chevrons-left.svg" alt="chevron-left" />
@@ -118,12 +118,13 @@ export default {
         axios.get(`${config.DEV_URL}results/score`, {
           params,
         }),
-        axios.get(`${config.DEV_URL}entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`),
+        axios.get(
+          `${config.DEV_URL}entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
+        ),
         axios.get(`${config.DEV_URL}stages/${this.$route.params.etappeID}`),
         axios.get(
           `${config.DEV_URL}results?stage_id=${this.$route.params.etappeID}`
         ),
-        
       ])
       .then(
         axios.spread((result, entries, etappeinfo, stageResult) => {
@@ -141,8 +142,6 @@ export default {
           this.stageResult = stageResult.data.sort((a, b) =>
             a.points < b.points ? 1 : -1
           );
-
-
         })
       );
   },

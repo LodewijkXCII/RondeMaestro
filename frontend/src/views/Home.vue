@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="container">
     <img
       src="@/assets/img/howard-bouchevereau-cOfR4XmEzd8-unsplash.jpg"
       alt="RondeMaestro topimage"
@@ -108,6 +108,8 @@ export default {
 
 .buttons {
   display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
 
   a:first-of-type {
     margin-right: 0.5em;

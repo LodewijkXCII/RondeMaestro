@@ -1,5 +1,5 @@
 const express = require('express');
-
+const Starlist = require('./startlist.model');
 const queries = require('./startlist.queries');
 const { startlist } = require('../../constants/tableNames');
 const { update } = require('../../db');
@@ -19,19 +19,45 @@ router.get('/', async (req, res, next) => {
 });
 
 router.put('/', async (req, res, next) => {
-  const { cyclist_id, race, updateValue } = req.body;
-  try {
-    const updateStartlist = await queries.update({
-      cyclist_id,
-      race,
-      updateValue,
-    });
-    if (updateStartlist) {
-      res.json(updateStartlist);
-      console.log('Updating');
+  if (req.body.updateValue) {
+    try {
+      const updateStartlist = await queries.updateWithdraw({
+        cyclist_id,
+        race,
+        updateValue,
+      });
+      if (updateStartlist) {
+        res.json(updateStartlist);
+        console.log('Updating');
+      }
+    } catch (error) {
+      next(error);
     }
+  } else {
+    try {
+      const updateStartlist = await queries.updateStartlist(
+        req.body,
+        req.params.id
+      );
+      if (updateStartlist) {
+        res.json(updateStartlist);
+        console.log('Updating');
+      }
+    } catch (error) {
+      next(error);
+    }
+  }
+});
+
+router.post('/', async (req, res, next) => {
+  try {
+    const newStartlistRider = await Starlist.query().insert({
+      ...req.body,
+      withdraw: false,
+    });
+    res.json(newStartlistRider);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 });
 

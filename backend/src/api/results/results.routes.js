@@ -25,20 +25,15 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.put('/', async (req, res, next) => {
-  const { position, stage_id, cyclist_id } = req.body;
+router.put('/:id', async (req, res, next) => {
   try {
-    const updateEntry = await queries.update({
-      position,
-      stage_id,
-      cyclist_id,
-    });
-    if (updateEntry) {
-      res.json(updateEntry);
-      console.log('putting');
+    const updatedResult = await queries.update(req.body, req.params.id);
+    if (updatedResult) {
+      res.json(updatedResult);
+      console.log('Updating');
     }
   } catch (error) {
-    throw error;
+    next(error);
   }
 });
 

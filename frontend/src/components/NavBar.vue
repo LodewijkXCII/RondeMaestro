@@ -3,19 +3,83 @@
     <router-link :to="{ name: 'Home' }" class="brand">
       <img :src="require('@/assets/logo.png')" />
     </router-link>
+    <div class="leftNav">
+      <div class="navItem">
+        <router-link :to="{ name: 'Dashboard' }">
+          Dashboard
+        </router-link>
+      </div>
+      <div class="navItem">
+        <router-link :to="{ name: 'etappe-overzicht' }"> Etappes</router-link>
+      </div>
+      <div class="navItem">
+        <router-link :to="{ name: 'klassement' }">
+          Klassement
+        </router-link>
+      </div>
+      <div class="navItem">
+        <router-link :to="{ name: 'Score' }">
+          Score
+        </router-link>
+      </div>
+
+      <div class="navItem">
+        <router-link :to="{ name: 'Spelregels' }">
+          Spelregels
+        </router-link>
+      </div>
+    </div>
     <div class="rightNav">
-      <router-link :to="{ name: 'Spelregels' }">
-        Spelregels
-      </router-link>
+      <div class="rightNav__options" v-if="toggle" @click="toggle = !toggle">
+        <ul>
+          <li>
+            <router-link :to="{ name: 'account' }"> Mijn account</router-link>
+          </li>
+          <li class="logout" @click="logout">Afmelden</li>
+        </ul>
+      </div>
+      <div
+        class="rightNav__options mobileMenu"
+        v-if="showMenu"
+        @click="showMenu = !showMenu"
+      >
+        <ul>
+          <li>
+            <router-link :to="{ name: 'Dashboard' }">
+              Dashboard
+            </router-link>
+          </li>
+          <li>
+            <router-link :to="{ name: 'etappe-overzicht' }">
+              Etappes</router-link
+            >
+          </li>
+          <li>
+            <router-link :to="{ name: 'klassement' }">
+              Klassement
+            </router-link>
+          </li>
+          <li>
+            <router-link :to="{ name: 'Score' }">
+              Score
+            </router-link>
+          </li>
+          <li>
+            <router-link :to="{ name: 'Spelregels' }">
+              Spelregels
+            </router-link>
+          </li>
+        </ul>
+      </div>
       <div class="rightNav__fixed">
         <div class="rightNav__fixed--user" v-if="loggedIn">
-          <div class="rightNav__fixed--user username">
-            <font-awesome-icon :icon="['far', 'user']" />{{ username }}
-          </div>
-          <div class="rightNav__fixed--user logout" @click="logout">
-            Afmelden
+          <div class="rightNav__fixed--user username" @click="toggle = !toggle">
+            <font-awesome-icon :icon="['far', 'user']" />
+            {{ username }}
+            <font-awesome-icon :icon="['fas', 'caret-down']" />
           </div>
         </div>
+
         <div class="rightNav__fixed--sign" v-else>
           <router-link
             :to="{ name: 'Signup' }"
@@ -28,6 +92,12 @@
             >Aanmelden</router-link
           >
         </div>
+        <div class="rightNav__fixed--menu" v-if="isMobile">
+          <font-awesome-icon
+            :icon="['fas', 'bars']"
+            @click="showMenu = !showMenu"
+          />
+        </div>
       </div>
     </div>
   </nav>
@@ -35,22 +105,32 @@
 
 <script>
 import { mapState } from 'vuex';
+import checkMobile from '../utils/checkMobile';
 
 export default {
   data() {
     return {
       loggedIn: false,
       username: '',
+      isAdmin: false,
+      toggle: false,
+      isMobile: false,
+      showMenu: false,
     };
   },
 
   computed: {
-    ...mapState(['userName']),
+    ...mapState(['userName', 'userType']),
   },
 
   watch: {
-    userName(userName) {
+    userName(userName, newValue, oldValue) {
+      this.loggedIn = true;
+      console.log(`Updating from ${oldValue} to ${newValue}`);
       this.username = userName;
+    },
+    userType(userType) {
+      this.isAdmin = true;
     },
   },
 
@@ -67,10 +147,23 @@ export default {
     },
   },
   mounted() {
+    checkMobile();
+    if (checkMobile === false) {
+      this.isMobile = true;
+    } else {
+      this.isMobile = false;
+    }
+
     this.username = this.userName;
     this.username = window.localStorage.user;
+    if (this.userType) {
+      this.isAdmin = true;
+    }
     if (this.username) {
       this.loggedIn = true;
+    }
+    if (window.localStorage.user_type_id == 3) {
+      this.isAdmin = true;
     }
   },
 };
@@ -81,8 +174,8 @@ export default {
 
 nav {
   border-bottom: 2px solid $primary-color;
+  // margin-bottom: 3rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 
   .brand {
@@ -95,13 +188,43 @@ nav {
     width: 75px;
     height: auto;
   }
+  .leftNav {
+    display: none;
+  }
 
   .rightNav {
+    margin-left: auto;
     display: flex;
     align-items: center;
     text-transform: uppercase;
     color: $primary-color;
     font-weight: 700;
+    position: relative;
+
+    &__options {
+      position: absolute;
+      right: 0;
+      background: white;
+      padding: 0.75rem 1rem 0.5rem 1.6rem;
+      top: 1.7rem;
+
+      ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+          margin-bottom: 0.75rem;
+        }
+      }
+    }
+
+    .logout {
+      cursor: pointer;
+      padding-top: 5px;
+      margin-top: 10px;
+      border-top: 1px solid $primary-color;
+    }
+
     &__fixed {
       display: inline-flex;
       padding-left: 25px;
@@ -116,13 +239,16 @@ nav {
         &.logout,
         &.username {
           margin: 0 0.5rem;
+          transition: 0.3s;
+
+          &:hover {
+            cursor: pointer;
+            color: darken($color: $primary-color, $amount: 7);
+          }
 
           svg {
-            margin-right: 5px;
+            margin: 0 7px;
           }
-        }
-        &.logout {
-          cursor: pointer;
         }
       }
       &--sign {
@@ -130,6 +256,32 @@ nav {
           margin: 0 0.5rem;
         }
       }
+    }
+  }
+
+  .navItem {
+    margin: 0 1.2em;
+
+    a {
+      transition: 0.3s;
+      text-transform: uppercase;
+
+      &:hover {
+        color: darken($color: $primary-color, $amount: 7);
+      }
+    }
+  }
+}
+
+@media only screen and (min-width: 1224px) {
+  nav {
+    max-width: 1200px;
+    margin: auto;
+    .leftNav {
+      display: inherit;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 }

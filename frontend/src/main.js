@@ -19,10 +19,16 @@ import {
   faCheck,
   faTimes,
   faUsers,
+  faPlus,
+  faCaretDown,
+  faEdit,
+  faBars,
 } from '@fortawesome/free-solid-svg-icons';
 
 /* Fontawesome REGULAR ICONS import en icons select  */
-import { faUser, faEdit } from '@fortawesome/free-regular-svg-icons';
+import { faUser } from '@fortawesome/free-regular-svg-icons';
+
+/* Fontawesome inelkaar zetter */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 library.add(
   faRoute,
@@ -33,7 +39,10 @@ library.add(
   faTimes,
   faUser,
   faEdit,
-  faUsers
+  faUsers,
+  faPlus,
+  faCaretDown,
+  faBars
 );
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

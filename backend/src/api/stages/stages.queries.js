@@ -21,7 +21,8 @@ module.exports = {
       .select(fields)
       // .select()
       .join(tableNames.race, 'stage.race_id', 'race.id')
-      .join(tableNames.stage_type, 'stage.stage_type_id', 'stage_type.id');
+      .join(tableNames.stage_type, 'stage.stage_type_id', 'stage_type.id')
+      .orderBy('stage_nr', 'asc');
     if (query.race) {
       stageQuery.where('race_id', query.race);
     }
@@ -36,11 +37,33 @@ module.exports = {
       .first();
   },
 
-  update(query) {
+  setDone(query) {
     const updateStage = db(tableNames.stage)
       .where('stage.id', query.id)
-      .update({ done: true }, ['stage.id', 'stage_nr', 'done']);
+      .update(
+        { done: true },
+        {
+          updated_at: new Date(Date.now())
+            .toISOString()
+            .replace('T', ' ')
+            .replace('Z', ''),
+        },
+        [('stage.id', 'stage_nr', 'done')]
+      );
 
     return updateStage;
+  },
+
+  updateStage(query, params) {
+    const put = db(tableNames.stage)
+      .where('id', params)
+      .update({
+        ...query,
+        updated_at: new Date(Date.now())
+          .toISOString()
+          .replace('T', ' ')
+          .replace('Z', ''),
+      });
+    return put;
   },
 };
