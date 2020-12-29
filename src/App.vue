@@ -57,14 +57,6 @@ body {
   }
 }
 
-.grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: min-content;
-  column-gap: 0.8rem;
-  row-gap: 1rem;
-}
-
 .label {
   background: $white-color;
   display: inline-block;
@@ -125,6 +117,13 @@ body {
   .grid-1-2 {
     display: grid;
     grid-template-columns: 1fr 3fr;
+  }
+  .grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: min-content;
+    column-gap: 0.8rem;
+    row-gap: 1rem;
   }
 }
 

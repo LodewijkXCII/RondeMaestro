@@ -319,6 +319,11 @@ export default {
   color: $primary-color;
 }
 
+.rennerOverview {
+  display: grid;
+  row-gap: 1em;
+}
+
 /* Desktops and laptops ----------- */
 @media only screen and (min-width: 1224px) {
   .rennerOverview {

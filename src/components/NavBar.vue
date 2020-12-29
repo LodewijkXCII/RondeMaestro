@@ -35,23 +35,51 @@
           <li>
             <router-link :to="{ name: 'account' }"> Mijn account</router-link>
           </li>
-          <!-- <li v-if="isAdmin">
-            <router-link :to="{ name: 'admin' }">Admin</router-link>
-          </li> -->
           <li class="logout" @click="logout">Afmelden</li>
+        </ul>
+      </div>
+      <div
+        class="rightNav__options mobileMenu"
+        v-if="showMenu"
+        @click="showMenu = !showMenu"
+      >
+        <ul>
+          <li>
+            <router-link :to="{ name: 'Dashboard' }">
+              Dashboard
+            </router-link>
+          </li>
+          <li>
+            <router-link :to="{ name: 'etappe-overzicht' }">
+              Etappes</router-link
+            >
+          </li>
+          <li>
+            <router-link :to="{ name: 'klassement' }">
+              Klassement
+            </router-link>
+          </li>
+          <li>
+            <router-link :to="{ name: 'Score' }">
+              Score
+            </router-link>
+          </li>
+          <li>
+            <router-link :to="{ name: 'Spelregels' }">
+              Spelregels
+            </router-link>
+          </li>
         </ul>
       </div>
       <div class="rightNav__fixed">
         <div class="rightNav__fixed--user" v-if="loggedIn">
           <div class="rightNav__fixed--user username" @click="toggle = !toggle">
-            <!-- TODO After click, set toggle == false -->
             <font-awesome-icon :icon="['far', 'user']" />
             {{ username }}
-
-            <!-- TODO pagina naar profiel aanmaken -->
             <font-awesome-icon :icon="['fas', 'caret-down']" />
           </div>
         </div>
+
         <div class="rightNav__fixed--sign" v-else>
           <router-link
             :to="{ name: 'Signup' }"
@@ -64,6 +92,12 @@
             >Aanmelden</router-link
           >
         </div>
+        <div class="rightNav__fixed--menu" v-if="isMobile">
+          <font-awesome-icon
+            :icon="['fas', 'bars']"
+            @click="showMenu = !showMenu"
+          />
+        </div>
       </div>
     </div>
   </nav>
@@ -71,6 +105,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import checkMobile from '../utils/checkMobile';
 
 export default {
   data() {
@@ -79,6 +114,8 @@ export default {
       username: '',
       isAdmin: false,
       toggle: false,
+      isMobile: false,
+      showMenu: false,
     };
   },
 
@@ -110,6 +147,13 @@ export default {
     },
   },
   mounted() {
+    checkMobile();
+    if (checkMobile === false) {
+      this.isMobile = true;
+    } else {
+      this.isMobile = false;
+    }
+
     this.username = this.userName;
     this.username = window.localStorage.user;
     if (this.userType) {
@@ -145,9 +189,6 @@ nav {
     height: auto;
   }
   .leftNav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     display: none;
   }
 
@@ -223,6 +264,7 @@ nav {
 
     a {
       transition: 0.3s;
+      text-transform: uppercase;
 
       &:hover {
         color: darken($color: $primary-color, $amount: 7);
@@ -237,6 +279,9 @@ nav {
     margin: auto;
     .leftNav {
       display: inherit;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   }
 }
