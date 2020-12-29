@@ -326,7 +326,7 @@ export default {
     grid-template-columns: 3fr 1fr;
     row-gap: 1em;
     column-gap: 7em;
-
+    padding: 0.5em 1.5em;
     &-Left {
       &--left {
         display: flex;

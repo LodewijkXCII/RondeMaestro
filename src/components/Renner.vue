@@ -12,7 +12,7 @@
     </div>
     <div class="renner__info">
       <div class="renner__info-top">
-        <div class="renner__info-top--number">
+        <div class="renner__info-top--number" v-if="renner.race_number">
           <h3>#{{ renner.race_number }}</h3>
         </div>
         <div class="renner__info-top--flag">

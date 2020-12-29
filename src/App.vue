@@ -105,16 +105,26 @@ body {
   background: #ececec;
 }
 
+.show {
+  display: inherit;
+}
+
 /* Desktops and laptops ----------- */
 @media only screen and (min-width: 1224px) {
   body {
     margin: auto;
+    padding: 1em 0;
   }
 
   .container {
     max-width: 1200px;
     margin: auto;
     margin-bottom: 8rem;
+  }
+
+  .grid-1-2 {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
   }
 }
 
@@ -170,6 +180,11 @@ a {
 /*
     BUTTONS
 */
+button {
+  &:hover {
+    cursor: pointer;
+  }
+}
 .btn {
   padding: 1em 1.3em;
   margin-right: 1em;
@@ -178,6 +193,10 @@ a {
   border-radius: 10px;
   font-size: 0.75rem;
   display: inline;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   &-primary {
     background: $primary-color;

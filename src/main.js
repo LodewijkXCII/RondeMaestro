@@ -21,10 +21,11 @@ import {
   faUsers,
   faPlus,
   faCaretDown,
+  faEdit,
 } from '@fortawesome/free-solid-svg-icons';
 
 /* Fontawesome REGULAR ICONS import en icons select  */
-import { faUser, faEdit } from '@fortawesome/free-regular-svg-icons';
+import { faUser } from '@fortawesome/free-regular-svg-icons';
 
 /* Fontawesome inelkaar zetter */
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';

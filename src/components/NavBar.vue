@@ -30,12 +30,21 @@
       </div>
     </div>
     <div class="rightNav">
+      <div class="rightNav__options" v-if="toggle" @click="toggle = !toggle">
+        <ul>
+          <li>
+            <router-link :to="{ name: 'account' }"> Mijn account</router-link>
+          </li>
+          <!-- <li v-if="isAdmin">
+            <router-link :to="{ name: 'admin' }">Admin</router-link>
+          </li> -->
+          <li class="logout" @click="logout">Afmelden</li>
+        </ul>
+      </div>
       <div class="rightNav__fixed">
         <div class="rightNav__fixed--user" v-if="loggedIn">
-          <div class="rightNav__fixed--user logout" @click="logout">
-            Afmelden
-          </div>
-          <div class="rightNav__fixed--user username">
+          <div class="rightNav__fixed--user username" @click="toggle = !toggle">
+            <!-- TODO After click, set toggle == false -->
             <font-awesome-icon :icon="['far', 'user']" />
             {{ username }}
 
@@ -68,11 +77,13 @@ export default {
     return {
       loggedIn: false,
       username: '',
+      isAdmin: false,
+      toggle: false,
     };
   },
 
   computed: {
-    ...mapState(['userName']),
+    ...mapState(['userName', 'userType']),
   },
 
   watch: {
@@ -80,6 +91,9 @@ export default {
       this.loggedIn = true;
       console.log(`Updating from ${oldValue} to ${newValue}`);
       this.username = userName;
+    },
+    userType(userType) {
+      this.isAdmin = true;
     },
   },
 
@@ -98,8 +112,14 @@ export default {
   mounted() {
     this.username = this.userName;
     this.username = window.localStorage.user;
+    if (this.userType) {
+      this.isAdmin = true;
+    }
     if (this.username) {
       this.loggedIn = true;
+    }
+    if (window.localStorage.user_type_id == 3) {
+      this.isAdmin = true;
     }
   },
 };
@@ -110,7 +130,7 @@ export default {
 
 nav {
   border-bottom: 2px solid $primary-color;
-  margin-bottom: 3rem;
+  // margin-bottom: 3rem;
   display: flex;
   align-items: center;
 
@@ -138,6 +158,32 @@ nav {
     text-transform: uppercase;
     color: $primary-color;
     font-weight: 700;
+    position: relative;
+
+    &__options {
+      position: absolute;
+      right: 0;
+      background: white;
+      padding: 0.75rem 1rem 0.5rem 1.6rem;
+      top: 1.7rem;
+
+      ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+          margin-bottom: 0.75rem;
+        }
+      }
+    }
+
+    .logout {
+      cursor: pointer;
+      padding-top: 5px;
+      margin-top: 10px;
+      border-top: 1px solid $primary-color;
+    }
+
     &__fixed {
       display: inline-flex;
       padding-left: 25px;
@@ -152,13 +198,16 @@ nav {
         &.logout,
         &.username {
           margin: 0 0.5rem;
+          transition: 0.3s;
+
+          &:hover {
+            cursor: pointer;
+            color: darken($color: $primary-color, $amount: 7);
+          }
 
           svg {
             margin: 0 7px;
           }
-        }
-        &.logout {
-          cursor: pointer;
         }
       }
       &--sign {
@@ -184,6 +233,8 @@ nav {
 
 @media only screen and (min-width: 1224px) {
   nav {
+    max-width: 1200px;
+    margin: auto;
     .leftNav {
       display: inherit;
     }

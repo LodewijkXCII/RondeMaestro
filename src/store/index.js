@@ -8,6 +8,7 @@ export default new Vuex.Store({
     stage: '',
     selectie: [],
     userName: '',
+    userType: '',
   },
   getters: {
     countSelectie: (state) => {
@@ -30,8 +31,9 @@ export default new Vuex.Store({
     setEtappes: (state, etappe) => {
       state.stage = etappe;
     },
-    setUser: (state, user) => {
+    setUser: (state, user, type) => {
       state.userName = user;
+      state.userType = type;
     },
     setSearchRennner: (state, renner) => {
       console.log('he hallo');

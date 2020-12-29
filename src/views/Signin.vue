@@ -57,8 +57,8 @@ export default {
   methods: {
     ...mapMutations(['setUser']),
 
-    newUser(user) {
-      this.setUser(user);
+    newUser(user, user_type_id) {
+      this.setUser(user, user_type_id);
     },
     async login() {
       const data = {
@@ -87,7 +87,7 @@ export default {
                 localStorage.user = response.data.user.name;
                 localStorage.user_id = response.data.user.id;
                 localStorage.user_type_id = response.data.user.user_type;
-                this.newUser(response.data.user.name);
+                this.newUser(response.data.user.name, response.data.user_type);
 
                 this.logginIn = false;
                 this.$router.push('/dashboard');

@@ -18,6 +18,7 @@ import Startlist from '../views/Admin/Startlist/Startlist.vue';
 import Spelregels from '../views/Spelregels/Spelregels.vue';
 import Admin from '../views/Admin/Admin.vue';
 import adRenners from '../views/Admin/Renners/Renners.vue';
+import account from '../views/Account/Account.vue';
 
 import { isAuthenticated } from '../utils/auth';
 
@@ -174,6 +175,14 @@ const routes = [
     meta: {
       requiresAuth: true,
       isAdmin: true,
+    },
+  },
+  {
+    path: '/account',
+    name: 'account',
+    component: account,
+    meta: {
+      requiresAuth: true,
     },
   },
 ];

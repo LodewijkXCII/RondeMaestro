@@ -108,6 +108,8 @@ export default {
 
 .buttons {
   display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
 
   a:first-of-type {
     margin-right: 0.5em;
