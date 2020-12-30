@@ -92,7 +92,7 @@
             >Aanmelden</router-link
           >
         </div>
-        <div class="rightNav__fixed--menu" v-if="isMobile">
+        <div class="rightNav__fixed--menu">
           <font-awesome-icon
             :icon="['fas', 'bars']"
             @click="showMenu = !showMenu"
@@ -105,7 +105,6 @@
 
 <script>
 import { mapState } from 'vuex';
-import checkMobile from '../utils/checkMobile';
 
 export default {
   data() {
@@ -147,13 +146,6 @@ export default {
     },
   },
   mounted() {
-    checkMobile();
-    if (checkMobile === false) {
-      this.isMobile = true;
-    } else {
-      this.isMobile = false;
-    }
-
     this.username = this.userName;
     this.username = window.localStorage.user;
     if (this.userType) {
@@ -251,11 +243,15 @@ nav {
           }
         }
       }
+
       &--sign {
         &.nav-link {
           margin: 0 0.5rem;
         }
       }
+    }
+    &__fixed--menu {
+      display: inherit;
     }
   }
 
@@ -282,6 +278,10 @@ nav {
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+
+    .rightNav__fixed--menu {
+      display: none;
     }
   }
 }
