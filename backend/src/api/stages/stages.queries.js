@@ -1,15 +1,18 @@
 const db = require('../../db');
 const tableNames = require('../../constants/tableNames');
 const { update } = require('../../db');
+const { stage } = require('../../constants/tableNames');
 
 const fields = [
   'stage.id',
-  'stage_nr',
-  'start_city',
-  'finish_city',
-  'distance',
-  'date',
-  'done',
+  'stage.stage_nr',
+  'stage.start_city',
+  'stage.finish_city',
+  'stage.distance',
+  'stage.date',
+  'stage.done',
+  'stage.stage_type_id',
+  'stage.race_id',
   'stage.image_url',
   'race.name as name',
   'stage_type.image_url as stage_type',
@@ -23,11 +26,14 @@ module.exports = {
       .join(tableNames.race, 'stage.race_id', 'race.id')
       .join(tableNames.stage_type, 'stage.stage_type_id', 'stage_type.id')
       .orderBy('stage_nr', 'asc');
-    if (query.race) {
-      stageQuery.where('race_id', query.race);
+    if (query.race && query.year) {
+      stageQuery
+        .where('race_id', query.race)
+        .whereRaw(`EXTRACT(YEAR FROM date::date) = ?`, [query.year]);
     }
     return stageQuery;
   },
+
   async get(id) {
     return db(tableNames.stage)
       .select(fields)

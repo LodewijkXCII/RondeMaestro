@@ -34,7 +34,9 @@ module.exports = {
     // }
 
     if (query.country) {
-      cyclistQuery.where('country_id', query.country);
+      cyclistQuery
+        .where('country_id', query.country)
+        .orderBy('last_name', 'asc');
     }
 
     if (query.startlist === 'true') {
@@ -43,19 +45,21 @@ module.exports = {
     }
 
     if (query.team) {
-      cyclistQuery.where('team_id', query.team);
+      cyclistQuery.where('team_id', query.team).orderBy('last_name', 'asc');
     }
 
     if (query.speciality) {
       cyclistQuery
         .where('speciality_id', query.speciality)
-        .orWhere('speciality_id_2', query.speciality);
+        .orWhere('speciality_id_2', query.speciality)
+        .orderBy('last_name', 'asc');
     }
     if (query.name) {
       cyclistQuery
         .where('first_name', 'ilike', `${query.name}%`)
         .orWhere('last_name', 'ilike', `${query.name}%`)
-        .whereNotNull('race_number');
+        .whereNotNull('race_number')
+        .orderBy('last_name', 'asc');
     }
 
     if (query.limit && query.offset) {

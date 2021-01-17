@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1>Startlijst aanpassen</h1>
+    <h2>Startlijst aanpassen</h2>
     <label for="race">Kies de ronde:</label>
     <div class="formInline">
       <!-- <input type="number" min="2020" value="2020" v-model.number="year" /> -->

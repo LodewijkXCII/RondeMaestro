@@ -23,6 +23,7 @@ import {
   faCaretDown,
   faEdit,
   faBars,
+  faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
 
 /* Fontawesome REGULAR ICONS import en icons select  */
@@ -42,7 +43,8 @@ library.add(
   faUsers,
   faPlus,
   faCaretDown,
-  faBars
+  faBars,
+  faArrowRight
 );
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

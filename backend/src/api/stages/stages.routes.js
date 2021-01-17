@@ -6,9 +6,9 @@ const { stage } = require('../../constants/tableNames');
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
-  const { race } = req.query;
+  const { race, year } = req.query;
   try {
-    const stages = await queries.find({ race });
+    const stages = await queries.find({ race, year });
     if (stage) {
       res.json(stages);
     }

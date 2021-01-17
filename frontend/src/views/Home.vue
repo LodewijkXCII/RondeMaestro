@@ -7,7 +7,7 @@
     />
     <section class="container">
       <h1>Welkom bij RondeMaestro</h1>
-      <h2>Het wielerspel waarbij je dagelijks dezelfde kansen hebt!</h2>
+      <h2>H&eacute;t wielerspel waarbij je dagelijks dezelfde kansen hebt!</h2>
       <p>
         Tol Hansse zong het al: "Wie wint dit jaar de Tour de France?" Het is
         ongetwijfeld de belangrijkste vraag in het jaar. En al jaren probeer je
@@ -73,10 +73,6 @@
         class="btn btn-primary"
         >Ga naar het Dashboard</router-link
       >
-
-      <footer>
-        <h2>&copy; RondeMaestro - 2020</h2>
-      </footer>
     </section>
   </section>
 </template>

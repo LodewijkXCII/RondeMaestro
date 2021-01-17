@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container LoginLogOut">
     <h1>Meld je aan</h1>
     <div v-if="errorMessage" role="alert">{{ errorMessage }}</div>
 
@@ -63,6 +63,7 @@ import axios from 'axios';
 import config from '@/utils/config';
 import schema from '@/utils/yup';
 
+// TODO nice to have: Validation on password for 8 char, 1 cap, 1 spec Turn green if completed
 export default {
   data() {
     return {
@@ -184,6 +185,10 @@ export default {
 </script>
 
 <style lang="scss">
+.LoginLogOut {
+  max-width: 500px;
+  margin-top: 5rem;
+}
 .password__rules {
   span {
   }

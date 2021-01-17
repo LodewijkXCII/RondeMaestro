@@ -9,7 +9,7 @@ import EtappeSingle from '../views/Etappe/_id.vue';
 import Selectie from '../views/RennerOverview.vue';
 import Score from '../views/Score/Score.vue';
 import ScoreSingle from '../views/Score/_id.vue';
-import Klassement from '../views/Klassement/Klassement.vue';
+import Uitslagen from '../views/Klassement/Uitslagen.vue';
 import AlgKlassement from '../views/Klassement/Algemeen.vue';
 import KlassementSingle from '../views/Klassement/_id.vue';
 import Spelregels from '../views/Spelregels/Spelregels.vue';
@@ -104,9 +104,9 @@ const routes = [
     },
   },
   {
-    path: '/klassement/',
-    name: 'klassement',
-    component: Klassement,
+    path: '/uitslagen/',
+    name: 'uitslagen',
+    component: Uitslagen,
     meta: {
       requiresAuth: true,
     },

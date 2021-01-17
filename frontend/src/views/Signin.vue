@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container LoginLogOut">
     <h1>Login</h1>
     <h3 v-if="errorMessage">{{ errorMessage }}</h3>
     <form @submit.prevent="login()">

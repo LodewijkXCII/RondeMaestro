@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1>Uitslag Etappe</h1>
+    <h2>Uitslag Etappe</h2>
     <label for="race">Kies de etappe:</label>
     <div class="formInline">
       <!-- <input type="number" min="2020" value="2020" v-model.number="year" /> -->

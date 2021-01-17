@@ -5,7 +5,7 @@
     <h2></h2>
 
     <div class="rmTable">
-      <div class="rmTable__header">
+      <div class="rmTable__header algemeen">
         <div class="rmTable__header--number">#</div>
 
         <div class="rmTable__header--user">Gebruikersnaam</div>
@@ -16,7 +16,7 @@
       <div
         v-for="(score, index) in scores"
         :key="score.index"
-        class="rmTable__body"
+        class="rmTable__body algemeen"
       >
         <div class="rmTable__body--number">{{ index + 1 }}.</div>
         <div class="rmTable__body--user">{{ score.name }}</div>
@@ -49,8 +49,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.rmTable__header,
-.rmTable__body {
+.algemeen {
   display: grid;
   gap: 0.1rem;
   grid-template-columns: minmax(5px, 20px) minmax(40px, 1fr) minmax(15px, 50px);

@@ -35,8 +35,7 @@
       },
       "date": {
         "$id": "#/properties/date",
-        "type": "string",
-        "format": "date-time"
+        "type": "string"
       },
       "done": {
         "$id": "#/properties/date",

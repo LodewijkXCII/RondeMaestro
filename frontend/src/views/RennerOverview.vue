@@ -15,7 +15,7 @@
             <router-link
               :to="`/etappe-overzicht/${this.$route.params.etappeID}`"
             >
-              <div>Etappe info</div>
+              Etappe info
             </router-link>
           </div>
           <h1>Renners selecteren</h1>
@@ -79,8 +79,6 @@
     <SelectedRiders />
 
     <!-- Einde RIJ 2 -->
-
-    <div class="container"></div>
   </section>
 </template>
 
@@ -322,6 +320,8 @@ export default {
 .rennerOverview {
   display: grid;
   row-gap: 1em;
+  margin: 0 1rem;
+  margin-top: 2rem;
 }
 
 /* Desktops and laptops ----------- */

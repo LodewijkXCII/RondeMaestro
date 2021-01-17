@@ -29,68 +29,68 @@
         de etappe te eindigen. De eerste renner krijgt de meeste punten en de
         volgende renners steeds iets minder, volgens onderstaande tabel:
       </p>
-      <div class="rmTable">
-        <div class="rmTable__header">
+      <div class="rmTable" style="max-width: 500px;">
+        <div class="rmTable__header rulesTable">
           <div class="rmTable__header--position">Plaats renner</div>
           <div class="rmTable__header--points">Punten</div>
         </div>
-        <div class="rmTable__body">
+        <div class="rmTable__body rulesTable">
           <div class="rmTable__body--position">1</div>
           <div class="rmTable__body--points">100</div>
         </div>
-        <div class="rmTable__body">
+        <div class="rmTable__body rulesTable">
           <div class="rmTable__body--position">2</div>
           <div class="rmTable__body--points">80</div>
         </div>
-        <div class="rmTable__body">
+        <div class="rmTable__body rulesTable">
           <div class="rmTable__body--position">3</div>
           <div class="rmTable__body--points">63</div>
         </div>
-        <div class="rmTable__body">
+        <div class="rmTable__body rulesTable">
           <div class="rmTable__body--position">4</div>
           <div class="rmTable__body--points">50</div>
         </div>
-        <div class="rmTable__body">
+        <div class="rmTable__body rulesTable">
           <div class="rmTable__body--position">5</div>
           <div class="rmTable__body--points">41</div>
         </div>
-        <div class="rmTable__body">
+        <div class="rmTable__body rulesTable">
           <div class="rmTable__body--position">6</div>
           <div class="rmTable__body--points">34</div>
         </div>
-        <div class="rmTable__body">
+        <div class="rmTable__body rulesTable">
           <div class="rmTable__body--position">7</div>
           <div class="rmTable__body--points">29</div>
         </div>
-        <div class="rmTable__body">
+        <div class="rmTable__body rulesTable">
           <div class="rmTable__body--position">8</div>
           <div class="rmTable__body--points">24</div>
         </div>
-        <div class="rmTable__body">
+        <div class="rmTable__body rulesTable">
           <div class="rmTable__body--position">9</div>
           <div class="rmTable__body--points">19</div>
         </div>
-        <div class="rmTable__body">
+        <div class="rmTable__body rulesTable">
           <div class="rmTable__body--position">10</div>
           <div class="rmTable__body--points">15</div>
         </div>
-        <div class="rmTable__body">
+        <div class="rmTable__body rulesTable">
           <div class="rmTable__body--position">11</div>
           <div class="rmTable__body--points">12</div>
         </div>
-        <div class="rmTable__body">
+        <div class="rmTable__body rulesTable">
           <div class="rmTable__body--position">12</div>
           <div class="rmTable__body--points">9</div>
         </div>
-        <div class="rmTable__body">
+        <div class="rmTable__body rulesTable">
           <div class="rmTable__body--position">13</div>
           <div class="rmTable__body--points">7</div>
         </div>
-        <div class="rmTable__body">
+        <div class="rmTable__body rulesTable">
           <div class="rmTable__body--position">14</div>
           <div class="rmTable__body--points">6</div>
         </div>
-        <div class="rmTable__body">
+        <div class="rmTable__body rulesTable">
           <div class="rmTable__body--position">15</div>
           <div class="rmTable__body--points">5</div>
         </div>
@@ -175,12 +175,13 @@ export default {};
 
 <style lang="scss">
 @import '@/assets/styles.scss';
-.rmTable__header,
-.rmTable__body {
+.rulesTable {
   display: grid;
   gap: 0.1rem;
   grid-template-columns: 1fr 1fr;
   font-weight: normal;
+  font-size: 0.6rem;
+  display: grid;
 }
 
 a {
@@ -190,20 +191,25 @@ a {
 .rules {
   background: #f4f4f4;
   padding: 0.5em 0;
-  display: grid;
+
+  p {
+    max-width: 85%;
+  }
 }
 
 @media only screen and (min-width: 1224px) {
   .rules {
     margin-top: -5em;
     border-radius: 5px;
-    padding: 2.5em 2em;
+    padding: 5em 3em 0;
     position: relative;
     &::before {
       position: absolute;
       content: '';
       height: 7px;
       width: 100%;
+      left: 0;
+      top: 0;
       background: $primary-color;
       border-radius: 5px 5px 0 0;
     }

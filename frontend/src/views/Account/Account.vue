@@ -40,21 +40,26 @@
 <script>
 import { mapState } from 'vuex';
 
-import NewRenner from '@/components/AdminComponents/NewRenner.vue';
+import InsertRenner from '@/components/AdminComponents/InsertRenner.vue';
 import UpdateRenner from '@/components/AdminComponents/UpdateRenner.vue';
-import AddTeam from '@/components/AdminComponents/AddTeam.vue';
+import InsertTeam from '@/components/AdminComponents/InsertTeam.vue';
 import UpdateTeam from '@/components/AdminComponents/UpdateTeam.vue';
+import InsertStartlist from '@/components/AdminComponents/InsertStartlist.vue';
 import UpdateStartlist from '@/components/AdminComponents/UpdateStartlist.vue';
 import InsertResult from '@/components/AdminComponents/InsertResult.vue';
+import InsertStage from '@/components/AdminComponents/InsertStage.vue';
+import UpdateStage from '@/components/AdminComponents/UpdateStage.vue';
 
 export default {
   components: {
-    NewRenner,
+    InsertRenner,
     UpdateRenner,
-    AddTeam,
+    InsertTeam,
     UpdateTeam,
     UpdateStartlist,
     InsertResult,
+    InsertStage,
+    UpdateStage,
   },
 
   data() {
@@ -64,40 +69,47 @@ export default {
       adminLinks: [
         {
           component: 'UpdateRenner',
-          name: 'Renner updaten',
+          name: 'Renner aanpassen',
         },
         {
-          component: 'NewRenner',
+          component: 'InsertRenner',
           name: 'Renner toevoegen',
         },
         {
           component: 'UpdateTeam',
-          name: 'Team updaten',
+          name: 'Team aanpassen',
         },
-
         {
-          component: 'AddTeam',
+          component: 'InsertTeam',
           name: 'Team toevoegen',
         },
-
         {
           component: 'AddStartlist',
-          name: 'Startlijst aanmaken',
+          name: 'Startlijst toevoegen',
         },
-
         {
           component: 'UpdateStartlist',
-          name: 'Startlijst updaten',
+          name: 'Startlijst aanpassen',
         },
-
-        {
-          component: 'UpdateUser',
-          name: 'Gebruiker updaten',
-        },
-
         {
           component: 'InsertResult',
-          name: 'Uitslag invoeren',
+          name: 'Uitslag toevoegen',
+        },
+        {
+          component: 'UpdateResult',
+          name: 'Uitslag aanpassen',
+        },
+        {
+          component: 'InsertStage',
+          name: 'Etappe toevoegen',
+        },
+        {
+          component: 'UpdateStage',
+          name: 'Etappe aanpassen',
+        },
+        {
+          component: 'UpdateUser',
+          name: 'Gebruiker aanpassen',
         },
       ],
       currentTab: '',
@@ -167,7 +179,7 @@ export default {
   .account {
     margin-top: -5em;
     border-radius: 5px;
-    padding: 2.5em 2em;
+    padding: 5em 3em;
     position: relative;
     &::before {
       position: absolute;
