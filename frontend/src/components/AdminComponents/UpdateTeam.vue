@@ -70,7 +70,7 @@
         </button>
       </form>
     </div>
-    <div class="selectie" v-if="teamMembers.length > 0">
+    <div class="selectie" v-if="team.name">
       <h2>{{ teamMembers.length }} Renners in {{ team.name }}</h2>
 
       <div class="rmTable">
