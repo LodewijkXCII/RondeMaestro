@@ -40,13 +40,15 @@
       <!-- Knoppen -->
       <!-- Einde blok rechts -->
       <div class="selectedRiders__top " @click="showSelectie()">
-        <h2>Je selectie voor etappe {{ stage.stage_nr }}</h2>
+        <h2 :class="{ error: error }">
+          Je selectie voor etappe {{ stage.stage_nr }}
+        </h2>
         <h4 :class="{ error: error }">
           Geselecteerd:
           {{ countSelectie }}
           <span>/ 8</span>
         </h4>
-        <p>{{ errorMsg }}</p>
+        <strong class="error">{{ errorMsg }}</strong>
       </div>
       <div class="selectedRiders__buttons">
         <button @click.prevent="delSelectie()" class="btn btn-danger">
@@ -156,19 +158,26 @@ export default {
 
     // RENNER ZOEKEN
     async searchRiders() {
+      //TODO renners worden nu aangepast, waardoor terug gaan niet mogelijk is.
+      //Ungroup renners
+      // const ungroupedRenners = [..._.flatMap(this.renners)];
+      //Zoek renner in lijst
+      // console.log('ungrouped', ungroupedRenners);
+      // const filter = ungroupedRenners.filter((renners) =>
+      //   renners.image_url.includes(this.name)
+      // );
+
+      // console.log(filter);
       this.team = 0;
       const searchrider = await axios.get(
         `${config.DEV_URL}cyclists?startlist=true&name=${this.name}`
       );
-
       this.renners = _(searchrider.data)
         .groupBy((renner) => renner.team_name)
         .sortBy((team_name) => searchrider.data.indexOf(team_name[0]))
         .value();
 
-      // searchrider.data.sort((a, b) =>
-      //   a.race_number > b.race_number ? 1 : -1
-      // );
+      // searchrider.data.sort((a, b) => (a.race_number > b.race_number ? 1 : -1));
     },
     async searchRidersTeam(team) {
       const searchrider = await axios.get(
@@ -179,8 +188,6 @@ export default {
         .groupBy((renner) => renner.team_name)
         .sortBy((team_name) => searchrider.data.indexOf(team_name[0]))
         .value();
-
-      // searchrider.data.sort((a, b) => (a.race_number > b.race_number ? 1 : -1));
     },
 
     async submitSelectie() {
@@ -307,14 +314,19 @@ export default {
     }
   }
 }
-
+.error {
+  color: $alert-color;
+}
 .selection {
   display: grid;
   gap: 0.5em;
 }
 
-.team .renner svg {
-  color: $primary-color;
+.team {
+  margin-bottom: 2rem;
+  .renner svg {
+    color: $primary-color;
+  }
 }
 
 .rennerOverview {
@@ -322,10 +334,18 @@ export default {
   row-gap: 1em;
   margin: 0 1rem;
   margin-top: 2rem;
+  &-Right {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
 }
 
 /* Desktops and laptops ----------- */
 @media only screen and (min-width: 1224px) {
+  .team {
+    margin-bottom: 0;
+  }
   .rennerOverview {
     display: grid;
     grid-template-columns: 3fr 1fr;

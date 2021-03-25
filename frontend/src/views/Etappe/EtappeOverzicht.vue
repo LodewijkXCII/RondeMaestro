@@ -14,7 +14,11 @@
       </div>
       <div class="rmTable__wrapper" v-for="etappe in etappes" :key="etappe.id">
         <router-link
-          :to="{ name: 'selectie', params: { etappeID: etappe.id } }"
+          :to="
+            etappe.done
+              ? { name: 'klassement-single', params: { etappeID: etappe.id } }
+              : { name: 'selectie', params: { etappeID: etappe.id } }
+          "
         >
           <div
             class="rmTable__body tableEtappe"
@@ -37,46 +41,13 @@
             <div class="rmTable__body--distance">{{ etappe.distance }}KM</div>
           </div>
         </router-link>
-        <!-- <div class="rmTable__bottom">
-          <div class="rmTable__bottom--selection">
-            <div
-              v-for="renner in etappe.selection"
-              :key="renner.id"
-              class="rennerInfo"
-            >
-              <div class="rennerInfo--name">
-                {{ renner.first_name }}
-                <div class="lastName">{{ renner.last_name }}</div>
-              </div>
-            </div>
-          </div>
-          <div class="rmTable__bottom--links">
-            <div class="rmTable__bottom--link">
-              
-                Renners invullen
-              </router-link>
-            </div>
-            <div
-              class="rmTable__bottom--team"
-              @click="openSelection(etappe, index)"
-            >
-              Bekijk je team
-            </div>
-            <div class="rmTable__bottom--done" v-if="etappe.done === true">
-              <router-link
-                :to="{ name: 'score-single', params: { etappeID: etappe.id } }"
-                >Bekijk de score</router-link
-              >
-            </div>
-          </div>
-        </div> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
+import { mapMutations } from 'vuex';
 import config from '@/utils/config';
 import axios from 'axios';
 
@@ -87,13 +58,12 @@ export default {
     return {
       etappes: {},
       ronde: null,
+      link: ``,
     };
   },
 
   created() {
-    // const currentDate = new Date();
-
-    fetch(`${config.DEV_URL}stages?race=1`)
+    fetch(`${config.DEV_URL}stages?race=1&year=${config.currentYear}`)
       .then((response) => response.json())
       .then((result) => {
         const fetched = result.sort((a, b) => (a.date > b.date ? 1 : -1));
@@ -119,6 +89,12 @@ export default {
       } else {
         this.etappes[index].selection = [];
       }
+    },
+  },
+
+  computed: {
+    transformed() {
+      return;
     },
   },
 };

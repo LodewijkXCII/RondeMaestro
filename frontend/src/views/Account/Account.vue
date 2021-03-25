@@ -13,8 +13,14 @@
         <h2>Wat wil je graag doen?</h2>
 
         <ul>
-          <li>Gegevens aanpassen</li>
-          <li>Email voorkeuren</li>
+          <li
+            v-for="link in userLinks"
+            :key="link.index"
+            v-on:click="currentTab = link.component"
+          >
+            {{ link.name }}
+          </li>
+
           <li @click="logout">Uitloggen</li>
         </ul>
         <div v-if="isAdmin">
@@ -40,6 +46,7 @@
 <script>
 import { mapState } from 'vuex';
 
+import UpdateGebruiker from '@/components/AdminComponents/UpdateGebruiker.vue';
 import InsertRenner from '@/components/AdminComponents/InsertRenner.vue';
 import UpdateRenner from '@/components/AdminComponents/UpdateRenner.vue';
 import InsertTeam from '@/components/AdminComponents/InsertTeam.vue';
@@ -49,9 +56,11 @@ import UpdateStartlist from '@/components/AdminComponents/UpdateStartlist.vue';
 import InsertResult from '@/components/AdminComponents/InsertResult.vue';
 import InsertStage from '@/components/AdminComponents/InsertStage.vue';
 import UpdateStage from '@/components/AdminComponents/UpdateStage.vue';
+import UpdateUser from '@/components/AdminComponents/UpdateUser.vue';
 
 export default {
   components: {
+    UpdateGebruiker,
     InsertRenner,
     UpdateRenner,
     InsertTeam,
@@ -60,12 +69,23 @@ export default {
     InsertResult,
     InsertStage,
     UpdateStage,
+    UpdateUser,
   },
 
   data() {
     return {
       username: '',
       isAdmin: false,
+      userLinks: [
+        {
+          component: 'UpdateGebruiker',
+          name: 'Gegevens aanpassen',
+        },
+        {
+          component: 'EmailSettings',
+          name: 'Email voorkeuren',
+        },
+      ],
       adminLinks: [
         {
           component: 'UpdateRenner',

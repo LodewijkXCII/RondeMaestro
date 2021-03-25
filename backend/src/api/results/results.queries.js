@@ -12,6 +12,7 @@ const fields = [
   'result.deleted_at as deleted_at',
   'cyclist.first_name as first_name',
   'cyclist.last_name as last_name',
+  'cyclist.id as cyclist_id',
 ];
 
 const fields_score = [
@@ -85,8 +86,8 @@ module.exports = {
 
   async getSUM(query) {
     const summedRes = db(result)
-      .select('name', db.raw('SUM(points)'))
-      .groupBy('name')
+      .select('users.id', 'users.name', db.raw('SUM(points)'))
+      .groupBy('users.id')
       .from(tableNames.users)
       .innerJoin('entry', 'users.id', 'entry.users_id')
       .whereNull('entry.deleted_at')

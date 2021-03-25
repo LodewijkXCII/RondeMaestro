@@ -122,6 +122,11 @@ body {
     display: grid;
     grid-template-columns: 1fr 3fr;
   }
+  .grid-2-1 {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-gap: 0.75rem;
+  }
   .grid-3 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -336,7 +341,7 @@ select {
     border-bottom: 1px solid $primary-color;
     padding-bottom: 0.2rem;
     margin-bottom: 0.1rem;
-    padding: 0 0.25rem;
+    padding: 0.75rem 1rem;
 
     &--distance,
     &--date {
@@ -394,9 +399,13 @@ select {
     &--button {
       justify-self: center;
       align-self: center;
-      a img {
+      a img,
+      img {
         height: 15px;
         padding-top: 3px;
+      }
+      &:hover {
+        cursor: pointer;
       }
     }
     a {
