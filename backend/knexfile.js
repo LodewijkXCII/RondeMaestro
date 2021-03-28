@@ -23,7 +23,7 @@ module.exports = {
     migrations: {
       tableName: 'migrations',
     },
-    ssl: true,
+    ssl: { rejectUnauthorized: false },
     migrations: {
       directory: './db/migrations',
     },

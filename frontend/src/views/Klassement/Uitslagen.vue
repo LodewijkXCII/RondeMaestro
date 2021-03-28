@@ -25,7 +25,7 @@
         v-for="etappe in etappes"
         :key="etappe.id"
         class="rmTable__body"
-        @click="pushStage(etappe.id)"
+        @click="pushStage(etappe)"
       >
         <div class="rmTable__body--number">{{ etappe.stage_nr }}.</div>
         <div class="rmTable__body--date">{{ etappe.date | formatDate }}</div>
@@ -68,10 +68,10 @@ export default {
       this.setEtappes(etappe);
     },
 
-    pushStage(id) {
+    pushStage(stage) {
       this.$router.push({
         name: 'klassement-single',
-        params: { etappeID: id },
+        params: { etappeID: stage.id, stage: stage },
       });
     },
   },

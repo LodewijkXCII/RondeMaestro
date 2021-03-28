@@ -1,23 +1,20 @@
 <template>
   <section class="container grid-2-1">
     <main>
-      <h1>klassement van etappe {{ $route.params.etappeID }}</h1>
-
+      <h1>klassement van etappe {{ etappe.stage_nr }}</h1>
+      <h2 style="margin-bottom: 1rem">
+        {{ etappe.start_city }} - {{ etappe.finish_city }}
+      </h2>
       <section class="PrevNext">
-        <div class="PrevNext__prev" @click="prevEtappe()">
-          <font-awesome-icon :icon="['fas', 'arrow-left']" />
-          <span>Vorige Etappe</span>
-        </div>
-
-        <div class="PrevNext__next" @click="nextEtappe()">
-          <span>Volgende Etappe</span>
-          <font-awesome-icon :icon="['fas', 'arrow-right']" />
-        </div>
+        <router-link to="/uitslagen">
+          <img src="@/assets/icons/chevrons-left.svg" alt="chevron-left" />
+          <span>Terug naar het overzicht</span>
+        </router-link>
       </section>
 
-      <Main :scores="scores" :key="etappe" :etappe="+etappe" />
+      <Main :scores="scores" :key="etappe.index" :etappe="+etappe" />
     </main>
-    <Aside :uitslag="uitslag" :totalScores="totalScores" :key="etappe" />
+    <Aside :uitslag="uitslag" :totalScores="totalScores" :key="etappe.index" />
   </section>
 </template>
 
@@ -28,6 +25,7 @@ import Aside from '@/components/KlassementComponents/Aside';
 import Main from '@/components/KlassementComponents/Main';
 
 export default {
+  props: { stage: Object },
   data() {
     return {
       scores: [],
@@ -42,48 +40,29 @@ export default {
     Aside,
     Main,
   },
-  methods: {
-    prevEtappe() {
-      const prevEtappe = +this.etappe - 1;
-      this.etappe = prevEtappe;
-
-      if (prevEtappe > 0) {
-        this.$router.push({
-          name: 'klassement-single',
-          params: { etappeID: this.etappe },
-        });
-      } else {
-        console.log('kan niet meer');
-      }
-    },
-    nextEtappe() {
-      const nextEtappe = +this.$route.params.etappeID + 1;
-      this.$router.push({
-        name: 'klassement-single',
-        params: { etappeID: nextEtappe },
-      });
-      this.forceRerender();
-      // TODO fix this shit
-    },
-
-    forceRerender() {
-      this.$forceUpdate();
-    },
-  },
+  methods: {},
   async mounted() {
-    const params = this.$route.params.etappeID;
+    let etappe;
+    if (this.stage) {
+      etappe = this.stage.id;
+      this.etappe = this.stage;
+    } else {
+      const res = await axios.get(
+        `${config.DEV_URL}stages/${this.$route.params.etappeID}`
+      );
+      this.etappe = res.data;
+      etappe = res.data.id;
+    }
+
     const user_id = window.localStorage.user_id;
 
-    this.etappe = params;
     await axios
-      .get(
-        `${config.DEV_URL}entries?stage_id=${this.etappe}&users_id=${user_id}`
-      )
+      .get(`${config.DEV_URL}entries?stage_id=${etappe}&users_id=${user_id}`)
       .then((result) => {
         this.selection = result.data;
       });
     await axios
-      .get(`${config.DEV_URL}results/totalscore?stage_id=${this.etappe}`)
+      .get(`${config.DEV_URL}results/totalscore?stage_id=${etappe}`)
       .then((result) => {
         const response = result.data.sort((a, b) => b.sum - a.sum);
         this.scores = response.map((user) => ({ ...user, selection: [] }));
@@ -92,7 +71,7 @@ export default {
       this.totalScores = result.data.sort((a, b) => b.sum - a.sum);
     });
     await axios
-      .get(`${config.DEV_URL}results?stage_id=${this.etappe}`)
+      .get(`${config.DEV_URL}results?stage_id=${etappe}`)
       .then((result) => {
         this.uitslag = result.data;
       });

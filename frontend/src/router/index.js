@@ -107,6 +107,7 @@ const routes = [
     path: '/uitslagen/',
     name: 'uitslagen',
     component: Uitslagen,
+
     meta: {
       requiresAuth: true,
     },
@@ -122,6 +123,7 @@ const routes = [
   {
     path: '/klassement/:etappeID',
     name: 'klassement-single',
+    props: true,
     component: KlassementSingle,
     meta: {
       requiresAuth: true,
