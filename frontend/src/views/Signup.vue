@@ -1,5 +1,6 @@
 <template>
   <div class="container LoginLogOut">
+    <!-- <SignUP /> -->
     <h1>Meld je aan</h1>
     <div v-if="errorMessage" role="alert">{{ errorMessage }}</div>
 
@@ -58,13 +59,17 @@
 </template>
 
 <script>
-import * as yup from 'yup';
+// import SignUP from '@/components/Auth/Signup';
+
 import axios from 'axios';
 import config from '@/utils/config';
 import schema from '@/utils/yup';
 
 // TODO nice to have: Validation on password for 8 char, 1 cap, 1 spec Turn green if completed
 export default {
+  components: {
+    // SignUP,
+  },
   data() {
     return {
       errorMessage: '',
@@ -93,13 +98,15 @@ export default {
           name: this.user.name,
           email: this.user.email,
           password: this.user.password,
+          // user_role_id: 4,
+          // uid: 'ggagasgsadgas',
         };
         this.sigingIn = true;
         try {
           await axios({
             method: 'post',
             url: `${config.DEV_URL}auth/signup`,
-            data: JSON.stringify(body),
+            data: body,
             headers: {
               'Content-Type': 'application/json',
               'Access-Control-Allow-Origin': '*',
@@ -115,13 +122,12 @@ export default {
               });
             })
             .then((result) => {
-              if (response.status == 200) {
+              if (result.status == 200) {
                 localStorage.token = response.data.token;
                 localStorage.user = response.data.user.name;
                 localStorage.user_id = response.data.user.id;
                 localStorage.user_type_id = response.data.user.user_type;
                 this.sigingIn = false;
-
                 axios({
                   method: 'post',
                   url: `${config.DEV_URL}email/new-user`,
@@ -142,7 +148,6 @@ export default {
                     throw new Error(error);
                   });
                 });
-
                 this.$router.push('/dashboard');
               } else {
                 this.errorMessage =
@@ -167,17 +172,15 @@ export default {
         this.errorMessage = 'Wachtwoorden zijn niet gelijk 🚴🏽‍♂️';
         return false;
       }
-      const result = schama.schema
-        .validate(this.user, schema)
-        .catch((error) => {
-          console.log('Mislukt:', error);
-          if (error.message.includes('email')) {
-            this.errorMessage = 'Email adres verkeerd';
-          } else {
-            this.errorMessage = 'Verkeerd wachtwoord';
-          }
-          return false;
-        });
+      schema.schema.validate(this.user, schema).catch((error) => {
+        console.log('Mislukt:', error);
+        if (error.message.includes('email')) {
+          this.errorMessage = 'Email adres verkeerd';
+        } else {
+          this.errorMessage = 'Verkeerd wachtwoord';
+        }
+        return false;
+      });
       return true;
     },
   },

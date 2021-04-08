@@ -3,7 +3,6 @@ const morgan = require('morgan');
 const compression = require('compression');
 const helmet = require('helmet');
 const cors = require('cors');
-const passport = require('passport');
 
 require('dotenv').config();
 
@@ -12,8 +11,7 @@ const api = require('./api');
 const project = require('./constants/project');
 
 const app = express();
-app.use(passport.initialize());
-app.use(passport.session());
+
 app.use(morgan('tiny'));
 app.use(compression());
 app.use(helmet());

@@ -6,10 +6,10 @@
         {{ etappe.start_city }} - {{ etappe.finish_city }}
       </h2>
       <section class="PrevNext">
-        <router-link to="/uitslagen">
+        <div @click="testing()">
           <img src="@/assets/icons/chevrons-left.svg" alt="chevron-left" />
           <span>Terug naar het overzicht</span>
-        </router-link>
+        </div>
       </section>
 
       <Main :scores="scores" :key="etappe.index" :etappe="+etappe" />
@@ -34,53 +34,70 @@ export default {
       selection: [],
       componentKey: 0,
       etappe: null,
+      etappe_id: null,
     };
   },
   components: {
     Aside,
     Main,
   },
-  methods: {},
-  async mounted() {
-    let etappe;
-    if (this.stage) {
-      etappe = this.stage.id;
-      this.etappe = this.stage;
-    } else {
-      const res = await axios.get(
-        `${config.DEV_URL}stages/${this.$route.params.etappeID}`
-      );
-      this.etappe = res.data;
-      etappe = res.data.id;
-    }
-
-    const user_id = window.localStorage.user_id;
-
-    await axios
-      .get(`${config.DEV_URL}entries?stage_id=${etappe}&users_id=${user_id}`)
-      .then((result) => {
-        this.selection = result.data;
-      });
-    await axios
-      .get(`${config.DEV_URL}results/totalscore?stage_id=${etappe}`)
-      .then((result) => {
-        const response = result.data.sort((a, b) => b.sum - a.sum);
-        this.scores = response.map((user) => ({ ...user, selection: [] }));
-      });
-    await axios.get(`${config.DEV_URL}results/totalscore`).then((result) => {
-      this.totalScores = result.data.sort((a, b) => b.sum - a.sum);
-    });
-    await axios
-      .get(`${config.DEV_URL}results?stage_id=${etappe}`)
-      .then((result) => {
-        this.uitslag = result.data;
-      });
+  async beforeRouteUpdate(to, from, next) {
+    this.etappe_id = +to.params.etappeID;
+    await this.getData();
+    console.log(this.etappe_id);
+    next();
   },
-  watch: {
-    $route(to, from) {
-      //on route change re run: onCreated
-      console.log('iets gedaan to', to, 'from', from);
-      this.forceRerender();
+  mounted() {
+    this.etappe_id = +this.$route.params.etappeID;
+    console.log(this.etappe_id);
+    this.getData();
+  },
+
+  methods: {
+    async testing() {
+      const c = +this.$route.params.etappeID;
+      // TODO UPDATE TO DYNAMIC NEWSTAGE
+      const newStage = +c + 1;
+      await this.$router.push({
+        name: 'klassement-single',
+        params: { etappeID: +newStage },
+      });
+    },
+    async getData() {
+      this.etappe = {};
+      let etappe;
+      if (this.stage) {
+        etappe = this.stage.id;
+        this.etappe = this.stage;
+      } else {
+        const res = await axios.get(
+          `${config.DEV_URL}stages/${this.etappe_id}`
+        );
+        this.etappe = res.data;
+        etappe = res.data.id;
+      }
+
+      const user_id = window.localStorage.user_id;
+
+      await axios
+        .get(`${config.DEV_URL}entries?stage_id=${etappe}&users_id=${user_id}`)
+        .then((result) => {
+          this.selection = result.data;
+        });
+      await axios
+        .get(`${config.DEV_URL}results/totalscore?stage_id=${etappe}`)
+        .then((result) => {
+          const response = result.data.sort((a, b) => b.sum - a.sum);
+          this.scores = response.map((user) => ({ ...user, selection: [] }));
+        });
+      await axios.get(`${config.DEV_URL}results/totalscore`).then((result) => {
+        this.totalScores = result.data.sort((a, b) => b.sum - a.sum);
+      });
+      await axios
+        .get(`${config.DEV_URL}results?stage_id=${etappe}`)
+        .then((result) => {
+          this.uitslag = result.data;
+        });
     },
   },
 };

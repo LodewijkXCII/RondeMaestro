@@ -105,6 +105,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import firebase from 'firebase';
 
 export default {
   data() {
@@ -136,13 +137,21 @@ export default {
   methods: {
     logout() {
       let currentPath = this.$route.path;
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          if (currentPath !== '/') {
+            this.$router.go('/');
+          }
+        })
+        .catch((err) => {
+          this.authStatus = err;
+        });
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       localStorage.removeItem('user_id');
       localStorage.removeItem('user_type_id');
-      if (currentPath !== '/') {
-        this.$router.go('/');
-      }
     },
   },
   mounted() {

@@ -25,6 +25,7 @@ import {
   faBars,
   faArrowRight,
   faArrowLeft,
+  faClipboardCheck,
 } from '@fortawesome/free-solid-svg-icons';
 
 /* Fontawesome REGULAR ICONS import en icons select  */
@@ -46,7 +47,8 @@ library.add(
   faCaretDown,
   faBars,
   faArrowRight,
-  faArrowLeft
+  faArrowLeft,
+  faClipboardCheck
 );
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

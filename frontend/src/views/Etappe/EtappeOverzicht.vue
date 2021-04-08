@@ -49,7 +49,9 @@
 <script>
 import { mapMutations } from 'vuex';
 import config from '@/utils/config';
+
 import axios from 'axios';
+import firebase from 'firebase';
 
 export default {
   //TODO bekijk of entrie al in ingevuld.
@@ -62,20 +64,41 @@ export default {
     };
   },
 
-  created() {
-    fetch(`${config.DEV_URL}stages?race=1&year=${config.currentYear}`)
-      .then((response) => response.json())
-      .then((result) => {
-        const fetched = result.sort((a, b) => (a.date > b.date ? 1 : -1));
-        this.etappes = fetched.map((etappe) => ({ ...etappe, selection: [] }));
-        this.ronde = result[0].name;
+  async mounted() {
+    let token;
+    if (!firebase.auth().currentUser) {
+      return;
+    }
+    await firebase
+      .auth()
+      .currentUser.getIdToken(true)
+      .then((idToken) => {
+        token = idToken;
+      })
+      .catch((error) => {
+        return `Error getting auth token ${error}`;
       });
+
+    const response = await axios.get(
+      `${config.DEV_URL}stages?race=1&year=${config.currentYear}`,
+      {
+        headers: {
+          authtoken: token,
+        },
+      }
+    );
+
+    const fetched = response.data.sort((a, b) => (a.date > b.date ? 1 : -1));
+    this.etappes = fetched.map((etappe) => ({ ...etappe, selection: [] }));
+    this.ronde = response.data[0].name;
   },
   methods: {
     ...mapMutations(['setEtappes']),
     setEtappe(etappe) {
       this.setEtappes(etappe);
     },
+
+    async getData() {},
     async openSelection(etappe, index) {
       if (this.etappes[index].selection.length === 0) {
         const activeUser = window.localStorage.user_id;

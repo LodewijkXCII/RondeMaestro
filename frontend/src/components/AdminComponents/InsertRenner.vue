@@ -24,7 +24,7 @@
       <label for="team">Team:</label>
       <select name="team" id="team" v-model="renner.team" required>
         <option :value="team.id" v-for="team in teams" :key="team.index">
-          {{ team.name }}
+          {{ team.year }} - {{ team.name }}
         </option>
       </select>
       <label for="country">Land:</label>
@@ -75,7 +75,7 @@ export default {
         last_name: '',
         team: 0,
         country: 0,
-        speciality: 0,
+        speciality: 1,
       },
       returnMsg: '',
       teams: [],

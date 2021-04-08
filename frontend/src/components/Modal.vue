@@ -32,19 +32,34 @@
             <div class="modalRenners">
               <div
                 class="modalRenners__renner"
-                v-for="renner in teamMembers"
+                :class="renner.selected ? 'selected' : ''"
+                v-for="(renner, index) in teamMembers"
                 :key="renner.cyclist_id"
               >
                 <div class="modalRenners__renner--name">
                   {{ renner.first_name }}
                   <span class="lastName">{{ renner.last_name }}</span>
                 </div>
-                <font-awesome-icon
-                  :icon="['fas', 'arrow-right']"
-                  @click="addRennerToTeam(renner.cyclist_id)"
-                />
+                <div class="modalRenners__renner--icons">
+                  <font-awesome-icon
+                    :icon="['fas', 'clipboard-check']"
+                    @click.prevent="addRennerToSelectie(renner, index)"
+                  />
+                  <font-awesome-icon
+                    :icon="['fas', 'arrow-right']"
+                    @click="addRennerToTeam(renner.cyclist_id)"
+                  />
+                </div>
               </div>
             </div>
+            <button
+              class="btn btn-succes"
+              v-if="rennerArray.length > 0"
+              @click.prevent="changeSelection"
+              style="margin-top: 1rem"
+            >
+              Wijzig alle renners ({{ rennerArray.length }})
+            </button>
           </slot>
         </div>
       </div>
@@ -65,6 +80,7 @@ export default {
     return {
       selectedTeam: {},
       teamMembers: [],
+      rennerArray: [],
     };
   },
   methods: {
@@ -73,7 +89,10 @@ export default {
         `${config.DEV_URL}cyclists?team=${id}`
       );
 
-      this.teamMembers = teamMembers.data;
+      this.teamMembers = teamMembers.data.map((renner) => ({
+        ...renner,
+        selected: false,
+      }));
     },
     async addRennerToTeam(renner) {
       const addRenner = axios
@@ -90,6 +109,20 @@ export default {
         .catch((error) => {
           return { error };
         });
+    },
+    toggleSelected(i) {
+      this.teamMembers[i].selected = !this.teamMembers[i].selected;
+    },
+    addRennerToSelectie(renner, index) {
+      // console.log(index);
+      this.toggleSelected(index);
+      this.rennerArray.push(renner.cyclist_id);
+    },
+    changeSelection() {
+      // TODO TOGGLE HIGHLIGHT
+      this.rennerArray.forEach((cyclist) => {
+        this.addRennerToTeam(cyclist);
+      });
     },
   },
 };
@@ -164,6 +197,21 @@ export default {
     &:focus {
       background: darken($color: $light-color, $amount: 4);
       outline: 1px solid $primary-color;
+    }
+
+    &--icons {
+      svg {
+        margin: 0.2rem;
+      }
+    }
+  }
+  .selected {
+    border: 1px solid darken($color: $succes-color, $amount: 4);
+    background: $succes-color;
+    color: white;
+
+    svg {
+      color: white;
     }
   }
 }

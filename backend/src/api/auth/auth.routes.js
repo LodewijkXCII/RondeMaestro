@@ -1,3 +1,5 @@
+// const firebase = require('firebase-admin');
+
 const express = require('express');
 const yup = require('yup');
 const bcrypt = require('bcrypt');
@@ -28,13 +30,20 @@ const errorMessages = {
 };
 
 router.post('/signup', async (req, res, next) => {
-  const { name, email, password, user_role_id } = req.body;
+  // FIRST SETUP FIREBASE USER
+  // firebase
+  //   .auth()
+  //   .createUserWithEmailAndPassword(this.user.email, this.user.password);
+
+  // SETUP POSTGRESQL USER
+  const { name, email, password, user_role_id, uid } = req.body;
   try {
     const createUser = {
       name,
       email,
       password,
       user_role_id,
+      uid,
     };
     await schema.validate(createUser, {
       abortEarly: false,
@@ -51,13 +60,15 @@ router.post('/signup', async (req, res, next) => {
       name,
       email,
       password: hashedPassword,
-      user_role_id: 1,
+      user_role_id,
+      uid,
     });
     delete insertedUser.password;
     const payload = {
       id: insertedUser.id,
       name,
       email,
+      uid,
     };
     const token = await jwt.sign(payload);
     res.json({

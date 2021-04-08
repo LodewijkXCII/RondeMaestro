@@ -1,5 +1,6 @@
 <template>
   <div class="container LoginLogOut">
+    <!-- <SignIN /> -->
     <h1>Login</h1>
     <h3 v-if="errorMessage">{{ errorMessage }}</h3>
     <form @submit.prevent="login()">
@@ -35,14 +36,18 @@
 </template>
 
 <script>
-import * as yup from 'yup';
 import config from '@/utils/config';
 import axios from 'axios';
 import schema from '@/utils/yup';
 
+import SignIN from '@/components/Auth/Signin';
+
 import { mapState, mapMutations } from 'vuex';
 
 export default {
+  components: {
+    SignIN,
+  },
   data() {
     return {
       errorMessage: '',

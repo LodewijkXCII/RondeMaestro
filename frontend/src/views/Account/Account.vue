@@ -45,6 +45,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import firebase from 'firebase';
 
 import UpdateGebruiker from '@/components/AdminComponents/UpdateGebruiker.vue';
 import InsertRenner from '@/components/AdminComponents/InsertRenner.vue';
@@ -144,19 +145,27 @@ export default {
   methods: {
     logout() {
       let currentPath = this.$route.path;
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          if (currentPath !== '/') {
+            this.$router.go('/');
+          }
+        })
+        .catch((err) => {
+          this.authStatus = err;
+        });
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       localStorage.removeItem('user_id');
       localStorage.removeItem('user_type_id');
-      if (currentPath !== '/') {
-        this.$router.go('/');
-      }
     },
   },
   mounted() {
     this.username = this.userName;
     this.username = window.localStorage.user;
-    if (window.localStorage.user_type_id == 3) {
+    if (window.localStorage.user_type_id == 6 || 3) {
       this.isAdmin = true;
     }
   },
