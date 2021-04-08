@@ -167,7 +167,6 @@ export default {
       //   renners.image_url.includes(this.name)
       // );
 
-      // console.log(filter);
       this.team = 0;
       const searchrider = await axios.get(
         `${config.DEV_URL}cyclists?startlist=true&name=${this.name}`

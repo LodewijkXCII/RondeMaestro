@@ -24,6 +24,7 @@
           name="password"
           id="password"
           required
+          v-on:keyup="checkPassword"
         />
         <label for="confirmPassword">Herhaal wachtwoord:</label>
         <input
@@ -38,9 +39,9 @@
       <div class="password__rules">
         <span>Wachtwoord moet bestaan uit:</span>
         <ul>
-          <li>Minimaal 8 karakters</li>
-          <li>Minimaal 1 hoofdletter</li>
-          <li>Minimaal 1 speciaal teken</li>
+          <li :class="char ? 'true' : 'false'">Minimaal 8 karakters</li>
+          <li :class="cap ? 'true' : 'false'">Minimaal 1 hoofdletter</li>
+          <li :class="spec ? 'true' : 'false'">Minimaal 1 speciaal teken</li>
         </ul>
       </div>
       <button
@@ -80,6 +81,9 @@ export default {
         password: '',
         confirmPassword: '',
       },
+      char: false,
+      cap: false,
+      spec: false,
     };
   },
   watch: {
@@ -183,6 +187,27 @@ export default {
       });
       return true;
     },
+    checkPassword() {
+      const upperCaseLetter = /[A-Z]/g;
+      const specialChar = /[^A-Za-z0-9]/;
+
+      if (this.user.password.length >= 8) {
+        this.char = true;
+      } else {
+        this.char = false;
+      }
+
+      if (this.user.password.match(upperCaseLetter)) {
+        this.cap = true;
+      } else {
+        this.cap = false;
+      }
+      if (this.user.password.match(specialChar)) {
+        this.spec = true;
+      } else {
+        this.spec = false;
+      }
+    },
   },
 };
 </script>
@@ -224,6 +249,12 @@ export default {
     font-weight: 400;
     line-height: 1;
     transform: scale(1.3);
+  }
+  .false {
+    color: red;
+  }
+  .true {
+    color: green;
   }
 }
 </style>

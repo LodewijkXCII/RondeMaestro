@@ -114,7 +114,6 @@ export default {
       this.teamMembers[i].selected = !this.teamMembers[i].selected;
     },
     addRennerToSelectie(renner, index) {
-      // TODO TOGGLE HIGHLIGHT
       if (this.rennerArray.includes(renner.cyclist_id)) {
         this.rennerArray.splice(index, 1);
       } else {
