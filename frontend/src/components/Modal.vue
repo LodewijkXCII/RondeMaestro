@@ -114,12 +114,15 @@ export default {
       this.teamMembers[i].selected = !this.teamMembers[i].selected;
     },
     addRennerToSelectie(renner, index) {
-      // console.log(index);
+      // TODO TOGGLE HIGHLIGHT
+      if (this.rennerArray.includes(renner.cyclist_id)) {
+        this.rennerArray.splice(index, 1);
+      } else {
+        this.rennerArray.push(renner.cyclist_id);
+      }
       this.toggleSelected(index);
-      this.rennerArray.push(renner.cyclist_id);
     },
     changeSelection() {
-      // TODO TOGGLE HIGHLIGHT
       this.rennerArray.forEach((cyclist) => {
         this.addRennerToTeam(cyclist);
       });

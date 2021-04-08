@@ -110,7 +110,6 @@
 </template>
 
 <script>
-// TODO ADD
 import axios from 'axios';
 import config from '@/utils/config';
 
