@@ -24,14 +24,14 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
-    // beforeEnter: (to, from, next) => {
-    //   if (localStorage.user_id) {
-    //     next({
-    //       path: '/dashboard',
-    //     });
-    //   }
-    //   next();
-    // },
+    beforeEnter: (to, from, next) => {
+      if (localStorage.user_id) {
+        next({
+          path: '/dashboard',
+        });
+      }
+      next();
+    },
   },
   {
     path: '/spelregels',
@@ -143,17 +143,26 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeEach(async (to, from, next) => {
-  console.log('before');
-  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
-  if (requiresAuth && !(await firebase.getCurrentUser())) {
-    console.log(firebase.getCurrentUser());
-    next({
-      path: '/signin',
-      query: { nextUrl: to.fullPath },
-    });
+router.beforeEach((to, from, next) => {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (localStorage.getItem('token') == null) {
+      next({
+        path: '/signin',
+        query: { nextUrl: to.fullPath },
+      });
+    } else if (to.matched.some((record) => record.meta.isAdmin)) {
+      if (+localStorage.user_type_id === 3) {
+        next();
+      } else {
+        console.error('Je hebt geen admin rechten');
+        next({ name: 'Dashboard' });
+      }
+    } else {
+      next();
+    }
+  } else {
+    next();
   }
-  next();
 });
 
 export default router;

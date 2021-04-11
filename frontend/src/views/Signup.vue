@@ -66,7 +66,6 @@ import axios from 'axios';
 import config from '@/utils/config';
 import schema from '@/utils/yup';
 
-// TODO nice to have: Validation on password for 8 char, 1 cap, 1 spec Turn green if completed
 export default {
   components: {
     // SignUP,
