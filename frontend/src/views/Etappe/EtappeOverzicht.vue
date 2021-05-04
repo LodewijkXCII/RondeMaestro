@@ -51,7 +51,6 @@ import { mapMutations } from 'vuex';
 import config from '@/utils/config';
 
 import axios from 'axios';
-import firebase from 'firebase';
 
 export default {
   //TODO bekijk of entrie al in ingevuld.
@@ -65,27 +64,8 @@ export default {
   },
 
   async mounted() {
-    let token;
-    if (!firebase.auth().currentUser) {
-      return;
-    }
-    await firebase
-      .auth()
-      .currentUser.getIdToken(true)
-      .then((idToken) => {
-        token = idToken;
-      })
-      .catch((error) => {
-        return `Error getting auth token ${error}`;
-      });
-
     const response = await axios.get(
-      `${config.DEV_URL}stages?race=1&year=${config.currentYear}`,
-      {
-        headers: {
-          authtoken: token,
-        },
-      }
+      `${config.DEV_URL}stages?race=${config.race_id}&year=${config.currentYear}`
     );
 
     const fetched = response.data.sort((a, b) => (a.date > b.date ? 1 : -1));

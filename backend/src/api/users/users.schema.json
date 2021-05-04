@@ -47,11 +47,7 @@
       "$id": "#/properties/updated_at",
       "type": "string",
       "title": "The updated date"
-    },
-    "uid": {
-      "$id": "#/properties/uid",
-      "type": "string",
-      "title": "The uid from firebase"
     }
+
   }
 }

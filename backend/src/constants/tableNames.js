@@ -12,4 +12,5 @@ module.exports = {
   speciality: 'speciality',
   user_role: 'user_role',
   season_time: 'season_time',
+  refresh_token: 'refresh_token',
 };

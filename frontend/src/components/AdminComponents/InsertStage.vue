@@ -6,7 +6,7 @@
       <label for="race_id">Koers:</label>
       <select name="race" id="race" v-model="stage.race_id">
         <option :value="race.id" v-for="race in races" :key="race.index">
-          {{ race.name }}
+          {{ race.year }} - {{ race.name }}
         </option>
       </select>
       <label for="stage_nr">Etappe Nr:</label>

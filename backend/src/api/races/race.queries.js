@@ -12,7 +12,7 @@ const fields = [
 
 module.exports = {
   find() {
-    return db(tableNames.race).select(fields).where('year', '2020');
+    return db(tableNames.race).select(fields);
   },
 
   async get(id) {

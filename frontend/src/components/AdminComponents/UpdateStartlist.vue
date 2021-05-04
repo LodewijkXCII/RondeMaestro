@@ -6,10 +6,10 @@
       <!-- <input type="number" min="2020" value="2020" v-model.number="year" /> -->
       <select name="race" id="race" v-model="race">
         <option :value="race.id" v-for="race in races" :key="race.index">
-          {{ race.name }}
+          {{ race.year }} - {{ race.name }}
         </option>
       </select>
-      <button v-on:click.prevent="getRenners()" class="btn btn-primary">
+      <button v-on:click.prevent="getRenners(race)" class="btn btn-primary">
         Zoek
       </button>
     </div>
@@ -51,7 +51,7 @@
           </div>
           <div
             class="renner__extra--withdraw"
-            @click="updateSelection(renner.cyclist_id)"
+            @click="updateSelection(renner.cyclist_id, race)"
           >
             <font-awesome-icon
               icon="check"
@@ -81,20 +81,23 @@ export default {
     return {
       renners: [],
       races: [],
+      race: {},
     };
   },
 
   methods: {
-    async getRenners() {
+    async getRenners(race) {
+      this.renners = [];
       const response = await axios.get(
-        `${config.DEV_URL}cyclists?startlist=true`
+        `${config.DEV_URL}startlist?race=${race}`
       );
 
       this.renners = response.data.sort((a, b) =>
         a.race_number > b.race_number ? 1 : -1
       );
     },
-    async updateSelection(cyclist_id) {
+    async updateSelection(cyclist_id, race) {
+      console.log('race', race);
       const updatedCyclist = this.renners.find(
         (ren) => ren.cyclist_id == cyclist_id
       );
@@ -107,18 +110,17 @@ export default {
         updateValue = true;
         updatedCyclist.withdraw = true;
       }
-      const startlist = await axios.put(`${config.DEV_URL}startlist`, {
+      await axios.put(`${config.DEV_URL}startlist/withdraw?race_id=${race}`, {
         cyclist_id,
-        race: 1,
+        race_id: race,
         updateValue,
         //TODO race_id is nu altijd tour
       });
     },
   },
   async created() {
-    const response = await axios.get(`${config.DEV_URL}races`);
-    console.log(response.data);
-    this.races = response.data;
+    const { data } = await axios.get(`${config.DEV_URL}races`);
+    this.races = data;
   },
 };
 </script>

@@ -62,7 +62,6 @@ import * as yup from 'yup';
 import axios from 'axios';
 import schema from '@/utils/yup';
 import config from '@/utils/config';
-import firebase from 'firebase';
 
 export default {
   data() {
@@ -79,7 +78,6 @@ export default {
   },
 
   methods: {
-    // REGISTER USER ON FIREBASE
     async register() {
       if (!this.validUser()) {
         console.error('Er is iets mis gegaan, geen valid user');
@@ -87,23 +85,17 @@ export default {
           'Er is iets mis gegaan, neem contact op met rondemaestro@gmail.com om te achterhalen wat.';
       }
       try {
-        const response = await firebase
-          .auth()
-          .createUserWithEmailAndPassword(this.user.email, this.user.password);
-
-        console.log(response.usser.localId);
-        this.registerUser(response.uid);
+        this.registerUser();
       } catch (error) {
         console.error(error);
       }
     },
     // REGISTER USER IN POSTGRES
-    async registerUser(uid) {
+    async registerUser() {
       const body = {
         name: this.user.name,
         email: this.user.email,
         password: this.user.password,
-        uid: uid,
         user_role_id: 4,
       };
       try {

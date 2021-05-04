@@ -7,15 +7,15 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   const users = await User.query()
     .select(
-      'id',
-      'email',
-      'name',
-      'user_role_id',
-      'created_at',
-      'updated_at',
-      'uid'
+      'users.id',
+      'users.email',
+      'users.name',
+      'user_role.name as user_type',
+      'users.created_at',
+      'users.updated_at'
     )
-    .where('deleted_at', null);
+    .join('user_role', 'users.user_role_id', 'user_role.id')
+    .where('users.deleted_at', null);
   res.json(users);
 });
 
@@ -47,7 +47,17 @@ router.put('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res) => {
   try {
-    const user = await User.query().insert(req.body);
+    const user = await User.query()
+      .insert(req.body)
+      .join('user_role', 'users.user_role_id', 'user_role.id')
+      .returning(
+        'users.id',
+        'users.email',
+        'users.name',
+        'user_role.name as user_type',
+        'users.created_at',
+        'users.updated_at'
+      );
     res.json(user);
   } catch (error) {
     throw error;

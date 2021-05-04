@@ -2,8 +2,9 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Dashboard from '../views/Dashboard.vue';
-import Signin from '../views/Signin.vue';
-import Signup from '../views/Signup.vue';
+import Auth from '../views/Auth';
+// import Signin from '../views/Signin.vue';
+// import Signup from '../views/Signup.vue';
 import EtappeOverzicht from '../views/Etappe/EtappeOverzicht.vue';
 import EtappeSingle from '../views/Etappe/_id.vue';
 import Selectie from '../views/RennerOverview.vue';
@@ -14,8 +15,6 @@ import AlgKlassement from '../views/Klassement/Algemeen.vue';
 import KlassementSingle from '../views/Klassement/_id.vue';
 import Spelregels from '../views/Spelregels/Spelregels.vue';
 import account from '../views/Account/Account.vue';
-
-import firebase from '@/firebaseinit.js';
 
 Vue.use(VueRouter);
 
@@ -47,21 +46,29 @@ const routes = [
     },
   },
   {
-    path: '/signin',
-    name: 'Signin',
-    component: Signin,
+    path: '/auth',
+    name: 'Auth',
+    component: Auth,
     meta: {
       guest: true,
     },
   },
-  {
-    path: '/signup',
-    name: 'Signup',
-    component: Signup,
-    meta: {
-      guest: true,
-    },
-  },
+  // {
+  //   path: '/signin',
+  //   name: 'Signin',
+  //   component: Signin,
+  //   meta: {
+  //     guest: true,
+  //   },
+  // },
+  // {
+  //   path: '/signup',
+  //   name: 'Signup',
+  //   component: Signup,
+  //   meta: {
+  //     guest: true,
+  //   },
+  // },
   {
     path: '/etappe-overzicht',
     name: 'etappe-overzicht',
@@ -147,11 +154,14 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (localStorage.getItem('token') == null) {
       next({
-        path: '/signin',
+        path: '/auth',
         query: { nextUrl: to.fullPath },
       });
     } else if (to.matched.some((record) => record.meta.isAdmin)) {
-      if (+localStorage.user_type_id === 3) {
+      if (
+        +localStorage.user_type_id === 3 ||
+        +localStorage.user_type_id === 6
+      ) {
         next();
       } else {
         console.error('Je hebt geen admin rechten');

@@ -1,9 +1,6 @@
 const express = require('express');
-
 const Team = require('./teams.model');
-
 const queries = require('./teams.queries');
-
 const router = express.Router();
 
 router.get('/', async (req, res) => {

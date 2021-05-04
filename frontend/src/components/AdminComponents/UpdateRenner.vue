@@ -1,16 +1,23 @@
 <template>
   <section>
+    <modal
+      v-if="showModal"
+      @close="showModal = false"
+      :renner="selectedRider"
+      :teams="teams"
+    >
+    </modal>
     <h2>Update Renner</h2>
 
-    <button
-      class="btn btn-primary"
-      v-on:click="updateSelection(1)"
-      v-if="offset < 0"
-      style="margin-top: 1rem"
-    >
-      start
-    </button>
-    <FilterOptions :teams="teams" @search-rider="updateName" />
+    <FilterOptions
+      :teams="teams"
+      @search-rider="searchRiders"
+      @search-team="searchRidersTeam"
+    />
+
+    <div v-show="loading">
+      <h1 class="loading">Ffkes wachten, aan het laden...</h1>
+    </div>
     <div class="">
       <RennerCard
         v-for="renner in renners"
@@ -46,19 +53,24 @@ import config from '@/utils/config';
 
 import RennerCard from '@/components/Renner.vue';
 import FilterOptions from '@/components/FilterOptions.vue';
+import Modal from '../Modals/Update_Renner_Modal.vue';
 
 export default {
   components: {
     RennerCard,
     FilterOptions,
+    Modal,
   },
   data() {
     return {
+      loading: true,
       renners: [],
-      offset: -25,
-      limit: 25,
+      offset: 0,
+      limit: 15,
       teams: [],
       counter: 0,
+      showModal: false,
+      selectedRider: {},
     };
   },
 
@@ -71,32 +83,50 @@ export default {
       } else {
         this.offset -= 25;
       }
-      this.getRenners();
+      this.refreshRiders();
     },
-    updateName(name) {
-      this.name = name;
-      this.searchRiders();
-    },
-
     editRenner(renner) {
       console.log(renner, renner.first_name, renner.last_name);
+      this.showModal = true;
+      this.selectedRider = renner;
     },
-    // RENNER ZOEKEN
-    async searchRiders() {
-      this.team = 0;
-      const searchrider = await axios.get(
-        `${config.DEV_URL}cyclists?name=${this.name}`
-      );
-      this.renners = searchrider.data;
-    },
-    async getRenners() {
+    async refreshRiders() {
       const response = await axios.get(
         `${config.DEV_URL}cyclists?limit=${this.limit}&offset=${this.offset}`
       );
       this.renners = response.data;
     },
+    async searchRidersTeam(team) {
+      const searchrider = await axios.get(
+        `${config.DEV_URL}cyclists?&team=${team}&limit=${this.limit}&offset=${this.offset}`
+      );
+      this.renners = searchrider.data;
+    },
+    // RENNER ZOEKEN
+    async searchRiders() {
+      const searchrider = await axios.get(
+        `${config.DEV_URL}cyclists?&name=${this.name}&limit=${this.limit}&offset=${this.offset}`
+      );
+      this.renners = searchrider.data;
+    },
+  },
+
+  async created() {
+    const response = await axios.get(
+      `${config.DEV_URL}cyclists?limit=${this.limit}&offset=${this.offset}`
+    );
+    this.renners = response.data;
+
+    const teams = await axios.get(`${config.DEV_URL}teams`);
+    this.teams = teams.data;
+    this.loading = false;
   },
 };
 </script>
 
-<style></style>
+<style>
+.loading {
+  text-align: center;
+  margin: 2rem 0;
+}
+</style>

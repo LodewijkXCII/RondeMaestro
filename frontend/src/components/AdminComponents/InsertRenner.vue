@@ -93,7 +93,9 @@ export default {
           country_id: this.renner.country,
           team_id: this.renner.team,
           speciality_id: this.renner.speciality,
-          image_url: `${this.renner.first_name.toLowerCase()}-${this.renner.last_name.toLowerCase()}-2021.jpeg`,
+          image_url: `${this.renner.first_name.toLowerCase()}-${this.renner.last_name.toLowerCase()}-${
+            config.currentYear
+          }.jpeg`,
         });
         console.log(newRenner.data);
 

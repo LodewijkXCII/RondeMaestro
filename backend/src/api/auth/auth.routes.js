@@ -1,11 +1,11 @@
-// const firebase = require('firebase-admin');
-
 const express = require('express');
 const yup = require('yup');
 const bcrypt = require('bcrypt');
 
 const jwt = require('../../lib/jwt');
 const User = require('../users/users.model');
+const Token = require('./token.model');
+const userQuery = require('../users/users.queries');
 
 const router = express.Router();
 
@@ -30,21 +30,18 @@ const errorMessages = {
 };
 
 router.post('/signup', async (req, res, next) => {
-  // FIRST SETUP FIREBASE USER
-  // firebase
-  //   .auth()
-  //   .createUserWithEmailAndPassword(this.user.email, this.user.password);
-
   // SETUP POSTGRESQL USER
-  const { name, email, password, user_role_id, uid } = req.body;
+  const { name, email, password } = req.body;
+
   try {
     const createUser = {
       name,
       email,
       password,
-      user_role_id,
-      uid,
+      // TODO CHANGE TO 3
+      user_role_id: 1,
     };
+
     await schema.validate(createUser, {
       abortEarly: false,
     });
@@ -56,31 +53,37 @@ router.post('/signup', async (req, res, next) => {
       throw error;
     }
     const hashedPassword = await bcrypt.hash(password, 12);
-    const insertedUser = await User.query().insert({
-      name,
-      email,
-      password: hashedPassword,
-      user_role_id,
-      uid,
-    });
+    const insertedUser = await User.query()
+      .insertAndFetch({
+        name,
+        email,
+        password: hashedPassword,
+        // TODO CHANGE TO 3
+        user_role_id: 1,
+      })
+      .join('user_role as user_role_id', 'user_role.id', 'users.user_role_id');
     delete insertedUser.password;
+
     const payload = {
       id: insertedUser.id,
-      name,
-      email,
-      uid,
+      name: insertedUser.name,
+      user_type: insertedUser.user_role_id,
+      email: insertedUser.email,
     };
-    const token = await jwt.sign(payload);
+
+    const accesToken = await jwt.signAccesToken(payload);
+    const refreshToken = await jwt.signRefreshToken(payload);
     res.json({
       user: payload,
-      token,
+      accesToken,
+      refreshToken,
     });
   } catch (error) {
     next(error);
   }
 });
 
-router.post('/signin', async (req, res, next) => {
+router.post('/login', async (req, res, next) => {
   const { email, password } = req.body;
   try {
     await schema.validate(
@@ -96,6 +99,7 @@ router.post('/signin', async (req, res, next) => {
 
     /* CONTROLEER USER EN GEEF FOUTCODE WANNEER NIET GEVONDEN IS */
     const user = await User.query().where({ email }).first();
+
     if (!user) {
       res.status(401).send({ error: errorMessages.invalidEmail });
     }
@@ -105,19 +109,66 @@ router.post('/signin', async (req, res, next) => {
       res.status(401).send({ error: errorMessages.invalidLogin });
     }
 
+    await userQuery.update(user.id);
+
     const payload = {
       id: user.id,
       name: user.name,
       user_type: user.user_role_id,
       email,
     };
-    const token = await jwt.sign(payload);
-    res.json({
+    const accesToken = await jwt.signAccesToken(payload);
+    const refreshToken = await jwt.signRefreshToken(payload);
+    res.status(200).json({
       user: payload,
-      token,
+      accesToken,
+      refreshToken,
     });
   } catch (error) {
     next(error);
+  }
+});
+
+router.post('/refresh_token', async (req, res, next) => {
+  try {
+    //get refreshToken
+    const { refreshToken } = req.body;
+    //send error if no refreshToken is sent
+    if (!refreshToken) {
+      return res.status(403).json({ error: 'Access denied,token missing!' });
+    } else {
+      //query for the token to check if it is valid:
+      const tokenDoc = await Token.query()
+        .where({ token: refreshToken })
+        .first();
+
+      //send error if no token found:
+      if (!tokenDoc) {
+        return res.status(401).json({ error: 'Token expired!' });
+      } else {
+        //extract payload from refresh token and generate a new access token and send it
+        const payload = await jwt.verifyRefreshToken(tokenDoc.token);
+        delete payload.exp;
+
+        const accessToken = await jwt.signAccesToken(payload);
+        return res.status(200).json({ accessToken });
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error!' });
+  }
+});
+
+router.delete('/logout', async (req, res, next) => {
+  try {
+    //delete the refresh token saved in database:
+    const { refreshToken } = req.body;
+    await Token.query().delete().where('token', refreshToken);
+    return res.status(200).json({ success: 'User logged out!' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal Server Error!' });
   }
 });
 

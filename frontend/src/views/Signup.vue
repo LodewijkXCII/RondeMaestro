@@ -101,8 +101,6 @@ export default {
           name: this.user.name,
           email: this.user.email,
           password: this.user.password,
-          // user_role_id: 4,
-          // uid: 'ggagasgsadgas',
         };
         this.sigingIn = true;
         try {

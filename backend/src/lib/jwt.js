@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
+const Token = require('../api/auth/token.model');
 
-function sign(payload) {
+function signAccesToken(payload) {
   return new Promise((resolve, reject) => {
     jwt.sign(
       payload,
@@ -16,6 +17,45 @@ function sign(payload) {
   });
 }
 
+async function signRefreshToken(payload) {
+  try {
+    const refreshToken = await jwt.sign(
+      payload,
+      process.env.JWT_REFRESH_SECRET,
+      {
+        expiresIn: '2d',
+      }
+    );
+
+    // Insert RefreshToken in DB
+    const insertRefreshToken = await Token.query().insert({
+      token: refreshToken,
+    });
+
+    return refreshToken;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function verifyToken(token) {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, process.env.JWT_SECRET);
+    (error, token) => {
+      if (error) return reject(error);
+      return resolve(token);
+    };
+  });
+}
+async function verifyRefreshToken(token) {
+  const decoded = await jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+  console.log('Decoded:', decoded);
+  return decoded;
+}
+
 module.exports = {
-  sign,
+  signAccesToken,
+  signRefreshToken,
+  verifyToken,
+  verifyRefreshToken,
 };

@@ -30,14 +30,15 @@ module.exports = {
   updateWithdraw(query) {
     const update = db(tableNames.startlist)
       .where('cyclist_id', query.cyclist_id)
-      .where('race_id', query.race)
+      .where('race_id', query.race_id)
       .update({ withdraw: query.updateValue });
     return update;
   },
 
-  updateStartlist(query, params) {
+  updateStartlist(query, race_id) {
+    console.log('Query:', query, 'race_id:', race_id);
     const put = db(tableNames.startlist)
-      .where('id', params)
+      .where('id', race_id)
       .update({
         ...query,
         updated_at: new Date(Date.now())

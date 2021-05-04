@@ -123,17 +123,7 @@ export default {
       year: 2021,
       race: null,
       etappe: null,
-      // changeStage: {
-      //   race_id: null,
-      //   stage_nr: null,
-      //   start_city: '',
-      //   finish_city: '',
-      //   distance: '',
-      //   date: '',
-      //   done: false,
-      //   image_url: '/',
-      //   stage_type_id: null,
-      // },
+      date: '',
       stage_types: [],
     };
   },

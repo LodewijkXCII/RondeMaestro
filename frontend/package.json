@@ -15,7 +15,6 @@
     "axios": "^0.21.0",
     "core-js": "^3.8.1",
     "dotenv": "^8.2.0",
-    "firebase": "^8.3.2",
     "flag-icon-css": "^3.5.0",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",

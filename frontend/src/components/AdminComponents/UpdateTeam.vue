@@ -114,7 +114,7 @@
 <script>
 import axios from 'axios';
 import config from '../../utils/config';
-import Modal from '../Modal';
+import Modal from '../Modals/Team_Renner_Modal';
 
 export default {
   components: {

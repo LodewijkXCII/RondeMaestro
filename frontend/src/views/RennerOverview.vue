@@ -232,7 +232,7 @@ export default {
               stage_id: +this.$route.params.etappeID,
               cyclist_id: +renner.cyclist_id,
             })
-            .then((response) => {
+            .then(() => {
               this.sendButton = 'verstuurd';
               setTimeout(() => (this.sendButton = 'verstuur'), 5000);
               this.removeAll();

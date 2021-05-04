@@ -20,16 +20,18 @@ module.exports = {
       .first();
   },
 
-  update(query, params) {
+  update(params) {
     const put = db(tableNames.users)
       .where('id', params)
-      .update({
-        ...query,
-        updated_at: new Date(Date.now())
-          .toISOString()
-          .replace('T', ' ')
-          .replace('Z', ''),
-      });
+      .update(
+        {
+          last_login: new Date(Date.now())
+            .toISOString()
+            .replace('T', ' ')
+            .replace('Z', ''),
+        },
+        ['*']
+      );
     return put;
   },
 };

@@ -2,7 +2,7 @@
   <div class="container LoginLogOut">
     <h1>Login</h1>
     <h3 v-if="errorMessage">{{ errorMessage }}</h3>
-    <form @submit.prevent="signIn()">
+    <form @submit.prevent="login()">
       <label for="email">Email:</label>
       <input
         v-model="user.email"
@@ -35,8 +35,10 @@
 </template>
 
 <script>
-import firebase from 'firebase';
 import { mapMutations } from 'vuex';
+import validUser from '@/utils/validUser';
+import config from '@/utils/config';
+import axios from 'axios';
 
 export default {
   data() {
@@ -57,19 +59,49 @@ export default {
       this.setUser(user, user_type_id);
     },
 
-    async signIn() {
-      try {
-        const data = await firebase
-          .auth()
-          .signInWithEmailAndPassword(this.user.email, this.user.password);
+    async login() {
+      const data = {
+        email: this.user.email,
+        password: this.user.password,
+      };
+      const axiosHeaders = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+      };
+      this.errorMessage = '';
+      if (validUser(this.user)) {
+        this.logginIn = true;
 
-        // this.newUser(this.user.name, this.user_type);
-        console.log(data);
-        this.$router.push('/dashboard');
-      } catch (error) {
-        this.errorMessage =
-          'Er is iets mis gegaan, neem contact op met rondemaestro@gmail.com om te achterhalen wat.';
-        console.log(error);
+        try {
+          axios
+            .post(`${config.DEV_URL}auth/signin`, data, axiosHeaders)
+            .then((response) => {
+              console.log(response);
+              if (response.status == 200) {
+                localStorage.token = response.data.token;
+
+                this.newUser(response.data.user.name, response.data.user_type);
+
+                this.logginIn = false;
+                this.$router.push('/dashboard');
+              } else {
+                this.errorMessage =
+                  'Er is iets mis gegaan, neem contact op met rondemaestro@gmail.com om te achterhalen wat.';
+                console.log(response);
+              }
+            })
+            .catch((error) => {
+              this.errorMessage = error.response.data.error;
+              setTimeout(() => {
+                this.errorMessage = '';
+              }, 5000);
+              console.log(error);
+            });
+        } catch (error) {
+          console.error(error);
+        }
       }
     },
   },

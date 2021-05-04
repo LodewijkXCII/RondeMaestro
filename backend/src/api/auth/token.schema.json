@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "title": "The user_role schema",
+    "required": [
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "$id": "#/properties/id",
+        "type": "integer"
+      },
+      "token": {
+        "$id": "#/properties/token",
+        "type": "string"
+      }
+      
+    }
+  }
