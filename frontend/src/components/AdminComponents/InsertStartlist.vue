@@ -15,16 +15,27 @@
       </option>
     </select>
     <label for="race">Kies de teams:</label>
-    <div v-for="team in teams" :key="team.index">
-      <input
-        type="checkbox"
-        name="team"
-        id="team"
-        v-model="setSelectie"
-        :value="team"
-      />
-      <label :for="team">{{ team.name }}</label>
+
+    <div class="checkBoxWrapper">
+      <div
+        v-for="team in teams"
+        :key="team.index"
+        class="checkBoxWrapper__team"
+      >
+        <input
+          type="checkbox"
+          name="team"
+          id="team"
+          v-model="selectedTeams"
+          :value="team"
+          class="checkBoxWrapper__team--input"
+        />
+        <label :for="team" class="checkBoxWrapper__team--name">{{
+          team.name
+        }}</label>
+      </div>
     </div>
+
     <div
       class="selectie"
       v-for="selectTeam in selectedTeams"
@@ -41,8 +52,8 @@
           <div class="rmTable__header--button"></div>
         </div>
 
-        <!-- <div
-          v-for="(renner, index) in teamMembers"
+        <div
+          v-for="(renner, index) in sortedRenners[selectTeam.id]"
           :key="renner.id"
           class="rmTable__body teamUpdate"
         >
@@ -57,7 +68,7 @@
               @click="removeRennerFromTeam(renner, index)"
             />
           </div>
-        </div> -->
+        </div>
         <div class="rmTable__body teamUpdate">
           <div class="rmTable__body--number"></div>
           <div class="rmTable__body--user">
@@ -69,12 +80,20 @@
         </div>
       </div>
     </div>
+    <button
+      class="btn btn-succes"
+      @click.prevent="setSelectie"
+      style="margin-top: 1rem"
+    >
+      Sla startlijst op
+    </button>
   </section>
 </template>
 
 <script>
 import axios from 'axios';
 import config from '../../utils/config';
+import _ from 'lodash';
 
 import Modal from '../Modals/Renner_Startlist_Modal';
 
@@ -88,28 +107,47 @@ export default {
       race: null,
       teams: [],
       renners: [],
+
       selectedTeams: [],
       showModal: false,
       team: null,
     };
   },
+  computed: {
+    sortedRenners() {
+      return _(this.renners)
+        .groupBy((renner) => renner.team_id)
+        .value();
+    },
+  },
   methods: {
     setRenners(renners) {
-      console.log(renners);
-      const teamIndex = this.selectedTeams.findIndex(
-        (team) => team.id == renners[0].team_id
-      );
-      console.log('teamindex:', teamIndex);
-
-      console.log(this.teams[teamIndex]);
-      let selectie = [];
-      this.selectedTeams[teamIndex] = {
-        ...this.selectedTeams[teamIndex],
-        selectie,
-      };
+      renners.forEach((renner) => {
+        renner.race_number = 0;
+        this.renners.push(renner);
+      });
     },
     setSelectie() {
-      console.log('er gebeurt hier iets');
+      /* 
+        trim renners naar alleen cyclist id, race_number
+        Stuur de race_id mee in de headers  
+      */
+      if (this.race != null) {
+        const trimmedRenners = this.renners.map((renner) => {
+          return {
+            cyclist_id: renner.cyclist_id,
+            race_number: renner.race_number,
+            race_id: this.race,
+          };
+        });
+        console.log('er gebeurt hier iets', trimmedRenners);
+        const newStartlijst = axios.post(
+          `${config.DEV_URL}startlist`,
+          trimmedRenners
+        );
+      } else {
+        window.alert('Er is geen race geselecteerd');
+      }
     },
   },
   async created() {
@@ -124,4 +162,21 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.checkBoxWrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  &__team {
+    &--input,
+    &--name {
+      display: inline-block;
+      width: auto;
+    }
+
+    &--input {
+      margin-right: 1em;
+    }
+  }
+}
+</style>

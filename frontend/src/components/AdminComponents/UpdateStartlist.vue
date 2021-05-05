@@ -17,9 +17,9 @@
       <div class="renner" v-for="renner in renners" :key="renner.index">
         <div class="renner__img">
           <img
-            v-if="renner.image_url !== '/'"
+            v-if="renner.cyclist_image !== '/'"
             :src="
-              `https://rondemaestro.s3.eu-central-1.amazonaws.com/renners/${renner.image_url}`
+              `https://rondemaestro.s3.eu-central-1.amazonaws.com/renners/${renner.cyclist_image}`
             "
             alt
           />
@@ -27,8 +27,20 @@
         </div>
         <div class="renner__info">
           <div class="renner__info-top">
-            <div class="renner__info-top--number">
-              <h3>#{{ renner.race_number }}</h3>
+            <div class="renner__info-top--number startlist_number">
+              #
+              <input
+                type="number"
+                name="race_number"
+                id="race=number"
+                number
+                v-model.number="renner.race_number"
+              />
+              <font-awesome-icon
+                icon="check"
+                size="sm"
+                @click="updateRaceNumber(renner)"
+              />
             </div>
             <div class="renner__info-top--flag">
               <flag :iso="renner.country_name" :squared="false" />
@@ -41,14 +53,6 @@
           <div class="renner__info--team">{{ renner.team_name }}</div>
         </div>
         <div class="renner__extra">
-          <div class="renner__extra--teamIMG">
-            <img
-              :src="
-                `https://rondemaestro.s3.eu-central-1.amazonaws.com/teams/${renner.team_img}`
-              "
-              :alt="renner.team_name"
-            />
-          </div>
           <div
             class="renner__extra--withdraw"
             @click="updateSelection(renner.cyclist_id, race)"
@@ -63,6 +67,12 @@
               size="lg"
               v-if="renner.withdraw == true"
             />
+          </div>
+          <div
+            class="renner__extra"
+            @click="removeRenner(renner.cyclist_id, race)"
+          >
+            <font-awesome-icon icon="trash" size="lg" />
           </div>
         </div>
       </div>
@@ -89,7 +99,7 @@ export default {
     async getRenners(race) {
       this.renners = [];
       const response = await axios.get(
-        `${config.DEV_URL}startlist?race=${race}`
+        `${config.DEV_URL}startlist?race_id=${race}`
       );
 
       this.renners = response.data.sort((a, b) =>
@@ -114,8 +124,24 @@ export default {
         cyclist_id,
         race_id: race,
         updateValue,
-        //TODO race_id is nu altijd tour
       });
+    },
+    async updateRaceNumber(renner) {
+      console.log(renner);
+      const response = await axios.put(
+        `${config.DEV_URL}startlist/update?race_id=${this.race}`,
+        renner
+      );
+      console.log(response);
+    },
+    async removeRenner(id, race) {
+      const response = await axios.delete(`${config.DEV_URL}startlist`, {
+        data: {
+          cyclist_id: id,
+          race_id: race,
+        },
+      });
+      console.log(response);
     },
   },
   async created() {
@@ -151,11 +177,29 @@ export default {
           color: $alert-color;
         }
       }
+      .fa-trash {
+        color: $alert-color;
+      }
     }
     &:active {
       transform: none;
       box-shadow: none;
     }
+  }
+}
+
+.startlist_number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  input {
+    padding: 0.2rem 0.5rem;
+    max-width: 10ch;
+  }
+  svg {
+    color: $primary-color;
   }
 }
 </style>

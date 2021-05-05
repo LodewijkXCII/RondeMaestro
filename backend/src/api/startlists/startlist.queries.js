@@ -17,12 +17,13 @@ const fields = [
 
 module.exports = {
   find(query) {
+    console.log(query);
     const startlistQuery = db(tableNames.startlist)
       .select(fields)
       .join('cyclist', 'startlist.cyclist_id', 'cyclist.id');
 
-    if (query.race) {
-      startlistQuery.where('race_id', query.race);
+    if (query) {
+      startlistQuery.where('race_id', query);
     }
     return startlistQuery;
   },
@@ -36,16 +37,22 @@ module.exports = {
   },
 
   updateStartlist(query, race_id) {
-    console.log('Query:', query, 'race_id:', race_id);
+    console.log(query, race_id);
     const put = db(tableNames.startlist)
-      .where('id', race_id)
-      .update({
-        ...query,
-        updated_at: new Date(Date.now())
-          .toISOString()
-          .replace('T', ' ')
-          .replace('Z', ''),
-      });
+      .where('race_id', race_id)
+      .andWhere('cyclist_id', query.cyclist_id)
+      .update('race_number', query.race_number)
+      .returning('race_number');
+
     return put;
+  },
+
+  deleteStartlist(cyclist_id, race_id) {
+    const remove = db(tableNames.startlist)
+      .where('cyclist_id', cyclist_id)
+      .andWhere('race_id', race_id)
+      .del();
+
+    return remove;
   },
 };

@@ -57,6 +57,7 @@ export default {
   methods: {
     setTeam() {
       this.$emit('setTeam', this.selectie);
+      this.$emit('close');
     },
     setSelectie(renner, index) {
       if (this.selectie.includes(renner)) {
@@ -71,7 +72,6 @@ export default {
     },
   },
   async created() {
-    console.log(this.team.id);
     const { data } = await axios.get(
       `${config.DEV_URL}cyclists?team=${this.team.id}`
     );
