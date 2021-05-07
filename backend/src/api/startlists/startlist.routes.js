@@ -22,8 +22,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/race', async (req, res, next) => {
   try {
-    const { race_id } = req.query;
-    const test = await queries.findStartlist(race_id);
+    const test = await queries.findStartlist(req.query);
     if (test) {
       res.json(test);
     }

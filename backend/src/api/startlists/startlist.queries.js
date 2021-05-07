@@ -39,7 +39,25 @@ module.exports = {
       .join('team', 'cyclist.team_id', 'team.id')
       .join('country', 'cyclist.country_id', 'country.id')
       .join('speciality', 'cyclist.speciality_id', 'speciality.id')
-      .where('race_id', query);
+      .where('race_id', query.race_id);
+
+    if (query.team) {
+      startList.where('team_id', query.team).orderBy('last_name', 'asc');
+    }
+
+    if (query.speciality) {
+      startList
+        .where('speciality_id', query.speciality)
+        .orWhere('speciality_id_2', query.speciality)
+        .orderBy('last_name', 'asc');
+    }
+    if (query.name) {
+      startList
+        .where('first_name', 'ilike', `${query.name}%`)
+        .orWhere('last_name', 'ilike', `${query.name}%`)
+        .whereNotNull('race_number')
+        .orderBy('last_name', 'asc');
+    }
 
     return startList;
   },

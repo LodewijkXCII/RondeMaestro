@@ -169,7 +169,7 @@ export default {
 
       this.team = 0;
       const searchrider = await axios.get(
-        `${config.DEV_URL}cyclists?startlist=true&name=${this.name}`
+        `${config.DEV_URL}startlist/race?race_id=${config.race_id}&name=${this.name}`
       );
       this.renners = _(searchrider.data)
         .groupBy((renner) => renner.team_name)
@@ -180,7 +180,7 @@ export default {
     },
     async searchRidersTeam(team) {
       const searchrider = await axios.get(
-        `${config.DEV_URL}cyclists?startlist=true&team=${team}`
+        `${config.DEV_URL}startlist/race?race_id=${config.race_id}&team=${team}`
       );
 
       this.renners = _(searchrider.data)
@@ -258,9 +258,10 @@ export default {
     Renners groepen en sorteren op team,
     waarna er in de template over alle teams geidereerd kan worden
     */
+    console.log(cyclists.data);
     this.renners = _(cyclists.data)
+      .orderBy((renner) => parseFloat(renner.race_number))
       .groupBy((renner) => renner.team_name)
-      .sortBy((team_name) => cyclists.data.indexOf(team_name[0]))
       .value();
 
     /* Aparte teams zoeken om in een zoekveld te kunnen brengen */
