@@ -1,5 +1,8 @@
 <template>
   <section class="rennerOverview">
+    <div v-show="loading">
+      <AnimatedCyclist />
+    </div>
     <!-- RIJ 1 -->
     <div class="rennerOverview-Left grid-3">
       <!-- Blok links -->
@@ -65,6 +68,7 @@
     <!-- RIJ 2 -->
     <section class="grid-3">
       <div v-for="teams in renners" :key="teams.index" class="team">
+        <!-- TODO ADD SELECTED HIGHLIGHT WHEN SELECTED -->
         <RennerCard
           v-for="renner in teams"
           :key="renner.cyclist_id"
@@ -88,6 +92,7 @@
 import SelectedRiders from '@/components/SelectedRiders.vue';
 import RennerCard from '@/components/Renner.vue';
 import FilterOptions from '@/components/FilterOptions.vue';
+import AnimatedCyclist from '@/components/AnimatedCyclist.vue';
 
 import axios from 'axios';
 import _ from 'lodash';
@@ -106,6 +111,7 @@ export default {
     SelectedRiders,
     RennerCard,
     FilterOptions,
+    AnimatedCyclist,
   },
   data() {
     return {
@@ -118,6 +124,7 @@ export default {
       isSelected: false,
       sendButton: 'verstuur',
       errorMsg: '',
+      loading: true,
     };
   },
   computed: {
@@ -247,6 +254,7 @@ export default {
   },
 
   async created() {
+    this.loading = true;
     const activeUser = window.localStorage.user_id;
     this.removeAll();
 
@@ -264,6 +272,7 @@ export default {
       .groupBy((renner) => renner.team_name)
       .value();
 
+    this.loading = false;
     /* Aparte teams zoeken om in een zoekveld te kunnen brengen */
     this.teams = [
       ...new Map(
