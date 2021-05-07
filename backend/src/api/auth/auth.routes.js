@@ -6,6 +6,7 @@ const jwt = require('../../lib/jwt');
 const User = require('../users/users.model');
 const Token = require('./token.model');
 const userQuery = require('../users/users.queries');
+const roleQuery = require('../user_role/user_role.queries');
 
 const router = express.Router();
 
@@ -30,6 +31,10 @@ const errorMessages = {
 };
 
 router.post('/signup', async (req, res, next) => {
+  // FIND SUBSRIBER ACCOUNT ID
+  const { id: userRole } = await roleQuery.getName('public');
+  console.log(userRole);
+
   // SETUP POSTGRESQL USER
   const { name, email, password } = req.body;
 
@@ -38,8 +43,7 @@ router.post('/signup', async (req, res, next) => {
       name,
       email,
       password,
-      // TODO CHANGE TO 3
-      user_role_id: 1,
+      user_role_id: userRole,
     };
 
     await schema.validate(createUser, {
@@ -58,8 +62,7 @@ router.post('/signup', async (req, res, next) => {
         name,
         email,
         password: hashedPassword,
-        // TODO CHANGE TO 3
-        user_role_id: 1,
+        user_role_id: userRole,
       })
       .join('user_role as user_role_id', 'user_role.id', 'users.user_role_id');
     delete insertedUser.password;

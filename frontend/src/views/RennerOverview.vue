@@ -251,7 +251,7 @@ export default {
     this.removeAll();
 
     const cyclists = await axios.get(
-      `${config.DEV_URL}cyclists?startlist=true`
+      `${config.DEV_URL}startlist/race?race_id=${config.race_id}`
     );
 
     /*

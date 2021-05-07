@@ -32,11 +32,7 @@
               {{ etappe.start_city }} - {{ etappe.finish_city }}
             </div>
             <div class="rmTable__body--type">
-              <img
-                :src="
-                  `https://rondemaestro.s3.eu-central-1.amazonaws.com/icons/${etappe.stage_type}`
-                "
-              />
+              <img :src="etappe.stage_type" />
             </div>
             <div class="rmTable__body--distance">{{ etappe.distance }}KM</div>
           </div>

@@ -20,6 +20,18 @@ router.get('/', async (req, res, next) => {
   }
 });
 
+router.get('/race', async (req, res, next) => {
+  try {
+    const { race_id } = req.query;
+    const test = await queries.findStartlist(race_id);
+    if (test) {
+      res.json(test);
+    }
+  } catch (error) {
+    return next(error);
+  }
+});
+
 router.put('/update', async (req, res, next) => {
   try {
     const race_id = parseInt(req.query.race_id, 10);

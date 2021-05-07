@@ -15,7 +15,35 @@ const fields = [
   'cyclist.image_url as cyclist_image',
 ];
 
+const startlistFields = [
+  'startlist.id',
+  'startlist.race_number',
+  'startlist.withdraw',
+  'race_id',
+  'cyclist.id as cyclist_id',
+  'cyclist.first_name',
+  'cyclist.last_name',
+  'cyclist.image_url',
+  'country.abbreviation as country_name',
+  'team.name as team_name',
+  'team.id as team_id',
+  'team.image_url as team_img',
+  'speciality.name as speciality_name',
+];
+
 module.exports = {
+  findStartlist(query) {
+    const startList = db(tableNames.startlist)
+      .select(startlistFields)
+      .fullOuterJoin('cyclist', 'startlist.cyclist_id', 'cyclist.id')
+      .join('team', 'cyclist.team_id', 'team.id')
+      .join('country', 'cyclist.country_id', 'country.id')
+      .join('speciality', 'cyclist.speciality_id', 'speciality.id')
+      .where('race_id', query);
+
+    return startList;
+  },
+
   find(query) {
     console.log(query);
     const startlistQuery = db(tableNames.startlist)

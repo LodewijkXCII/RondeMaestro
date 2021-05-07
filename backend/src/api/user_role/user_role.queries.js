@@ -15,4 +15,12 @@ module.exports = {
       })
       .first();
   },
+  getName(name) {
+    return db(tableNames.user_role)
+      .select(fields)
+      .where({
+        name,
+      })
+      .first();
+  },
 };

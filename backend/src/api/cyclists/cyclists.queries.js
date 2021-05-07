@@ -14,24 +14,22 @@ const fields = [
   'speciality.name as speciality_name',
   // 'speciality.name as speciality_name_2',
   'cyclist.image_url',
-  'startlist.race_number',
-  'startlist.withdraw',
+  // 'startlist.race_id',
+  // 'startlist.race_number',
+  // 'startlist.withdraw',
   // 'result.points',
 ];
 
 module.exports = {
   find(query) {
+    console.log(query);
     const cyclistQuery = db(cyclist)
       .from(cyclist)
       .select(fields)
       .join('team', 'cyclist.team_id', 'team.id')
       .join('country', 'cyclist.country_id', 'country.id')
-      .join('speciality', 'cyclist.speciality_id', 'speciality.id')
-      .leftJoin('startlist', 'cyclist.id', 'startlist.cyclist_id');
-
-    // if (query.startlist) {
-    //   cyclistQuery.whereNotNull('race_number');
-    // }
+      .join('speciality', 'cyclist.speciality_id', 'speciality.id');
+    // .fullOuterJoin('startlist', 'cyclist.id', 'startlist.cyclist_id');
 
     if (query.country) {
       cyclistQuery
@@ -39,10 +37,11 @@ module.exports = {
         .orderBy('last_name', 'asc');
     }
 
-    if (query.startlist === 'true') {
-      cyclistQuery.whereNotNull('race_number');
-      cyclistQuery.orderBy('race_number');
-    }
+    // if (query.startlist) {
+    //   cyclistQuery.where('race_id', query.startlist);
+    //   cyclistQuery.whereNotNull('race_number');
+    //   cyclistQuery.orderBy('race_number');
+    // }
 
     if (query.team) {
       cyclistQuery.where('team_id', query.team).orderBy('last_name', 'asc');
@@ -58,7 +57,6 @@ module.exports = {
       cyclistQuery
         .where('first_name', 'ilike', `${query.name}%`)
         .orWhere('last_name', 'ilike', `${query.name}%`)
-        .whereNotNull('race_number')
         .orderBy('last_name', 'asc');
     }
 
