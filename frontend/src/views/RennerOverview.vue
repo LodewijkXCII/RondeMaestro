@@ -258,7 +258,7 @@ export default {
     Renners groepen en sorteren op team,
     waarna er in de template over alle teams geidereerd kan worden
     */
-    console.log(cyclists.data);
+
     this.renners = _(cyclists.data)
       .orderBy((renner) => parseFloat(renner.race_number))
       .groupBy((renner) => renner.team_name)

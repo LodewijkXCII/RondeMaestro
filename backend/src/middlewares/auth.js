@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 
 function checkAuth(req, res, next) {
   console.log('Just move along!');

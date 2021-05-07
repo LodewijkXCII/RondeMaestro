@@ -1,6 +1,5 @@
 const db = require('../../db');
 const tableNames = require('../../constants/tableNames');
-const Entry = require('../entries/entries.model');
 const { entry, cyclist } = require('../../constants/tableNames');
 
 const fields = [
@@ -8,13 +7,10 @@ const fields = [
   'entry.users_id',
   'entry.stage_id',
   'entry.cyclist_id',
-
   'cyclist.first_name',
   'cyclist.last_name',
   'cyclist.image_url',
-
   'country.abbreviation as country_name',
-
   'team.name as team_name',
   'team.id as team_id',
   'team.image_url as team_img',
@@ -43,7 +39,6 @@ module.exports = {
   },
 
   update(query) {
-    console.log(query);
     const put = db(tableNames.entry)
       .where('users_id', query.users_id)
       .where('stage_id', query.stage_id)

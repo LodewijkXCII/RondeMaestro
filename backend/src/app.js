@@ -13,16 +13,16 @@ const project = require('./constants/project');
 
 const app = express();
 
+const allowedOrigins = [process.env.cORS, 'https://www.rondemaestro.com'];
+
 app.use(morgan('tiny'));
 app.use(compression());
 app.use(helmet());
 app.use(
   cors({
-    origin: process.env.CORS || 'https://www.rondemaestro.com',
-    // origin: 'https://rondemaestro-test.herokuapp.com/',
-    // origin: 'https://www.rondemaestro.com',
+    origin: allowedOrigins,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    // headers: 'Origin,X-Requested-With,Content-Type,Accept',
+    headers: 'Origin, X-Requested-With, Content-Type, Accept',
   })
 );
 app.use(express.urlencoded({ extended: false }));

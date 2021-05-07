@@ -2,13 +2,14 @@ const express = require('express');
 const Entry = require('./entries.model');
 const queries = require('./entries.queries');
 const stages = require('../stages/stages.queries');
-const checkID = require('../../middlewares/checkID');
+// const checkID = require('../../middlewares/checkID');
 const { update } = require('../../db');
 const { stage } = require('../../constants/tableNames');
 
 const router = express.Router();
 
-router.get('/', checkID, async (req, res, next) => {
+// TODO ADD CHECKID MIDDLEWARE
+router.get('/', async (req, res, next) => {
   const { users_id, stage_id } = req.query;
   try {
     const entries = await queries.find({ users_id, stage_id });
@@ -20,8 +21,8 @@ router.get('/', checkID, async (req, res, next) => {
   }
 });
 
-function getStageTime(id) {
-  const { date } = stages.get(parseInt(id, 10) || 0);
+async function getStageTime(id) {
+  const { date } = await stages.get(parseInt(id, 10) || 0);
   return date;
 }
 

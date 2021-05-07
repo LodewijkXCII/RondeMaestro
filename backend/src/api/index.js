@@ -30,18 +30,18 @@ router.get('/', (req, res) => {
 
 router.use('/users', users);
 router.use('/auth', auth);
-router.use('/countries', checkAuth, countries);
-router.use('/teams', checkAuth, teams);
-router.use('/season_time', checkAuth, seasonTime);
-router.use('/speciality', checkAuth, speciality);
-router.use('/stage_type', checkAuth, stageType);
+router.use('/countries', countries);
+router.use('/teams', teams);
+router.use('/season_time', seasonTime);
+router.use('/speciality', speciality);
+router.use('/stage_type', stageType);
 router.use('/user_role', userRole);
-router.use('/cyclists', checkAuth, cyclist);
-router.use('/stages', checkAuth, stage);
-router.use('/races', checkAuth, race);
-router.use('/startlist', checkAuth, startlist);
-router.use('/entries', checkAuth, entries);
-router.use('/results', checkAuth, results);
+router.use('/cyclists', cyclist);
+router.use('/stages', stage);
+router.use('/races', race);
+router.use('/startlist', startlist);
+router.use('/entries', entries);
+router.use('/results', results);
 router.use('/email', email);
 
 module.exports = router;
