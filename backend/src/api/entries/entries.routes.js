@@ -26,6 +26,17 @@ async function getStageTime(id) {
   return date;
 }
 
+router.get('/getpoints', async (req, res, next) => {
+  try {
+    const response = await queries.findPoints(req.query);
+    if (response) {
+      res.json(response);
+    }
+  } catch (error) {
+    return next(error);
+  }
+});
+
 router.post('/', async (req, res, next) => {
   const { stage_id } = req.body;
   try {

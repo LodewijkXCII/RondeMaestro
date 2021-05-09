@@ -27,7 +27,7 @@
           :key="renner.cyclist_id"
           class="selected_riders--rider"
         >
-          {{ renner.first_name }} {{ renner.last_name }}
+          {{ renner.first_name }} {{ renner.last_name }} ({{ renner.points }}pt)
         </div>
       </div>
     </div>
@@ -53,7 +53,8 @@ export default {
     async showSelectie(id, index) {
       if (this.scores[index].selection.length === 0) {
         const entry = await axios.get(
-          `${config.DEV_URL}entries?users_id=${id}&stage_id=${+this.etappe}`
+          `${config.DEV_URL}entries/getpoints?users_id=${id}&stage_id=${+this
+            .etappe}`
         );
         if (entry) {
           this.scores[index].selection = entry.data;
