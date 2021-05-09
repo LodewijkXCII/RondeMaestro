@@ -90,9 +90,11 @@ export default {
           const response = result.data.sort((a, b) => b.sum - a.sum);
           this.scores = response.map((user) => ({ ...user, selection: [] }));
         });
-      await axios.get(`${config.DEV_URL}results/totalscore`).then((result) => {
-        this.totalScores = result.data.sort((a, b) => b.sum - a.sum);
-      });
+      await axios
+        .get(`${config.DEV_URL}results/totalscore?race_id=${config.race_id}`)
+        .then((result) => {
+          this.totalScores = result.data.sort((a, b) => b.sum - a.sum);
+        });
       await axios
         .get(`${config.DEV_URL}results?stage_id=${currentEtappe}`)
         .then((result) => {

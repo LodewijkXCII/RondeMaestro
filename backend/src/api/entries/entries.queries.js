@@ -66,7 +66,7 @@ module.exports = {
       .where('entry.stage_id', stage_id)
       .join('country', 'cyclist.country_id', 'country.id')
       .join('speciality', 'cyclist.speciality_id', 'speciality.id')
-      .innerJoin(result, {
+      .leftOuterJoin(result, {
         'entry.cyclist_id': 'result.cyclist_id',
         'entry.stage_id': 'result.stage_id',
       });

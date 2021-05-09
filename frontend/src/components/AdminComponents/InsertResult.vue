@@ -87,6 +87,9 @@ export default {
             stage_id: this.stage,
             cyclist_id: renner.id,
           });
+          await axios.put(`${config.DEV_URL}stages/${this.stage}`, {
+            setDone: true,
+          });
         } catch (error) {
           console.error(error.message);
         }

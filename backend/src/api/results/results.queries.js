@@ -1,7 +1,6 @@
 const db = require('../../db');
-const tableNames = require('../../constants/tableNames');
 
-const { result } = require('../../constants/tableNames');
+const { result, users, cyclist, stage } = require('../../constants/tableNames');
 const Result = require('./results.model');
 
 const fields = [
@@ -87,14 +86,22 @@ module.exports = {
   async getSUM(query) {
     const summedRes = db(result)
       .select('users.id', 'users.name', db.raw('SUM(points)'))
+
       .groupBy('users.id')
-      .from(tableNames.users)
+      .from(users)
       .innerJoin('entry', 'users.id', 'entry.users_id')
+      .rightOuterJoin(stage, function () {
+        this.on('stage.id', '=', 'entry.stage_id');
+      })
       .whereNull('entry.deleted_at')
       .innerJoin('result', {
         'entry.cyclist_id': 'result.cyclist_id',
         'entry.stage_id': 'result.stage_id',
       });
+
+    if (query.race_id) {
+      summedRes.where('race_id', query.race_id);
+    }
 
     if (query.user_id) {
       summedRes.where('users.id', '=', query.user_id);
@@ -110,7 +117,7 @@ module.exports = {
     const userscores = db(result)
       .select('name', 'entry.stage_id', db.raw('SUM(points)'))
       .groupBy('name', 'entry.stage_id')
-      .from(tableNames.users)
+      .from(users)
       .where('users.id', '=', query.user_id)
       .innerJoin('entry', 'users.id', 'entry.users_id')
       .whereNull('entry.deleted_at')
@@ -122,11 +129,11 @@ module.exports = {
     return userscores;
   },
 
-  async getSUMRenner(query) {
+  async getSUMRenner() {
     const summedCyclistRes = await db(result)
       .select('cyclist.id', db.raw('SUM(points)'))
       .groupBy('cyclist.id')
-      .from(tableNames.cyclist)
+      .from(cyclist)
       .whereNull('result.deleted_at')
       .innerJoin('result', {
         'cyclist.id': 'result.cyclist_id',

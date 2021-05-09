@@ -57,7 +57,18 @@ export default {
             .etappe}`
         );
         if (entry) {
-          this.scores[index].selection = entry.data;
+          const sortedData = entry.data.sort((a, b) =>
+            a.points < b.points ? 1 : -1
+          );
+
+          sortedData.forEach((renner) => {
+            if (renner.points == null) {
+              return (renner.points = 0);
+            }
+            return;
+          });
+
+          this.scores[index].selection = sortedData;
         }
       } else {
         this.scores[index].selection = [];

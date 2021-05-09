@@ -41,9 +41,11 @@ export default {
     };
   },
   created() {
-    axios.get(`${config.DEV_URL}results/totalscore`).then((result) => {
-      this.scores = result.data.sort((a, b) => b.sum - a.sum);
-    });
+    axios
+      .get(`${config.DEV_URL}results/totalscore?race_id=${config.race_id}`)
+      .then((result) => {
+        this.scores = result.data.sort((a, b) => b.sum - a.sum);
+      });
   },
 };
 </script>
