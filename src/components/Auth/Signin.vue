@@ -1,6 +1,5 @@
 <template>
   <div class="container LoginLogOut">
-    <!-- <SignIN /> -->
     <h1>Login</h1>
     <h3 v-if="errorMessage">{{ errorMessage }}</h3>
     <form @submit.prevent="login()">
@@ -36,18 +35,12 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex';
+import validUser from '@/utils/validUser';
 import config from '@/utils/config';
 import axios from 'axios';
-import schema from '@/utils/yup';
-
-import SignIN from '@/components/Auth/Signin';
-
-import { mapState, mapMutations } from 'vuex';
 
 export default {
-  components: {
-    SignIN,
-  },
   data() {
     return {
       errorMessage: '',
@@ -65,6 +58,7 @@ export default {
     newUser(user, user_type_id) {
       this.setUser(user, user_type_id);
     },
+
     async login() {
       const data = {
         email: this.user.email,
@@ -77,21 +71,16 @@ export default {
         },
       };
       this.errorMessage = '';
-      if (this.validUser()) {
+      if (validUser(this.user)) {
         this.logginIn = true;
 
         try {
           axios
-            .post(`${config.DEV_URL}auth/signin`, {
-              email: this.user.email,
-              password: this.user.password,
-            })
+            .post(`${config.DEV_URL}auth/signin`, data, axiosHeaders)
             .then((response) => {
               if (response.status == 200) {
                 localStorage.token = response.data.token;
-                localStorage.user = response.data.user.name;
-                localStorage.user_id = response.data.user.id;
-                localStorage.user_type_id = response.data.user.user_type;
+
                 this.newUser(response.data.user.name, response.data.user_type);
 
                 this.logginIn = false;
@@ -113,21 +102,6 @@ export default {
           console.error(error);
         }
       }
-    },
-
-    validUser() {
-      const result = schema.schema
-        .validate(this.user, schema)
-        .catch((error) => {
-          console.log('Mislukt:', error);
-          if (error.message.includes('email')) {
-            this.errorMessage = 'Email adres verkeerd';
-          } else {
-            this.errorMessage = 'Verkeerd wachtwoord';
-          }
-          return false;
-        });
-      return true;
     },
   },
 };

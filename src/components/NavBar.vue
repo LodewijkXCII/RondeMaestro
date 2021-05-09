@@ -1,102 +1,102 @@
 <template>
   <nav>
-    <router-link :to="{ name: 'Home' }" class="brand">
-      <img :src="require('@/assets/logo.png')" />
-    </router-link>
-    <div class="leftNav">
-      <div class="navItem">
-        <router-link :to="{ name: 'Dashboard' }">
-          Dashboard
-        </router-link>
+    <div class="container">
+      <router-link :to="{ name: 'Home' }" class="brand">
+        <img :src="require('@/assets/logo.png')" />
+      </router-link>
+      <div class="leftNav">
+        <div class="navItem">
+          <router-link :to="{ name: 'Dashboard' }">
+            Dashboard
+          </router-link>
+        </div>
+        <div class="navItem">
+          <router-link :to="{ name: 'etappe-overzicht' }"> Etappes</router-link>
+        </div>
+        <div class="navItem">
+          <router-link :to="{ name: 'uitslagen' }">
+            Uitslagen
+          </router-link>
+        </div>
+        <div class="navItem">
+          <router-link :to="{ name: 'Spelregels' }">
+            Spelregels
+          </router-link>
+        </div>
       </div>
-      <div class="navItem">
-        <router-link :to="{ name: 'etappe-overzicht' }"> Etappes</router-link>
-      </div>
-      <div class="navItem">
-        <router-link :to="{ name: 'klassement' }">
-          Klassement
-        </router-link>
-      </div>
-      <div class="navItem">
-        <router-link :to="{ name: 'Score' }">
-          Score
-        </router-link>
-      </div>
+      <div class="rightNav">
+        <div class="rightNav__options" v-if="toggle" @click="toggle = !toggle">
+          <ul>
+            <li>
+              <router-link
+                :to="{ name: 'account' }"
+                style="text-transform: uppercase;"
+              >
+                Mijn account</router-link
+              >
+            </li>
+            <li class="logout" @click="logout">Afmelden</li>
+          </ul>
+        </div>
+        <div
+          class="rightNav__options mobileMenu"
+          v-if="showMenu"
+          @click="showMenu = !showMenu"
+        >
+          <ul>
+            <li>
+              <router-link :to="{ name: 'Dashboard' }">
+                Dashboard
+              </router-link>
+            </li>
+            <li>
+              <router-link :to="{ name: 'etappe-overzicht' }">
+                Etappes</router-link
+              >
+            </li>
+            <li>
+              <router-link :to="{ name: 'uitslagen' }">
+                Uitslagen
+              </router-link>
+            </li>
 
-      <div class="navItem">
-        <router-link :to="{ name: 'Spelregels' }">
-          Spelregels
-        </router-link>
-      </div>
-    </div>
-    <div class="rightNav">
-      <div class="rightNav__options" v-if="toggle" @click="toggle = !toggle">
-        <ul>
-          <li>
-            <router-link :to="{ name: 'account' }"> Mijn account</router-link>
-          </li>
-          <li class="logout" @click="logout">Afmelden</li>
-        </ul>
-      </div>
-      <div
-        class="rightNav__options mobileMenu"
-        v-if="showMenu"
-        @click="showMenu = !showMenu"
-      >
-        <ul>
-          <li>
-            <router-link :to="{ name: 'Dashboard' }">
-              Dashboard
-            </router-link>
-          </li>
-          <li>
-            <router-link :to="{ name: 'etappe-overzicht' }">
-              Etappes</router-link
+            <li>
+              <router-link :to="{ name: 'Spelregels' }">
+                Spelregels
+              </router-link>
+            </li>
+          </ul>
+        </div>
+        <div class="rightNav__fixed">
+          <div class="rightNav__fixed--user" v-if="loggedIn">
+            <div
+              class="rightNav__fixed--user username"
+              @click="toggle = !toggle"
             >
-          </li>
-          <li>
-            <router-link :to="{ name: 'klassement' }">
-              Klassement
-            </router-link>
-          </li>
-          <li>
-            <router-link :to="{ name: 'Score' }">
-              Score
-            </router-link>
-          </li>
-          <li>
-            <router-link :to="{ name: 'Spelregels' }">
-              Spelregels
-            </router-link>
-          </li>
-        </ul>
-      </div>
-      <div class="rightNav__fixed">
-        <div class="rightNav__fixed--user" v-if="loggedIn">
-          <div class="rightNav__fixed--user username" @click="toggle = !toggle">
-            <font-awesome-icon :icon="['far', 'user']" />
-            {{ username }}
-            <font-awesome-icon :icon="['fas', 'caret-down']" />
+              <font-awesome-icon :icon="['far', 'user']" />
+              {{ username }}
+              <font-awesome-icon :icon="['fas', 'caret-down']" />
+            </div>
           </div>
-        </div>
 
-        <div class="rightNav__fixed--sign" v-else>
-          <router-link
-            :to="{ name: 'Signup' }"
-            class="rightNav__fixed--sign nav-link"
-            >Inschrijven</router-link
-          >
-          <router-link
-            :to="{ name: 'Signin' }"
-            class="rightNav__fixed--sign nav-link"
-            >Aanmelden</router-link
-          >
-        </div>
-        <div class="rightNav__fixed--menu" v-if="isMobile">
-          <font-awesome-icon
-            :icon="['fas', 'bars']"
-            @click="showMenu = !showMenu"
-          />
+          <div class="rightNav__fixed--sign" v-else>
+            <router-link
+              :to="{ name: 'Signup' }"
+              class="rightNav__fixed--sign nav-link"
+              >Inschrijven</router-link
+            >
+            <router-link
+              :to="{ name: 'Signin' }"
+              class="rightNav__fixed--sign nav-link"
+              >Aanmelden</router-link
+            >
+          </div>
+          <div class="rightNav__fixed--menu">
+            <font-awesome-icon
+              :icon="['fas', 'bars']"
+              @click="showMenu = !showMenu"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -104,8 +104,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import checkMobile from '../utils/checkMobile';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
   data() {
@@ -121,6 +120,10 @@ export default {
 
   computed: {
     ...mapState(['userName', 'userType']),
+    ...mapGetters(['getUserName']),
+    setUserName() {
+      return this.$store.getters.getUserName;
+    },
   },
 
   watch: {
@@ -137,6 +140,7 @@ export default {
   methods: {
     logout() {
       let currentPath = this.$route.path;
+
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       localStorage.removeItem('user_id');
@@ -147,13 +151,6 @@ export default {
     },
   },
   mounted() {
-    checkMobile();
-    if (checkMobile === false) {
-      this.isMobile = true;
-    } else {
-      this.isMobile = false;
-    }
-
     this.username = this.userName;
     this.username = window.localStorage.user;
     if (this.userType) {
@@ -174,107 +171,113 @@ export default {
 
 nav {
   border-bottom: 2px solid $primary-color;
-  // margin-bottom: 3rem;
-  display: flex;
-  align-items: center;
-
-  .brand {
-    display: flex;
-    justify-items: center;
-    align-items: center;
-  }
-
-  img {
-    width: 75px;
-    height: auto;
-  }
-  .leftNav {
-    display: none;
-  }
-
-  .rightNav {
-    margin-left: auto;
+  .container {
     display: flex;
     align-items: center;
-    text-transform: uppercase;
-    color: $primary-color;
-    font-weight: 700;
-    position: relative;
-
-    &__options {
-      position: absolute;
-      right: 0;
-      background: white;
-      padding: 0.75rem 1rem 0.5rem 1.6rem;
-      top: 1.7rem;
-
-      ul {
-        list-style: none;
-        padding: 0;
-
-        li {
-          margin-bottom: 0.75rem;
-        }
-      }
+    padding: 0.8rem 1.2em;
+    margin-bottom: 0.5rem;
+    .brand {
+      display: flex;
+      justify-items: center;
+      align-items: center;
     }
 
-    .logout {
-      cursor: pointer;
-      padding-top: 5px;
-      margin-top: 10px;
-      border-top: 1px solid $primary-color;
+    img {
+      width: 75px;
+      height: auto;
+    }
+    .leftNav {
+      display: none;
     }
 
-    &__fixed {
-      display: inline-flex;
-      padding-left: 25px;
-
-      &::before {
-        padding-right: 10px;
-        content: '';
-        border-left: 1px solid $primary-color;
-      }
-      &--user {
-        display: flex;
-        &.logout,
-        &.username {
-          margin: 0 0.5rem;
-          transition: 0.3s;
-
-          &:hover {
-            cursor: pointer;
-            color: darken($color: $primary-color, $amount: 7);
-          }
-
-          svg {
-            margin: 0 7px;
-          }
-        }
-      }
-      &--sign {
-        &.nav-link {
-          margin: 0 0.5rem;
-        }
-      }
-    }
-  }
-
-  .navItem {
-    margin: 0 1.2em;
-
-    a {
-      transition: 0.3s;
+    .rightNav {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
       text-transform: uppercase;
+      color: $primary-color;
+      font-weight: 700;
+      position: relative;
 
-      &:hover {
-        color: darken($color: $primary-color, $amount: 7);
+      &__options {
+        position: absolute;
+        right: 0;
+        background: $light-color;
+        padding: 0.75rem 1rem 0.5rem 1.6rem;
+        top: 1.7rem;
+
+        ul {
+          list-style: none;
+          padding: 0;
+
+          li {
+            margin-bottom: 0.75rem;
+          }
+        }
+      }
+
+      .logout {
+        cursor: pointer;
+        padding-top: 5px;
+        margin-top: 10px;
+        border-top: 1px solid $primary-color;
+      }
+
+      &__fixed {
+        display: inline-flex;
+        padding-left: 25px;
+
+        &::before {
+          padding-right: 10px;
+          content: '';
+          border-left: 1px solid $primary-color;
+        }
+        &--user {
+          display: flex;
+          &.logout,
+          &.username {
+            margin: 0 0.5rem;
+            transition: 0.3s;
+
+            &:hover {
+              cursor: pointer;
+              color: darken($color: $primary-color, $amount: 7);
+            }
+
+            svg {
+              margin: 0 7px;
+            }
+          }
+        }
+
+        &--sign {
+          &.nav-link {
+            margin: 0 0.5rem;
+          }
+        }
+      }
+      &__fixed--menu {
+        display: inherit;
+      }
+    }
+
+    .navItem {
+      margin: 0 1.2em;
+
+      a {
+        transition: 0.3s;
+        text-transform: uppercase;
+
+        &:hover {
+          color: darken($color: $primary-color, $amount: 7);
+        }
       }
     }
   }
 }
 
 @media only screen and (min-width: 1224px) {
-  nav {
+  nav .container {
     max-width: 1200px;
     margin: auto;
     .leftNav {
@@ -282,6 +285,11 @@ nav {
       display: flex;
       justify-content: center;
       align-items: center;
+      margin: 1.5rem;
+    }
+
+    .rightNav__fixed--menu {
+      display: none;
     }
   }
 }

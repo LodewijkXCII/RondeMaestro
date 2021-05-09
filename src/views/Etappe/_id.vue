@@ -1,10 +1,10 @@
 <template>
   <section class="container">
     <section class="PrevNext">
-      <router-link to="/etappe-overzicht">
+      <div @click="changeEtappe(etappe.id)">
         <img src="@/assets/icons/chevrons-left.svg" alt="chevron-left" />
         <span>Terug naar het etappe overzicht</span>
-      </router-link>
+      </div>
     </section>
 
     <h1>Etappe {{ etappe.stage_nr }}</h1>
@@ -41,14 +41,73 @@ export default {
   data() {
     return {
       etappe: '',
+      etappe_id: null,
     };
   },
+  mounted() {
+    this.etappe_id = +this.$route.params.etappeID;
+    this.getInfo();
+
+    // this.etappe_id = +this.$route.params.etappeID;
+    // fetch(`${config.DEV_URL}stages/${this.etappe_id}`)
+    //   .then((response) => response.json())
+    //   .then((result) => {
+    //     this.etappe = result;
+    //   });
+  },
+  // updated() {
+  //   console.log('updated');
+  //   this.getInfo();
+  // },
   created() {
-    fetch(`${config.DEV_URL}stages/${this.$route.params.etappeID}`)
-      .then((response) => response.json())
-      .then((result) => {
-        this.etappe = result;
+    this.getInfo();
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.etappe_id = to.params.etappeID;
+    this.getInfo();
+    next();
+  },
+  methods: {
+    changeEtappe(c) {
+      console.log(c);
+      // TODO UPDATE TO DYNAMIC NEWSTAGE
+      const newStage = +c + 1;
+      this.$router.push({
+        name: 'etappe-single',
+        params: { etappeID: newStage },
       });
+    },
+    getInfo() {
+      fetch(`${config.DEV_URL}stages/${this.etappe_id}`)
+        .then((response) => response.json())
+        .then((result) => {
+          this.etappe = result;
+        });
+    },
+    prevEtappe() {
+      const prevEtappe = +this.etappe - 1;
+      this.etappe = prevEtappe;
+      if (prevEtappe > 0) {
+        this.$router.push({
+          name: 'klassement-single',
+          params: { etappeID: this.etappe },
+        });
+      } else {
+        console.log('kan niet meer');
+      }
+    },
+    nextEtappe() {
+      const nextEtappe = +this.$route.params.etappeID + 1;
+      this.$router.push({
+        name: 'klassement-single',
+        params: { etappeID: nextEtappe },
+      });
+      this.forceRerender();
+      // TODO fix this shit
+    },
+    forceRerender() {
+      this.$forceUpdate();
+    },
   },
 };
 </script>

@@ -1,15 +1,15 @@
 <template>
   <section>
-    <h1>Startlijst aanpassen</h1>
+    <h2>Startlijst aanpassen</h2>
     <label for="race">Kies de ronde:</label>
     <div class="formInline">
       <!-- <input type="number" min="2020" value="2020" v-model.number="year" /> -->
       <select name="race" id="race" v-model="race">
         <option :value="race.id" v-for="race in races" :key="race.index">
-          {{ race.name }}
+          {{ race.year }} - {{ race.name }}
         </option>
       </select>
-      <button v-on:click.prevent="getRenners()" class="btn btn-primary">
+      <button v-on:click.prevent="getRenners(race)" class="btn btn-primary">
         Zoek
       </button>
     </div>
@@ -17,9 +17,9 @@
       <div class="renner" v-for="renner in renners" :key="renner.index">
         <div class="renner__img">
           <img
-            v-if="renner.image_url !== '/'"
+            v-if="renner.cyclist_image !== '/'"
             :src="
-              `https://rondemaestro.s3.eu-central-1.amazonaws.com/renners/${renner.image_url}`
+              `https://rondemaestro.s3.eu-central-1.amazonaws.com/renners/${renner.cyclist_image}`
             "
             alt
           />
@@ -27,8 +27,20 @@
         </div>
         <div class="renner__info">
           <div class="renner__info-top">
-            <div class="renner__info-top--number">
-              <h3>#{{ renner.race_number }}</h3>
+            <div class="renner__info-top--number startlist_number">
+              #
+              <input
+                type="number"
+                name="race_number"
+                id="race=number"
+                number
+                v-model.number="renner.race_number"
+              />
+              <font-awesome-icon
+                icon="check"
+                size="sm"
+                @click="updateRaceNumber(renner)"
+              />
             </div>
             <div class="renner__info-top--flag">
               <flag :iso="renner.country_name" :squared="false" />
@@ -41,17 +53,9 @@
           <div class="renner__info--team">{{ renner.team_name }}</div>
         </div>
         <div class="renner__extra">
-          <div class="renner__extra--teamIMG">
-            <img
-              :src="
-                `https://rondemaestro.s3.eu-central-1.amazonaws.com/teams/${renner.team_img}`
-              "
-              :alt="renner.team_name"
-            />
-          </div>
           <div
             class="renner__extra--withdraw"
-            @click="updateSelection(renner.cyclist_id)"
+            @click="updateSelection(renner.cyclist_id, race)"
           >
             <font-awesome-icon
               icon="check"
@@ -64,6 +68,12 @@
               v-if="renner.withdraw == true"
             />
           </div>
+          <div
+            class="renner__extra"
+            @click="removeRenner(renner.cyclist_id, race)"
+          >
+            <font-awesome-icon icon="trash" size="lg" />
+          </div>
         </div>
       </div>
     </div>
@@ -71,7 +81,6 @@
 </template>
 
 <script>
-// TODO ADD
 import axios from 'axios';
 import config from '@/utils/config';
 
@@ -82,20 +91,22 @@ export default {
     return {
       renners: [],
       races: [],
+      race: {},
     };
   },
 
   methods: {
-    async getRenners() {
+    async getRenners(race) {
+      this.renners = [];
       const response = await axios.get(
-        `${config.DEV_URL}cyclists?startlist=true`
+        `${config.DEV_URL}startlist?race_id=${race}`
       );
 
       this.renners = response.data.sort((a, b) =>
         a.race_number > b.race_number ? 1 : -1
       );
     },
-    async updateSelection(cyclist_id) {
+    async updateSelection(cyclist_id, race) {
       const updatedCyclist = this.renners.find(
         (ren) => ren.cyclist_id == cyclist_id
       );
@@ -108,18 +119,30 @@ export default {
         updateValue = true;
         updatedCyclist.withdraw = true;
       }
-      const startlist = await axios.put(`${config.DEV_URL}startlist`, {
+      await axios.put(`${config.DEV_URL}startlist/withdraw?race_id=${race}`, {
         cyclist_id,
-        race: 1,
+        race_id: race,
         updateValue,
-        //TODO race_id is nu altijd tour
+      });
+    },
+    async updateRaceNumber(renner) {
+      await axios.put(
+        `${config.DEV_URL}startlist/update?race_id=${this.race}`,
+        renner
+      );
+    },
+    async removeRenner(id, race) {
+      await axios.delete(`${config.DEV_URL}startlist`, {
+        data: {
+          cyclist_id: id,
+          race_id: race,
+        },
       });
     },
   },
   async created() {
-    const response = await axios.get(`${config.DEV_URL}races`);
-    console.log(response.data);
-    this.races = response.data;
+    const { data } = await axios.get(`${config.DEV_URL}races`);
+    this.races = data;
   },
 };
 </script>
@@ -150,11 +173,29 @@ export default {
           color: $alert-color;
         }
       }
+      .fa-trash {
+        color: $alert-color;
+      }
     }
     &:active {
       transform: none;
       box-shadow: none;
     }
+  }
+}
+
+.startlist_number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+
+  input {
+    padding: 0.2rem 0.5rem;
+    max-width: 10ch;
+  }
+  svg {
+    color: $primary-color;
   }
 }
 </style>

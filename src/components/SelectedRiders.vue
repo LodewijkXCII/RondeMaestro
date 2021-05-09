@@ -64,6 +64,8 @@ export default {
 
 .selectedRiders {
   grid-row: 3/4;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid $primary-color;
 }
 
 .selectionRiders .renner {
@@ -91,6 +93,8 @@ export default {
   .selectedRiders {
     right: 1em;
     grid-row: inherit;
+    padding: 0;
+    border: none;
   }
 }
 </style>

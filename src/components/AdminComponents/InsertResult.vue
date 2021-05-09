@@ -1,6 +1,6 @@
 <template>
   <section>
-    <h1>Uitslag Etappe</h1>
+    <h2>Uitslag Etappe</h2>
     <label for="race">Kies de etappe:</label>
     <div class="formInline">
       <!-- <input type="number" min="2020" value="2020" v-model.number="year" /> -->
@@ -35,7 +35,7 @@
 import axios from 'axios';
 import config from '@/utils/config';
 
-const URL_CYCLIST = `${config.DEV_URL}cyclists?startlist=true`;
+const URL_CYCLIST = `${config.DEV_URL}startlist/race?race_id=${config.race_id}`;
 const URL_RESULT = `${config.DEV_URL}results`;
 
 export default {
@@ -70,11 +70,14 @@ export default {
         a.race_number > b.race_number ? 1 : -1
       );
     });
-    const stages = await axios.get(`${config.DEV_URL}stages`);
+    const stages = await axios.get(
+      `${config.DEV_URL}stages?race=${config.race_id}&year=${config.currentYear}`
+    );
     this.stages = stages.data;
   },
   methods: {
     etappeSubmit() {
+      // TODO ALS ER AL EEN UITSLAG IS, DEZE LATEN VERWIJDEREN EN NIEUWE UPDATEN
       this.sendMessage = 'Versturen';
       this.uitslag.forEach(async (renner) => {
         try {

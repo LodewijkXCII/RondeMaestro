@@ -1,5 +1,6 @@
 <template>
-  <div class="container">
+  <div class="container LoginLogOut">
+    <!-- <SignUP /> -->
     <h1>Meld je aan</h1>
     <div v-if="errorMessage" role="alert">{{ errorMessage }}</div>
 
@@ -23,6 +24,7 @@
           name="password"
           id="password"
           required
+          v-on:keyup="checkPassword"
         />
         <label for="confirmPassword">Herhaal wachtwoord:</label>
         <input
@@ -37,9 +39,9 @@
       <div class="password__rules">
         <span>Wachtwoord moet bestaan uit:</span>
         <ul>
-          <li>Minimaal 8 karakters</li>
-          <li>Minimaal 1 hoofdletter</li>
-          <li>Minimaal 1 speciaal teken</li>
+          <li :class="char ? 'true' : 'false'">Minimaal 8 karakters</li>
+          <li :class="cap ? 'true' : 'false'">Minimaal 1 hoofdletter</li>
+          <li :class="spec ? 'true' : 'false'">Minimaal 1 speciaal teken</li>
         </ul>
       </div>
       <button
@@ -58,12 +60,16 @@
 </template>
 
 <script>
-import * as yup from 'yup';
+// import SignUP from '@/components/Auth/Signup';
+
 import axios from 'axios';
 import config from '@/utils/config';
 import schema from '@/utils/yup';
 
 export default {
+  components: {
+    // SignUP,
+  },
   data() {
     return {
       errorMessage: '',
@@ -74,6 +80,9 @@ export default {
         password: '',
         confirmPassword: '',
       },
+      char: false,
+      cap: false,
+      spec: false,
     };
   },
   watch: {
@@ -98,14 +107,13 @@ export default {
           await axios({
             method: 'post',
             url: `${config.DEV_URL}auth/signup`,
-            data: JSON.stringify(body),
+            data: body,
             headers: {
               'Content-Type': 'application/json',
               'Access-Control-Allow-Origin': '*',
             },
           })
             .then((response) => {
-              console.log(response.data);
               if (response.ok) {
                 return response.json();
               }
@@ -114,13 +122,12 @@ export default {
               });
             })
             .then((result) => {
-              if (response.status == 200) {
+              if (result.status == 200) {
                 localStorage.token = response.data.token;
                 localStorage.user = response.data.user.name;
                 localStorage.user_id = response.data.user.id;
                 localStorage.user_type_id = response.data.user.user_type;
                 this.sigingIn = false;
-
                 axios({
                   method: 'post',
                   url: `${config.DEV_URL}email/new-user`,
@@ -133,7 +140,6 @@ export default {
                     'Access-Control-Allow-Origin': '*',
                   },
                 }).then((response) => {
-                  console.log(response.data);
                   if (response.ok) {
                     return response.json();
                   }
@@ -141,7 +147,6 @@ export default {
                     throw new Error(error);
                   });
                 });
-
                 this.$router.push('/dashboard');
               } else {
                 this.errorMessage =
@@ -166,24 +171,47 @@ export default {
         this.errorMessage = 'Wachtwoorden zijn niet gelijk 🚴🏽‍♂️';
         return false;
       }
-      const result = schama.schema
-        .validate(this.user, schema)
-        .catch((error) => {
-          console.log('Mislukt:', error);
-          if (error.message.includes('email')) {
-            this.errorMessage = 'Email adres verkeerd';
-          } else {
-            this.errorMessage = 'Verkeerd wachtwoord';
-          }
-          return false;
-        });
+      schema.schema.validate(this.user, schema).catch((error) => {
+        console.log('Mislukt:', error);
+        if (error.message.includes('email')) {
+          this.errorMessage = 'Email adres verkeerd';
+        } else {
+          this.errorMessage = 'Verkeerd wachtwoord';
+        }
+        return false;
+      });
       return true;
+    },
+    checkPassword() {
+      const upperCaseLetter = /[A-Z]/g;
+      const specialChar = /[^A-Za-z0-9]/;
+
+      if (this.user.password.length >= 8) {
+        this.char = true;
+      } else {
+        this.char = false;
+      }
+
+      if (this.user.password.match(upperCaseLetter)) {
+        this.cap = true;
+      } else {
+        this.cap = false;
+      }
+      if (this.user.password.match(specialChar)) {
+        this.spec = true;
+      } else {
+        this.spec = false;
+      }
     },
   },
 };
 </script>
 
 <style lang="scss">
+.LoginLogOut {
+  max-width: 500px;
+  margin-top: 5rem;
+}
 .password__rules {
   span {
   }
@@ -216,6 +244,12 @@ export default {
     font-weight: 400;
     line-height: 1;
     transform: scale(1.3);
+  }
+  .false {
+    color: red;
+  }
+  .true {
+    color: green;
   }
 }
 </style>

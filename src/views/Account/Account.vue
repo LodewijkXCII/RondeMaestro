@@ -13,8 +13,14 @@
         <h2>Wat wil je graag doen?</h2>
 
         <ul>
-          <li>Gegevens aanpassen</li>
-          <li>Email voorkeuren</li>
+          <li
+            v-for="link in userLinks"
+            :key="link.index"
+            v-on:click="currentTab = link.component"
+          >
+            {{ link.name }}
+          </li>
+
           <li @click="logout">Uitloggen</li>
         </ul>
         <div v-if="isAdmin">
@@ -40,64 +46,91 @@
 <script>
 import { mapState } from 'vuex';
 
-import NewRenner from '@/components/AdminComponents/NewRenner.vue';
+import UpdateGebruiker from '@/components/AdminComponents/UpdateGebruiker.vue';
+import InsertRenner from '@/components/AdminComponents/InsertRenner.vue';
 import UpdateRenner from '@/components/AdminComponents/UpdateRenner.vue';
-import AddTeam from '@/components/AdminComponents/AddTeam.vue';
+import InsertTeam from '@/components/AdminComponents/InsertTeam.vue';
 import UpdateTeam from '@/components/AdminComponents/UpdateTeam.vue';
+import InsertStartlist from '@/components/AdminComponents/InsertStartlist.vue';
 import UpdateStartlist from '@/components/AdminComponents/UpdateStartlist.vue';
 import InsertResult from '@/components/AdminComponents/InsertResult.vue';
+import InsertStage from '@/components/AdminComponents/InsertStage.vue';
+import UpdateStage from '@/components/AdminComponents/UpdateStage.vue';
+import UpdateUser from '@/components/AdminComponents/UpdateUser.vue';
 
 export default {
   components: {
-    NewRenner,
+    UpdateGebruiker,
+    InsertRenner,
     UpdateRenner,
-    AddTeam,
+    InsertTeam,
     UpdateTeam,
+    InsertStartlist,
     UpdateStartlist,
     InsertResult,
+    InsertStage,
+    UpdateStage,
+    UpdateUser,
   },
 
   data() {
     return {
       username: '',
       isAdmin: false,
+      userLinks: [
+        {
+          component: 'UpdateGebruiker',
+          name: 'Gegevens aanpassen',
+        },
+        {
+          component: 'EmailSettings',
+          name: 'Email voorkeuren',
+        },
+      ],
       adminLinks: [
         {
           component: 'UpdateRenner',
-          name: 'Renner updaten',
+          name: 'Renner aanpassen',
         },
         {
-          component: 'NewRenner',
+          component: 'InsertRenner',
           name: 'Renner toevoegen',
         },
         {
           component: 'UpdateTeam',
-          name: 'Team updaten',
+          name: 'Team aanpassen',
         },
-
         {
-          component: 'AddTeam',
+          component: 'InsertTeam',
           name: 'Team toevoegen',
         },
-
         {
-          component: 'AddStartlist',
-          name: 'Startlijst aanmaken',
+          component: 'InsertStartlist',
+          name: 'Startlijst toevoegen',
         },
-
         {
           component: 'UpdateStartlist',
-          name: 'Startlijst updaten',
+          name: 'Startlijst aanpassen',
         },
-
-        {
-          component: 'UpdateUser',
-          name: 'Gebruiker updaten',
-        },
-
         {
           component: 'InsertResult',
-          name: 'Uitslag invoeren',
+          name: 'Uitslag toevoegen',
+        },
+        {
+          component: 'UpdateResult',
+          name: 'Uitslag aanpassen',
+        },
+        {
+          component: 'InsertStage',
+          name: 'Etappe toevoegen',
+        },
+        {
+          component: 'UpdateStage',
+          name: 'Etappe aanpassen',
+        },
+        {
+          component: 'UpdateUser',
+          name: 'Gebruiker aanpassen',
         },
       ],
       currentTab: '',
@@ -112,6 +145,7 @@ export default {
   methods: {
     logout() {
       let currentPath = this.$route.path;
+
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       localStorage.removeItem('user_id');
@@ -124,7 +158,7 @@ export default {
   mounted() {
     this.username = this.userName;
     this.username = window.localStorage.user;
-    if (window.localStorage.user_type_id == 3) {
+    if (window.localStorage.user_type_id == 6 || 3) {
       this.isAdmin = true;
     }
   },
@@ -167,7 +201,7 @@ export default {
   .account {
     margin-top: -5em;
     border-radius: 5px;
-    padding: 2.5em 2em;
+    padding: 5em 3em;
     position: relative;
     &::before {
       position: absolute;

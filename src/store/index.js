@@ -36,7 +36,6 @@ export default new Vuex.Store({
       state.userType = type;
     },
     setSearchRennner: (state, renner) => {
-      console.log('he hallo');
       state.searchRenner = renner;
     },
     setSearchTeam: (state, team) => {

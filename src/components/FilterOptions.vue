@@ -17,7 +17,7 @@
       <select name="team" id="team" v-model="team" @change="searchTeam">
         <option value="0" disabled>-</option>
         <option :value="team.team_id" v-for="team in teams" :key="team.index">
-          {{ team.team_name }}
+          {{ team.team_name || team.name }}
         </option>
       </select>
     </div>

@@ -3,13 +3,13 @@
     <h1>
       Klassement per etappe
     </h1>
-    <router-link
+    <!-- <router-link
       :to="{ name: 'algemeen-klassement' }"
       class="btn btn-alert"
       style="margin: 2rem 0"
     >
       Ga naar het algemene klassement
-    </router-link>
+    </router-link> -->
 
     <h2>Etappe Overzicht</h2>
     <div class="rmTable">
@@ -21,7 +21,12 @@
         <div class="rmTable__header--button"></div>
       </div>
 
-      <div v-for="etappe in etappes" :key="etappe.id" class="rmTable__body">
+      <div
+        v-for="etappe in etappes"
+        :key="etappe.id"
+        class="rmTable__body"
+        @click="pushStage(etappe)"
+      >
         <div class="rmTable__body--number">{{ etappe.stage_nr }}.</div>
         <div class="rmTable__body--date">{{ etappe.date | formatDate }}</div>
         <div class="rmTable__body--city">
@@ -29,12 +34,7 @@
         </div>
 
         <div class="rmTable__body--button">
-          <router-link
-            :to="{ name: 'klassement-single', params: { etappeID: etappe.id } }"
-            :id="etappe.id"
-          >
-            <img src="@/assets/icons/chevrons-right.svg" alt="edit" />
-          </router-link>
+          <img src="@/assets/icons/chevrons-right.svg" alt="edit" />
         </div>
       </div>
     </div>
@@ -55,7 +55,9 @@ export default {
     };
   },
   created() {
-    fetch(`${config.DEV_URL}stages?race=1`)
+    fetch(
+      `${config.DEV_URL}stages?race=${config.race_id}&year=${config.currentYear}`
+    )
       .then((response) => response.json())
       .then((result) => {
         this.etappes = result.sort((a, b) => (a.date > b.date ? 1 : -1));
@@ -66,6 +68,13 @@ export default {
     ...mapMutations(['setEtappes']),
     setEtappe(etappe) {
       this.setEtappes(etappe);
+    },
+
+    pushStage(stage) {
+      this.$router.push({
+        name: 'klassement-single',
+        params: { etappeID: stage.id, stage: stage },
+      });
     },
   },
 };
@@ -81,5 +90,9 @@ export default {
       20px
     );
   font-weight: normal;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 </style>
