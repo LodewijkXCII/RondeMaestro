@@ -127,7 +127,7 @@ export default {
         this.renners.push(renner);
       });
     },
-    setSelectie() {
+    async setSelectie() {
       /* 
         trim renners naar alleen cyclist id, race_number
         Stuur de race_id mee in de headers  
@@ -140,11 +140,8 @@ export default {
             race_id: this.race,
           };
         });
-        console.log('er gebeurt hier iets', trimmedRenners);
-        const newStartlijst = axios.post(
-          `${config.DEV_URL}startlist`,
-          trimmedRenners
-        );
+
+        await axios.post(`${config.DEV_URL}startlist`, trimmedRenners);
       } else {
         window.alert('Er is geen race geselecteerd');
       }

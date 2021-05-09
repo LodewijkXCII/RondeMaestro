@@ -83,7 +83,6 @@ module.exports = {
   },
 
   updateStartlist(query, race_id) {
-    console.log(query, race_id);
     const put = db(tableNames.startlist)
       .where('race_id', race_id)
       .andWhere('cyclist_id', query.cyclist_id)

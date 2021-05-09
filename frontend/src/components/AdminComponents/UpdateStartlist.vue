@@ -107,7 +107,6 @@ export default {
       );
     },
     async updateSelection(cyclist_id, race) {
-      console.log('race', race);
       const updatedCyclist = this.renners.find(
         (ren) => ren.cyclist_id == cyclist_id
       );
@@ -127,21 +126,18 @@ export default {
       });
     },
     async updateRaceNumber(renner) {
-      console.log(renner);
-      const response = await axios.put(
+      await axios.put(
         `${config.DEV_URL}startlist/update?race_id=${this.race}`,
         renner
       );
-      console.log(response);
     },
     async removeRenner(id, race) {
-      const response = await axios.delete(`${config.DEV_URL}startlist`, {
+      await axios.delete(`${config.DEV_URL}startlist`, {
         data: {
           cyclist_id: id,
           race_id: race,
         },
       });
-      console.log(response);
     },
   },
   async created() {

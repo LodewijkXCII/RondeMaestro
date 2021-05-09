@@ -67,7 +67,7 @@ export default {
   methods: {
     async submitTeam() {
       try {
-        const newTeam = await axios.post(`${config.DEV_URL}teams`, {
+        await axios.post(`${config.DEV_URL}teams`, {
           name: this.team.team_name,
           abbreviation: this.team.abbreviation,
           country_id: this.team.country,
@@ -75,7 +75,6 @@ export default {
           level: this.team.level,
           image_url: `${this.team.team_name.toLowerCase()}-2021.jpeg`,
         });
-        console.log(newTeam.data);
 
         this.team = {};
         this.returnMsg = 'Succesvol toegevoegd';

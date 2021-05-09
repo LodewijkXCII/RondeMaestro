@@ -86,7 +86,6 @@ export default {
       this.refreshRiders();
     },
     editRenner(renner) {
-      console.log(renner, renner.first_name, renner.last_name);
       this.showModal = true;
       this.selectedRider = renner;
     },

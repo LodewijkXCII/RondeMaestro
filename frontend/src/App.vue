@@ -29,6 +29,11 @@ export default {
       return this.$route.name === 'Home';
     },
   },
+  created() {
+    if (this.$store.getters.isAuthenticated) {
+      this.$store.dispatch(USER_REQUEST);
+    }
+  },
 };
 </script>
 

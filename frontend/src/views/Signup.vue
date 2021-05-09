@@ -114,7 +114,6 @@ export default {
             },
           })
             .then((response) => {
-              console.log(response.data);
               if (response.ok) {
                 return response.json();
               }
@@ -141,7 +140,6 @@ export default {
                     'Access-Control-Allow-Origin': '*',
                   },
                 }).then((response) => {
-                  console.log(response.data);
                   if (response.ok) {
                     return response.json();
                   }

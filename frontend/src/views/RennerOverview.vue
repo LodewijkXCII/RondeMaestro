@@ -1,91 +1,93 @@
 <template>
-  <section class="rennerOverview">
+  <div>
     <div v-show="loading">
       <AnimatedCyclist />
     </div>
-    <!-- RIJ 1 -->
-    <div class="rennerOverview-Left grid-3">
-      <!-- Blok links -->
-      <!-- links 1 -->
-      <div class="rennerOverview-Left--left">
-        <div class="PrevNext">
-          <router-link to="/etappe-overzicht">
-            <span>Terug naar het etappe overzicht</span>
-          </router-link>
-        </div>
-        <div class="rennerOverview-Left--title">
-          <div class="label label-alert">
-            <router-link
-              :to="`/etappe-overzicht/${this.$route.params.etappeID}`"
-            >
-              Etappe info
+    <section class="rennerOverview" v-show="!loading">
+      <!-- RIJ 1 -->
+      <div class="rennerOverview-Left grid-3">
+        <!-- Blok links -->
+        <!-- links 1 -->
+        <div class="rennerOverview-Left--left">
+          <div class="PrevNext">
+            <router-link to="/etappe-overzicht">
+              <span>Terug naar het etappe overzicht</span>
             </router-link>
           </div>
-          <h1>Renners selecteren</h1>
+          <div class="rennerOverview-Left--title">
+            <div class="label label-alert">
+              <router-link
+                :to="`/etappe-overzicht/${this.$route.params.etappeID}`"
+              >
+                Etappe info
+              </router-link>
+            </div>
+            <h1>Renners selecteren</h1>
+          </div>
+        </div>
+
+        <!-- Filter -->
+        <section class="rennerOverview-Left--right filter">
+          <FilterOptions
+            :teams="teams"
+            @search-team="searchRidersTeam"
+            @search-rider="updateName"
+          />
+        </section>
+
+        <!-- Einde blok links -->
+      </div>
+      <div class="rennerOverview-Right">
+        <!-- Blok rechts -->
+        <!-- Text kies je selectie -->
+        <!-- Select count -->
+        <!-- Knoppen -->
+        <!-- Einde blok rechts -->
+        <div class="selectedRiders__top " @click="showSelectie()">
+          <h2 :class="{ error: error }">
+            Je selectie voor etappe {{ stage.stage_nr }}
+          </h2>
+          <h4 :class="{ error: error }">
+            Geselecteerd:
+            {{ countSelectie }}
+            <span>/ 8</span>
+          </h4>
+          <strong class="error">{{ errorMsg }}</strong>
+        </div>
+        <div class="selectedRiders__buttons">
+          <button @click.prevent="delSelectie()" class="btn btn-danger">
+            Wis selectie
+          </button>
+
+          <button @click.prevent="submitSelectie()" class="btn btn-succes">
+            {{ sendButton }}
+          </button>
         </div>
       </div>
 
-      <!-- Filter -->
-      <section class="rennerOverview-Left--right filter">
-        <FilterOptions
-          :teams="teams"
-          @search-team="searchRidersTeam"
-          @search-rider="updateName"
-        />
+      <!-- Einde RIJ 1 -->
+      <!-- RIJ 2 -->
+      <section class="grid-3">
+        <div v-for="teams in renners" :key="teams.index" class="team">
+          <!-- TODO ADD SELECTED HIGHLIGHT WHEN SELECTED -->
+          <RennerCard
+            v-for="renner in teams"
+            :key="renner.cyclist_id"
+            :renner="renner"
+            :icon="'plus'"
+            :class="{
+              withdraw: renner.withdraw,
+              selected: renner.selected,
+            }"
+            @click.native="toSelectie(renner)"
+          />
+        </div>
       </section>
+      <SelectedRiders />
 
-      <!-- Einde blok links -->
-    </div>
-    <div class="rennerOverview-Right">
-      <!-- Blok rechts -->
-      <!-- Text kies je selectie -->
-      <!-- Select count -->
-      <!-- Knoppen -->
-      <!-- Einde blok rechts -->
-      <div class="selectedRiders__top " @click="showSelectie()">
-        <h2 :class="{ error: error }">
-          Je selectie voor etappe {{ stage.stage_nr }}
-        </h2>
-        <h4 :class="{ error: error }">
-          Geselecteerd:
-          {{ countSelectie }}
-          <span>/ 8</span>
-        </h4>
-        <strong class="error">{{ errorMsg }}</strong>
-      </div>
-      <div class="selectedRiders__buttons">
-        <button @click.prevent="delSelectie()" class="btn btn-danger">
-          Wis selectie
-        </button>
-
-        <button @click.prevent="submitSelectie()" class="btn btn-succes">
-          {{ sendButton }}
-        </button>
-      </div>
-    </div>
-
-    <!-- Einde RIJ 1 -->
-    <!-- RIJ 2 -->
-    <section class="grid-3">
-      <div v-for="teams in renners" :key="teams.index" class="team">
-        <!-- TODO ADD SELECTED HIGHLIGHT WHEN SELECTED -->
-        <RennerCard
-          v-for="renner in teams"
-          :key="renner.cyclist_id"
-          :renner="renner"
-          :icon="'plus'"
-          :class="{
-            withdraw: renner.withdraw,
-            selected: renner.selected,
-          }"
-          @click.native="toSelectie(renner)"
-        />
-      </div>
+      <!-- Einde RIJ 2 -->
     </section>
-    <SelectedRiders />
-
-    <!-- Einde RIJ 2 -->
-  </section>
+  </div>
 </template>
 
 <script>
@@ -258,25 +260,30 @@ export default {
     const activeUser = window.localStorage.user_id;
     this.removeAll();
 
-    const cyclists = await axios.get(
+    const response = await axios.get(
       `${config.DEV_URL}startlist/race?race_id=${config.race_id}`
     );
 
     /*
-    Renners groepen en sorteren op team,
-    waarna er in de template over alle teams geidereerd kan worden
+      Renners groepen en sorteren op team,
+      waarna er in de template over alle teams geidereerd kan worden
     */
+    const cyclists = response.data.map((renner) => {
+      return {
+        ...renner,
+        selected: false,
+      };
+    });
 
-    this.renners = _(cyclists.data)
+    this.renners = _(cyclists)
       .orderBy((renner) => parseFloat(renner.race_number))
       .groupBy((renner) => renner.team_name)
       .value();
 
-    this.loading = false;
     /* Aparte teams zoeken om in een zoekveld te kunnen brengen */
     this.teams = [
       ...new Map(
-        cyclists.data.map((item) => [
+        cyclists.map((item) => [
           item['team_name'],
           {
             team_name: item.team_name,
@@ -297,6 +304,7 @@ export default {
         });
       }
     }
+    this.loading = false;
   },
 };
 </script>

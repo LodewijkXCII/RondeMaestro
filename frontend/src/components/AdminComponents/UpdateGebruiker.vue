@@ -48,8 +48,6 @@ export default {
   },
   methods: {
     async getUser(id) {
-      console.log(id);
-
       const userRoles = await axios.get(`${config.DEV_URL}user_role`);
       this.user_roles = userRoles.data;
 

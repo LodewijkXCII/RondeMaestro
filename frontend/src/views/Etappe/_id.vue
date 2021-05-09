@@ -45,7 +45,6 @@ export default {
     };
   },
   mounted() {
-    console.log('mounted');
     this.etappe_id = +this.$route.params.etappeID;
     this.getInfo();
 
@@ -64,7 +63,6 @@ export default {
     this.getInfo();
   },
   beforeRouteUpdate(to, from, next) {
-    console.log(to, from, next);
     this.etappe_id = to.params.etappeID;
     this.getInfo();
     next();

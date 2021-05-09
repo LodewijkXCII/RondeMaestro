@@ -33,7 +33,6 @@ const errorMessages = {
 router.post('/signup', async (req, res, next) => {
   // FIND SUBSRIBER ACCOUNT ID
   const { id: userRole } = await roleQuery.getName('public');
-  console.log(userRole);
 
   // SETUP POSTGRESQL USER
   const { name, email, password } = req.body;

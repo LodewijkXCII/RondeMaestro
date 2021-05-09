@@ -44,7 +44,7 @@ router.put('/update', async (req, res, next) => {
     // console.log(body);
 
     const updateStartlist = await queries.updateStartlist(body, race_id);
-    console.log('return:', updateStartlist);
+
     if (updateStartlist) {
       res.json(updateStartlist);
       console.log('Updating');
@@ -85,7 +85,6 @@ router.post('/', async (req, res, next) => {
 
 router.delete('/', async (req, res, next) => {
   try {
-    console.log(req.body);
     const { cyclist_id, race_id } = req.body;
     const removeStartlist = await queries.deleteStartlist(cyclist_id, race_id);
 

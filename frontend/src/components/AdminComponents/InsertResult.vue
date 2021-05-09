@@ -35,7 +35,7 @@
 import axios from 'axios';
 import config from '@/utils/config';
 
-const URL_CYCLIST = `${config.DEV_URL}cyclists?startlist=true`;
+const URL_CYCLIST = `${config.DEV_URL}startlist/race?race_id=${config.race_id}`;
 const URL_RESULT = `${config.DEV_URL}results`;
 
 export default {
@@ -75,6 +75,7 @@ export default {
   },
   methods: {
     etappeSubmit() {
+      // TODO ALS ER AL EEN UITSLAG IS, DEZE LATEN VERWIJDEREN EN NIEUWE UPDATEN
       this.sendMessage = 'Versturen';
       this.uitslag.forEach(async (renner) => {
         try {

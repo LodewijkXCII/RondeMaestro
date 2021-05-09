@@ -106,7 +106,7 @@ export default {
   methods: {
     async submitEtappe() {
       try {
-        const newEtappe = await axios.post(`${config.DEV_URL}stages`, {
+        await axios.post(`${config.DEV_URL}stages`, {
           race_id: this.stage.race_id,
           stage_nr: this.stage.stage_nr,
           start_city: this.stage.start_city,
@@ -117,7 +117,6 @@ export default {
           image_url: this.stage.image_url,
           stage_type_id: this.stage.stage_type_id,
         });
-        console.log(newEtappe.data);
 
         this.stage = {};
         this.returnMsg = 'Succesvol toegevoegd';

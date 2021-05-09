@@ -22,7 +22,6 @@ const fields = [
 
 module.exports = {
   find(query) {
-    console.log(query);
     const cyclistQuery = db(cyclist)
       .from(cyclist)
       .select(fields)

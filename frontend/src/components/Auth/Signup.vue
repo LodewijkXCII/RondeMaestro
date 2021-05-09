@@ -108,7 +108,6 @@ export default {
             'Access-Control-Allow-Origin': '*',
           },
         });
-        console.log(postUser);
         this.$router.push('/dashboard');
       } catch (error) {
         console.error(error);

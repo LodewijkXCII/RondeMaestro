@@ -44,12 +44,12 @@ export default {
   async beforeRouteUpdate(to, from, next) {
     this.etappe_id = +to.params.etappeID;
     await this.getData();
-    console.log(this.etappe_id);
+
     next();
   },
   mounted() {
     this.etappe_id = +this.$route.params.etappeID;
-    console.log(this.etappe_id);
+
     this.getData();
   },
 

@@ -78,7 +78,6 @@ export default {
           axios
             .post(`${config.DEV_URL}auth/signin`, data, axiosHeaders)
             .then((response) => {
-              console.log(response);
               if (response.status == 200) {
                 localStorage.token = response.data.token;
 

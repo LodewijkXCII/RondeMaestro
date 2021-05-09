@@ -149,7 +149,6 @@ export default {
       const country_id = this.countries.find(
         ({ abbreviation }) => abbreviation === country_abr
       );
-      console.log(country_id.id);
       // UPDATE TEAM
       const update = await axios.put(`${config.DEV_URL}teams/${this.team.id}`, {
         abbreviation: this.team.abbreviation,

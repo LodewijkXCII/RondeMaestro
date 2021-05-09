@@ -21,6 +21,7 @@
         autocomplete="off"
         required
       />
+
       <label for="team">Team:</label>
       <select name="team" id="team" v-model="renner.team" required>
         <option :value="team.id" v-for="team in teams" :key="team.index">
@@ -87,7 +88,7 @@ export default {
   methods: {
     async submitRenner() {
       try {
-        const newRenner = await axios.post(`${config.DEV_URL}cyclists`, {
+        await axios.post(`${config.DEV_URL}cyclists`, {
           first_name: this.renner.first_name,
           last_name: this.renner.last_name,
           country_id: this.renner.country,
@@ -97,7 +98,6 @@ export default {
             config.currentYear
           }.jpeg`,
         });
-        console.log(newRenner.data);
 
         this.renner = {};
         this.returnMsg = 'Succesvol toegevoegd';
