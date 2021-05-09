@@ -55,7 +55,9 @@ export default {
     };
   },
   created() {
-    fetch(`${config.DEV_URL}stages?race=1&year=${config.currentYear}`)
+    fetch(
+      `${config.DEV_URL}stages?race=${config.race_id}&year=${config.currentYear}`
+    )
       .then((response) => response.json())
       .then((result) => {
         this.etappes = result.sort((a, b) => (a.date > b.date ? 1 : -1));

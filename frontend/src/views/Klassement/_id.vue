@@ -12,7 +12,7 @@
         </div>
       </section>
 
-      <Main :scores="scores" :key="etappe.index" :etappe="+etappe" />
+      <Main :scores="scores" :key="etappe.index" :etappe="etappe_id" />
     </main>
     <Aside :uitslag="uitslag" :totalScores="totalScores" :key="etappe.index" />
   </section>
@@ -33,7 +33,7 @@ export default {
       uitslag: [],
       selection: [],
       componentKey: 0,
-      etappe: null,
+      etappe: {},
       etappe_id: null,
     };
   },
@@ -44,48 +44,48 @@ export default {
   async beforeRouteUpdate(to, from, next) {
     this.etappe_id = +to.params.etappeID;
     await this.getData();
-
     next();
   },
+
   mounted() {
     this.etappe_id = +this.$route.params.etappeID;
-
     this.getData();
   },
 
   methods: {
-    async testing() {
-      const c = +this.$route.params.etappeID;
-      // TODO UPDATE TO DYNAMIC NEWSTAGE
-      const newStage = +c + 1;
-      await this.$router.push({
-        name: 'klassement-single',
-        params: { etappeID: +newStage },
-      });
-    },
+    // async testing() {
+    //   const c = +this.$route.params.etappeID;
+    //   // TODO UPDATE TO DYNAMIC NEWSTAGE
+    //   const newStage = +c + 1;
+    //   await this.$router.push({
+    //     name: 'klassement-single',
+    //     params: { etappeID: +newStage },
+    //   });
+    // },
     async getData() {
-      this.etappe = {};
-      let etappe;
+      let currentEtappe;
       if (this.stage) {
-        etappe = this.stage.id;
+        currentEtappe = this.stage.id;
         this.etappe = this.stage;
       } else {
         const res = await axios.get(
           `${config.DEV_URL}stages/${this.etappe_id}`
         );
         this.etappe = res.data;
-        etappe = res.data.id;
+        currentEtappe = res.data.id;
       }
 
       const user_id = window.localStorage.user_id;
 
       await axios
-        .get(`${config.DEV_URL}entries?stage_id=${etappe}&users_id=${user_id}`)
+        .get(
+          `${config.DEV_URL}entries?stage_id=${currentEtappe}&users_id=${user_id}`
+        )
         .then((result) => {
           this.selection = result.data;
         });
       await axios
-        .get(`${config.DEV_URL}results/totalscore?stage_id=${etappe}`)
+        .get(`${config.DEV_URL}results/totalscore?stage_id=${currentEtappe}`)
         .then((result) => {
           const response = result.data.sort((a, b) => b.sum - a.sum);
           this.scores = response.map((user) => ({ ...user, selection: [] }));
@@ -94,7 +94,7 @@ export default {
         this.totalScores = result.data.sort((a, b) => b.sum - a.sum);
       });
       await axios
-        .get(`${config.DEV_URL}results?stage_id=${etappe}`)
+        .get(`${config.DEV_URL}results?stage_id=${currentEtappe}`)
         .then((result) => {
           this.uitslag = result.data;
         });

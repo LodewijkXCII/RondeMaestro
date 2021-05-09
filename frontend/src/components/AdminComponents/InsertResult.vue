@@ -70,7 +70,9 @@ export default {
         a.race_number > b.race_number ? 1 : -1
       );
     });
-    const stages = await axios.get(`${config.DEV_URL}stages`);
+    const stages = await axios.get(
+      `${config.DEV_URL}stages?race=${config.race_id}&year=${config.currentYear}`
+    );
     this.stages = stages.data;
   },
   methods: {
