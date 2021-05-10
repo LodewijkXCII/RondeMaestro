@@ -27,7 +27,13 @@ router.post('/', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   try {
-    const updatedResult = await queries.update(req.body, req.params.id);
+    const query = {
+      position: req.body.position,
+      points: req.body.points,
+      stage_id: req.body.stage_id,
+      cyclist_id: req.body.cyclist_id,
+    };
+    const updatedResult = await queries.update(query, req.params.id);
     if (updatedResult) {
       res.json(updatedResult);
       console.log('Updating');

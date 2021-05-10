@@ -147,6 +147,7 @@ export default {
     },
     toSelectie(renner, index) {
       if (this.selectie.includes(renner)) {
+        renner.selected = false;
         this.removeSelectie(this.selectie.indexOf(renner));
       } else if (this.countSelectie >= 10) {
         console.error('teveel!');
@@ -156,6 +157,7 @@ export default {
 
         console.error(renner, 'kan niet he');
       } else {
+        renner.selected = true;
         this.addToSelectie(renner);
       }
     },
@@ -275,35 +277,42 @@ export default {
       };
     });
 
-    this.renners = _(cyclists)
-      .orderBy((renner) => parseFloat(renner.race_number))
-      .groupBy((renner) => renner.team_name)
-      .value();
-
-    /* Aparte teams zoeken om in een zoekveld te kunnen brengen */
-    this.teams = [
-      ...new Map(
-        cyclists.map((item) => [
-          item['team_name'],
-          {
-            team_name: item.team_name,
-            team_id: item.team_id,
-            team_img: item.team_img,
-          },
-        ])
-      ).values(),
-    ];
-
     if (activeUser) {
       const entries = await axios.get(
         `${config.DEV_URL}entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
       );
-      if (entries) {
+      if (entries.status === 200) {
         entries.data.forEach((cyclist) => {
+          const riderIndex = cyclists.findIndex(
+            (r) => r.cyclist_id == cyclist.cyclist_id
+          );
+          cyclists[riderIndex].selected = true;
+
           this.addToSelectie(cyclist);
         });
+        console.log(cyclists[0]);
+
+        this.renners = _(cyclists)
+          .orderBy((renner) => parseFloat(renner.race_number))
+          .groupBy((renner) => renner.team_name)
+          .value();
+
+        /* Aparte teams zoeken om in een zoekveld te kunnen brengen */
+        this.teams = [
+          ...new Map(
+            cyclists.map((item) => [
+              item['team_name'],
+              {
+                team_name: item.team_name,
+                team_id: item.team_id,
+                team_img: item.team_img,
+              },
+            ])
+          ).values(),
+        ];
       }
     }
+
     this.loading = false;
   },
 };

@@ -165,6 +165,16 @@ export default {
       color: lightgray;
     }
   }
+
+  &.selected {
+    background: lighten($color: $primary-color, $amount: 5);
+    color: $light-color;
+    border-bottom: 1px solid darken($color: $primary-color, $amount: 1);
+
+    svg {
+      color: $white-color !important;
+    }
+  }
 }
 .renner__img {
   margin: 0.5em auto;

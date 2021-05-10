@@ -4,7 +4,12 @@
     <label for="race">Kies de etappe:</label>
     <div class="formInline">
       <!-- <input type="number" min="2020" value="2020" v-model.number="year" /> -->
-      <select name="stage" id="stage" v-model="stage">
+      <select
+        name="stage"
+        id="stage"
+        v-model="stage"
+        @change="searchResult(stage)"
+      >
         <option :value="stage.id" v-for="stage in stages" :key="stage.index">
           {{ stage.stage_nr }}. {{ stage.start_city }}-{{ stage.finish_city }}
         </option>
@@ -25,7 +30,7 @@
       </select>
     </div>
 
-    <button class="btn btn-alert" v-on:click="etappeSubmit()">
+    <button class="btn btn-alert" v-on:click="etappeSubmit(stage)">
       {{ sendMessage }}
     </button>
   </section>
@@ -76,12 +81,36 @@ export default {
     this.stages = stages.data;
   },
   methods: {
-    etappeSubmit() {
-      // TODO ALS ER AL EEN UITSLAG IS, DEZE LATEN VERWIJDEREN EN NIEUWE UPDATEN
+    async searchResult(stage) {
+      const response = await axios(
+        `${config.DEV_URL}/results?stage_id=${stage}`
+      );
+      /* 
+        Uitslag vergelijken met renners. Daarna toevoegen aan uitslag
+      */
+
+      console.log(response.data);
+    },
+    async etappeSubmit(stage) {
+      console.log(stage);
+      const { data: prevResult } = await axios.get(
+        `${config.DEV_URL}results?stage_id=${stage}`
+      );
+      console.log(prevResult);
+
+      prevResult.forEach(async (res) => {
+        try {
+          console.log(res);
+          await axios.put(`${config.DEV_URL}results/${res.id}`);
+        } catch (error) {
+          console.errro(error);
+        }
+      });
+
       this.sendMessage = 'Versturen';
       this.uitslag.forEach(async (renner) => {
         try {
-          const response = await axios.post(URL_RESULT, {
+          await axios.post(URL_RESULT, {
             position: renner.position,
             points: renner.points,
             stage_id: this.stage,

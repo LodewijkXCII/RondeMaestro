@@ -53,6 +53,10 @@ module.exports = {
             .toISOString()
             .replace('T', ' ')
             .replace('Z', ''),
+          deleted_at: new Date(Date.now())
+            .toISOString()
+            .replace('T', ' ')
+            .replace('Z', ''),
         },
         ['points', 'id', 'stage_id', 'created_at', 'deleted_at']
       );
