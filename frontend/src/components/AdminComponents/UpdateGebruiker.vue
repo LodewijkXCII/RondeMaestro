@@ -38,7 +38,7 @@
 <script>
 import routes from '@/api/routes';
 
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
   data() {
@@ -48,17 +48,17 @@ export default {
     };
   },
   computed: {
-    ...mapGetters['getProfile'],
+    ...mapGetters(['getProfile']),
   },
   methods: {
-    async getUser(id) {
-      const userRoles = await routes.find(`user_role`);
-      this.user_roles = userRoles.data;
+    // async getUser(id) {
+    //   const userRoles = await routes.find(`user_role`);
+    //   this.user_roles = userRoles.data;
 
-      this.user = {};
-      const selectedUser = await routes.find(`users/${id}`);
-      this.user = selectedUser.data;
-    },
+    //   this.user = {};
+    //   const selectedUser = await routes.find(`users/${this.getProfile.id}`);
+    //   this.user = selectedUser.data;
+    // },
 
     async updateUser() {
       // UPDATE USER
@@ -79,7 +79,9 @@ export default {
   },
 
   async created() {
+    console.log('starting', this.getProfile);
     const activeUser = this.getProfile.id;
+    console.log(activeUser);
 
     const response = await routes.find(`users/${activeUser}`);
     this.user = response.data;

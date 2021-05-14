@@ -374,11 +374,13 @@ export default {
     margin-bottom: 0;
   }
   .rennerOverview {
+    max-width: 2000px;
     display: grid;
     grid-template-columns: 3fr 1fr;
     row-gap: 1em;
     column-gap: 7em;
     padding: 0.5em 1.5em;
+    margin: 2rem auto 0;
     &-Left {
       &--left {
         display: flex;
