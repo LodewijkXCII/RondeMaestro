@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/', async (req, res) => {
   const userRoles = await queries.find();
-  console.log(userRoles);
+
   res.json(userRoles);
 });
 

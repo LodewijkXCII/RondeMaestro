@@ -10,7 +10,7 @@ class User extends Model {
 
   static get relationMappings() {
     const UserRole = require('../user_role/user_role.model');
-    console.log('hello World');
+
     return {
       user_role: {
         relation: Model.HasOneRelation,

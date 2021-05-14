@@ -3,8 +3,6 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Dashboard from '../views/Dashboard.vue';
 import Auth from '../views/Auth';
-// import Signin from '../views/Signin.vue';
-// import Signup from '../views/Signup.vue';
 import EtappeOverzicht from '../views/Etappe/EtappeOverzicht.vue';
 import EtappeSingle from '../views/Etappe/_id.vue';
 import Selectie from '../views/RennerOverview.vue';
@@ -15,6 +13,7 @@ import AlgKlassement from '../views/Klassement/Algemeen.vue';
 import KlassementSingle from '../views/Klassement/_id.vue';
 import Spelregels from '../views/Spelregels/Spelregels.vue';
 import account from '../views/Account/Account.vue';
+import store from '@/store';
 
 Vue.use(VueRouter);
 
@@ -24,7 +23,7 @@ const routes = [
     name: 'Home',
     component: Home,
     beforeEnter: (to, from, next) => {
-      if (localStorage.user_id) {
+      if (store.getters.isAuthenticated) {
         next({
           path: '/dashboard',
         });
@@ -53,22 +52,6 @@ const routes = [
       guest: true,
     },
   },
-  // {
-  //   path: '/signin',
-  //   name: 'Signin',
-  //   component: Signin,
-  //   meta: {
-  //     guest: true,
-  //   },
-  // },
-  // {
-  //   path: '/signup',
-  //   name: 'Signup',
-  //   component: Signup,
-  //   meta: {
-  //     guest: true,
-  //   },
-  // },
   {
     path: '/etappe-overzicht',
     name: 'etappe-overzicht',
@@ -159,6 +142,7 @@ router.beforeEach((to, from, next) => {
       });
     } else if (to.matched.some((record) => record.meta.isAdmin)) {
       if (
+        // TODO GET USER_TYPE_ID FROM STORE
         +localStorage.user_type_id === 3 ||
         +localStorage.user_type_id === 6
       ) {

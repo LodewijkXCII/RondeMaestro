@@ -35,8 +35,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-import config from '@/utils/config';
+import routes from '@/api/routes';
 
 export default {
   props: {
@@ -52,9 +51,8 @@ export default {
   methods: {
     async showSelectie(id, index) {
       if (this.scores[index].selection.length === 0) {
-        const entry = await axios.get(
-          `${config.DEV_URL}entries/getpoints?users_id=${id}&stage_id=${+this
-            .etappe}`
+        const entry = await routes.find(
+          `entries/getpoints?users_id=${id}&stage_id=${+this.etappe}`
         );
         if (entry) {
           const sortedData = entry.data.sort((a, b) =>

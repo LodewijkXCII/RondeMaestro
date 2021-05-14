@@ -12,6 +12,7 @@
 import NavBar from '@/components/NavBar.vue';
 import BottomNav from '@/components/BottomNav.vue';
 import Footer from './components/Footer.vue';
+import { USER_REQUEST } from '@/store/actions/user';
 
 export default {
   components: {

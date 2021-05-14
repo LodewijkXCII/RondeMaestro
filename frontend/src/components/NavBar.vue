@@ -2,7 +2,7 @@
   <nav>
     <div class="container">
       <router-link :to="{ name: 'Home' }" class="brand">
-        <img :src="require('@/assets/logo.png')" />
+        <img :src="require('@/assets/rondemaestro_giro_logo.png')" />
       </router-link>
       <div class="leftNav">
         <div class="navItem">
@@ -35,7 +35,9 @@
                 Mijn account</router-link
               >
             </li>
-            <li class="logout" @click="logout">Afmelden</li>
+            <li class="logout" v-if="isAuthenticated" @click="logout">
+              Afmelden
+            </li>
           </ul>
         </div>
         <div
@@ -68,7 +70,7 @@
           </ul>
         </div>
         <div class="rightNav__fixed">
-          <div class="rightNav__fixed--user" v-if="loggedIn">
+          <div class="rightNav__fixed--user" v-if="isProfileLoaded">
             <div
               class="rightNav__fixed--user username"
               @click="toggle = !toggle"
@@ -79,14 +81,17 @@
             </div>
           </div>
 
-          <div class="rightNav__fixed--sign" v-else>
+          <div
+            class="rightNav__fixed--sign"
+            v-if="!isAuthenticated && !authLoading"
+          >
             <router-link
-              :to="{ name: 'Signup' }"
+              :to="{ name: 'Auth' }"
               class="rightNav__fixed--sign nav-link"
               >Inschrijven</router-link
             >
             <router-link
-              :to="{ name: 'Signin' }"
+              :to="{ name: 'Auth' }"
               class="rightNav__fixed--sign nav-link"
               >Aanmelden</router-link
             >
@@ -105,12 +110,11 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
+import { AUTH_LOGOUT } from '@/store/actions/auth';
 
 export default {
   data() {
     return {
-      loggedIn: false,
-      username: '',
       isAdmin: false,
       toggle: false,
       isMobile: false,
@@ -119,50 +123,31 @@ export default {
   },
 
   computed: {
-    ...mapState(['userName', 'userType']),
-    ...mapGetters(['getUserName']),
-    setUserName() {
-      return this.$store.getters.getUserName;
-    },
-  },
-
-  watch: {
-    userName(userName, newValue, oldValue) {
-      this.loggedIn = true;
-      console.log(`Updating from ${oldValue} to ${newValue}`);
-      this.username = userName;
-    },
-    userType(userType) {
-      this.isAdmin = true;
-    },
+    ...mapGetters(['getProfile', 'isAuthenticated', 'isProfileLoaded']),
+    ...mapState({
+      authLoading: (state) => state.auth.status === 'loading',
+      username: (state) => state.user.profile.name,
+    }),
   },
 
   methods: {
     logout() {
-      let currentPath = this.$route.path;
-
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      localStorage.removeItem('user_id');
-      localStorage.removeItem('user_type_id');
-      if (currentPath !== '/') {
-        this.$router.go('/');
-      }
+      this.$store.dispatch(AUTH_LOGOUT).then(() => this.$router.push('/auth'));
     },
   },
-  mounted() {
-    this.username = this.userName;
-    this.username = window.localStorage.user;
-    if (this.userType) {
-      this.isAdmin = true;
-    }
-    if (this.username) {
-      this.loggedIn = true;
-    }
-    if (window.localStorage.user_type_id == 3) {
-      this.isAdmin = true;
-    }
-  },
+  // mounted() {
+  //   this.username = this.userName;
+  //   this.username = window.localStorage.user;
+  //   if (this.userType) {
+  //     this.isAdmin = true;
+  //   }
+  //   if (this.username) {
+  //     this.loggedIn = true;
+  //   }
+  //   if (window.localStorage.user_type_id == 3) {
+  //     this.isAdmin = true;
+  //   }
+  // },
 };
 </script>
 

@@ -110,8 +110,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-import config from '@/utils/config';
+import routes from '@/api/routes';
 
 export default {
   name: 'UpdateStage',
@@ -131,15 +130,15 @@ export default {
   methods: {
     async getEtappes() {
       this.etappes = [];
-      const stages = await axios.get(
-        `${config.DEV_URL}stages?race=${this.race}&year=${this.year}`
+      const stages = await routes.find(
+        `stages?race=${this.race}&year=${this.year}`
       );
       this.etappes = stages.data;
     },
 
     async updateEtappe(id) {
       // UPDATE ETAPPE
-      const update = await axios.put(`${config.DEV_URL}stages/${id}`, {
+      const update = await routes.update(`stages/${id}`, {
         race_id: this.etappe.race_id,
         stage_nr: this.etappe.stage_nr,
         start_city: this.etappe.start_city,
@@ -157,15 +156,15 @@ export default {
         return;
       } else {
         this.message = 'Er is iets mis gegaan.';
-        console.log(update);
+        console.error(update);
       }
     },
   },
   async created() {
-    const response = await axios.get(`${config.DEV_URL}races`);
+    const response = await routes.find(`races`);
     this.races = response.data;
 
-    const stage_types = await axios.get(`${config.DEV_URL}stage_type`);
+    const stage_types = await routes.find(`stage_type`);
     this.stage_types = stage_types.data;
   },
 };

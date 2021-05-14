@@ -41,8 +41,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-import config from '../../utils/config';
+import routes from '@/api/routes';
 
 export default {
   props: {
@@ -72,9 +71,7 @@ export default {
     },
   },
   async created() {
-    const { data } = await axios.get(
-      `${config.DEV_URL}cyclists?team=${this.team.id}`
-    );
+    const { data } = await routes.find(`cyclists?team=${this.team.id}`);
     this.renners = data;
   },
 };

@@ -45,7 +45,7 @@
         <!-- Einde blok rechts -->
         <div class="selectedRiders__top " @click="showSelectie()">
           <h2 :class="{ error: error }">
-            Je selectie voor etappe {{ stage.stage_nr }}
+            <!-- Je selectie voor etappe {{ stage.stage_nr }} -->
           </h2>
           <h4 :class="{ error: error }">
             Geselecteerd:
@@ -69,7 +69,6 @@
       <!-- RIJ 2 -->
       <section class="grid-3">
         <div v-for="teams in renners" :key="teams.index" class="team">
-          <!-- TODO ADD SELECTED HIGHLIGHT WHEN SELECTED -->
           <RennerCard
             v-for="renner in teams"
             :key="renner.cyclist_id"
@@ -83,7 +82,7 @@
           />
         </div>
       </section>
-      <SelectedRiders />
+      <SelectedRiders @up="toggleSelected(test)" />
 
       <!-- Einde RIJ 2 -->
     </section>
@@ -96,7 +95,7 @@ import RennerCard from '@/components/Renner.vue';
 import FilterOptions from '@/components/FilterOptions.vue';
 import AnimatedCyclist from '@/components/AnimatedCyclist.vue';
 
-import axios from 'axios';
+import routes from '@/api/routes';
 import _ from 'lodash';
 
 import config from '@/utils/config';
@@ -130,11 +129,11 @@ export default {
     };
   },
   computed: {
-    ...mapState(['selectie', 'stage', 'searchRenner', 'searchTeam']),
-    ...mapGetters(['countSelectie']),
+    ...mapState(['renner', 'stage', 'searchRenner', 'searchTeam']),
+    ...mapGetters(['countSelectie', 'getProfile']),
   },
   methods: {
-    ...mapMutations(['addToSelectie', 'setEtappes']),
+    ...mapMutations(['addToSelectie', 'setEtappes', 'removeFromSelectie']),
     ...mapActions(['removeSelectie']),
     ...mapActions(['removeAll']),
 
@@ -145,10 +144,14 @@ export default {
     delSelectie() {
       this.removeAll();
     },
+    toggleSelected(test) {
+      // TODO FIX HIGHLIGHT SELECTIONS
+      console.log('joejoe', test);
+    },
     toSelectie(renner, index) {
-      if (this.selectie.includes(renner)) {
+      if (this.renner.selectie.includes(renner)) {
         renner.selected = false;
-        this.removeSelectie(this.selectie.indexOf(renner));
+        this.removeFromSelectie(this.renner.selectie.indexOf(renner));
       } else if (this.countSelectie >= 10) {
         console.error('teveel!');
       } else if (renner.withdraw == true) {
@@ -179,7 +182,7 @@ export default {
       // );
 
       this.team = 0;
-      const searchrider = await axios.get(
+      const searchrider = await routes.find(
         `${config.DEV_URL}startlist/race?race_id=${config.race_id}&name=${this.name}`
       );
       this.renners = _(searchrider.data)
@@ -190,7 +193,7 @@ export default {
       // searchrider.data.sort((a, b) => (a.race_number > b.race_number ? 1 : -1));
     },
     async searchRidersTeam(team) {
-      const searchrider = await axios.get(
+      const searchrider = await routes.find(
         `${config.DEV_URL}startlist/race?race_id=${config.race_id}&team=${team}`
       );
 
@@ -201,7 +204,8 @@ export default {
     },
 
     async submitSelectie() {
-      const activeUser = window.localStorage.user_id;
+      const activeUser = this.getProfile.id;
+
       const submitTime = new Date();
       const stagesTime = new Date(this.stage.date);
 
@@ -219,39 +223,36 @@ export default {
         }, 5000);
       } else {
         this.sendButton = 'Versturen...';
-        await axios
-          .get(
-            `${config.DEV_URL}entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
-          )
-          .then((response) => {
-            response.data.forEach((selected) => {
-              axios.put(
-                `${config.DEV_URL}entries?users_id=${this.activeUser}&stage_id=${this.$route.params.etappeID}`,
-                {
-                  users_id: +activeUser,
-                  stage_id: +this.$route.params.etappeID,
-                  cyclist_id: selected.cyclist_id,
-                }
-              );
-            });
-          });
+        const response = await routes.find(
+          `entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
+        );
 
-        await this.selectie.forEach((renner) => {
-          axios
-            .post(`${config.DEV_URL}entries`, {
+        response.data.forEach(async (selected) => {
+          await routes.update(
+            `entries?users_id=${this.activeUser}&stage_id=${this.$route.params.etappeID}`,
+            {
+              users_id: +activeUser,
+              stage_id: +this.$route.params.etappeID,
+              cyclist_id: selected.cyclist_id,
+            }
+          );
+        });
+
+        await this.selectie.forEach(async (renner) => {
+          try {
+            await routes.create(`entries`, {
               users_id: +activeUser,
               stage_id: +this.$route.params.etappeID,
               cyclist_id: +renner.cyclist_id,
-            })
-            .then(() => {
-              this.sendButton = 'verstuurd';
-              setTimeout(() => (this.sendButton = 'verstuur'), 5000);
-              this.removeAll();
-              this.$router.push({ name: 'etappe-overzicht' }).catch(() => {});
-            })
-            .catch((error) => {
-              this.error = error.message;
             });
+
+            this.sendButton = 'verstuurd';
+            setTimeout(() => (this.sendButton = 'verstuur'), 5000);
+            this.removeAll();
+            this.$router.push({ name: 'etappe-overzicht' }).catch(() => {});
+          } catch (error) {
+            console.error(error);
+          }
         });
       }
     },
@@ -259,11 +260,12 @@ export default {
 
   async created() {
     this.loading = true;
-    const activeUser = window.localStorage.user_id;
+
+    const activeUser = this.getProfile.id;
     this.removeAll();
 
-    const response = await axios.get(
-      `${config.DEV_URL}startlist/race?race_id=${config.race_id}`
+    const response = await routes.find(
+      `startlist/race?race_id=${config.race_id}`
     );
 
     /*
@@ -278,7 +280,7 @@ export default {
     });
 
     if (activeUser) {
-      const entries = await axios.get(
+      const entries = await routes.find(
         `${config.DEV_URL}entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
       );
       if (entries.status === 200) {
@@ -290,7 +292,6 @@ export default {
 
           this.addToSelectie(cyclist);
         });
-        console.log(cyclists[0]);
 
         this.renners = _(cyclists)
           .orderBy((renner) => parseFloat(renner.race_number))

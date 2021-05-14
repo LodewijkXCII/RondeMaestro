@@ -37,11 +37,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+import routes from '@/api/routes';
 import config from '@/utils/config';
-
-const URL_CYCLIST = `${config.DEV_URL}startlist/race?race_id=${config.race_id}`;
-const URL_RESULT = `${config.DEV_URL}results`;
 
 export default {
   data() {
@@ -70,21 +67,21 @@ export default {
     };
   },
   async created() {
-    await axios.get(URL_CYCLIST).then((renners) => {
-      this.renners = renners.data.sort((a, b) =>
-        a.race_number > b.race_number ? 1 : -1
-      );
-    });
-    const stages = await axios.get(
-      `${config.DEV_URL}stages?race=${config.race_id}&year=${config.currentYear}`
+    const renners = await routes.find(
+      `startlist/race?race_id=${config.race_id}`
+    );
+    this.renners = renners.data.sort((a, b) =>
+      a.race_number > b.race_number ? 1 : -1
+    );
+
+    const stages = await routes.find(
+      `stages?race=${config.race_id}&year=${config.currentYear}`
     );
     this.stages = stages.data;
   },
   methods: {
     async searchResult(stage) {
-      const response = await axios(
-        `${config.DEV_URL}/results?stage_id=${stage}`
-      );
+      const response = await routes.find(`results?stage_id=${stage}`);
       /* 
         Uitslag vergelijken met renners. Daarna toevoegen aan uitslag
       */
@@ -93,35 +90,40 @@ export default {
     },
     async etappeSubmit(stage) {
       console.log(stage);
-      const { data: prevResult } = await axios.get(
-        `${config.DEV_URL}results?stage_id=${stage}`
+      const { data: prevResult } = await routes.find(
+        `results?stage_id=${stage}`
       );
       console.log(prevResult);
 
       prevResult.forEach(async (res) => {
         try {
           console.log(res);
-          await axios.put(`${config.DEV_URL}results/${res.id}`);
+          await routes.update(`results/${res.id}`, {
+            position: res.position,
+            points: res.points,
+            stage_id: res.stage_id,
+            cyclist_id: res.cyclist_id,
+          });
         } catch (error) {
-          console.errro(error);
+          console.error(error);
         }
       });
 
       this.sendMessage = 'Versturen';
       this.uitslag.forEach(async (renner) => {
         try {
-          await axios.post(URL_RESULT, {
+          await routes.create('results', {
             position: renner.position,
             points: renner.points,
             stage_id: this.stage,
             cyclist_id: renner.id,
           });
-          await axios.put(`${config.DEV_URL}stages/${this.stage}`, {
-            setDone: true,
-          });
         } catch (error) {
           console.error(error.message);
         }
+      });
+      await routes.update(`stages/${this.stage}`, {
+        setDone: true,
       });
       this.sendMessage = 'Verstuurd';
     },

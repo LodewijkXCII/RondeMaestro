@@ -3,7 +3,7 @@
     <div class="footer footer__Top">
       <div class="footer__Top--left">
         <router-link :to="{ name: 'Home' }" class="brand">
-          <img :src="require('@/assets/logo.png')" />
+          <img :src="require('@/assets/rondemaestro_giro_logo.png')" />
         </router-link>
         <h2>
           Ronde Maestro, h&eacute;t wielerspel waarbij je dagelijks dezelfde
@@ -19,7 +19,7 @@
         </ul>
       </div>
 
-      <router-link :to="{ name: 'Signup' }" class="btn btn-primary"
+      <router-link :to="{ name: 'Auth' }" class="btn btn-primary"
         >Aanmelden</router-link
       >
     </div>

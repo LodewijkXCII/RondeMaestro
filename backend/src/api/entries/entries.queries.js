@@ -69,7 +69,8 @@ module.exports = {
       .leftOuterJoin(result, {
         'entry.cyclist_id': 'result.cyclist_id',
         'entry.stage_id': 'result.stage_id',
-      });
+      })
+      .whereNull('entry.deleted_at');
 
     if (users_id) {
       findPointsQuery.where('users_id', users_id);

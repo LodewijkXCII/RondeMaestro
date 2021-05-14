@@ -146,6 +146,7 @@ router.post('/refresh_token', async (req, res, next) => {
 
       //send error if no token found:
       if (!tokenDoc) {
+        await Token.query().delete().where('token', refreshToken);
         return res.status(401).json({ error: 'Token expired!' });
       } else {
         //extract payload from refresh token and generate a new access token and send it

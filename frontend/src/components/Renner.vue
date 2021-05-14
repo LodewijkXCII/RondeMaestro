@@ -36,7 +36,7 @@
       </div>
     </div>
     <div class="renner__button">
-      <font-awesome-icon :icon="icon" />
+      <font-awesome-icon :icon="icon" @click="toggleSelected(renner)" />
     </div>
   </div>
 </template>
@@ -59,7 +59,11 @@ export default {
       this.selectie = state.selectie;
     },
   },
-  methods: {},
+  methods: {
+    toggleSelected(renner) {
+      this.$emit('remove', renner);
+    },
+  },
 };
 </script>
 
@@ -79,7 +83,7 @@ export default {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    border: 1px solid #3fc1c9;
+    border: 1px solid $secondary-color;
     overflow: hidden;
 
     img {
@@ -176,16 +180,16 @@ export default {
     }
   }
 }
-.renner__img {
-  margin: 0.5em auto;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 1px solid #3fc1c9;
-  overflow: hidden;
+// .renner__img {
+//   margin: 0.5em auto;
+//   width: 50px;
+//   height: 50px;
+//   border-radius: 50%;
+//   border: 1px solid #3fc1c9;
+//   overflow: hidden;
 
-  img {
-    max-width: 100%;
-  }
-}
+//   img {
+//     max-width: 100%;
+//   }
+// }
 </style>

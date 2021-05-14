@@ -31,8 +31,9 @@ router.get('/:id', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   const { id } = req.params;
+  console.log(req.body);
   /* First check if user want to change status of stage, else update entire stage */
-  if (req.body.setDone === true) {
+  if (req.body.setDone) {
     try {
       const updateStage = await queries.setDone({
         id,

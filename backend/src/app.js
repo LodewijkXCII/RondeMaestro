@@ -13,7 +13,7 @@ const project = require('./constants/project');
 
 const app = express();
 
-const allowedOrigins = [process.env.cORS, 'https://www.rondemaestro.com'];
+const allowedOrigins = [process.env.CORS, 'https://www.rondemaestro.com'];
 
 app.use(morgan('tiny'));
 app.use(compression());
@@ -22,7 +22,7 @@ app.use(
   cors({
     origin: allowedOrigins,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    headers: 'Origin, X-Requested-With, Content-Type, Accept',
+    headers: 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
   })
 );
 app.use(express.urlencoded({ extended: false }));

@@ -68,8 +68,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-import config from '../../utils/config';
+import routes from '@/api/routes';
 
 export default {
   props: {
@@ -85,9 +84,7 @@ export default {
   },
   methods: {
     async searchRiders(id) {
-      const teamMembers = await axios.get(
-        `${config.DEV_URL}cyclists?team=${id}`
-      );
+      const teamMembers = await routes.find(`cyclists?team=${id}`);
 
       this.teamMembers = teamMembers.data.map((renner) => ({
         ...renner,
@@ -95,20 +92,19 @@ export default {
       }));
     },
     async addRennerToTeam(renner) {
-      const addRenner = axios
-        .put(`${config.DEV_URL}cyclists/${renner}`, {
+      try {
+        const response = await routes.update(`cyclists/${renner}`, {
           team_id: this.team_id,
-        })
-        .then((response) => {
-          if (response.status == 200 || response.status == 204) {
-            this.$emit('close');
-          } else {
-            console.log('er is iets mis gegaan');
-          }
-        })
-        .catch((error) => {
-          return { error };
         });
+
+        if (response.status == 200 || response.status == 204) {
+          this.$emit('close');
+        } else {
+          console.error('er is iets mis gegaan');
+        }
+      } catch (error) {
+        console.error(error);
+      }
     },
     toggleSelected(i) {
       this.teamMembers[i].selected = !this.teamMembers[i].selected;

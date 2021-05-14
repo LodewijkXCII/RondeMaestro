@@ -1,7 +1,6 @@
 const db = require('../../db');
-const tableNames = require('../../constants/tableNames');
 const { update } = require('../../db');
-const { stage } = require('../../constants/tableNames');
+const { stage, race, stage_type } = require('../../constants/tableNames');
 
 const fields = [
   'stage.id',
@@ -20,11 +19,11 @@ const fields = [
 
 module.exports = {
   find(query) {
-    const stageQuery = db(tableNames.stage)
+    const stageQuery = db(stage)
       .select(fields)
       // .select()
-      .join(tableNames.race, 'stage.race_id', 'race.id')
-      .join(tableNames.stage_type, 'stage.stage_type_id', 'stage_type.id')
+      .join(race, 'stage.race_id', 'race.id')
+      .join(stage_type, 'stage.stage_type_id', 'stage_type.id')
       .orderBy('stage_nr', 'asc');
     if (query.race && query.year) {
       stageQuery
@@ -35,20 +34,21 @@ module.exports = {
   },
 
   async get(id) {
-    return db(tableNames.stage)
+    return db(stage)
       .select(fields)
-      .join(tableNames.race, 'stage.race_id', 'race.id')
-      .join(tableNames.stage_type, 'stage.stage_type_id', 'stage_type.id')
+      .join(race, 'stage.race_id', 'race.id')
+      .join(stage_type, 'stage.stage_type_id', 'stage_type.id')
       .where('stage.id', id)
       .first();
   },
 
   setDone(query) {
-    const updateStage = db(tableNames.stage)
+    console.log(query);
+    const updateStage = db(stage)
       .where('stage.id', query.id)
       .update(
-        { done: true },
         {
+          done: true,
           updated_at: new Date(Date.now())
             .toISOString()
             .replace('T', ' ')
@@ -61,7 +61,7 @@ module.exports = {
   },
 
   updateStage(query, params) {
-    const put = db(tableNames.stage)
+    const put = db(stage)
       .where('id', params)
       .update({
         ...query,

@@ -4,11 +4,12 @@
   <div class="selectedRiders" :class="{ show: ShowSelectie }">
     <div class="selectionRiders">
       <RennerCard
-        v-for="(renner, index) in selectie"
+        v-for="(renner, index) in renner.selectie"
         :key="index"
         :renner="renner"
         :icon="'times'"
         @click.native="removeFromSelectie(index)"
+        @remove="toggleSelected(renner)"
       />
     </div>
   </div>
@@ -18,10 +19,6 @@
 import RennerCard from '@/components/Renner.vue';
 
 import { mapGetters, mapState, mapMutations, mapActions } from 'vuex';
-import axios from 'axios';
-import config from '@/utils/config';
-
-const URL = 'entries';
 
 export default {
   components: {
@@ -37,8 +34,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['countSelectie']),
-    ...mapState(['selectie', 'stage']),
+    ...mapGetters(['countSelectie', 'renner']),
+    ...mapState(['renner', 'stage']),
 
     errorSelected() {
       if (this.countSelectie > 8) {
@@ -54,6 +51,11 @@ export default {
 
     showSelectie() {
       this.ShowSelectie = !this.ShowSelectie;
+    },
+    toggleSelected(renner) {
+      const test = renner;
+      console.log('test', test);
+      this.$emit('up', test, renner);
     },
   },
 };

@@ -12,7 +12,6 @@ export default {
         name: 'selectie',
         params: { etappeID: prevStage },
       });
-      console.log(prevStage);
     },
     nextEtappe() {
       const nextStage = +this.$attrs.etappe + 1;

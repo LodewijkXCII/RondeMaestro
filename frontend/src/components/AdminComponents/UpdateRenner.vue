@@ -48,8 +48,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-import config from '@/utils/config';
+import routes from '@/api/routes';
 
 import RennerCard from '@/components/Renner.vue';
 import FilterOptions from '@/components/FilterOptions.vue';
@@ -90,33 +89,33 @@ export default {
       this.selectedRider = renner;
     },
     async refreshRiders() {
-      const response = await axios.get(
-        `${config.DEV_URL}cyclists?limit=${this.limit}&offset=${this.offset}`
+      const response = await routes.find(
+        `cyclists?limit=${this.limit}&offset=${this.offset}`
       );
       this.renners = response.data;
     },
     async searchRidersTeam(team) {
-      const searchrider = await axios.get(
-        `${config.DEV_URL}cyclists?&team=${team}&limit=${this.limit}&offset=${this.offset}`
+      const searchrider = await routes.find(
+        `cyclists?&team=${team}&limit=${this.limit}&offset=${this.offset}`
       );
       this.renners = searchrider.data;
     },
     // RENNER ZOEKEN
     async searchRiders() {
-      const searchrider = await axios.get(
-        `${config.DEV_URL}cyclists?&name=${this.name}&limit=${this.limit}&offset=${this.offset}`
+      const searchrider = await routes.find(
+        `cyclists?&name=${this.name}&limit=${this.limit}&offset=${this.offset}`
       );
       this.renners = searchrider.data;
     },
   },
 
   async created() {
-    const response = await axios.get(
-      `${config.DEV_URL}cyclists?limit=${this.limit}&offset=${this.offset}`
+    const response = await routes.find(
+      `cyclists?limit=${this.limit}&offset=${this.offset}`
     );
     this.renners = response.data;
 
-    const teams = await axios.get(`${config.DEV_URL}teams`);
+    const teams = await routes.find(`teams`);
     this.teams = teams.data;
     this.loading = false;
   },

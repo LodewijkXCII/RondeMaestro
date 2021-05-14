@@ -1,33 +1,32 @@
-// const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
 function checkAuth(req, res, next) {
-  console.log('Just move along!');
-  next();
-  // const token = req.headers['authorization'];
-  // if (!token) {
-  //   res.status(401).send({ error: 'Acces denied. No token provided' });
-  // } else {
-  //   try {
-  //     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const token = req.headers['authorization'];
 
-  //     req.user = decoded;
-  //     next();
-  //   } catch (error) {
-  //     if (error.name === 'TokenExpiredError') {
-  //       return res
-  //         .status(401)
-  //         .json({ error: 'Session timed out,please login again' });
-  //     } else if (error.name === 'JsonWebTokenError') {
-  //       return res
-  //         .status(401)
-  //         .json({ error: 'Invalid token,please login again!' });
-  //     } else {
-  //       //catch other unprecedented errors
-  //       console.error(error);
-  //       return res.status(400).json({ error });
-  //     }
-  //   }
-  // }
+  if (!token) {
+    res.status(401).send({ error: 'Acces denied. No token provided' });
+  } else {
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+      req.user = decoded;
+      next();
+    } catch (error) {
+      if (error.name === 'TokenExpiredError') {
+        return res
+          .status(401)
+          .json({ error: 'Session timed out, please login again' });
+      } else if (error.name === 'JsonWebTokenError') {
+        return res
+          .status(401)
+          .json({ error: 'Invalid token, please login again!' });
+      } else {
+        //catch other unprecedented errors
+        console.error(error);
+        return res.status(400).json({ error });
+      }
+    }
+  }
 }
 // TODO ADD ADMIN AUTH
 function adminAuth(req, res, next) {

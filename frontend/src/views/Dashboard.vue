@@ -19,9 +19,7 @@ export default {
     };
   },
 
-  mounted() {
-    this.name = window.localStorage.user;
-  },
+  mounted() {},
   computed: {},
 };
 </script>

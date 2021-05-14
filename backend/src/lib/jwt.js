@@ -23,12 +23,12 @@ async function signRefreshToken(payload) {
       payload,
       process.env.JWT_REFRESH_SECRET,
       {
-        expiresIn: '2d',
+        expiresIn: '7d',
       }
     );
 
     // Insert RefreshToken in DB
-    const insertRefreshToken = await Token.query().insert({
+    await Token.query().insert({
       token: refreshToken,
     });
 
@@ -49,7 +49,6 @@ function verifyToken(token) {
 }
 async function verifyRefreshToken(token) {
   const decoded = await jwt.verify(token, process.env.JWT_REFRESH_SECRET);
-  console.log('Decoded:', decoded);
   return decoded;
 }
 

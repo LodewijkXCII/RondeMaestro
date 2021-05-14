@@ -36,8 +36,9 @@
 </template>
 
 <script>
-import axios from 'axios';
-import config from '@/utils/config';
+import routes from '@/api/routes';
+
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -46,19 +47,22 @@ export default {
       user_roles: [],
     };
   },
+  computed: {
+    ...mapGetters['getProfile'],
+  },
   methods: {
     async getUser(id) {
-      const userRoles = await axios.get(`${config.DEV_URL}user_role`);
+      const userRoles = await routes.find(`user_role`);
       this.user_roles = userRoles.data;
 
       this.user = {};
-      const selectedUser = await axios.get(`${config.DEV_URL}users/${id}`);
+      const selectedUser = await routes.find(`users/${id}`);
       this.user = selectedUser.data;
     },
 
     async updateUser() {
       // UPDATE USER
-      const update = await axios.put(`${config.DEV_URL}users/${this.user.id}`, {
+      const update = await routes.update(`users/${this.user.id}`, {
         email: this.user.email,
         name: this.user.name,
         user_role_id: +this.user.user_role_id,
@@ -69,14 +73,15 @@ export default {
         return;
       } else {
         this.message = 'Er is iets mis gegaan.';
-        console.log(update);
+        console.error(update);
       }
     },
   },
 
   async created() {
-    const activeUser = window.localStorage.user_id;
-    const response = await axios.get(`${config.DEV_URL}users/${activeUser}`);
+    const activeUser = this.getProfile.id;
+
+    const response = await routes.find(`users/${activeUser}`);
     this.user = response.data;
   },
 };

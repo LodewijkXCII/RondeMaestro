@@ -1,57 +1,22 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import renner from './modules/renner';
+import auth from './modules/auth';
+import user from './modules/user';
+import stage from './modules/stage';
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
-  state: {
-    stage: '',
-    selectie: [],
-    userName: '',
-    userType: '',
+const debug = process.env.NODE_ENV !== 'production';
+
+const store = new Vuex.Store({
+  modules: {
+    renner,
+    auth,
+    user,
+    stage,
   },
-  getters: {
-    countSelectie: (state) => {
-      return state.selectie.length;
-    },
-    getUserName: (state) => {
-      return state.userName;
-    },
-  },
-  mutations: {
-    addToSelectie: (state, renner) => {
-      state.selectie.push(renner);
-    },
-    removeFromSelectie: (state, renner) => {
-      state.selectie.splice(renner, 1);
-    },
-    deleteSelectie: (state) => {
-      state.selectie = [];
-    },
-    setEtappes: (state, etappe) => {
-      state.stage = etappe;
-    },
-    setUser: (state, user, type) => {
-      state.userName = user;
-      state.userType = type;
-    },
-    setSearchRennner: (state, renner) => {
-      state.searchRenner = renner;
-    },
-    setSearchTeam: (state, team) => {
-      state.searchTeam = team;
-    },
-  },
-  actions: {
-    removeSelectie: (context, renner) => {
-      context.commit('removeFromSelectie', renner);
-    },
-    removeAll({ commit }) {
-      return new Promise((resolve, reject) => {
-        commit('deleteSelectie');
-        resolve();
-      });
-    },
-  },
-  modules: {},
+  strict: debug,
 });
+
+export default store;

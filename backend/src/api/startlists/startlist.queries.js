@@ -63,7 +63,6 @@ module.exports = {
   },
 
   find(query) {
-    console.log(query);
     const startlistQuery = db(tableNames.startlist)
       .select(fields)
       .join('cyclist', 'startlist.cyclist_id', 'cyclist.id');

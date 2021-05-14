@@ -86,12 +86,7 @@ export default {
     };
   },
   components: {},
-  mounted() {
-    const user = window.localStorage.user;
-    if (user) {
-      this.loggedIn = true;
-    }
-  },
+  mounted() {},
 };
 </script>
 

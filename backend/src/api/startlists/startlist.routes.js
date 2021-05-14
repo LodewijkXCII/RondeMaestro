@@ -34,14 +34,12 @@ router.get('/race', async (req, res, next) => {
 router.put('/update', async (req, res, next) => {
   try {
     const race_id = parseInt(req.query.race_id, 10);
-    // console.log(race_id);
 
     const { cyclist_id, race_number } = req.body;
     const body = {
       cyclist_id,
       race_number,
     };
-    // console.log(body);
 
     const updateStartlist = await queries.updateStartlist(body, race_id);
 

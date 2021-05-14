@@ -46,8 +46,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-import config from '@/utils/config';
+import routes from '@/api/routes';
 
 export default {
   data() {
@@ -67,7 +66,7 @@ export default {
   methods: {
     async submitTeam() {
       try {
-        await axios.post(`${config.DEV_URL}teams`, {
+        await routes.create(`teams`, {
           name: this.team.team_name,
           abbreviation: this.team.abbreviation,
           country_id: this.team.country,
@@ -79,13 +78,13 @@ export default {
         this.team = {};
         this.returnMsg = 'Succesvol toegevoegd';
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
   },
 
   async created() {
-    const response = await axios.get(`${config.DEV_URL}countries`);
+    const response = await routes.find(`countries`);
 
     this.countries = response.data;
   },

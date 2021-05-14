@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import routes from '@/api/routes';
 import config from '@/utils/config';
 
 export default {
@@ -40,12 +40,16 @@ export default {
       scores: [],
     };
   },
-  created() {
-    axios
-      .get(`${config.DEV_URL}results/totalscore?race_id=${config.race_id}`)
-      .then((result) => {
-        this.scores = result.data.sort((a, b) => b.sum - a.sum);
-      });
+  async created() {
+    try {
+      const result = await routes.find(
+        `results/totalscore?race_id=${config.race_id}`
+      );
+
+      this.scores = result.data.sort((a, b) => b.sum - a.sum);
+    } catch (error) {
+      console.error(error);
+    }
   },
 };
 </script>

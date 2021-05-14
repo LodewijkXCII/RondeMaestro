@@ -45,8 +45,7 @@
 <script>
 import { mapMutations } from 'vuex';
 import config from '@/utils/config';
-
-import axios from 'axios';
+import routes from '@/api/routes';
 
 export default {
   //TODO bekijk of entrie al in ingevuld.
@@ -60,8 +59,8 @@ export default {
   },
 
   async mounted() {
-    const response = await axios.get(
-      `${config.DEV_URL}stages?race=${config.race_id}&year=${config.currentYear}`
+    const response = await routes.find(
+      `stages?race=${config.race_id}&year=${config.currentYear}`
     );
 
     const fetched = response.data.sort((a, b) => (a.date > b.date ? 1 : -1));
@@ -72,22 +71,6 @@ export default {
     ...mapMutations(['setEtappes']),
     setEtappe(etappe) {
       this.setEtappes(etappe);
-    },
-
-    async getData() {},
-    async openSelection(etappe, index) {
-      if (this.etappes[index].selection.length === 0) {
-        const activeUser = window.localStorage.user_id;
-
-        const entry = await axios.get(
-          `${config.DEV_URL}entries?users_id=${activeUser}&stage_id=${etappe.id}`
-        );
-        if (entry) {
-          this.etappes[index].selection = entry.data;
-        }
-      } else {
-        this.etappes[index].selection = [];
-      }
     },
   },
 
@@ -113,5 +96,9 @@ export default {
   grid-template-columns:
     minmax(5px, 10px) minmax(40px, 1fr) 4fr minmax(15px, 45px)
     1fr;
+
+  .rmTable__body--number {
+    padding: 0;
+  }
 }
 </style>

@@ -144,6 +144,7 @@ export default {
   },
   methods: {
     logout() {
+      // TOOD SET LOGOUT FUCNTION NAAR GOEIE
       let currentPath = this.$route.path;
 
       localStorage.removeItem('token');
