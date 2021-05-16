@@ -1,5 +1,5 @@
 <template>
-  <div class="container LoginLogOut">
+  <div class="authcontainer__form--signup">
     <h1>Meld je aan</h1>
     <div v-if="errorMessage" role="alert">{{ errorMessage }}</div>
 
@@ -60,6 +60,8 @@
 <script>
 import routes from '@/api/routes';
 import validUser from '@/utils/validUser';
+import { AUTH_REQUEST } from '@/store/actions/auth';
+import { mapMutations } from 'vuex';
 
 export default {
   data() {
@@ -76,11 +78,17 @@ export default {
   },
 
   methods: {
+    ...mapMutations(['setUser']),
+
+    newUser(user, user_type_id) {
+      this.setUser(user, user_type_id);
+    },
     async register() {
       const user = {
-        email: this.email,
-        password: this.password,
+        email: this.user.email,
+        password: this.user.password,
       };
+
       if (!validUser(user)) {
         console.error('Er is iets mis gegaan, geen valid user');
         this.errorMessage =
@@ -103,8 +111,20 @@ export default {
       try {
         const postUser = await routes.create(`auth/signup`, body);
         if (postUser.status === 200) {
+          const route = 'auth/login';
+          const email = this.user.email;
+          const password = this.user.password;
           // TODO GET USER INFO TO VUEX
-          this.$router.push('/dashboard');
+          try {
+            this.$store
+              .dispatch(AUTH_REQUEST, { email, password, route })
+              .then(() => {
+                this.$router.push('/dashboard');
+              })
+              .catch((error) => console.error(error));
+          } catch (error) {
+            console.error(error);
+          }
         }
       } catch (error) {
         console.error(error);

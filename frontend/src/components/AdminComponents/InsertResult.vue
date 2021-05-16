@@ -143,5 +143,15 @@ export default {
     text-align: center;
     font-size: 1rem;
   }
+
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    // text-indent: 5px;`
+    option {
+      padding: 3rem;
+    }
+  }
 }
 </style>

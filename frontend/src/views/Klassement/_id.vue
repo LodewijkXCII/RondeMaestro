@@ -93,7 +93,9 @@ export default {
         `results?stage_id=${currentEtappe}`
       );
 
-      this.uitslag = resultStage.data;
+      this.uitslag = resultStage.data.sort((a, b) =>
+        b.position > a.position ? -1 : 1
+      );
     },
   },
 };

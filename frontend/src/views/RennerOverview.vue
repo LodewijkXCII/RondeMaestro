@@ -238,7 +238,7 @@ export default {
           );
         });
 
-        await this.selectie.forEach(async (renner) => {
+        await this.renner.selectie.forEach(async (renner) => {
           try {
             await routes.create(`entries`, {
               users_id: +activeUser,

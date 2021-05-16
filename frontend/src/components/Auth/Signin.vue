@@ -1,5 +1,5 @@
 <template>
-  <div class="container LoginLogOut">
+  <div class="authcontainer__form--signin">
     <h1>Login</h1>
     <h3 v-if="errorMessage">{{ errorMessage }}</h3>
     <form @submit.prevent="login()">

@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   name: 'Dashboard',
   components: {},
@@ -18,8 +19,8 @@ export default {
       name: '',
     };
   },
-
-  mounted() {},
-  computed: {},
+  methods: {
+    ...mapGetters(['getProfile']),
+  },
 };
 </script>
