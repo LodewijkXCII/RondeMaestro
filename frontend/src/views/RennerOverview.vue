@@ -1,5 +1,8 @@
 <template>
   <div>
+    <modal v-if="showModal" @close="showModal = false" :stage="stage">
+      <h3 slot="header">Etappeinfo</h3>
+    </modal>
     <div v-show="loading">
       <AnimatedCyclist />
     </div>
@@ -16,11 +19,9 @@
           </div>
           <div class="rennerOverview-Left--title">
             <div class="label label-alert">
-              <router-link
-                :to="`/etappe-overzicht/${this.$route.params.etappeID}`"
-              >
+              <div @click="showModal = true">
                 Etappe info
-              </router-link>
+              </div>
             </div>
             <h1>Renners selecteren</h1>
           </div>
@@ -94,6 +95,7 @@ import SelectedRiders from '@/components/SelectedRiders.vue';
 import RennerCard from '@/components/Renner.vue';
 import FilterOptions from '@/components/FilterOptions.vue';
 import AnimatedCyclist from '@/components/AnimatedCyclist.vue';
+import Modal from '@/components/Modals/Etappe_Info_Modal';
 
 import routes from '@/api/routes';
 import _ from 'lodash';
@@ -113,6 +115,7 @@ export default {
     RennerCard,
     FilterOptions,
     AnimatedCyclist,
+    Modal,
   },
   data() {
     return {
@@ -126,6 +129,8 @@ export default {
       sendButton: 'verstuur',
       errorMsg: '',
       loading: true,
+      showModal: false,
+      stage: {},
     };
   },
   computed: {
@@ -278,10 +283,12 @@ export default {
         selected: false,
       };
     });
+    const stage = await routes.find(`stages/${this.$route.params.etappeID}`);
+    this.stage = stage.data;
 
     if (activeUser) {
       const entries = await routes.find(
-        `${config.DEV_URL}entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
+        `entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
       );
       if (entries.status === 200) {
         entries.data.forEach((cyclist) => {

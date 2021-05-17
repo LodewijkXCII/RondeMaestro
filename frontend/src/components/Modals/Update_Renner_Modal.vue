@@ -1,7 +1,7 @@
 <template>
   <div class="modal-mask">
-    <div class="modal-wrapper">
-      <div class="modal-container">
+    <div class="modal-wrapper" @click="$emit('close')">
+      <div class="modal-container" @click.stop>
         <div class="modal-header">
           <h3>Renner aanpassen.</h3>
           <font-awesome-icon :icon="['fas', 'times']" @click="$emit('close')" />

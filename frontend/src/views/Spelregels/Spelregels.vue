@@ -99,10 +99,11 @@
       <h2>Meedoen</h2>
       <p>
         Meedoen is heel eenvoudig. Meld je aan via de
-        <router-link :to="{ name: 'Signup' }">aanmeldknop</router-link>, maak
-        een teamnaam aan, met je emailadres en een wachtwoord (minimaal 8
-        karakters, minimaal 1 hoofd- en kleine letter en minimaal 1 leesteken of
-        cijfer). En voilà, je kan meedoen.
+        <router-link :to="{ name: 'Auth', params: { authType: 'signin' } }"
+          >aanmeldknop</router-link
+        >, maak een teamnaam aan, met je emailadres en een wachtwoord (minimaal
+        8 karakters, minimaal 1 hoofd- en kleine letter en minimaal 1 leesteken
+        of cijfer). En voilà, je kan meedoen.
       </p>
 
       <h2>Regelementen</h2>

@@ -1,7 +1,7 @@
 <template>
   <div class="modal-mask">
-    <div class="modal-wrapper">
-      <div class="modal-container">
+    <div class="modal-wrapper" @click="$emit('close')">
+      <div class="modal-container" @click.stop>
         <div class="modal-header">
           <slot name="header">
             default header

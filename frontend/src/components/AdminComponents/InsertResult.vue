@@ -24,9 +24,10 @@
           v-for="renner in renners"
           :key="renner.index"
           :value="renner.cyclist_id"
-          >#{{ renner.race_number }} - {{ renner.first_name }}
-          {{ renner.last_name }}</option
         >
+          #{{ renner.race_number }} - {{ renner.first_name }}
+          {{ renner.last_name }}
+        </option>
       </select>
     </div>
 
@@ -81,12 +82,22 @@ export default {
   },
   methods: {
     async searchResult(stage) {
-      const response = await routes.find(`results?stage_id=${stage}`);
+      console.log(stage);
+      const { data } = await routes.find(`results?stage_id=${stage}`);
       /* 
         Uitslag vergelijken met renners. Daarna toevoegen aan uitslag
       */
+      data.forEach((result) => {
+        const index = this.uitslag.findIndex(
+          ({ position }) => position == result.position
+        );
 
-      console.log(response.data);
+        this.uitslag[index] = {
+          id: result.cyclist_id,
+          points: this.uitslag[index].points,
+          position: this.uitslag[index].position,
+        };
+      });
     },
     async etappeSubmit(stage) {
       console.log(stage);

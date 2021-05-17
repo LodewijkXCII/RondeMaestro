@@ -48,6 +48,7 @@ const routes = [
     path: '/auth',
     name: 'Auth',
     component: Auth,
+    props: true,
     meta: {
       guest: true,
     },
@@ -69,7 +70,7 @@ const routes = [
     },
   },
   {
-    path: '/:etappeID/selectie',
+    path: '/selectie/:etappeID',
     name: 'selectie',
     component: Selectie,
     meta: {

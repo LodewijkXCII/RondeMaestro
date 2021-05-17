@@ -93,10 +93,17 @@ export default {
 /* Desktops and laptops ----------- */
 @media only screen and (min-width: 1224px) {
   .selectedRiders {
-    right: 1em;
     grid-row: inherit;
+    position: relative;
     padding: 0;
+    width: calc(85vw / 4);
     border: none;
+
+    .selectionRiders {
+      position: fixed;
+      max-width: inherit;
+      width: inherit;
+    }
   }
 }
 </style>

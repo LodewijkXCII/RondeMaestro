@@ -116,10 +116,7 @@ export default {
           component: 'InsertResult',
           name: 'Uitslag toevoegen',
         },
-        {
-          component: 'UpdateResult',
-          name: 'Uitslag aanpassen',
-        },
+
         {
           component: 'InsertStage',
           name: 'Etappe toevoegen',

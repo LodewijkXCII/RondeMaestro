@@ -29,7 +29,7 @@
     </form>
     <small>
       Nog geen account?
-      <router-link to="Signup">Meld je aan!</router-link>
+      <a @click.prevent="$emit('toggleAuth', 'Signup')">Meld je aan!</a>
     </small>
   </div>
 </template>

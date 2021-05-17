@@ -66,6 +66,9 @@ const mutations = {
     state.userName = user;
     state.userType = type;
   },
+  // setAuth: (state, type) => {
+  //   state.auth = type;
+  // },
 
   [AUTH_REQUEST]: (state) => {
     state.status = 'loading';

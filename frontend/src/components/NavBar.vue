@@ -86,15 +86,20 @@
             v-if="!isAuthenticated && !authLoading"
           >
             <router-link
-              :to="{ name: 'Auth' }"
+              :to="{ name: 'Auth', params: { authType: 'signup' } }"
               class="rightNav__fixed--sign nav-link"
-              >Inschrijven</router-link
+              replace
             >
+              Inschrijven
+            </router-link>
             <router-link
-              :to="{ name: 'Auth' }"
-              class="rightNav__fixed--sign nav-link"
-              >Aanmelden</router-link
+              :to="{ name: 'Auth', params: { authType: 'signin' } }"
+              class="rightNav__fixed--sign
+              nav-link"
+              replace
             >
+              Aanmelden
+            </router-link>
           </div>
           <div class="rightNav__fixed--menu">
             <font-awesome-icon
@@ -109,7 +114,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { mapGetters, mapMutations, mapState } from 'vuex';
 import { AUTH_LOGOUT } from '@/store/actions/auth';
 
 export default {
@@ -128,9 +133,15 @@ export default {
       authLoading: (state) => state.auth.status === 'loading',
       username: (state) => state.user.profile.name,
     }),
+    ...mapMutations(['setAuth']),
   },
 
   methods: {
+    // routeAuth(value) {
+    //   console.log('testing');
+    //   console.log(value);
+    //   this.setAuth(value);
+    // },
     logout() {
       this.$store.dispatch(AUTH_LOGOUT).then(() => this.$router.push('/auth'));
     },

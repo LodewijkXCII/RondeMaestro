@@ -67,6 +67,7 @@ export default {
     this.etappes = fetched.map((etappe) => ({ ...etappe, selection: [] }));
     this.ronde = response.data[0].name;
   },
+
   methods: {
     ...mapMutations(['setEtappes']),
     setEtappe(etappe) {
