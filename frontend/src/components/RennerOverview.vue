@@ -131,10 +131,17 @@ export default {
       loading: true,
       showModal: false,
       stage: {},
+      activeUser: null,
     };
   },
   computed: {
-    ...mapState(['renner', 'stage', 'searchRenner', 'searchTeam']),
+    ...mapState([
+      'renner',
+      'stage',
+      'searchRenner',
+      'searchTeam',
+      'getProfile',
+    ]),
     ...mapGetters(['countSelectie', 'getProfile']),
   },
   methods: {
@@ -262,12 +269,13 @@ export default {
       }
     },
   },
-
   async created() {
-    this.loading = true;
-
     const activeUser = this.getProfile.id;
     this.removeAll();
+    this.activeUser = activeUser;
+  },
+  async mounted() {
+    this.loading = true;
 
     const response = await routes.find(
       `startlist/race?race_id=${config.race_id}`
@@ -286,40 +294,42 @@ export default {
     const stage = await routes.find(`stages/${this.$route.params.etappeID}`);
     this.stage = stage.data;
 
-    if (activeUser) {
-      const entries = await routes.find(
-        `entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
-      );
-      if (entries.status === 200) {
-        entries.data.forEach((cyclist) => {
-          const riderIndex = cyclists.findIndex(
-            (r) => r.cyclist_id == cyclist.cyclist_id
-          );
-          cyclists[riderIndex].selected = true;
+    // if (activeUser) {
 
-          this.addToSelectie(cyclist);
-        });
+    console.log('We zijn hier hoor!', this.activeUser);
+    const entries = await routes.find(
+      `entries?users_id=${this.activeUser}&stage_id=${this.$route.params.etappeID}`
+    );
+    if (entries.status === 200) {
+      entries.data.forEach((cyclist) => {
+        const riderIndex = cyclists.findIndex(
+          (r) => r.cyclist_id == cyclist.cyclist_id
+        );
+        cyclists[riderIndex].selected = true;
 
-        this.renners = _(cyclists)
-          .orderBy((renner) => parseFloat(renner.race_number))
-          .groupBy((renner) => renner.team_name)
-          .value();
+        this.addToSelectie(cyclist);
+      });
 
-        /* Aparte teams zoeken om in een zoekveld te kunnen brengen */
-        this.teams = [
-          ...new Map(
-            cyclists.map((item) => [
-              item['team_name'],
-              {
-                team_name: item.team_name,
-                team_id: item.team_id,
-                team_img: item.team_img,
-              },
-            ])
-          ).values(),
-        ];
-      }
+      this.renners = _(cyclists)
+        .orderBy((renner) => parseFloat(renner.race_number))
+        .groupBy((renner) => renner.team_name)
+        .value();
+
+      /* Aparte teams zoeken om in een zoekveld te kunnen brengen */
+      this.teams = [
+        ...new Map(
+          cyclists.map((item) => [
+            item['team_name'],
+            {
+              team_name: item.team_name,
+              team_id: item.team_id,
+              team_img: item.team_img,
+            },
+          ])
+        ).values(),
+      ];
     }
+    // }
 
     this.loading = false;
   },

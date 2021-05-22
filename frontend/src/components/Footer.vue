@@ -19,9 +19,9 @@
         </ul>
       </div>
 
-      <router-link :to="{ name: 'Auth' }" class="btn btn-primary"
+      <!-- <router-link :to="{ name: 'Auth' }" class="btn btn-primary"
         >Aanmelden</router-link
-      >
+      > -->
     </div>
     <div class="footer footer__Bottom">
       <h4>

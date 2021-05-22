@@ -7,7 +7,7 @@ function signAccesToken(payload) {
       payload,
       process.env.JWT_SECRET,
       {
-        expiresIn: '1h',
+        expiresIn: '8h',
       },
       (error, token) => {
         if (error) return reject(error);
@@ -17,25 +17,20 @@ function signAccesToken(payload) {
   });
 }
 
-async function signRefreshToken(payload) {
-  try {
-    const refreshToken = await jwt.sign(
+function signRefreshToken(payload) {
+  return new Promise((resolve, reject) => {
+    jwt.sign(
       payload,
-      process.env.JWT_REFRESH_SECRET,
+      process.env.JWT_SECRET,
       {
         expiresIn: '7d',
+      },
+      (error, token) => {
+        if (error) return reject(error);
+        return resolve(token);
       }
     );
-
-    // Insert RefreshToken in DB
-    await Token.query().insert({
-      token: refreshToken,
-    });
-
-    return refreshToken;
-  } catch (error) {
-    console.error(error);
-  }
+  });
 }
 
 function verifyToken(token) {
@@ -47,9 +42,14 @@ function verifyToken(token) {
     };
   });
 }
-async function verifyRefreshToken(token) {
-  const decoded = await jwt.verify(token, process.env.JWT_REFRESH_SECRET);
-  return decoded;
+function verifyRefreshToken(token) {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+    (error, token) => {
+      if (error) return reject(error);
+      return resolve(token);
+    };
+  });
 }
 
 module.exports = {

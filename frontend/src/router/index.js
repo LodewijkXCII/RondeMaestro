@@ -5,7 +5,7 @@ import Dashboard from '../views/Dashboard.vue';
 import Auth from '../views/Auth';
 import EtappeOverzicht from '../views/Etappe/EtappeOverzicht.vue';
 import EtappeSingle from '../views/Etappe/_id.vue';
-import Selectie from '../views/RennerOverview.vue';
+import Selectie from '../views/Selectie.vue';
 import Score from '../views/Score/Score.vue';
 import ScoreSingle from '../views/Score/_id.vue';
 import Uitslagen from '../views/Klassement/Uitslagen.vue';

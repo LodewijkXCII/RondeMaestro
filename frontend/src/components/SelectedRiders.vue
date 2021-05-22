@@ -100,7 +100,7 @@ export default {
     border: none;
 
     .selectionRiders {
-      position: fixed;
+      // position: fixed;
       max-width: inherit;
       width: inherit;
     }
