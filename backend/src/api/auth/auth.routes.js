@@ -135,14 +135,13 @@ router.post('/refresh_token', async (req, res, next) => {
   try {
     //get refreshToken
     const { refreshToken } = req.body;
+    console.log(refreshToken);
     //send error if no refreshToken is sent
     if (!refreshToken) {
       return res.status(403).json({ error: 'Access denied,token missing!' });
     } else {
       //query for the token to check if it is valid:
-      const tokenDoc = await Token.query()
-        .where({ token: refreshToken })
-        .first();
+      const tokenDoc = await Token.query().where('token', refreshToken).first();
 
       //send error if no token found:
       if (!tokenDoc) {

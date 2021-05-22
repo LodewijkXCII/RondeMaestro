@@ -195,24 +195,25 @@ export default {
 
       this.team = 0;
       const searchrider = await routes.find(
-        `${config.DEV_URL}startlist/race?race_id=${config.race_id}&name=${this.name}`
+        `startlist/race?race_id=${config.race_id}&name=${this.name}`
       );
       this.renners = _(searchrider.data)
         .groupBy((renner) => renner.team_name)
-        .sortBy((team_name) => searchrider.data.indexOf(team_name[0]))
         .value();
-
-      // searchrider.data.sort((a, b) => (a.race_number > b.race_number ? 1 : -1));
     },
     async searchRidersTeam(team) {
-      const searchrider = await routes.find(
-        `${config.DEV_URL}startlist/race?race_id=${config.race_id}&team=${team}`
-      );
+      if (team != 0) {
+        const searchrider = await routes.find(
+          `startlist/race?race_id=${config.race_id}&team=${team}`
+        );
 
-      this.renners = _(searchrider.data)
-        .groupBy((renner) => renner.team_name)
-        .sortBy((team_name) => searchrider.data.indexOf(team_name[0]))
-        .value();
+        this.renners = _(searchrider.data)
+          .groupBy((renner) => renner.team_name)
+          .sortBy((team_name) => searchrider.data.indexOf(team_name[0]))
+          .value();
+      } else {
+        this.searchRiders();
+      }
     },
 
     async submitSelectie() {
@@ -294,42 +295,39 @@ export default {
     const stage = await routes.find(`stages/${this.$route.params.etappeID}`);
     this.stage = stage.data;
 
-    // if (activeUser) {
+    if (this.activeUser) {
+      const entries = await routes.find(
+        `entries?users_id=${this.activeUser}&stage_id=${this.$route.params.etappeID}`
+      );
+      if (entries.status === 200) {
+        entries.data.forEach((cyclist) => {
+          const riderIndex = cyclists.findIndex(
+            (r) => r.cyclist_id == cyclist.cyclist_id
+          );
+          cyclists[riderIndex].selected = true;
 
-    console.log('We zijn hier hoor!', this.activeUser);
-    const entries = await routes.find(
-      `entries?users_id=${this.activeUser}&stage_id=${this.$route.params.etappeID}`
-    );
-    if (entries.status === 200) {
-      entries.data.forEach((cyclist) => {
-        const riderIndex = cyclists.findIndex(
-          (r) => r.cyclist_id == cyclist.cyclist_id
-        );
-        cyclists[riderIndex].selected = true;
+          this.addToSelectie(cyclist);
+        });
 
-        this.addToSelectie(cyclist);
-      });
+        this.renners = _(cyclists)
+          .groupBy((renner) => renner.team_name)
+          .value();
 
-      this.renners = _(cyclists)
-        .orderBy((renner) => parseFloat(renner.race_number))
-        .groupBy((renner) => renner.team_name)
-        .value();
-
-      /* Aparte teams zoeken om in een zoekveld te kunnen brengen */
-      this.teams = [
-        ...new Map(
-          cyclists.map((item) => [
-            item['team_name'],
-            {
-              team_name: item.team_name,
-              team_id: item.team_id,
-              team_img: item.team_img,
-            },
-          ])
-        ).values(),
-      ];
+        /* Aparte teams zoeken om in een zoekveld te kunnen brengen */
+        this.teams = [
+          ...new Map(
+            cyclists.map((item) => [
+              item['team_name'],
+              {
+                team_name: item.team_name,
+                team_id: item.team_id,
+                team_img: item.team_img,
+              },
+            ])
+          ).values(),
+        ];
+      }
     }
-    // }
 
     this.loading = false;
   },

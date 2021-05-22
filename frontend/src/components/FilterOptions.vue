@@ -15,7 +15,7 @@
     <div class="half--block">
       <label for="team">Zoek op team:</label>
       <select name="team" id="team" v-model="team" @change="searchTeam">
-        <option value="0" disabled>-</option>
+        <option value="0">-</option>
         <option :value="team.team_id" v-for="team in teams" :key="team.index">
           {{ team.team_name || team.name }}
         </option>
@@ -25,7 +25,6 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 export default {
   props: {
     teams: {

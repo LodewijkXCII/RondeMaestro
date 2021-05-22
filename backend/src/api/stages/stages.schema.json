@@ -38,7 +38,7 @@
         "type": "string"
       },
       "done": {
-        "$id": "#/properties/date",
+        "$id": "#/properties/done",
         "type": "boolean",
         "default": "false"
       },
