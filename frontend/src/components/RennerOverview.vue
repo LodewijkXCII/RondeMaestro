@@ -198,6 +198,7 @@ export default {
         `startlist/race?race_id=${config.race_id}&name=${this.name}`
       );
       this.renners = _(searchrider.data)
+        .orderBy((renner) => renner.race_number)
         .groupBy((renner) => renner.team_name)
         .value();
     },
@@ -208,6 +209,7 @@ export default {
         );
 
         this.renners = _(searchrider.data)
+          .orderBy((renner) => renner.race_number)
           .groupBy((renner) => renner.team_name)
           .sortBy((team_name) => searchrider.data.indexOf(team_name[0]))
           .value();
@@ -310,6 +312,7 @@ export default {
         });
 
         this.renners = _(cyclists)
+          .orderBy((renner) => renner.race_number)
           .groupBy((renner) => renner.team_name)
           .value();
 
