@@ -83,7 +83,7 @@
           />
         </div>
       </section>
-      <SelectedRiders @up="toggleSelected(test)" />
+      <SelectedRiders @up="toggleSelected" />
 
       <!-- Einde RIJ 2 -->
     </section>
@@ -156,9 +156,17 @@ export default {
     delSelectie() {
       this.removeAll();
     },
-    toggleSelected(test) {
-      // TODO FIX HIGHLIGHT SELECTIONS
-      console.log('joejoe', test);
+
+    toggleSelected(renner) {
+      // TODO VUEX ERROR  OPLOSSEN
+      // FIND TEAM INDEX
+      const teamSelection = this.renners[renner.team_name];
+      // FIND RIDER INDEX
+      const deletedRenner = teamSelection.findIndex(
+        (r) => r.cyclist_id == renner.cyclist_id
+      );
+      // SET RIDER SELECTED TO FALSE
+      teamSelection[deletedRenner].selected = false;
     },
     toSelectie(renner, index) {
       if (this.renner.selectie.includes(renner)) {
@@ -184,15 +192,6 @@ export default {
 
     // RENNER ZOEKEN
     async searchRiders() {
-      //TODO renners worden nu aangepast, waardoor terug gaan niet mogelijk is.
-      //Ungroup renners
-      // const ungroupedRenners = [..._.flatMap(this.renners)];
-      //Zoek renner in lijst
-      // console.log('ungrouped', ungroupedRenners);
-      // const filter = ungroupedRenners.filter((renners) =>
-      //   renners.image_url.includes(this.name)
-      // );
-
       this.team = 0;
       const searchrider = await routes.find(
         `startlist/race?race_id=${config.race_id}&name=${this.name}`
@@ -211,7 +210,6 @@ export default {
         this.renners = _(searchrider.data)
           .orderBy((renner) => renner.race_number)
           .groupBy((renner) => renner.team_name)
-          .sortBy((team_name) => searchrider.data.indexOf(team_name[0]))
           .value();
       } else {
         this.searchRiders();

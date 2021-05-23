@@ -19,7 +19,7 @@ const startlistFields = [
   'startlist.id',
   'startlist.race_number',
   'startlist.withdraw',
-  'race_id',
+  'startlist.race_id',
   'cyclist.id as cyclist_id',
   'cyclist.first_name',
   'cyclist.last_name',
@@ -33,6 +33,7 @@ const startlistFields = [
 
 module.exports = {
   findStartlist(query) {
+    console.log(query.race_id);
     const startList = db(tableNames.startlist)
       .select(startlistFields)
       .fullOuterJoin('cyclist', 'startlist.cyclist_id', 'cyclist.id')
@@ -47,17 +48,23 @@ module.exports = {
     }
 
     if (query.speciality) {
-      startList
-        .where('speciality_id', query.speciality)
-        .orWhere('speciality_id_2', query.speciality);
-      // .orderBy('last_name', 'asc');
+      startList.where(function () {
+        this.where('speciality_id', query.speciality).orWhere(
+          'speciality_id_2',
+          query.speciality
+        );
+      });
     }
     if (query.name) {
       startList
-        .where('first_name', 'ilike', `${query.name}%`)
-        .orWhere('last_name', 'ilike', `%${query.name}%`)
+        .where(function () {
+          this.where('first_name', 'ilike', `${query.name}%`).orWhere(
+            'last_name',
+            'ilike',
+            `%${query.name}%`
+          );
+        })
         .whereNotNull('race_number');
-      // .orderBy('last_name', 'asc');
     }
 
     return startList;

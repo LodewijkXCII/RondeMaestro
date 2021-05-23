@@ -22,9 +22,9 @@ router.get('/', async (req, res, next) => {
 
 router.get('/race', async (req, res, next) => {
   try {
-    const test = await queries.findStartlist(req.query);
-    if (test) {
-      res.json(test);
+    const result = await queries.findStartlist(req.query);
+    if (result) {
+      res.json(result);
     }
   } catch (error) {
     return next(error);

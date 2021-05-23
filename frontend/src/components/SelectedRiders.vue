@@ -9,7 +9,7 @@
         :renner="renner"
         :icon="'times'"
         @click.native="removeFromSelectie(index)"
-        @remove="toggleSelected(renner)"
+        @remove="$emit('up', renner)"
       />
     </div>
   </div>
