@@ -3,8 +3,14 @@
     <modal v-if="showModal" @close="showModal = false" :stage="stage">
       <h3 slot="header">Etappeinfo</h3>
     </modal>
-    <div v-show="loading">
-      <AnimatedCyclist />
+    <div class="backtotop" v-show="scY > 300" @click="toTop">
+      <div class="backtotop__inner">
+        <font-awesome-icon
+          :icon="['fas', 'caret-up']"
+          class="backtotop__inner--icon"
+          size="2x"
+        />
+      </div>
     </div>
     <section class="rennerOverview" v-show="!loading">
       <!-- RIJ 1 -->
@@ -19,9 +25,7 @@
           </div>
           <div class="rennerOverview-Left--title">
             <div class="label label-alert">
-              <div @click="showModal = true">
-                Etappe info
-              </div>
+              <div @click="showModal = true">Etappe info</div>
             </div>
             <h1>Renners selecteren</h1>
           </div>
@@ -44,7 +48,7 @@
         <!-- Select count -->
         <!-- Knoppen -->
         <!-- Einde blok rechts -->
-        <div class="selectedRiders__top " @click="showSelectie()">
+        <div class="selectedRiders__top" @click="showSelectie()">
           <h2 :class="{ error: error }">
             <!-- Je selectie voor etappe {{ stage.stage_nr }} -->
           </h2>
@@ -91,17 +95,17 @@
 </template>
 
 <script>
-import SelectedRiders from '@/components/SelectedRiders.vue';
-import RennerCard from '@/components/Renner.vue';
-import FilterOptions from '@/components/FilterOptions.vue';
-import AnimatedCyclist from '@/components/AnimatedCyclist.vue';
-import Modal from '@/components/Modals/Etappe_Info_Modal';
+import SelectedRiders from "@/components/SelectedRiders.vue";
+import RennerCard from "@/components/Renner.vue";
+import FilterOptions from "@/components/FilterOptions.vue";
+import AnimatedCyclist from "@/components/AnimatedCyclist.vue";
+import Modal from "@/components/Modals/Etappe_Info_Modal";
 
-import routes from '@/api/routes';
-import _ from 'lodash';
+import routes from "@/api/routes";
+import _ from "lodash";
 
-import config from '@/utils/config';
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
+import config from "@/utils/config";
+import { mapState, mapGetters, mapMutations, mapActions } from "vuex";
 
 export default {
   props: {
@@ -109,7 +113,7 @@ export default {
       type: String,
     },
   },
-  name: 'RennerOverview',
+  name: "RennerOverview",
   components: {
     SelectedRiders,
     RennerCard,
@@ -121,33 +125,29 @@ export default {
     return {
       renners: [],
       teams: [],
-      name: '',
-      team: '',
-      spec: '',
+      name: "",
+      team: "",
+      spec: "",
       error: false,
       isSelected: false,
-      sendButton: 'verstuur',
-      errorMsg: '',
+      sendButton: "verstuur",
+      errorMsg: "",
       loading: true,
       showModal: false,
       stage: {},
       activeUser: null,
+      scTimer: 0,
+      scY: 0,
     };
   },
   computed: {
-    ...mapState([
-      'renner',
-      'stage',
-      'searchRenner',
-      'searchTeam',
-      'getProfile',
-    ]),
-    ...mapGetters(['countSelectie', 'getProfile']),
+    ...mapState(["renner", "stage", "searchRenner", "searchTeam", "getProfile"]),
+    ...mapGetters(["countSelectie", "getProfile"]),
   },
   methods: {
-    ...mapMutations(['addToSelectie', 'setEtappes', 'removeFromSelectie']),
-    ...mapActions(['removeSelectie']),
-    ...mapActions(['removeAll']),
+    ...mapMutations(["addToSelectie", "setEtappes", "removeFromSelectie"]),
+    ...mapActions(["removeSelectie"]),
+    ...mapActions(["removeAll", "removeSelected"]),
 
     toEtappe(etappe) {
       this.setEtappes(etappe);
@@ -168,17 +168,14 @@ export default {
       // SET RIDER SELECTED TO FALSE
       teamSelection[deletedRenner].selected = false;
     },
-    toSelectie(renner, index) {
+    toSelectie(renner) {
       if (this.renner.selectie.includes(renner)) {
         renner.selected = false;
         this.removeFromSelectie(this.renner.selectie.indexOf(renner));
       } else if (this.countSelectie >= 10) {
-        console.error('teveel!');
+        console.error("teveel!");
       } else if (renner.withdraw == true) {
-        // const selected = renner;
-        // selected.style.backgroundColor = '#025764';
-
-        console.error(renner, 'kan niet he');
+        console.error(renner, "kan niet he");
       } else {
         renner.selected = true;
         this.addToSelectie(renner);
@@ -223,19 +220,19 @@ export default {
       const stagesTime = new Date(this.stage.date);
 
       if (this.countSelectie !== 8) {
-        this.errorMsg = 'Er zijn niet precies 8 renners ingevuld!';
+        this.errorMsg = "Er zijn niet precies 8 renners ingevuld!";
         this.error = true;
         setTimeout(() => {
-          (this.errorMsg = ''), (this.error = false);
+          (this.errorMsg = ""), (this.error = false);
         }, 5000);
       } else if (submitTime > stagesTime) {
-        this.errorMsg = 'Je kan helaas niet meer invullen';
+        this.errorMsg = "Je kan helaas niet meer invullen";
         this.error = true;
         setTimeout(() => {
-          (this.errorMsg = ''), (this.error = false);
+          (this.errorMsg = ""), (this.error = false);
         }, 5000);
       } else {
-        this.sendButton = 'Versturen...';
+        this.sendButton = "Versturen...";
         const response = await routes.find(
           `entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
         );
@@ -259,15 +256,29 @@ export default {
               cyclist_id: +renner.cyclist_id,
             });
 
-            this.sendButton = 'verstuurd';
-            setTimeout(() => (this.sendButton = 'verstuur'), 5000);
+            this.sendButton = "verstuurd";
+            setTimeout(() => (this.sendButton = "verstuur"), 5000);
             this.removeAll();
-            this.$router.push({ name: 'etappe-overzicht' }).catch(() => {});
+            this.$router.push({ name: "etappe-overzicht" }).catch(() => {});
           } catch (error) {
             console.error(error);
           }
         });
       }
+    },
+    handleScroll: function () {
+      if (this.scTimer) return;
+      this.scTimer = setTimeout(() => {
+        this.scY = window.scrollY;
+        clearTimeout(this.scTimer);
+        this.scTimer = 0;
+      }, 100);
+    },
+    toTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
     },
   },
   async created() {
@@ -277,10 +288,9 @@ export default {
   },
   async mounted() {
     this.loading = true;
+    window.addEventListener("scroll", this.handleScroll);
 
-    const response = await routes.find(
-      `startlist/race?race_id=${config.race_id}`
-    );
+    const response = await routes.find(`startlist/race?race_id=${config.race_id}`);
 
     /*
       Renners groepen en sorteren op team,
@@ -318,7 +328,7 @@ export default {
         this.teams = [
           ...new Map(
             cyclists.map((item) => [
-              item['team_name'],
+              item["team_name"],
               {
                 team_name: item.team_name,
                 team_id: item.team_id,
@@ -332,11 +342,16 @@ export default {
 
     this.loading = false;
   },
+  watch: {
+    removeFromSelectie(newValue, oldValue) {
+      console.log(`Updating from ${oldValue} to ${newValue}`);
+    },
+  },
 };
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 
 .etappeInfo {
   display: grid;
@@ -417,6 +432,28 @@ export default {
     //     margin-bottom: 0rem;
     //   }
     // }
+  }
+}
+
+.backtotop {
+  position: fixed;
+  z-index: 100;
+  bottom: 0;
+  right: 0;
+  margin: 2rem;
+  background: $primary-color;
+  border-radius: 15px;
+  color: $white-color;
+
+  &__inner {
+    padding: 0.5rem 0.75rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &:hover {
+    cursor: pointer;
   }
 }
 </style>

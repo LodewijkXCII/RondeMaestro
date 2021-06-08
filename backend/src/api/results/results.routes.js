@@ -70,9 +70,9 @@ router.get('/totalscore', async (req, res, next) => {
 });
 
 router.get('/userscore', async (req, res, next) => {
-  const { user_id } = req.query;
+  const { user_id, stage_id, race_id } = req.query;
   try {
-    const entries = await queries.getUserScores({ user_id });
+    const entries = await queries.getUserScores({ user_id, stage_id, race_id });
     if (entries) {
       res.json(entries);
     }

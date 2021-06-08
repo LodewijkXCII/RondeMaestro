@@ -1,36 +1,21 @@
 <template>
-  <section class=" authcontainer">
+  <section class="authcontainer">
     <div class="authwrapper container">
       <component :is="currentAuth" class="authform" @toggleAuth="toggleAuth" />
-
-      <!-- <div class="authcontainer__overlay">
-      <div class="overlay">
-        <div class="overlay__panel overlay__panel--left">
-          <h1>Welcome Back!</h1>
-          <p>To keep connected with us please login with your personal info</p>
-          <button class="ghost" id="signIn">Sign In</button>
-        </div>
-        <div class="overlay__panel overlay__panel--right">
-          <h1>Hello, Friend!</h1>
-          <p>Enter your personal details and start journey with us</p>
-          <button class="ghost" id="signUp">Sign Up</button>
-        </div>
-      </div>
-    </div> -->
     </div>
   </section>
 </template>
 <script>
-import Signup from '@/components/Auth/Signup';
-import Signin from '@/components/Auth/Signin';
+import Signup from "@/components/Auth/Signup";
+import Signin from "@/components/Auth/Signin";
 
 export default {
   data() {
     return {
-      currentAuth: 'signin',
+      currentAuth: "signin",
     };
   },
-  props: ['authType'],
+  props: ["authType"],
   components: {
     Signup,
     Signin,
@@ -56,7 +41,7 @@ export default {
 /* Desktops and laptops ----------- */
 @media only screen and (min-width: 1224px) {
   .authcontainer {
-    background-image: url('~@/assets/img/simon-connellan-unsplash.jpg');
+    background-image: url("~@/assets/img/simon-connellan-unsplash.jpg");
     max-width: 100%;
     margin: 0;
     padding: 6rem 3rem;

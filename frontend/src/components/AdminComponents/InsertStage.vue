@@ -44,6 +44,15 @@
         autocomplete="off"
         required
       />
+      <label for="finish_city">URL link:</label>
+      <input
+        type="text"
+        name="image_url"
+        id="image_url"
+        v-model="stage.image_url"
+        autocomplete="off"
+        required
+      />
       <label for="distance">Afstand:</label>
       <input
         type="number"
@@ -93,7 +102,7 @@ export default {
         distance: '',
         date: '',
         done: false,
-        image_url: '/',
+        image_url: null,
         stage_type_id: null,
       },
       returnMsg: '',

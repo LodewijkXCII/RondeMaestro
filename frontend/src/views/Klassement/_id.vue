@@ -19,12 +19,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
-import routes from '@/api/routes';
-import config from '@/utils/config';
-import Aside from '@/components/KlassementComponents/Aside';
-import Main from '@/components/KlassementComponents/Main';
+import routes from "@/api/routes";
+import config from "@/utils/config";
+import Aside from "@/components/KlassementComponents/Aside";
+import Main from "@/components/KlassementComponents/Main";
 
 export default {
   props: { stage: Object },
@@ -55,7 +55,7 @@ export default {
   },
 
   methods: {
-    ...mapGetters(['getProfile']),
+    ...mapGetters(["getProfile"]),
     // async testing() {
     //   const c = +this.$route.params.etappeID;
     //   // TODO UPDATE TO DYNAMIC NEWSTAGE
@@ -80,7 +80,7 @@ export default {
         `results/totalscore?stage_id=${currentEtappe}`
       );
 
-      const response = totalScore.data.sort((a, b) => b.sum - a.sum);
+      const response = totalScore.data.sort((a, b) => b.points - a.points);
       this.scores = response.map((user) => ({ ...user, selection: [] }));
 
       const totalScoreRace = await routes.find(
@@ -89,20 +89,16 @@ export default {
 
       this.totalScores = totalScoreRace.data.sort((a, b) => b.sum - a.sum);
 
-      const resultStage = await routes.find(
-        `results?stage_id=${currentEtappe}`
-      );
+      const resultStage = await routes.find(`results?stage_id=${currentEtappe}`);
 
-      this.uitslag = resultStage.data.sort((a, b) =>
-        b.position > a.position ? -1 : 1
-      );
+      this.uitslag = resultStage.data.sort((a, b) => (b.position > a.position ? -1 : 1));
     },
   },
 };
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 
 .klassement_id {
   display: grid;

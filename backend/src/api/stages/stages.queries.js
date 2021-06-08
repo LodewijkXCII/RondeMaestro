@@ -19,16 +19,18 @@ const fields = [
 
 module.exports = {
   find(query) {
+    console.log(query);
     const stageQuery = db(stage)
       .select(fields)
-      // .select()
       .join(race, 'stage.race_id', 'race.id')
       .join(stage_type, 'stage.stage_type_id', 'stage_type.id')
       .orderBy('stage_nr', 'asc');
-    if (query.race && query.year) {
-      stageQuery
-        .where('race_id', query.race)
-        .whereRaw(`EXTRACT(YEAR FROM date::date) = ?`, [query.year]);
+    if (query.race_id) {
+      stageQuery.where('stage.race_id', query.race_id);
+    }
+    if (query.single == 1) {
+      const date = new Date(Date.now());
+      stageQuery.where('stage.date', '>', date).first();
     }
     return stageQuery;
   },
@@ -71,5 +73,13 @@ module.exports = {
           .replace('Z', ''),
       });
     return put;
+  },
+
+  currentStage(query) {
+    if (query.race) {
+      currentStage.where('race_id', query.race);
+    }
+
+    return currentStage;
   },
 };

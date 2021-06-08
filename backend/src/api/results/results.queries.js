@@ -1,6 +1,12 @@
 const db = require('../../db');
 
-const { result, users, cyclist, stage } = require('../../constants/tableNames');
+const {
+  result,
+  users,
+  cyclist,
+  stage,
+  entry,
+} = require('../../constants/tableNames');
 const Result = require('./results.model');
 
 const fields = [
@@ -89,16 +95,21 @@ module.exports = {
 
   async getSUM(query) {
     const summedRes = db(result)
-      .select('users.id', 'users.name', db.raw('SUM(points)'))
-
+      // .select('users.id', 'users.name', db.raw('SUM(points)'))
+      .select(
+        'users.id',
+        'users.name',
+        db.raw('COALESCE(SUM(points),0) as POINTS')
+      )
+      // .select()
       .groupBy('users.id')
       .from(users)
       .innerJoin('entry', 'users.id', 'entry.users_id')
-      .rightOuterJoin(stage, function () {
+      .leftOuterJoin(stage, function () {
         this.on('stage.id', '=', 'entry.stage_id');
       })
       .whereNull('entry.deleted_at')
-      .innerJoin('result', {
+      .leftOuterJoin(result, {
         'entry.cyclist_id': 'result.cyclist_id',
         'entry.stage_id': 'result.stage_id',
       });
@@ -119,16 +130,29 @@ module.exports = {
 
   async getUserScores(query) {
     const userscores = db(result)
-      .select('name', 'entry.stage_id', db.raw('SUM(points)'))
-      .groupBy('name', 'entry.stage_id')
+      .select(
+        'name',
+        'entry.stage_id',
+        db.raw('COALESCE(SUM(points),0) as POINTS')
+      )
       .from(users)
-      .where('users.id', '=', query.user_id)
-      .innerJoin('entry', 'users.id', 'entry.users_id')
+      .groupBy('name', 'entry.stage_id')
+      .where('users.id', query.user_id)
+      .innerJoin(entry, 'users.id', 'entry.users_id')
+      .fullOuterJoin(stage, 'entry.stage_id', 'stage.id')
       .whereNull('entry.deleted_at')
       .innerJoin('result', {
         'entry.cyclist_id': 'result.cyclist_id',
         'entry.stage_id': 'result.stage_id',
       });
+
+    if (query.race_id) {
+      userscores.where('race_id', query.race_id);
+    }
+
+    if (query.stage_id) {
+      userscores.where('entry.stage_id', query.stage_id);
+    }
 
     return userscores;
   },

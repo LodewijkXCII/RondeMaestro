@@ -1,13 +1,11 @@
 <template>
   <div class="renner">
     <div class="renner__img">
-      <!-- <img
+      <img
         v-if="renner.image_url !== '/'"
-        :src="
-          `https://rondemaestro.s3.eu-central-1.amazonaws.com/renners/${renner.image_url}`
-        "
+        :src="`https://rondemaestro.s3.eu-central-1.amazonaws.com/renners/${renner.image_url}`"
         alt
-      /> -->
+      />
       <!-- <img v-else src="https://via.placeholder.com/50x50.png?" alt /> -->
     </div>
     <div class="renner__info">
@@ -27,22 +25,20 @@
     </div>
     <div class="renner__extra">
       <div class="renner__extra--teamIMG">
-        <!-- <img
-          :src="
-            `https://rondemaestro.s3.eu-central-1.amazonaws.com/teams/${renner.team_img}`
-          "
+        <img
+          :src="`https://rondemaestro.s3.eu-central-1.amazonaws.com/teams/${renner.team_img}`"
           :alt="renner.team_name"
-        />-->
+        />
       </div>
     </div>
-    <div class="renner__button">
+    <div class="renner__button" v-if="icon">
       <font-awesome-icon :icon="icon" @click="toggleSelected(renner)" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
   props: {
@@ -54,21 +50,21 @@ export default {
     },
   },
   computed: {
-    ...mapState(['selectie']),
+    ...mapState(["selectie"]),
     currentSelectie(state) {
       this.selectie = state.selectie;
     },
   },
   methods: {
     toggleSelected(renner) {
-      this.$emit('remove', renner);
+      this.$emit("remove", renner);
     },
   },
 };
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 
 .renner {
   display: grid;

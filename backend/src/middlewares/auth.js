@@ -1,6 +1,10 @@
 const jwt = require('jsonwebtoken');
 
 function checkAuth(req, res, next) {
+  if (process.env.NODE_ENV == 'development') {
+    return next();
+  }
+
   const token = req.headers['authorization'];
 
   if (!token) {
@@ -30,6 +34,9 @@ function checkAuth(req, res, next) {
 }
 // TODO ADD ADMIN AUTH
 function adminAuth(req, res, next) {
+  if (process.env.NODE_ENV == 'development') {
+    return next();
+  }
   console.log('Just move along!, nothing to see here');
   next();
   // const token = req.headers['authorization'];

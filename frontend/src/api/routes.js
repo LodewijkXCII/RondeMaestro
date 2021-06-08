@@ -2,7 +2,10 @@ import { api } from './api';
 
 export default {
   find(url) {
-    return api.get(url);
+    const body = {
+      single: true,
+    };
+    return api.get(url, body);
   },
 
   create(url, body) {

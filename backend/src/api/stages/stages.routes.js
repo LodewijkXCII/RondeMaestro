@@ -2,13 +2,16 @@ const express = require('express');
 const Stage = require('./stages.model');
 const queries = require('./stages.queries');
 const { stage } = require('../../constants/tableNames');
+const { query } = require('./stages.model');
 
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
-  const { race, year } = req.query;
+  console.log('test', req.body);
+  const { race_id, year, single } = req.query;
+
   try {
-    const stages = await queries.find({ race, year });
+    const stages = await queries.find({ race_id, year, single });
     if (stage) {
       res.json(stages);
     }
@@ -27,6 +30,33 @@ router.get('/:id', async (req, res, next) => {
   } catch (error) {
     return next(error);
   }
+});
+router.get('/testing', async (req, res, next) => {
+  // const { id } = req.params;
+
+  const { race, year } = req.query;
+  try {
+    const stages = await queries.find({ race, year });
+    if (stage) {
+      res.json(stages);
+    }
+  } catch (error) {
+    return next(error);
+  }
+});
+
+router.get('/test', async (req, res, next) => {
+  console.log('testing', req, res);
+  return next();
+  // const { race_id } = req.params;
+  // try {
+  //   const stage = await queries.currentStage(race_id);
+  //   if (stage) {
+  //     res.json(stage);
+  //   }
+  // } catch (error) {
+  //   return next(error);
+  // }
 });
 
 router.put('/:id', async (req, res, next) => {

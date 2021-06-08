@@ -10,5 +10,6 @@
             "username": "postgres",
             "password": "flui3068"
         }
-    ]
+    ],
+    "vue3snippets.enable-compile-vue-file-on-did-save-code": true
 }

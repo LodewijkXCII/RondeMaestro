@@ -3,6 +3,9 @@ const stage = require('../api/stages/stages.queries');
 
 // CHECK IF STAGE IS OVER SO USER CAN VIEW OTHER'S ENTRIES
 module.exports = async (req, res, next) => {
+  if (process.env.NODE_ENV == 'development') {
+    return next();
+  }
   const token = req.headers['authorization'];
   const userParam = +req.query.users_id;
   const stageID = +req.query.stage_id;

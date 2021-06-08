@@ -16,7 +16,7 @@
       <div class="rmTable__body--number">{{ index + 1 }}.</div>
       <div class="rmTable__body--user">{{ score.name }}</div>
       <div class="rmTable__body--points">
-        {{ score.sum }}
+        {{ score.points }}
       </div>
       <div class="rmTable__body--button">
         <font-awesome-icon :icon="['fas', 'caret-down']" />
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import routes from '@/api/routes';
+import routes from "@/api/routes";
 
 export default {
   props: {
@@ -55,9 +55,7 @@ export default {
           `entries/getpoints?users_id=${id}&stage_id=${+this.etappe}`
         );
         if (entry) {
-          const sortedData = entry.data.sort((a, b) =>
-            a.points < b.points ? 1 : -1
-          );
+          const sortedData = entry.data.sort((a, b) => (a.points < b.points ? 1 : -1));
 
           sortedData.forEach((renner) => {
             if (renner.points == null) {

@@ -5,20 +5,19 @@
     <div class="selectionRiders">
       <RennerCard
         v-for="(renner, index) in renner.selectie"
-        :key="index"
+        :key="renner.id"
         :renner="renner"
         :icon="'times'"
         @click.native="removeFromSelectie(index)"
-        @remove="$emit('up', renner)"
       />
     </div>
   </div>
 </template>
 
 <script>
-import RennerCard from '@/components/Renner.vue';
+import RennerCard from "@/components/Renner.vue";
 
-import { mapGetters, mapState, mapMutations, mapActions } from 'vuex';
+import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   components: {
@@ -28,14 +27,14 @@ export default {
     return {
       ShowSelectie: false,
       error: false,
-      sendButton: 'Verstuur',
+      sendButton: "Verstuur",
       toMuch: false,
-      errorMsg: '',
+      errorMsg: "",
     };
   },
   computed: {
-    ...mapGetters(['countSelectie', 'renner']),
-    ...mapState(['renner', 'stage']),
+    ...mapGetters(["countSelectie", "renner"]),
+    ...mapState(["renner", "stage"]),
 
     errorSelected() {
       if (this.countSelectie > 8) {
@@ -46,23 +45,23 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['deleteSelectie', 'removeFromSelectie']),
-    ...mapActions(['removeSelectie']),
+    ...mapMutations(["deleteSelectie", "removeFromSelectie"]),
+    ...mapActions(["removeSelectie", "removeSelected"]),
 
     showSelectie() {
       this.ShowSelectie = !this.ShowSelectie;
     },
     toggleSelected(renner) {
       const test = renner;
-      console.log('test', test);
-      this.$emit('up', test, renner);
+      console.log("test", test);
+      this.removeSelected(renner);
     },
   },
 };
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 
 .selectedRiders {
   grid-row: 3/4;

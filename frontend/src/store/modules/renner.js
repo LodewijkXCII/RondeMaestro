@@ -15,8 +15,9 @@ const mutations = {
   addToSelectie: (state, renner) => {
     state.selectie.push(renner);
   },
-  removeFromSelectie: (state, renner) => {
-    state.selectie.splice(renner, 1);
+  removeFromSelectie: (state, index) => {
+    state.selectie[index].selected = false;
+    state.selectie.splice(index, 1);
   },
   deleteSelectie: (state) => {
     state.selectie = [];
@@ -24,18 +25,24 @@ const mutations = {
   setEtappes: (state, etappe) => {
     state.stage = etappe;
   },
-
-  setSearchRennner: (state, renner) => {
-    state.searchRenner = renner;
-  },
-  setSearchTeam: (state, team) => {
-    state.searchTeam = team;
+  changeSelected: (state, renner) => {
+    console.log('state', state.selectie);
+    console.log('renner', renner);
+    const index = state.selectie.findIndex((r) => r.id == renner.id);
+    console.log(index);
   },
 };
 
 const actions = {
   removeSelectie: (context, renner) => {
     context.commit('removeFromSelectie', renner);
+  },
+  removeSelected({ commit }, renner) {
+    return new Promise((resolve, reject) => {
+      console.log('vuex', renner);
+      commit('changeSelected', renner);
+      resolve();
+    });
   },
   removeAll({ commit }) {
     return new Promise((resolve, reject) => {

@@ -74,6 +74,15 @@
         autocomplete="off"
         required
       />
+      <label for="finish_city">URL link:</label>
+      <input
+        type="text"
+        name="image_url"
+        id="image_url"
+        v-model="etappe.image_url"
+        autocomplete="off"
+        required
+      />
       <label for="distance">Afstand:</label>
       <input
         type="number"

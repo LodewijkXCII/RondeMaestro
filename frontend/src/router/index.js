@@ -14,6 +14,7 @@ import KlassementSingle from '../views/Klassement/_id.vue';
 import Spelregels from '../views/Spelregels/Spelregels.vue';
 import account from '../views/Account/Account.vue';
 import store from '@/store';
+import { USER_REQUEST } from '@/store/actions/user';
 
 Vue.use(VueRouter);
 
@@ -136,6 +137,8 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
+    store.dispatch(USER_REQUEST);
+
     if (localStorage.getItem('token') == null) {
       next({
         path: '/auth',
