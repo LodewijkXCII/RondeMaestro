@@ -19,7 +19,6 @@ const fields = [
 
 module.exports = {
   find(query) {
-    console.log(query);
     const stageQuery = db(stage)
       .select(fields)
       .join(race, 'stage.race_id', 'race.id')

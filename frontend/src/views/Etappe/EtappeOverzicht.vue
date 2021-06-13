@@ -3,7 +3,7 @@
     <h1>Etappe Overzicht</h1>
     <h2>{{ ronde }}</h2>
 
-    <div class="rmTable ">
+    <div class="rmTable">
       <div class="rmTable__header tableEtappe">
         <div class="rmTable__header--number">#</div>
         <div class="rmTable__header--date">Datum</div>
@@ -43,13 +43,13 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
-import config from '@/utils/config';
-import routes from '@/api/routes';
+import { mapMutations } from "vuex";
+import config from "@/utils/config";
+import routes from "@/api/routes";
 
 export default {
   //TODO bekijk of entrie al in ingevuld.
-  name: 'EtappeOverzicht',
+  name: "EtappeOverzicht",
   data() {
     return {
       etappes: {},
@@ -60,7 +60,7 @@ export default {
 
   async mounted() {
     const response = await routes.find(
-      `stages?race=${config.race_id}&year=${config.currentYear}`
+      `stages?race_id=${config.race_id}&year=${config.currentYear}`
     );
 
     const fetched = response.data.sort((a, b) => (a.date > b.date ? 1 : -1));
@@ -69,7 +69,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations(['setEtappes']),
+    ...mapMutations(["setEtappes"]),
     setEtappe(etappe) {
       this.setEtappes(etappe);
     },
@@ -84,7 +84,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 
 .rennerInfo {
   min-height: 40px;

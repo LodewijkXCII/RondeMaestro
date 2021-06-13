@@ -5,7 +5,7 @@
       <label for="race">Kies de ronde:</label>
       <select name="race" id="race" v-model="race" @change="getEtappes()">
         <option :value="race.id" v-for="race in races" :key="race.index">
-          {{ race.name }}
+          {{ race.year }} - {{ race.name }}
         </option>
       </select>
       <label for="year">Kies het jaar:</label>
@@ -24,15 +24,11 @@
           {{ etappe.finish_city }}
         </option>
       </select>
-      <!-- <button v-on:click.prevent="getEtappe()" class="btn btn-succes">
-        Selecteer
-      </button> -->
+      <button v-on:click.prevent="getEtappe()" class="btn btn-succes">Selecteer</button>
     </form>
 
     <form v-if="etappe" style="margin-top: 4rem">
-      <h3>
-        Etappe {{ etappe.start_city }} - {{ etappe.finish_city }} aanpassen
-      </h3>
+      <h3>Etappe {{ etappe.start_city }} - {{ etappe.finish_city }} aanpassen</h3>
       <label for="race_id">Koers:</label>
       <select name="race" id="race" v-model="etappe.race_id">
         <option :value="race.id" v-for="race in races" :key="race.index">
@@ -92,12 +88,7 @@
         required
       />
       <label for="stage_type">Soort etappe:</label>
-      <select
-        name="stage_type"
-        id="stage_type"
-        v-model="etappe.stage_type_id"
-        required
-      >
+      <select name="stage_type" id="stage_type" v-model="etappe.stage_type_id" required>
         <option
           :value="stage_type.id"
           v-for="stage_type in stage_types"
@@ -119,10 +110,10 @@
 </template>
 
 <script>
-import routes from '@/api/routes';
+import routes from "@/api/routes";
 
 export default {
-  name: 'UpdateStage',
+  name: "UpdateStage",
   components: {},
   data() {
     return {
@@ -131,7 +122,7 @@ export default {
       year: 2021,
       race: null,
       etappe: null,
-      date: '',
+      date: "",
       stage_types: [],
     };
   },
@@ -139,9 +130,7 @@ export default {
   methods: {
     async getEtappes() {
       this.etappes = [];
-      const stages = await routes.find(
-        `stages?race=${this.race}&year=${this.year}`
-      );
+      const stages = await routes.find(`stages?race_id=${this.race}&year=${this.year}`);
       this.etappes = stages.data;
     },
 
@@ -160,11 +149,11 @@ export default {
       });
 
       if (update.status == 200) {
-        this.message = 'Succesvol geupdate';
+        this.message = "Succesvol geupdate";
         this.etappe = null;
         return;
       } else {
-        this.message = 'Er is iets mis gegaan.';
+        this.message = "Er is iets mis gegaan.";
         console.error(update);
       }
     },
@@ -180,7 +169,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 .renners {
   grid-template-columns: 1fr;
   .renner {

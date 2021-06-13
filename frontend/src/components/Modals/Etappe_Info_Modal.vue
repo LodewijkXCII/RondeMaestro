@@ -6,31 +6,16 @@
           <font-awesome-icon :icon="['fas', 'times']" @click="$emit('close')" />
         </div>
 
-        <div class="modal-body">
-          <slot name="body">
-            <img
-              v-if="stage.image_url"
-              :src="stage.image_url"
-              :alt="
-                `${stage.name}-${stage.start_city}-${stage.finish_city}-${stage.stage_nr}`
-              "
-              class="etappeimg"
-            />
-          </slot>
-        </div>
-
-        <div class="modal-footer">
-          <slot name="footer">
-            <p>Profiel voor etappe {{ stage.stage_nr }}</p>
-          </slot>
-        </div>
+        <etappe-info :stage="stage" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import EtappeInfo from "../EtappeInfo.vue";
 export default {
+  components: { EtappeInfo },
   props: {
     stage: Object,
   },

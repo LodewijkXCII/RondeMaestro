@@ -10,7 +10,8 @@
     </div>
     <div>
       <h2>Eerst volgende Etappe</h2>
-      {{ firstStage }}
+      <etappe-info :stage="firstStage" />
+
       <router-link :to="`/selectie/${firstStage.id}`">Klik hiero</router-link>
     </div>
     <div>
@@ -37,7 +38,7 @@
           {{ user.points }}
         </li>
       </ol>
-      <button>Ga naar het volledige klassement</button>
+      <buttfon>Ga naar het volledige klassement</buttfon>
     </div>
   </div>
 </template>
@@ -47,6 +48,7 @@ import routes from "@/api/routes";
 import config from "@/utils/config";
 
 import RennerCard from "@/components/Renner.vue";
+import EtappeInfo from "@/components/EtappeInfo.vue";
 
 export default {
   data() {
@@ -63,6 +65,7 @@ export default {
   },
   components: {
     RennerCard,
+    EtappeInfo,
   },
   methods: {
     isCurrentUser() {},
@@ -73,11 +76,13 @@ export default {
       console.log(this.user_id);
       // TODO SET RACE_ID AS DYNAMIC
       const { data: results } = await routes.find(
-        `results/userscore?user_id=${this.user_id}&race_id=1`
+        `results/userscore?user_id=${this.user_id}&race_id=${config.race_id}`
       );
       this.lastFive = results.slice(results.length - 5, results.length);
 
-      const { data: commingStage } = await routes.find(`stages?race_id=34&single=1`);
+      const { data: commingStage } = await routes.find(
+        `stages?race_id=${config.race_id}&single=1`
+      );
       this.firstStage = commingStage;
 
       const currentStage = {
@@ -89,7 +94,9 @@ export default {
       );
       this.selectie = currentSelection;
 
-      const { data: klassement } = await routes.find(`results/totalscore?race_id=1`);
+      const { data: klassement } = await routes.find(
+        `results/totalscore?race_id=${config.race_id}`
+      );
       this.klassement = klassement.sort((a, b) => (a.points < b.points ? 1 : -1));
 
       const { data: result } = await routes.find(

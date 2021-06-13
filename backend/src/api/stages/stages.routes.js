@@ -7,7 +7,6 @@ const { query } = require('./stages.model');
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
-  console.log('test', req.body);
   const { race_id, year, single } = req.query;
 
   try {
