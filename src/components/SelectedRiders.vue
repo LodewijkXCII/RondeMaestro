@@ -4,8 +4,8 @@
   <div class="selectedRiders" :class="{ show: ShowSelectie }">
     <div class="selectionRiders">
       <RennerCard
-        v-for="(renner, index) in selectie"
-        :key="index"
+        v-for="(renner, index) in renner.selectie"
+        :key="renner.id"
         :renner="renner"
         :icon="'times'"
         @click.native="removeFromSelectie(index)"
@@ -15,13 +15,9 @@
 </template>
 
 <script>
-import RennerCard from '@/components/Renner.vue';
+import RennerCard from "@/components/Renner.vue";
 
-import { mapGetters, mapState, mapMutations, mapActions } from 'vuex';
-import axios from 'axios';
-import config from '@/utils/config';
-
-const URL = 'entries';
+import { mapGetters, mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   components: {
@@ -31,14 +27,14 @@ export default {
     return {
       ShowSelectie: false,
       error: false,
-      sendButton: 'Verstuur',
+      sendButton: "Verstuur",
       toMuch: false,
-      errorMsg: '',
+      errorMsg: "",
     };
   },
   computed: {
-    ...mapGetters(['countSelectie']),
-    ...mapState(['selectie', 'stage']),
+    ...mapGetters(["countSelectie", "renner"]),
+    ...mapState(["renner", "stage"]),
 
     errorSelected() {
       if (this.countSelectie > 8) {
@@ -49,18 +45,23 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(['deleteSelectie', 'removeFromSelectie']),
-    ...mapActions(['removeSelectie']),
+    ...mapMutations(["deleteSelectie", "removeFromSelectie"]),
+    ...mapActions(["removeSelectie", "removeSelected"]),
 
     showSelectie() {
       this.ShowSelectie = !this.ShowSelectie;
+    },
+    toggleSelected(renner) {
+      const test = renner;
+      console.log("test", test);
+      this.removeSelected(renner);
     },
   },
 };
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 
 .selectedRiders {
   grid-row: 3/4;
@@ -91,10 +92,17 @@ export default {
 /* Desktops and laptops ----------- */
 @media only screen and (min-width: 1224px) {
   .selectedRiders {
-    right: 1em;
     grid-row: inherit;
+    position: relative;
     padding: 0;
+    width: calc(85vw / 4);
     border: none;
+
+    .selectionRiders {
+      // position: fixed;
+      max-width: inherit;
+      width: inherit;
+    }
   }
 }
 </style>

@@ -4,7 +4,12 @@
     <label for="race">Kies de etappe:</label>
     <div class="formInline">
       <!-- <input type="number" min="2020" value="2020" v-model.number="year" /> -->
-      <select name="stage" id="stage" v-model="stage">
+      <select
+        name="stage"
+        id="stage"
+        v-model="stage"
+        @change="searchResult(stage)"
+      >
         <option :value="stage.id" v-for="stage in stages" :key="stage.index">
           {{ stage.stage_nr }}. {{ stage.start_city }}-{{ stage.finish_city }}
         </option>
@@ -19,24 +24,22 @@
           v-for="renner in renners"
           :key="renner.index"
           :value="renner.cyclist_id"
-          >#{{ renner.race_number }} - {{ renner.first_name }}
-          {{ renner.last_name }}</option
         >
+          #{{ renner.race_number }} - {{ renner.first_name }}
+          {{ renner.last_name }}
+        </option>
       </select>
     </div>
 
-    <button class="btn btn-alert" v-on:click="etappeSubmit()">
+    <button class="btn btn-alert" v-on:click="etappeSubmit(stage)">
       {{ sendMessage }}
     </button>
   </section>
 </template>
 
 <script>
-import axios from 'axios';
+import routes from '@/api/routes';
 import config from '@/utils/config';
-
-const URL_CYCLIST = `${config.DEV_URL}startlist/race?race_id=${config.race_id}`;
-const URL_RESULT = `${config.DEV_URL}results`;
 
 export default {
   data() {
@@ -65,23 +68,62 @@ export default {
     };
   },
   async created() {
-    await axios.get(URL_CYCLIST).then((renners) => {
-      this.renners = renners.data.sort((a, b) =>
-        a.race_number > b.race_number ? 1 : -1
-      );
-    });
-    const stages = await axios.get(
-      `${config.DEV_URL}stages?race=${config.race_id}&year=${config.currentYear}`
+    const renners = await routes.find(
+      `startlist/race?race_id=${config.race_id}`
+    );
+    this.renners = renners.data.sort((a, b) =>
+      a.race_number > b.race_number ? 1 : -1
+    );
+
+    const stages = await routes.find(
+      `stages?race=${config.race_id}&year=${config.currentYear}`
     );
     this.stages = stages.data;
   },
   methods: {
-    etappeSubmit() {
-      // TODO ALS ER AL EEN UITSLAG IS, DEZE LATEN VERWIJDEREN EN NIEUWE UPDATEN
+    async searchResult(stage) {
+      console.log(stage);
+      const { data } = await routes.find(`results?stage_id=${stage}`);
+      /* 
+        Uitslag vergelijken met renners. Daarna toevoegen aan uitslag
+      */
+      data.forEach((result) => {
+        const index = this.uitslag.findIndex(
+          ({ position }) => position == result.position
+        );
+
+        this.uitslag[index] = {
+          id: result.cyclist_id,
+          points: this.uitslag[index].points,
+          position: this.uitslag[index].position,
+        };
+      });
+    },
+    async etappeSubmit(stage) {
+      console.log(stage);
+      const { data: prevResult } = await routes.find(
+        `results?stage_id=${stage}`
+      );
+      console.log(prevResult);
+
+      prevResult.forEach(async (res) => {
+        try {
+          console.log(res);
+          await routes.update(`results/${res.id}`, {
+            position: res.position,
+            points: res.points,
+            stage_id: res.stage_id,
+            cyclist_id: res.cyclist_id,
+          });
+        } catch (error) {
+          console.error(error);
+        }
+      });
+
       this.sendMessage = 'Versturen';
       this.uitslag.forEach(async (renner) => {
         try {
-          const response = await axios.post(URL_RESULT, {
+          await routes.create('results', {
             position: renner.position,
             points: renner.points,
             stage_id: this.stage,
@@ -90,6 +132,9 @@ export default {
         } catch (error) {
           console.error(error.message);
         }
+      });
+      await routes.update(`stages/${this.stage}`, {
+        setDone: true,
       });
       this.sendMessage = 'Verstuurd';
     },
@@ -108,6 +153,16 @@ export default {
     width: 15%;
     text-align: center;
     font-size: 1rem;
+  }
+
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    // text-indent: 5px;`
+    option {
+      padding: 3rem;
+    }
   }
 }
 </style>

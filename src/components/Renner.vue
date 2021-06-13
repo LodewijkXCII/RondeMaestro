@@ -3,12 +3,10 @@
     <div class="renner__img">
       <img
         v-if="renner.image_url !== '/'"
-        :src="
-          `https://rondemaestro.s3.eu-central-1.amazonaws.com/renners/${renner.image_url}`
-        "
+        :src="`https://rondemaestro.s3.eu-central-1.amazonaws.com/renners/${renner.image_url}`"
         alt
       />
-      <img v-else src="https://via.placeholder.com/50x50.png?" alt />
+      <!-- <img v-else src="https://via.placeholder.com/50x50.png?" alt /> -->
     </div>
     <div class="renner__info">
       <div class="renner__info-top">
@@ -28,21 +26,19 @@
     <div class="renner__extra">
       <div class="renner__extra--teamIMG">
         <img
-          :src="
-            `https://rondemaestro.s3.eu-central-1.amazonaws.com/teams/${renner.team_img}`
-          "
+          :src="`https://rondemaestro.s3.eu-central-1.amazonaws.com/teams/${renner.team_img}`"
           :alt="renner.team_name"
         />
       </div>
     </div>
-    <div class="renner__button">
-      <font-awesome-icon :icon="icon" />
+    <div class="renner__button" v-if="icon">
+      <font-awesome-icon :icon="icon" @click="toggleSelected(renner)" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
   props: {
@@ -54,17 +50,21 @@ export default {
     },
   },
   computed: {
-    ...mapState(['selectie']),
+    ...mapState(["selectie"]),
     currentSelectie(state) {
       this.selectie = state.selectie;
     },
   },
-  methods: {},
+  methods: {
+    toggleSelected(renner) {
+      this.$emit("remove", renner);
+    },
+  },
 };
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 
 .renner {
   display: grid;
@@ -79,7 +79,7 @@ export default {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    border: 1px solid #3fc1c9;
+    border: 1px solid $secondary-color;
     overflow: hidden;
 
     img {
@@ -165,17 +165,27 @@ export default {
       color: lightgray;
     }
   }
-}
-.renner__img {
-  margin: 0.5em auto;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 1px solid #3fc1c9;
-  overflow: hidden;
 
-  img {
-    max-width: 100%;
+  &.selected {
+    background: lighten($color: $primary-color, $amount: 5);
+    color: $light-color;
+    border-bottom: 1px solid darken($color: $primary-color, $amount: 1);
+
+    svg {
+      color: $white-color !important;
+    }
   }
 }
+// .renner__img {
+//   margin: 0.5em auto;
+//   width: 50px;
+//   height: 50px;
+//   border-radius: 50%;
+//   border: 1px solid #3fc1c9;
+//   overflow: hidden;
+
+//   img {
+//     max-width: 100%;
+//   }
+// }
 </style>

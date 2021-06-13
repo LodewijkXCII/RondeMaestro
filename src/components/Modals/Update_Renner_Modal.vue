@@ -1,7 +1,7 @@
 <template>
   <div class="modal-mask">
-    <div class="modal-wrapper">
-      <div class="modal-container">
+    <div class="modal-wrapper" @click="$emit('close')">
+      <div class="modal-container" @click.stop>
         <div class="modal-header">
           <h3>Renner aanpassen.</h3>
           <font-awesome-icon :icon="['fas', 'times']" @click="$emit('close')" />
@@ -47,8 +47,8 @@
 </template>
 
 <script>
-import axios from 'axios';
-import config from '../../utils/config';
+import routes from '@/api/routes';
+
 export default {
   data() {
     return {
@@ -69,8 +69,8 @@ export default {
       );
 
       try {
-        const response = await axios.put(
-          `${config.DEV_URL}cyclists/${this.updatedRenner.cyclist_id}/`,
+        const response = await routes.update(
+          `cyclists/${this.updatedRenner.cyclist_id}/`,
           {
             country_id: +country_id.id,
             id: this.updatedRenner.cyclist_id,
@@ -80,7 +80,7 @@ export default {
         );
 
         if (response.status != 200) {
-          console.log('Er is iets mis gegaan');
+          console.error('Er is iets mis gegaan');
         }
         return;
       } catch (error) {
@@ -89,7 +89,7 @@ export default {
     },
   },
   async created() {
-    const country = await axios.get(`${config.DEV_URL}countries`);
+    const country = await routes.find(`countries`);
     this.countries = country.data;
   },
 };

@@ -60,8 +60,9 @@
 </template>
 
 <script>
-import axios from 'axios';
+import routes from '@/api/routes';
 import config from '@/utils/config';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -72,39 +73,32 @@ export default {
       newOverzicht: null,
     };
   },
-
+  computed: {
+    ...mapGetters['getProfile'],
+  },
   async created() {
-    const activeUser = window.localStorage.user_id;
+    const activeUser = this.getProfile.id;
 
-    axios
-      .all([
-        axios.get(`${config.DEV_URL}stages?race=1`),
-        axios.get(`${config.DEV_URL}results/totalscore?user_id=${activeUser}`),
-        axios.get(`${config.DEV_URL}results/userscore?user_id=${activeUser}`),
-      ])
-      .then(
-        axios.spread((etappe, totalScore, results) => {
-          this.totalScore = totalScore.data[0];
+    const etappe = await routes.find(`stages?race=${config.race_id}`);
+    const etappes = etappe.data;
 
-          let merged = [];
-          const etappes = etappe.data;
-          const result = results.data;
+    const totalScore = await routes.find(
+      `results/totalscore?user_id=${activeUser}`
+    );
+    this.totalScore = totalScore.data[0];
 
-          for (let i = 0; i < etappes.length; i++) {
-            merged.push({
-              ...etappes[i],
-              ...result.find((itmInner) => itmInner.stage_id === etappes[i].id),
-            });
-          }
-          this.etappes = merged.sort((a, b) => (a.date > b.date ? 1 : -1));
-        })
-      )
-      .catch((errors) => {
-        console.log(errors);
+    const results = await routes.find(
+      `results/userscore?user_id=${activeUser}`
+    );
+    const result = results.data;
+
+    for (let i = 0; i < etappes.length; i++) {
+      merged.push({
+        ...etappes[i],
+        ...result.find((itmInner) => itmInner.stage_id === etappes[i].id),
       });
-
-    // const newOverzicht = [...arr1, ...arr2];
-    // console.log(newOverzicht);
+    }
+    this.etappes = merged.sort((a, b) => (a.date > b.date ? 1 : -1));
   },
 };
 </script>

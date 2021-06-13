@@ -1,62 +1,69 @@
 <template>
-  <section>
-    <Signup />
-    <Signin />
+  <section class="authcontainer">
+    <div class="authwrapper container">
+      <component :is="currentAuth" class="authform" @toggleAuth="toggleAuth" />
+    </div>
   </section>
 </template>
 <script>
-import Signup from '@/components/Auth/Signup';
-import Signin from '@/components/Auth/Signin';
+import Signup from "@/components/Auth/Signup";
+import Signin from "@/components/Auth/Signin";
 
 export default {
+  data() {
+    return {
+      currentAuth: "signin",
+    };
+  },
+  props: ["authType"],
   components: {
     Signup,
     Signin,
+  },
+
+  methods: {
+    toggleAuth(value) {
+      this.currentAuth = value;
+    },
+  },
+  created() {
+    if (this.authType) {
+      this.currentAuth = this.authType;
+    }
   },
 };
 </script>
 
 <style lang="scss">
-.LoginLogOut {
-  max-width: 500px;
-  margin-top: 5rem;
+.authcontainer {
+  padding: 3rem 0;
 }
-.password__rules {
-  ul {
-    padding: 0;
-    margin: 1em 0 0;
-    list-style: none;
+/* Desktops and laptops ----------- */
+@media only screen and (min-width: 1224px) {
+  .authcontainer {
+    background-image: url("~@/assets/img/simon-connellan-unsplash.jpg");
+    max-width: 100%;
+    margin: 0;
+    padding: 6rem 3rem;
+    overflow: hidden;
   }
+  .authwrapper {
+    max-width: 750px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-  li {
-    height: 20px;
-    line-height: 20px;
-    margin: 0 0 0.8em 0;
-    padding: 0 0 0 40px;
+    padding: 2rem 3rem;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    overflow: hidden;
     position: relative;
   }
 
-  li:before {
-    opacity: 1;
-    text-shadow: none;
-    content: '\2714';
-    position: absolute;
-    left: -25px;
-    width: 20px;
-    height: 20px;
-    position: relative;
-    display: inline-block;
-    font-family: 'Glyphicons Halflings';
-    font-style: normal;
-    font-weight: 400;
-    line-height: 1;
-    transform: scale(1.3);
-  }
-  .false {
-    color: red;
-  }
-  .true {
-    color: green;
+  .authform {
+    width: 75%;
+    margin: 1rem;
   }
 }
 </style>

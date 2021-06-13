@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import routes from '@/api/routes';
 import config from '@/utils/config';
 
 export default {
@@ -88,7 +88,7 @@ export default {
   methods: {
     async submitRenner() {
       try {
-        await axios.post(`${config.DEV_URL}cyclists`, {
+        await routes.create(`cyclists`, {
           first_name: this.renner.first_name,
           last_name: this.renner.last_name,
           country_id: this.renner.country,
@@ -108,15 +108,13 @@ export default {
   },
 
   async created() {
-    const response = await Promise.all([
-      axios.get(`${config.DEV_URL}teams`),
-      axios.get(`${config.DEV_URL}countries`),
-      axios.get(`${config.DEV_URL}speciality`),
-    ]);
+    const teams = await routes.find(`teams`);
+    const countries = await routes.find(`countries`);
+    const speciality = await routes.find(`speciality`);
 
-    this.teams = response[0].data;
-    this.countries = response[1].data;
-    this.specialities = response[2].data;
+    this.teams = teams.data;
+    this.countries = countries.data;
+    this.specialities = speciality.data;
   },
 };
 </script>

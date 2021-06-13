@@ -58,6 +58,13 @@
 
 <script>
 export default {
+  data() {
+    return {
+      sortedUitslag: this.uitslag.sort((a, b) =>
+        a.points < b.points ? 1 : -1
+      ),
+    };
+  },
   props: {
     uitslag: {
       type: Array,

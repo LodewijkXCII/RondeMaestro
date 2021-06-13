@@ -3,7 +3,7 @@
     <h1>Etappe Overzicht</h1>
     <h2>{{ ronde }}</h2>
 
-    <div class="rmTable ">
+    <div class="rmTable">
       <div class="rmTable__header tableEtappe">
         <div class="rmTable__header--number">#</div>
         <div class="rmTable__header--date">Datum</div>
@@ -43,14 +43,13 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex';
-import config from '@/utils/config';
-
-import axios from 'axios';
+import { mapMutations } from "vuex";
+import config from "@/utils/config";
+import routes from "@/api/routes";
 
 export default {
   //TODO bekijk of entrie al in ingevuld.
-  name: 'EtappeOverzicht',
+  name: "EtappeOverzicht",
   data() {
     return {
       etappes: {},
@@ -60,34 +59,19 @@ export default {
   },
 
   async mounted() {
-    const response = await axios.get(
-      `${config.DEV_URL}stages?race=${config.race_id}&year=${config.currentYear}`
+    const response = await routes.find(
+      `stages?race_id=${config.race_id}&year=${config.currentYear}`
     );
 
     const fetched = response.data.sort((a, b) => (a.date > b.date ? 1 : -1));
     this.etappes = fetched.map((etappe) => ({ ...etappe, selection: [] }));
     this.ronde = response.data[0].name;
   },
+
   methods: {
-    ...mapMutations(['setEtappes']),
+    ...mapMutations(["setEtappes"]),
     setEtappe(etappe) {
       this.setEtappes(etappe);
-    },
-
-    async getData() {},
-    async openSelection(etappe, index) {
-      if (this.etappes[index].selection.length === 0) {
-        const activeUser = window.localStorage.user_id;
-
-        const entry = await axios.get(
-          `${config.DEV_URL}entries?users_id=${activeUser}&stage_id=${etappe.id}`
-        );
-        if (entry) {
-          this.etappes[index].selection = entry.data;
-        }
-      } else {
-        this.etappes[index].selection = [];
-      }
     },
   },
 
@@ -100,7 +84,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 
 .rennerInfo {
   min-height: 40px;
@@ -113,5 +97,9 @@ export default {
   grid-template-columns:
     minmax(5px, 10px) minmax(40px, 1fr) 4fr minmax(15px, 45px)
     1fr;
+
+  .rmTable__body--number {
+    padding: 0;
+  }
 }
 </style>

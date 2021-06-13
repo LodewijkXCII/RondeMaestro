@@ -5,7 +5,7 @@
       <label for="race">Kies de ronde:</label>
       <select name="race" id="race" v-model="race" @change="getEtappes()">
         <option :value="race.id" v-for="race in races" :key="race.index">
-          {{ race.name }}
+          {{ race.year }} - {{ race.name }}
         </option>
       </select>
       <label for="year">Kies het jaar:</label>
@@ -24,15 +24,11 @@
           {{ etappe.finish_city }}
         </option>
       </select>
-      <!-- <button v-on:click.prevent="getEtappe()" class="btn btn-succes">
-        Selecteer
-      </button> -->
+      <button v-on:click.prevent="getEtappe()" class="btn btn-succes">Selecteer</button>
     </form>
 
     <form v-if="etappe" style="margin-top: 4rem">
-      <h3>
-        Etappe {{ etappe.start_city }} - {{ etappe.finish_city }} aanpassen
-      </h3>
+      <h3>Etappe {{ etappe.start_city }} - {{ etappe.finish_city }} aanpassen</h3>
       <label for="race_id">Koers:</label>
       <select name="race" id="race" v-model="etappe.race_id">
         <option :value="race.id" v-for="race in races" :key="race.index">
@@ -74,6 +70,15 @@
         autocomplete="off"
         required
       />
+      <label for="finish_city">URL link:</label>
+      <input
+        type="text"
+        name="image_url"
+        id="image_url"
+        v-model="etappe.image_url"
+        autocomplete="off"
+        required
+      />
       <label for="distance">Afstand:</label>
       <input
         type="number"
@@ -83,12 +88,7 @@
         required
       />
       <label for="stage_type">Soort etappe:</label>
-      <select
-        name="stage_type"
-        id="stage_type"
-        v-model="etappe.stage_type_id"
-        required
-      >
+      <select name="stage_type" id="stage_type" v-model="etappe.stage_type_id" required>
         <option
           :value="stage_type.id"
           v-for="stage_type in stage_types"
@@ -110,11 +110,10 @@
 </template>
 
 <script>
-import axios from 'axios';
-import config from '@/utils/config';
+import routes from "@/api/routes";
 
 export default {
-  name: 'UpdateStage',
+  name: "UpdateStage",
   components: {},
   data() {
     return {
@@ -123,7 +122,7 @@ export default {
       year: 2021,
       race: null,
       etappe: null,
-      date: '',
+      date: "",
       stage_types: [],
     };
   },
@@ -131,15 +130,13 @@ export default {
   methods: {
     async getEtappes() {
       this.etappes = [];
-      const stages = await axios.get(
-        `${config.DEV_URL}stages?race=${this.race}&year=${this.year}`
-      );
+      const stages = await routes.find(`stages?race_id=${this.race}&year=${this.year}`);
       this.etappes = stages.data;
     },
 
     async updateEtappe(id) {
       // UPDATE ETAPPE
-      const update = await axios.put(`${config.DEV_URL}stages/${id}`, {
+      const update = await routes.update(`stages/${id}`, {
         race_id: this.etappe.race_id,
         stage_nr: this.etappe.stage_nr,
         start_city: this.etappe.start_city,
@@ -152,27 +149,27 @@ export default {
       });
 
       if (update.status == 200) {
-        this.message = 'Succesvol geupdate';
+        this.message = "Succesvol geupdate";
         this.etappe = null;
         return;
       } else {
-        this.message = 'Er is iets mis gegaan.';
-        console.log(update);
+        this.message = "Er is iets mis gegaan.";
+        console.error(update);
       }
     },
   },
   async created() {
-    const response = await axios.get(`${config.DEV_URL}races`);
+    const response = await routes.find(`races`);
     this.races = response.data;
 
-    const stage_types = await axios.get(`${config.DEV_URL}stage_type`);
+    const stage_types = await routes.find(`stage_type`);
     this.stage_types = stage_types.data;
   },
 };
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 .renners {
   grid-template-columns: 1fr;
   .renner {

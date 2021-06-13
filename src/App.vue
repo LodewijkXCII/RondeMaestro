@@ -9,9 +9,10 @@
 </template>
 
 <script>
-import NavBar from '@/components/NavBar.vue';
-import BottomNav from '@/components/BottomNav.vue';
-import Footer from './components/Footer.vue';
+import NavBar from "@/components/NavBar.vue";
+import BottomNav from "@/components/BottomNav.vue";
+import Footer from "./components/Footer.vue";
+import { USER_REQUEST } from "@/store/actions/user";
 
 export default {
   components: {
@@ -26,7 +27,7 @@ export default {
 
   computed: {
     isHome() {
-      return this.$route.name === 'Home';
+      return this.$route.name === "Home";
     },
   },
   created() {
@@ -38,7 +39,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 
 * {
   box-sizing: border-box;
@@ -46,7 +47,7 @@ export default {
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 0.8125rem;
   margin: 0;
   background: #f5f5f5;
@@ -277,7 +278,7 @@ label {
 
 input,
 select {
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   border-radius: 5px;
   border: 0.5px solid darken($color: #f5f5f5, $amount: 15);
   padding: 0.75em 1em;
@@ -420,7 +421,7 @@ select {
 
     &.done::after {
       background: $succes-color;
-      content: '';
+      content: "";
       position: absolute;
       width: 5px;
       height: 100%;
@@ -430,7 +431,7 @@ select {
     }
     &.not-done::after {
       background: $danger-color;
-      content: '';
+      content: "";
       position: absolute;
       width: 5px;
       height: 100%;
@@ -476,6 +477,11 @@ select {
 }
 
 .lastName {
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-left: 0.25em;
+}
+.bold {
   text-transform: uppercase;
   font-weight: 700;
   margin-left: 0.25em;

@@ -1,5 +1,5 @@
 <template>
-  <div class="container LoginLogOut">
+  <div class="authcontainer__form--signup">
     <h1>Meld je aan</h1>
     <div v-if="errorMessage" role="alert">{{ errorMessage }}</div>
 
@@ -19,6 +19,7 @@
         <label for="password">Wachtwoord:</label>
         <input
           v-model="user.password"
+          @keyup="checkPassword"
           type="password"
           name="password"
           id="password"
@@ -37,9 +38,15 @@
       <div class="password__rules">
         <span>Wachtwoord moet bestaan uit:</span>
         <ul>
-          <li>Minimaal 8 karakters</li>
-          <li>Minimaal 1 hoofdletter</li>
-          <li>Minimaal 1 speciaal teken</li>
+          <li :class="passwordCrit.char ? 'pass-green' : 'pass-red'">
+            Minimaal 8 karakters
+          </li>
+          <li :class="passwordCrit.cap ? 'pass-green' : 'pass-red'">
+            Minimaal 1 hoofdletter
+          </li>
+          <li :class="passwordCrit.spec ? 'pass-green' : 'pass-red'">
+            Minimaal 1 speciaal teken
+          </li>
         </ul>
       </div>
       <button
@@ -52,22 +59,27 @@
     </form>
     <small>
       Heb je al een account?
-      <router-link to="Signin">Login</router-link>
+      <a @click.prevent="$emit('toggleAuth', 'Signin')">Login</a>
     </small>
   </div>
 </template>
 
 <script>
-import * as yup from 'yup';
-import axios from 'axios';
-import schema from '@/utils/yup';
-import config from '@/utils/config';
+import routes from '@/api/routes';
+import validUser from '@/utils/validUser';
+import { AUTH_REQUEST } from '@/store/actions/auth';
+import { mapMutations } from 'vuex';
 
 export default {
   data() {
     return {
       errorMessage: '',
       sigingIn: false,
+      passwordCrit: {
+        char: false,
+        cap: false,
+        spec: false,
+      },
       user: {
         name: '',
         email: '',
@@ -76,10 +88,40 @@ export default {
       },
     };
   },
+  computed: {},
 
   methods: {
+    ...mapMutations(['setUser']),
+
+    checkPassword() {
+      if (this.user.password.length >= 8) {
+        this.passwordCrit.char = true;
+      } else {
+        this.passwordCrit.char = false;
+      }
+      if (this.user.password.match(/[A-Z]/g)) {
+        this.passwordCrit.cap = true;
+      } else {
+        this.passwordCrit.cap = false;
+      }
+      if (this.user.password.match(/[\[\]`!@#$%\^&*()={}:;<>+'-]/g)) {
+        this.passwordCrit.spec = true;
+      } else {
+        this.passwordCrit.spec = false;
+      }
+    },
+
+    newUser(user, user_type_id) {
+      this.setUser(user, user_type_id);
+    },
+
     async register() {
-      if (!this.validUser()) {
+      const user = {
+        email: this.user.email,
+        password: this.user.password,
+      };
+
+      if (!validUser(user)) {
         console.error('Er is iets mis gegaan, geen valid user');
         this.errorMessage =
           'Er is iets mis gegaan, neem contact op met rondemaestro@gmail.com om te achterhalen wat.';
@@ -99,41 +141,70 @@ export default {
         user_role_id: 4,
       };
       try {
-        const postUser = await axios({
-          method: 'post',
-          url: `${config.DEV_URL}auth/signup`,
-          data: JSON.stringify(body),
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-          },
-        });
-        this.$router.push('/dashboard');
+        const postUser = await routes.create(`auth/signup`, body);
+        if (postUser.status === 200) {
+          const route = 'auth/login';
+          const email = this.user.email;
+          const password = this.user.password;
+          // TODO GET USER INFO TO VUEX
+          try {
+            this.$store
+              .dispatch(AUTH_REQUEST, { email, password, route })
+              .then(() => {
+                this.$router.push('/dashboard');
+              })
+              .catch((error) => console.error(error));
+          } catch (error) {
+            console.error(error);
+          }
+        }
       } catch (error) {
         console.error(error);
         this.errorMessage =
           'Er is iets mis gegaan, neem contact op met rondemaestro@gmail.com om te achterhalen wat.';
-        console.log(response);
       }
-    },
-    validUser() {
-      if (this.user.password !== this.user.confirmPassword) {
-        this.errorMessage = 'Wachtwoorden zijn niet gelijk 🚴🏽‍♂️';
-        return false;
-      }
-      const result = schema.schema
-        .validate(this.user, schema)
-        .catch((error) => {
-          console.log('Mislukt:', error);
-          if (error.message.includes('email')) {
-            this.errorMessage = 'Email adres verkeerd';
-          } else {
-            this.errorMessage = 'Verkeerd wachtwoord';
-          }
-          return false;
-        });
-      return result;
     },
   },
 };
 </script>
+
+<style lang="scss">
+.password__rules {
+  ul {
+    padding: 0;
+    margin: 1em 0 0;
+    list-style: none;
+  }
+
+  li {
+    height: 20px;
+    line-height: 20px;
+    margin: 0 0 0.8em 0;
+    padding: 0 0 0 40px;
+    position: relative;
+  }
+
+  li:before {
+    opacity: 1;
+    text-shadow: none;
+    content: '\2714';
+    position: absolute;
+    left: -25px;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1;
+    transform: scale(1.3);
+  }
+  .pass-red {
+    color: red;
+  }
+  .pass-green {
+    color: green;
+  }
+}
+</style>

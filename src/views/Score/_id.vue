@@ -92,8 +92,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-import config from '@/utils/config';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -105,45 +104,42 @@ export default {
       entry: [],
     };
   },
-  created() {
-    const activeUser = window.localStorage.user_id;
+  computed: {
+    ...mapGetters['getProfile'],
+  },
+  async created() {
+    const activeUser = this.getProfile.id;
 
     const params = {
       user_id: activeUser,
       stage_id: +this.$route.params.etappeID,
     };
 
-    axios
-      .all([
-        axios.get(`${config.DEV_URL}results/score`, {
-          params,
-        }),
-        axios.get(
-          `${config.DEV_URL}entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
-        ),
-        axios.get(`${config.DEV_URL}stages/${this.$route.params.etappeID}`),
-        axios.get(
-          `${config.DEV_URL}results?stage_id=${this.$route.params.etappeID}`
-        ),
-      ])
-      .then(
-        axios.spread((result, entries, etappeinfo, stageResult) => {
-          this.result = result.data.sort((a, b) =>
-            a.points < b.points ? 1 : -1
-          );
-          for (var i = 0; i < this.result.length; i += 1) {
-            this.score += this.result[i].points;
-          }
+    const result = await routes.find(
+      `results/score?user_id=${params.user_id}&stage_id=${params.stage_id}`
+    );
+    const entries = await routes.find(
+      `entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
+    );
+    const etappeinfo = await routes.find(
+      `stages/${this.$route.params.etappeID}`
+    );
+    const stageResult = await routes.find(
+      `results?stage_id=${this.$route.params.etappeID}`
+    );
 
-          this.entry = entries.data;
+    this.result = result.data.sort((a, b) => (a.points < b.points ? 1 : -1));
+    for (var i = 0; i < this.result.length; i += 1) {
+      this.score += this.result[i].points;
+    }
 
-          this.etappe = etappeinfo.data;
+    this.entry = entries.data;
 
-          this.stageResult = stageResult.data.sort((a, b) =>
-            a.points < b.points ? 1 : -1
-          );
-        })
-      );
+    this.etappe = etappeinfo.data;
+
+    this.stageResult = stageResult.data.sort((a, b) =>
+      a.points < b.points ? 1 : -1
+    );
   },
 };
 </script>

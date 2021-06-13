@@ -1,5 +1,5 @@
 <template>
-  <div class="container LoginLogOut">
+  <div class="authcontainer__form--signin">
     <h1>Login</h1>
     <h3 v-if="errorMessage">{{ errorMessage }}</h3>
     <form @submit.prevent="login()">
@@ -29,7 +29,7 @@
     </form>
     <small>
       Nog geen account?
-      <router-link to="Signup">Meld je aan!</router-link>
+      <a @click.prevent="$emit('toggleAuth', 'Signup')">Meld je aan!</a>
     </small>
   </div>
 </template>
@@ -37,8 +37,7 @@
 <script>
 import { mapMutations } from 'vuex';
 import validUser from '@/utils/validUser';
-import config from '@/utils/config';
-import axios from 'axios';
+import { AUTH_REQUEST } from '@/store/actions/auth';
 
 export default {
   data() {
@@ -60,44 +59,22 @@ export default {
     },
 
     async login() {
-      const data = {
-        email: this.user.email,
-        password: this.user.password,
-      };
-      const axiosHeaders = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
-      };
+      const data = this.user;
+      const email = this.user.email;
+      const password = this.user.password;
+      const route = 'auth/login';
+
       this.errorMessage = '';
-      if (validUser(this.user)) {
+      if (validUser(data)) {
         this.logginIn = true;
 
         try {
-          axios
-            .post(`${config.DEV_URL}auth/signin`, data, axiosHeaders)
-            .then((response) => {
-              if (response.status == 200) {
-                localStorage.token = response.data.token;
-
-                this.newUser(response.data.user.name, response.data.user_type);
-
-                this.logginIn = false;
-                this.$router.push('/dashboard');
-              } else {
-                this.errorMessage =
-                  'Er is iets mis gegaan, neem contact op met rondemaestro@gmail.com om te achterhalen wat.';
-                console.log(response);
-              }
+          this.$store
+            .dispatch(AUTH_REQUEST, { email, password, route })
+            .then(() => {
+              this.$router.push('/dashboard');
             })
-            .catch((error) => {
-              this.errorMessage = error.response.data.error;
-              setTimeout(() => {
-                this.errorMessage = '';
-              }, 5000);
-              console.log(error);
-            });
+            .catch((error) => console.error(error));
         } catch (error) {
           console.error(error);
         }

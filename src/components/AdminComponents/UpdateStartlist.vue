@@ -81,8 +81,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-import config from '@/utils/config';
+import routes from '@/api/routes';
 
 export default {
   name: 'Startlist',
@@ -98,9 +97,7 @@ export default {
   methods: {
     async getRenners(race) {
       this.renners = [];
-      const response = await axios.get(
-        `${config.DEV_URL}startlist?race_id=${race}`
-      );
+      const response = await routes.find(`startlist?race_id=${race}`);
 
       this.renners = response.data.sort((a, b) =>
         a.race_number > b.race_number ? 1 : -1
@@ -119,20 +116,17 @@ export default {
         updateValue = true;
         updatedCyclist.withdraw = true;
       }
-      await axios.put(`${config.DEV_URL}startlist/withdraw?race_id=${race}`, {
+      await routes.update(`startlist/withdraw?race_id=${race}`, {
         cyclist_id,
         race_id: race,
         updateValue,
       });
     },
     async updateRaceNumber(renner) {
-      await axios.put(
-        `${config.DEV_URL}startlist/update?race_id=${this.race}`,
-        renner
-      );
+      await routes.update(`startlist/update?race_id=${this.race}`, renner);
     },
     async removeRenner(id, race) {
-      await axios.delete(`${config.DEV_URL}startlist`, {
+      await routes.delete(`startlist`, {
         data: {
           cyclist_id: id,
           race_id: race,
@@ -141,7 +135,7 @@ export default {
     },
   },
   async created() {
-    const { data } = await axios.get(`${config.DEV_URL}races`);
+    const { data } = await routes.find(`races`);
     this.races = data;
   },
 };

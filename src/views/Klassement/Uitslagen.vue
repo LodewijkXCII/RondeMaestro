@@ -1,8 +1,6 @@
 <template>
   <section class="container">
-    <h1>
-      Klassement per etappe
-    </h1>
+    <h1>Klassement per etappe</h1>
     <!-- <router-link
       :to="{ name: 'algemeen-klassement' }"
       class="btn btn-alert"
@@ -44,6 +42,7 @@
 <script>
 import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
 import config from '@/utils/config';
+import routes from '@/api/routes';
 
 export default {
   //TODO bekijk of entrie al in ingevuld.
@@ -54,15 +53,13 @@ export default {
       ronde: null,
     };
   },
-  created() {
-    fetch(
-      `${config.DEV_URL}stages?race=${config.race_id}&year=${config.currentYear}`
-    )
-      .then((response) => response.json())
-      .then((result) => {
-        this.etappes = result.sort((a, b) => (a.date > b.date ? 1 : -1));
-        this.ronde = result[0].name;
-      });
+  async created() {
+    const result = await routes.find(
+      `stages?race=${config.race_id}&year=${config.currentYear}`
+    );
+
+    this.etappes = result.data.sort((a, b) => (a.date > b.date ? 1 : -1));
+    this.ronde = result[0].name;
   },
   methods: {
     ...mapMutations(['setEtappes']),

@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import config from '@/utils/config';
+import routes from '@/api/routes';
 
 export default {
   data() {
@@ -47,18 +47,8 @@ export default {
   mounted() {
     this.etappe_id = +this.$route.params.etappeID;
     this.getInfo();
-
-    // this.etappe_id = +this.$route.params.etappeID;
-    // fetch(`${config.DEV_URL}stages/${this.etappe_id}`)
-    //   .then((response) => response.json())
-    //   .then((result) => {
-    //     this.etappe = result;
-    //   });
   },
-  // updated() {
-  //   console.log('updated');
-  //   this.getInfo();
-  // },
+
   created() {
     this.getInfo();
   },
@@ -77,12 +67,13 @@ export default {
         params: { etappeID: newStage },
       });
     },
-    getInfo() {
-      fetch(`${config.DEV_URL}stages/${this.etappe_id}`)
-        .then((response) => response.json())
-        .then((result) => {
-          this.etappe = result;
-        });
+    async getInfo() {
+      try {
+        const result = await routes.find(`stages/${this.etappe_id}`);
+        this.etappe = result.data;
+      } catch (error) {
+        console.error(error);
+      }
     },
     prevEtappe() {
       const prevEtappe = +this.etappe - 1;

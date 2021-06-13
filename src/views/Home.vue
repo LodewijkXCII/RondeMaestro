@@ -48,13 +48,13 @@
       </p>
       <div class="buttons">
         <router-link
-          :to="{ name: 'Signin' }"
+          :to="{ name: 'Auth' }"
           role="button"
           class="btn btn-primary"
           >Aanmelden</router-link
         >
         <router-link
-          :to="{ name: 'Signup' }"
+          :to="{ name: 'Auth' }"
           role="button"
           class="btn btn-primary"
           >Inschrijven</router-link
@@ -86,12 +86,7 @@ export default {
     };
   },
   components: {},
-  mounted() {
-    const user = window.localStorage.user;
-    if (user) {
-      this.loggedIn = true;
-    }
-  },
+  mounted() {},
 };
 </script>
 

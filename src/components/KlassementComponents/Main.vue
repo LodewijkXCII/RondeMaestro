@@ -16,7 +16,7 @@
       <div class="rmTable__body--number">{{ index + 1 }}.</div>
       <div class="rmTable__body--user">{{ score.name }}</div>
       <div class="rmTable__body--points">
-        {{ score.sum }}
+        {{ score.points }}
       </div>
       <div class="rmTable__body--button">
         <font-awesome-icon :icon="['fas', 'caret-down']" />
@@ -27,7 +27,7 @@
           :key="renner.cyclist_id"
           class="selected_riders--rider"
         >
-          {{ renner.first_name }} {{ renner.last_name }}
+          {{ renner.first_name }} {{ renner.last_name }} ({{ renner.points }}pt)
         </div>
       </div>
     </div>
@@ -35,8 +35,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-import config from '@/utils/config';
+import routes from "@/api/routes";
 
 export default {
   props: {
@@ -52,11 +51,20 @@ export default {
   methods: {
     async showSelectie(id, index) {
       if (this.scores[index].selection.length === 0) {
-        const entry = await axios.get(
-          `${config.DEV_URL}entries?users_id=${id}&stage_id=${+this.etappe}`
+        const entry = await routes.find(
+          `entries/getpoints?users_id=${id}&stage_id=${+this.etappe}`
         );
         if (entry) {
-          this.scores[index].selection = entry.data;
+          const sortedData = entry.data.sort((a, b) => (a.points < b.points ? 1 : -1));
+
+          sortedData.forEach((renner) => {
+            if (renner.points == null) {
+              return (renner.points = 0);
+            }
+            return;
+          });
+
+          this.scores[index].selection = sortedData;
         }
       } else {
         this.scores[index].selection = [];

@@ -1,5 +1,12 @@
-function isAuthenticated(token) {
+import decode from 'jwt-decode';
+
+export function decodeToken(token) {
+  return decode(token);
+}
+
+export function isAuthenticated(token) {
   const refreshToken = localStorage.getItem('refreshToken');
+
   try {
     decode(token);
 
@@ -13,5 +20,3 @@ function isAuthenticated(token) {
   }
   return true;
 }
-
-export default isAuthenticated;

@@ -1,7 +1,7 @@
 <template>
   <div class="modal-mask">
-    <div class="modal-wrapper">
-      <div class="modal-container">
+    <div class="modal-wrapper" @click="$emit('close')">
+      <div class="modal-container" @click.stop>
         <div class="modal-header">
           <h3>Renners toevoegen.</h3>
           <font-awesome-icon :icon="['fas', 'times']" @click="$emit('close')" />
@@ -41,8 +41,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-import config from '../../utils/config';
+import routes from '@/api/routes';
 
 export default {
   props: {
@@ -72,9 +71,7 @@ export default {
     },
   },
   async created() {
-    const { data } = await axios.get(
-      `${config.DEV_URL}cyclists?team=${this.team.id}`
-    );
+    const { data } = await routes.find(`cyclists?team=${this.team.id}`);
     this.renners = data;
   },
 };

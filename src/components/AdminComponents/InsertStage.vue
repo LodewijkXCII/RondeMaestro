@@ -44,6 +44,15 @@
         autocomplete="off"
         required
       />
+      <label for="finish_city">URL link:</label>
+      <input
+        type="text"
+        name="image_url"
+        id="image_url"
+        v-model="stage.image_url"
+        autocomplete="off"
+        required
+      />
       <label for="distance">Afstand:</label>
       <input
         type="number"
@@ -80,8 +89,7 @@
 </template>
 
 <script>
-import axios from 'axios';
-import config from '@/utils/config';
+import routes from '@/api/routes';
 
 export default {
   data() {
@@ -94,7 +102,7 @@ export default {
         distance: '',
         date: '',
         done: false,
-        image_url: '/',
+        image_url: null,
         stage_type_id: null,
       },
       returnMsg: '',
@@ -106,7 +114,7 @@ export default {
   methods: {
     async submitEtappe() {
       try {
-        await axios.post(`${config.DEV_URL}stages`, {
+        await routes.create(`stages`, {
           race_id: this.stage.race_id,
           stage_nr: this.stage.stage_nr,
           start_city: this.stage.start_city,
@@ -121,15 +129,15 @@ export default {
         this.stage = {};
         this.returnMsg = 'Succesvol toegevoegd';
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
   },
   async created() {
-    const response = await axios.get(`${config.DEV_URL}races`);
+    const response = await routes.find(`races`);
     this.races = response.data;
 
-    const stage_types = await axios.get(`${config.DEV_URL}stage_type`);
+    const stage_types = await routes.find(`stage_type`);
     this.stage_types = stage_types.data;
   },
 };

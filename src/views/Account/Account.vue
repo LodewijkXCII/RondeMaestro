@@ -9,7 +9,7 @@
     </div>
     <div class="container account grid-1-2">
       <div class="grid-1-2__left">
-        <h1>Hoi {{ username }}</h1>
+        <h1>Hoi {{ getProfile.name }}</h1>
         <h2>Wat wil je graag doen?</h2>
 
         <ul>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
 import UpdateGebruiker from '@/components/AdminComponents/UpdateGebruiker.vue';
 import InsertRenner from '@/components/AdminComponents/InsertRenner.vue';
@@ -116,10 +116,7 @@ export default {
           component: 'InsertResult',
           name: 'Uitslag toevoegen',
         },
-        {
-          component: 'UpdateResult',
-          name: 'Uitslag aanpassen',
-        },
+
         {
           component: 'InsertStage',
           name: 'Etappe toevoegen',
@@ -137,6 +134,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['getProfile']),
     ...mapState(['userName']),
     userName(userName) {
       this.username = userName;
@@ -144,15 +142,7 @@ export default {
   },
   methods: {
     logout() {
-      let currentPath = this.$route.path;
-
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      localStorage.removeItem('user_id');
-      localStorage.removeItem('user_type_id');
-      if (currentPath !== '/') {
-        this.$router.go('/');
-      }
+      this.$store.dispatch(AUTH_LOGOUT).then(() => this.$router.push('/auth'));
     },
   },
   mounted() {

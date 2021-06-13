@@ -112,8 +112,8 @@
 </template>
 
 <script>
-import axios from 'axios';
-import config from '../../utils/config';
+import routes from '@/api/routes';
+
 import Modal from '../Modals/Team_Renner_Modal';
 
 export default {
@@ -137,9 +137,7 @@ export default {
       this.team = {};
       this.team = this.selectedTeam;
 
-      const teamMembers = await axios.get(
-        `${config.DEV_URL}cyclists?team=${id}`
-      );
+      const teamMembers = await routes.find(`cyclists?team=${id}`);
 
       this.teamMembers = teamMembers.data;
     },
@@ -150,7 +148,7 @@ export default {
         ({ abbreviation }) => abbreviation === country_abr
       );
       // UPDATE TEAM
-      const update = await axios.put(`${config.DEV_URL}teams/${this.team.id}`, {
+      const update = await routes.update(`teams/${this.team.id}`, {
         abbreviation: this.team.abbreviation,
         country_id: +country_id.id,
         level: this.team.level,
@@ -163,7 +161,7 @@ export default {
         return;
       } else {
         this.message = 'Er is iets mis gegaan.';
-        console.log(update);
+        console.error(update);
       }
     },
 
@@ -174,30 +172,30 @@ export default {
         ({ abbreviation }) => abbreviation === country_abr
       );
 
-      const removeRenner = axios
-        .put(`${config.DEV_URL}cyclists/${renner.cyclist_id}`, {
+      try {
+        const response = await routes.update(`cyclists/${renner.cyclist_id}`, {
           team_id: 69,
-        })
-        .then((response) => {
-          if (response.status == 200 || response.status == 204) {
-            let newTeam = this.teamMembers;
-            if (index > -1) {
-              newTeam = newTeam.splice(index, 1);
-            }
-          } else {
-            console.log('er is iets mis gegaan');
-          }
-        })
-        .catch((error) => {
-          return { error };
         });
+
+        if (response.status == 200 || response.status == 204) {
+          let newTeam = this.teamMembers;
+          if (index > -1) {
+            newTeam = newTeam.splice(index, 1);
+          }
+        } else {
+          console.error('er is iets mis gegaan');
+        }
+      } catch (error) {
+        console.error(error);
+        return { error };
+      }
     },
   },
   async mounted() {
-    const response = await axios.get(`${config.DEV_URL}teams`);
+    const response = await routes.find(`teams`);
     this.allTeams = response.data;
 
-    const country = await axios.get(`${config.DEV_URL}countries`);
+    const country = await routes.find(`countries`);
     this.countries = country.data;
   },
 };

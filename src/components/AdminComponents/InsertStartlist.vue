@@ -91,7 +91,8 @@
 </template>
 
 <script>
-import axios from 'axios';
+import routes from '@/api/routes';
+
 import config from '../../utils/config';
 import _ from 'lodash';
 
@@ -141,19 +142,17 @@ export default {
           };
         });
 
-        await axios.post(`${config.DEV_URL}startlist`, trimmedRenners);
+        await routes.create(`startlist`, trimmedRenners);
       } else {
         window.alert('Er is geen race geselecteerd');
       }
     },
   },
   async created() {
-    const races = await axios.get(`${config.DEV_URL}races`);
+    const races = await routes.find(`races`);
     this.races = races.data;
 
-    const teams = await axios.get(
-      `${config.DEV_URL}teams?year=${config.currentYear}`
-    );
+    const teams = await routes.find(`teams?year=${config.currentYear}`);
     this.teams = teams.data;
   },
 };

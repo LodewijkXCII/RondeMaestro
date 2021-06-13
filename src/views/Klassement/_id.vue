@@ -19,10 +19,12 @@
 </template>
 
 <script>
-import axios from 'axios';
-import config from '@/utils/config';
-import Aside from '@/components/KlassementComponents/Aside';
-import Main from '@/components/KlassementComponents/Main';
+import { mapGetters } from "vuex";
+
+import routes from "@/api/routes";
+import config from "@/utils/config";
+import Aside from "@/components/KlassementComponents/Aside";
+import Main from "@/components/KlassementComponents/Main";
 
 export default {
   props: { stage: Object },
@@ -53,6 +55,7 @@ export default {
   },
 
   methods: {
+    ...mapGetters(["getProfile"]),
     // async testing() {
     //   const c = +this.$route.params.etappeID;
     //   // TODO UPDATE TO DYNAMIC NEWSTAGE
@@ -68,43 +71,34 @@ export default {
         currentEtappe = this.stage.id;
         this.etappe = this.stage;
       } else {
-        const res = await axios.get(
-          `${config.DEV_URL}stages/${this.etappe_id}`
-        );
+        const res = await routes.find(`stages/${this.etappe_id}`);
         this.etappe = res.data;
         currentEtappe = res.data.id;
       }
 
-      const user_id = window.localStorage.user_id;
+      const totalScore = await routes.find(
+        `results/totalscore?stage_id=${currentEtappe}`
+      );
 
-      await axios
-        .get(
-          `${config.DEV_URL}entries?stage_id=${currentEtappe}&users_id=${user_id}`
-        )
-        .then((result) => {
-          this.selection = result.data;
-        });
-      await axios
-        .get(`${config.DEV_URL}results/totalscore?stage_id=${currentEtappe}`)
-        .then((result) => {
-          const response = result.data.sort((a, b) => b.sum - a.sum);
-          this.scores = response.map((user) => ({ ...user, selection: [] }));
-        });
-      await axios.get(`${config.DEV_URL}results/totalscore`).then((result) => {
-        this.totalScores = result.data.sort((a, b) => b.sum - a.sum);
-      });
-      await axios
-        .get(`${config.DEV_URL}results?stage_id=${currentEtappe}`)
-        .then((result) => {
-          this.uitslag = result.data;
-        });
+      const response = totalScore.data.sort((a, b) => b.points - a.points);
+      this.scores = response.map((user) => ({ ...user, selection: [] }));
+
+      const totalScoreRace = await routes.find(
+        `results/totalscore?race_id=${config.race_id}`
+      );
+
+      this.totalScores = totalScoreRace.data.sort((a, b) => b.sum - a.sum);
+
+      const resultStage = await routes.find(`results?stage_id=${currentEtappe}`);
+
+      this.uitslag = resultStage.data.sort((a, b) => (b.position > a.position ? -1 : 1));
     },
   },
 };
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 
 .klassement_id {
   display: grid;
