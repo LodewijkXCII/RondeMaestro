@@ -3,6 +3,8 @@ const Team = require('./teams.model');
 const queries = require('./teams.queries');
 const router = express.Router();
 
+const { uploadTeam: upload } = require('../../lib/aws-upload');
+
 router.get('/', async (req, res) => {
   const { year } = req.query;
 
@@ -24,9 +26,21 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-router.post('/', async (req, res, next) => {
+router.post('/', upload.single('image'), async (req, res, next) => {
+  const data = {
+    ...req.body,
+    image_url: req.file.location,
+  };
+
   try {
-    const newTeam = await Team.query().insert(req.body);
+    const newTeam = await Team.query().insert({
+      name: data.team_name,
+      abbreviation: data.abbreviation,
+      level: data.level,
+      country_id: parseInt(data.country),
+      year: parseInt(data.year),
+      image_url: data.image_url,
+    });
     res.json(newTeam);
   } catch (error) {
     return next(error);

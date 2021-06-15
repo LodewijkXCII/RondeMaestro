@@ -22,6 +22,18 @@
         required
       />
 
+      <label for="image">Afbeelding:</label>
+      <div class="preview-image">
+        <img v-if="preview" :src="preview" />
+        <input
+          type="file"
+          id="avatar"
+          name="image"
+          accept="image/png, image/jpeg"
+          @change="onChange"
+        />
+      </div>
+
       <label for="team">Team:</label>
       <select name="team" id="team" v-model="renner.team" required>
         <option :value="team.id" v-for="team in teams" :key="team.index">
@@ -30,21 +42,12 @@
       </select>
       <label for="country">Land:</label>
       <select name="country" id="country" v-model="renner.country" required>
-        <option
-          :value="country.id"
-          v-for="country in countries"
-          :key="country.index"
-        >
+        <option :value="country.id" v-for="country in countries" :key="country.index">
           {{ country.name }}
         </option>
       </select>
       <label for="speciality">Specialiteit:</label>
-      <select
-        name="speciality"
-        id="speciality"
-        v-model="renner.speciality"
-        required
-      >
+      <select name="speciality" id="speciality" v-model="renner.speciality" required>
         <option
           :value="speciality.id"
           v-for="speciality in specialities"
@@ -53,11 +56,7 @@
           {{ speciality.name }}
         </option>
       </select>
-      <button
-        type="submit"
-        class="btn btn-succes"
-        @click.prevent="submitRenner"
-      >
+      <button type="submit" class="btn btn-succes" @click.prevent="submitRenner">
         Toevoegen
       </button>
     </form>
@@ -65,20 +64,22 @@
 </template>
 
 <script>
-import routes from '@/api/routes';
-import config from '@/utils/config';
+import routes from "@/api/routes";
+import config from "@/utils/config";
 
 export default {
   data() {
     return {
       renner: {
-        first_name: '',
-        last_name: '',
+        first_name: "",
+        last_name: "",
         team: 0,
         country: 0,
         speciality: 1,
+        image: null,
       },
-      returnMsg: '',
+      preview: null,
+      returnMsg: "",
       teams: [],
       countries: [],
       specialities: [],
@@ -86,21 +87,23 @@ export default {
   },
 
   methods: {
+    onChange(e) {
+      const file = e.target.files[0];
+      this.renner.image = file;
+      this.preview = URL.createObjectURL(file);
+    },
     async submitRenner() {
+      const data = new FormData();
+      for (const [key, value] of Object.entries(this.renner)) {
+        data.append(key, value);
+      }
+
       try {
-        await routes.create(`cyclists`, {
-          first_name: this.renner.first_name,
-          last_name: this.renner.last_name,
-          country_id: this.renner.country,
-          team_id: this.renner.team,
-          speciality_id: this.renner.speciality,
-          image_url: `${this.renner.first_name.toLowerCase()}-${this.renner.last_name.toLowerCase()}-${
-            config.currentYear
-          }.jpeg`,
-        });
+        await routes.create(`cyclists`, data);
 
         this.renner = {};
-        this.returnMsg = 'Succesvol toegevoegd';
+        this.preview = null;
+        this.returnMsg = "Succesvol toegevoegd";
       } catch (error) {
         console.log(error);
       }
@@ -119,4 +122,4 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss"></style>

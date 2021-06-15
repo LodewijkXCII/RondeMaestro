@@ -2,8 +2,6 @@
   <div id="app">
     <NavBar />
     <router-view />
-
-    <!-- <BottomNav v-if="!isHome" /> -->
     <Footer />
   </div>
 </template>
@@ -75,6 +73,7 @@ body {
   padding: 0.5rem 0.75rem;
   border-radius: 5px;
   margin: 0.75rem 0;
+  cursor: pointer;
   a {
     color: $white-color;
     font-weight: 400;
@@ -162,7 +161,7 @@ h1 {
 h2 {
   font-size: 1rem;
   text-transform: uppercase;
-  color: $primary-color;
+  color: $text-color;
 }
 
 h3 {
@@ -187,7 +186,7 @@ small {
 a {
   text-decoration: none;
   cursor: pointer;
-  color: $primary-color;
+  color: darken($color: $text-color, $amount: 2);
   text-transform: uppercase;
   font-weight: 700;
 }
@@ -202,14 +201,19 @@ button {
 .btn {
   padding: 1em 1.3em;
   margin-right: 1em;
+  width: fit-content;
   text-transform: uppercase;
   font-weight: 700;
   border-radius: 10px;
   font-size: 0.75rem;
-  display: inline;
+  display: inline-block;
 
   &:hover {
     cursor: pointer;
+  }
+
+  svg {
+    margin-left: 0.3rem;
   }
 
   &-primary {
@@ -276,7 +280,7 @@ label {
   margin: 1.1rem 0 0;
 }
 
-input,
+input:not(input[type="file"]),
 select {
   font-family: "Roboto", sans-serif;
   border-radius: 5px;
@@ -290,6 +294,18 @@ select {
     border: none;
     background: lighten($color: $white-color, $amount: 1);
     box-shadow: 0 0 5px $primary-color;
+  }
+}
+
+.preview-image {
+  border-radius: 5px;
+  border: 0.5px solid darken($color: #f5f5f5, $amount: 15);
+  padding: 0.75em 1em;
+  margin: 0.5em 0 0.75em;
+  background: lighten($color: $white-color, $amount: 5);
+
+  img {
+    margin-bottom: 0.5rem;
   }
 }
 
@@ -330,7 +346,7 @@ select {
   &__body {
     display: grid;
     gap: 0.1rem;
-    color: $black-color;
+    color: $text-color;
     font-weight: normal;
   }
 
@@ -340,11 +356,11 @@ select {
       1fr minmax(15px, 20px);
   }
   &__header {
-    color: $primary-color;
+    color: $text-color;
     font-weight: 700;
 
     text-transform: uppercase;
-    border-bottom: 1px solid $primary-color;
+    border-bottom: 1px solid $secondary-color;
     padding-bottom: 0.2rem;
     margin-bottom: 0.1rem;
     padding: 0.75rem 1rem;
@@ -378,11 +394,11 @@ select {
     &:nth-child(odd) {
       background: darken($color: #fff, $amount: 3);
       &:hover {
-        background: darken($color: #fff, $amount: 9);
+        background: $primary-color;
       }
     }
     &:hover {
-      background: darken($color: #fff, $amount: 5);
+      background: darken($color: $primary-color, $amount: 1);
       font-weight: bold;
     }
 
@@ -509,5 +525,13 @@ select {
       }
     }
   } /* Styles */
+}
+
+footer {
+  margin-top: 3rem;
+  border-top: 2px solid $secondary-color;
+  padding: 1rem 0;
+  text-align: center;
+  font-size: 0.9rem;
 }
 </style>

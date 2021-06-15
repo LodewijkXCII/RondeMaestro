@@ -71,8 +71,8 @@ export default {
 
 .selectionRiders .renner {
   background: $primary-color;
-  color: $light-color;
-  font-weight: 100;
+  color: $text-color;
+  font-weight: 400;
   .selection {
     .renner {
       margin: 0.7em 0;
@@ -80,7 +80,7 @@ export default {
   }
 
   .lastName {
-    font-weight: 400;
+    font-weight: 700;
   }
   &__img {
     border-color: $white-color;

@@ -44,19 +44,19 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { mapGetters, mapState } from "vuex";
 
-import UpdateGebruiker from '@/components/AdminComponents/UpdateGebruiker.vue';
-import InsertRenner from '@/components/AdminComponents/InsertRenner.vue';
-import UpdateRenner from '@/components/AdminComponents/UpdateRenner.vue';
-import InsertTeam from '@/components/AdminComponents/InsertTeam.vue';
-import UpdateTeam from '@/components/AdminComponents/UpdateTeam.vue';
-import InsertStartlist from '@/components/AdminComponents/InsertStartlist.vue';
-import UpdateStartlist from '@/components/AdminComponents/UpdateStartlist.vue';
-import InsertResult from '@/components/AdminComponents/InsertResult.vue';
-import InsertStage from '@/components/AdminComponents/InsertStage.vue';
-import UpdateStage from '@/components/AdminComponents/UpdateStage.vue';
-import UpdateUser from '@/components/AdminComponents/UpdateUser.vue';
+import UpdateGebruiker from "@/components/AdminComponents/UpdateGebruiker.vue";
+import InsertRenner from "@/components/AdminComponents/InsertRenner.vue";
+import UpdateRenner from "@/components/AdminComponents/UpdateRenner.vue";
+import InsertTeam from "@/components/AdminComponents/InsertTeam.vue";
+import UpdateTeam from "@/components/AdminComponents/UpdateTeam.vue";
+import InsertStartlist from "@/components/AdminComponents/InsertStartlist.vue";
+import UpdateStartlist from "@/components/AdminComponents/UpdateStartlist.vue";
+import InsertResult from "@/components/AdminComponents/InsertResult.vue";
+import InsertStage from "@/components/AdminComponents/InsertStage.vue";
+import UpdateStage from "@/components/AdminComponents/UpdateStage.vue";
+import UpdateUser from "@/components/AdminComponents/UpdateUser.vue";
 
 export default {
   components: {
@@ -75,80 +75,80 @@ export default {
 
   data() {
     return {
-      username: '',
+      username: "",
       isAdmin: false,
       userLinks: [
         {
-          component: 'UpdateGebruiker',
-          name: 'Gegevens aanpassen',
+          component: "UpdateGebruiker",
+          name: "Gegevens aanpassen",
         },
         {
-          component: 'EmailSettings',
-          name: 'Email voorkeuren',
+          component: "EmailSettings",
+          name: "Email voorkeuren",
         },
       ],
       adminLinks: [
         {
-          component: 'UpdateRenner',
-          name: 'Renner aanpassen',
+          component: "UpdateRenner",
+          name: "Renner aanpassen",
         },
         {
-          component: 'InsertRenner',
-          name: 'Renner toevoegen',
+          component: "InsertRenner",
+          name: "Renner toevoegen",
         },
         {
-          component: 'UpdateTeam',
-          name: 'Team aanpassen',
+          component: "UpdateTeam",
+          name: "Team aanpassen",
         },
         {
-          component: 'InsertTeam',
-          name: 'Team toevoegen',
+          component: "InsertTeam",
+          name: "Team toevoegen",
         },
         {
-          component: 'InsertStartlist',
-          name: 'Startlijst toevoegen',
+          component: "InsertStartlist",
+          name: "Startlijst toevoegen",
         },
         {
-          component: 'UpdateStartlist',
-          name: 'Startlijst aanpassen',
+          component: "UpdateStartlist",
+          name: "Startlijst aanpassen",
         },
         {
-          component: 'InsertResult',
-          name: 'Uitslag toevoegen',
+          component: "InsertResult",
+          name: "Uitslag toevoegen",
         },
 
         {
-          component: 'InsertStage',
-          name: 'Etappe toevoegen',
+          component: "InsertStage",
+          name: "Etappe toevoegen",
         },
         {
-          component: 'UpdateStage',
-          name: 'Etappe aanpassen',
+          component: "UpdateStage",
+          name: "Etappe aanpassen",
         },
         {
-          component: 'UpdateUser',
-          name: 'Gebruiker aanpassen',
+          component: "UpdateUser",
+          name: "Gebruiker aanpassen",
         },
       ],
-      currentTab: '',
+      currentTab: "",
     };
   },
   computed: {
-    ...mapGetters(['getProfile']),
-    ...mapState(['userName']),
+    ...mapGetters(["getProfile"]),
+    ...mapState(["userName"]),
     userName(userName) {
       this.username = userName;
     },
   },
   methods: {
     logout() {
-      this.$store.dispatch(AUTH_LOGOUT).then(() => this.$router.push('/auth'));
+      this.$store.dispatch(AUTH_LOGOUT).then(() => this.$router.push("/auth"));
     },
   },
   mounted() {
     this.username = this.userName;
     this.username = window.localStorage.user;
-    if (window.localStorage.user_type_id == 6 || 3) {
+    if (this.getProfile.user_role_id == 3 || this.getProfile.user_role_id == 6) {
       this.isAdmin = true;
     }
   },
@@ -156,7 +156,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 .account {
   background: #f4f4f4;
   padding: 0.5em 0;
@@ -195,7 +195,7 @@ export default {
     position: relative;
     &::before {
       position: absolute;
-      content: '';
+      content: "";
       height: 7px;
       width: 100%;
       background: $primary-color;

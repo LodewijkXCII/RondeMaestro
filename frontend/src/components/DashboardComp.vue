@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div>
+  <div class="dashboardComponent">
+    <div v-show="lastFive.length > 0">
       <h2>Laatste 5 uitslagen</h2>
       <ul>
         <li v-for="result in lastFive" :key="result.id">
@@ -10,9 +10,15 @@
     </div>
     <div>
       <h2>Eerst volgende Etappe</h2>
-      <etappe-info :stage="firstStage" />
-
-      <router-link :to="`/selectie/${firstStage.id}`">Klik hiero</router-link>
+      <etappe-info :stage="firstStage" :showRenners="true" :selectie="nextSelection">
+        <router-link
+          slot="button"
+          :to="`/selectie/${firstStage.id}`"
+          class="btn btn-primary"
+        >
+          Selectie kiezen <font-awesome-icon :icon="['fas', 'arrow-right']" />
+        </router-link>
+      </etappe-info>
     </div>
     <div>
       <h2>Selectie voor huidige etappe</h2>
@@ -28,9 +34,11 @@
           {{ user.points }}
         </li>
       </ol>
-      <button>Ga naar het volledige klassement</button>
+      <router-link to="algemeen-klassement" class="btn btn-primary"
+        >Ga naar het volledige klassement</router-link
+      >
     </div>
-    <div>
+    <div v-show="uitslagLastStage.length > 0">
       <h2>Uitslag laatste etappe</h2>
       <ol>
         <li v-for="user in uitslagLastStage" :key="user.id">
@@ -38,7 +46,9 @@
           {{ user.points }}
         </li>
       </ol>
-      <buttfon>Ga naar het volledige klassement</buttfon>
+      <router-link to="algemeen-klassement" class="btn btn-primary"
+        >Ga naar het volledige klassement</router-link
+      >
     </div>
   </div>
 </template>
@@ -58,6 +68,7 @@ export default {
       selectie: [],
       klassement: [],
       uitslagLastStage: [],
+      nextSelection: [],
     };
   },
   props: {
@@ -93,6 +104,10 @@ export default {
         `entries?stage_id=${currentStage.stage_nr}&users_id=${this.user_id}`
       );
       this.selectie = currentSelection;
+      const { data: nextSelection } = await routes.find(
+        `entries?stage_id=${commingStage.id}&users_id=${this.user_id}`
+      );
+      this.nextSelection = nextSelection;
 
       const { data: klassement } = await routes.find(
         `results/totalscore?race_id=${config.race_id}`
@@ -111,13 +126,9 @@ export default {
 </script>
 
 <style lang="scss">
-// .dashboard_renners {
-//   display: flex;
-//   flex-flow: wrap;
-//   gap: 0.5rem;
-
-//   .renner {
-//     margin: 0.5rem 0.25rem;
-//   }
-// }
+.dashboardComponent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
 </style>

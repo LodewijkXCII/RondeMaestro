@@ -28,11 +28,7 @@
               required
             />
 
-            <button
-              type="submit"
-              class="btn btn-succes"
-              @click.prevent="updateRenner"
-            >
+            <button type="submit" class="btn btn-succes" @click.prevent="updateRenner">
               Aanpassen
             </button>
           </form>
@@ -47,7 +43,7 @@
 </template>
 
 <script>
-import routes from '@/api/routes';
+import routes from "@/api/routes";
 
 export default {
   data() {
@@ -80,7 +76,7 @@ export default {
         );
 
         if (response.status != 200) {
-          console.error('Er is iets mis gegaan');
+          console.error("Er is iets mis gegaan");
         }
         return;
       } catch (error) {

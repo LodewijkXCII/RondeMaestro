@@ -7,10 +7,9 @@
     "last_name",
     "country_id",
     "team_id",
-    "speciality_id",
-    "image_url"
+    "speciality_id"
   ],
-  "additionalProperties": false,
+  "additionalProperties": true,
   "properties": {
     "id": {
       "$id": "#/properties/id",

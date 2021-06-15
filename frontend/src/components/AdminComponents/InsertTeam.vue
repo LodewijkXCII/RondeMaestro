@@ -12,6 +12,17 @@
         autocomplete="off"
         required
       />
+      <label for="image">Afbeelding:</label>
+      <div class="preview-image">
+        <img v-if="preview" :src="preview" />
+        <input
+          type="file"
+          id="avatar"
+          name="image"
+          accept="image/png, image/jpeg"
+          @change="onChange"
+        />
+      </div>
       <label for="abbreviation">Afkorting:</label>
       <input
         type="text"
@@ -25,11 +36,7 @@
 
       <label for="country">Land:</label>
       <select name="country" id="country" v-model="team.country" required>
-        <option
-          :value="country.id"
-          v-for="country in countries"
-          :key="country.index"
-        >
+        <option :value="country.id" v-for="country in countries" :key="country.index">
           {{ country.name }}
         </option>
       </select>
@@ -46,37 +53,44 @@
 </template>
 
 <script>
-import routes from '@/api/routes';
+import routes from "@/api/routes";
 
 export default {
   data() {
     return {
       team: {
-        team_name: '',
-        abbreviation: '',
-        level: '',
+        team_name: "",
+        abbreviation: "",
+        level: "",
         country: 0,
         year: 2021,
+        image: null,
       },
-      returnMsg: '',
+      returnMsg: "",
+      preview: null,
       countries: [],
     };
   },
 
   methods: {
+    onChange(e) {
+      const file = e.target.files[0];
+      this.team.image = file;
+      this.preview = URL.createObjectURL(file);
+    },
+
     async submitTeam() {
+      const data = new FormData();
+      for (const [key, value] of Object.entries(this.team)) {
+        data.append(key, value);
+      }
+
       try {
-        await routes.create(`teams`, {
-          name: this.team.team_name,
-          abbreviation: this.team.abbreviation,
-          country_id: this.team.country,
-          year: this.team.year,
-          level: this.team.level,
-          image_url: `${this.team.team_name.toLowerCase()}-2021.jpeg`,
-        });
+        await routes.create(`teams`, data);
 
         this.team = {};
-        this.returnMsg = 'Succesvol toegevoegd';
+        this.preview = null;
+        this.returnMsg = "Succesvol toegevoegd";
       } catch (error) {
         console.error(error);
       }

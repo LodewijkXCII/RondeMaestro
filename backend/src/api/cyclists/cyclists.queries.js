@@ -22,6 +22,7 @@ const fields = [
 
 module.exports = {
   find(query) {
+    console.log(query);
     const cyclistQuery = db(cyclist)
       .from(cyclist)
       .select(fields)
@@ -42,8 +43,8 @@ module.exports = {
     //   cyclistQuery.orderBy('race_number');
     // }
 
-    if (query.team) {
-      cyclistQuery.where('team_id', query.team).orderBy('last_name', 'asc');
+    if (query.team_id) {
+      cyclistQuery.where('team_id', query.team_id).orderBy('last_name', 'asc');
     }
 
     if (query.speciality) {

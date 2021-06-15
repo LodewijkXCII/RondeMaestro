@@ -168,11 +168,11 @@ export default {
 
   &.selected {
     background: lighten($color: $primary-color, $amount: 5);
-    color: $light-color;
+    color: $text-color;
     border-bottom: 1px solid darken($color: $primary-color, $amount: 1);
 
     svg {
-      color: $white-color !important;
+      color: $secondary-color !important;
     }
   }
 }

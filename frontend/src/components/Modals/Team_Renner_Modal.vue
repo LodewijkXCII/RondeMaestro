@@ -3,28 +3,24 @@
     <div class="modal-wrapper" @click="$emit('close')">
       <div class="modal-container" @click.stop>
         <div class="modal-header">
-          <slot name="header">
-            default header
-          </slot>
+          <slot name="header"> default header </slot>
           <font-awesome-icon :icon="['fas', 'times']" @click="$emit('close')" />
         </div>
 
         <div class="modal-body">
-          <slot name="body">
-            <p>Selecteer het team waarin de renner op dit moment nog zit.</p>
-            <label for="year">Kies het oude team:</label>
-            <select
-              name="team"
-              id="team"
-              v-model="selectedTeam"
-              required
-              @change="searchRiders(selectedTeam.id)"
-            >
-              <option :value="team" v-for="team in allTeams" :key="team.id">
-                {{ team.year }} - {{ team.name }}
-              </option>
-            </select>
-          </slot>
+          <p>Selecteer het team waarin de renner op dit moment nog zit.</p>
+          <label for="year">Kies het oude team:</label>
+          <select
+            name="team"
+            id="team"
+            v-model="selectedTeam"
+            required
+            @change="searchRiders(selectedTeam.id)"
+          >
+            <option :value="team" v-for="team in allTeams" :key="team.id">
+              {{ team.year }} - {{ team.name }}
+            </option>
+          </select>
         </div>
 
         <div class="modal-footer">
@@ -68,7 +64,7 @@
 </template>
 
 <script>
-import routes from '@/api/routes';
+import routes from "@/api/routes";
 
 export default {
   props: {
@@ -98,9 +94,9 @@ export default {
         });
 
         if (response.status == 200 || response.status == 204) {
-          this.$emit('close');
+          this.$emit("close");
         } else {
-          console.error('er is iets mis gegaan');
+          console.error("er is iets mis gegaan");
         }
       } catch (error) {
         console.error(error);
@@ -127,7 +123,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 
 .modal-mask {
   position: fixed;
@@ -147,13 +143,19 @@ export default {
 }
 
 .modal-container {
-  width: 60%;
+  width: 95%;
   margin: 0px auto;
   padding: 20px 30px;
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
+}
+
+@media only screen and (min-width: 1224px) {
+  .modal-container {
+    width: 60%;
+  }
 }
 
 .modal-header {
