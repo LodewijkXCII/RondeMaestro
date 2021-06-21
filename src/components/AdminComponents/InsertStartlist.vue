@@ -1,12 +1,8 @@
 <template>
   <section>
-    <modal
-      v-if="showModal"
-      @close="showModal = false"
-      @setTeam="setRenners"
-      :team="team"
-    >
+    <modal v-if="showModal" @close="showModal = false" @setTeam="setRenners" :team="team">
     </modal>
+    <h1 v-show="message">{{ message }}</h1>
     <h2>Startlijst toevoegen</h2>
     <label for="race">Kies de ronde:</label>
     <select name="race" id="race" v-model="race">
@@ -17,11 +13,7 @@
     <label for="race">Kies de teams:</label>
 
     <div class="checkBoxWrapper">
-      <div
-        v-for="team in teams"
-        :key="team.index"
-        class="checkBoxWrapper__team"
-      >
+      <div v-for="team in teams" :key="team.index" class="checkBoxWrapper__team">
         <input
           type="checkbox"
           name="team"
@@ -30,17 +22,11 @@
           :value="team"
           class="checkBoxWrapper__team--input"
         />
-        <label :for="team" class="checkBoxWrapper__team--name">{{
-          team.name
-        }}</label>
+        <label :for="team" class="checkBoxWrapper__team--name">{{ team.name }}</label>
       </div>
     </div>
 
-    <div
-      class="selectie"
-      v-for="selectTeam in selectedTeams"
-      :key="selectTeam.id"
-    >
+    <div class="selectie" v-for="selectTeam in selectedTeams" :key="selectTeam.id">
       <h2>Selecteer renners voor {{ selectTeam.name }}</h2>
 
       <div class="rmTable">
@@ -59,8 +45,7 @@
         >
           <div class="rmTable__body--number">{{ renner.cyclist_id }}</div>
           <div class="rmTable__body--user">
-            {{ renner.first_name
-            }}<span class="lastName">{{ renner.last_name }}</span>
+            {{ renner.first_name }}<span class="lastName">{{ renner.last_name }}</span>
           </div>
           <div class="rmTable__body--button">
             <font-awesome-icon
@@ -80,23 +65,19 @@
         </div>
       </div>
     </div>
-    <button
-      class="btn btn-succes"
-      @click.prevent="setSelectie"
-      style="margin-top: 1rem"
-    >
+    <button class="btn btn-succes" @click.prevent="setSelectie" style="margin-top: 1rem">
       Sla startlijst op
     </button>
   </section>
 </template>
 
 <script>
-import routes from '@/api/routes';
+import routes from "@/api/routes";
 
-import config from '../../utils/config';
-import _ from 'lodash';
+import config from "../../utils/config";
+import _ from "lodash";
 
-import Modal from '../Modals/Renner_Startlist_Modal';
+import Modal from "../Modals/Renner_Startlist_Modal";
 
 export default {
   components: {
@@ -108,7 +89,7 @@ export default {
       race: null,
       teams: [],
       renners: [],
-
+      message: "",
       selectedTeams: [],
       showModal: false,
       team: null,
@@ -143,8 +124,9 @@ export default {
         });
 
         await routes.create(`startlist`, trimmedRenners);
+        this.message = "Succesvol toegevoegd";
       } else {
-        window.alert('Er is geen race geselecteerd');
+        window.alert("Er is geen race geselecteerd");
       }
     },
   },
