@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import routes from '@/api/routes';
+import routes from "@/api/routes";
 
 export default {
   props: {
@@ -55,8 +55,8 @@ export default {
   },
   methods: {
     setTeam() {
-      this.$emit('setTeam', this.selectie);
-      this.$emit('close');
+      this.$emit("setTeam", this.selectie);
+      this.$emit("close");
     },
     setSelectie(renner, index) {
       if (this.selectie.includes(renner)) {
@@ -71,7 +71,7 @@ export default {
     },
   },
   async created() {
-    const { data } = await routes.find(`cyclists?team=${this.team.id}`);
+    const { data } = await routes.find(`cyclists?team_id=${this.team.id}`);
     this.renners = data;
   },
 };

@@ -139,16 +139,15 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
     store.dispatch(USER_REQUEST);
 
-    if (localStorage.getItem('token') == null) {
+    if (!store.getters.isAuthenticated) {
       next({
         path: '/auth',
         query: { nextUrl: to.fullPath },
       });
     } else if (to.matched.some((record) => record.meta.isAdmin)) {
       if (
-        // TODO GET USER_TYPE_ID FROM STORE
-        +localStorage.user_type_id === 3 ||
-        +localStorage.user_type_id === 6
+        store.getters.getProfile.user_type_id == 3 ||
+        store.getters.getProfile.user_type_id == 6
       ) {
         next();
       } else {

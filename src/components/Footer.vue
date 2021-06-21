@@ -3,11 +3,10 @@
     <div class="footer footer__Top">
       <div class="footer__Top--left">
         <router-link :to="{ name: 'Home' }" class="brand">
-          <img :src="require('@/assets/rondemaestro_giro_logo.png')" />
+          <img :src="require('@/assets/rondemaestro_logo.png')" />
         </router-link>
         <h2>
-          Ronde Maestro, h&eacute;t wielerspel waarbij je dagelijks dezelfde
-          kansen hebt!
+          Ronde Maestro, h&eacute;t wielerspel waarbij je dagelijks dezelfde kansen hebt!
         </h2>
         <ul>
           <li>Privacy Policy</li>
@@ -25,8 +24,7 @@
     </div>
     <div class="footer footer__Bottom">
       <h4>
-        &copy; 2020 - {{ new Date().getFullYear() }} Ronde Maestro door Zweers
-        Design
+        &copy; 2020 - {{ new Date().getFullYear() }} Ronde Maestro door Zweers Design
       </h4>
     </div>
   </footer>
@@ -37,7 +35,7 @@ export default {};
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 
 footer {
   background: white;

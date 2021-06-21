@@ -18,7 +18,7 @@
     <div v-show="loading">
       <h1 class="loading">Ffkes wachten, aan het laden...</h1>
     </div>
-    <div class="">
+    <div :key="componentKey">
       <RennerCard
         v-for="renner in renners"
         :key="renner.cyclist_id"
@@ -48,11 +48,12 @@
 </template>
 
 <script>
-import routes from '@/api/routes';
+import routes from "@/api/routes";
+import config from "@/utils/config";
 
-import RennerCard from '@/components/Renner.vue';
-import FilterOptions from '@/components/FilterOptions.vue';
-import Modal from '../Modals/Update_Renner_Modal.vue';
+import RennerCard from "@/components/Renner.vue";
+import FilterOptions from "@/components/FilterOptions.vue";
+import Modal from "../Modals/Update_Renner_Modal.vue";
 
 export default {
   components: {
@@ -70,6 +71,7 @@ export default {
       counter: 0,
       showModal: false,
       selectedRider: {},
+      componentKey: 0,
     };
   },
 
@@ -95,10 +97,14 @@ export default {
       this.renners = response.data;
     },
     async searchRidersTeam(team) {
+      console.log(team);
       const searchrider = await routes.find(
-        `cyclists?&team=${team}&limit=${this.limit}&offset=${this.offset}`
+        `cyclists?team_id=${team}`
+        // `cyclists?&team_id=${team}&limit=${this.limit}&offset=${this.offset}`
       );
+      console.log(searchrider.data);
       this.renners = searchrider.data;
+      this.componentKey += 1;
     },
     // RENNER ZOEKEN
     async searchRiders() {
@@ -115,7 +121,7 @@ export default {
     );
     this.renners = response.data;
 
-    const teams = await routes.find(`teams`);
+    const teams = await routes.find(`teams?year=${config.currentYear}`);
     this.teams = teams.data;
     this.loading = false;
   },

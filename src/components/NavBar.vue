@@ -2,42 +2,31 @@
   <nav>
     <div class="container">
       <router-link :to="{ name: 'Home' }" class="brand">
-        <img :src="require('@/assets/rondemaestro_giro_logo.png')" />
+        <img :src="require('@/assets/rondemaestro_logo.png')" />
       </router-link>
       <div class="leftNav">
         <div class="navItem">
-          <router-link :to="{ name: 'Dashboard' }">
-            Dashboard
-          </router-link>
+          <router-link :to="{ name: 'Dashboard' }"> Dashboard </router-link>
         </div>
         <div class="navItem">
           <router-link :to="{ name: 'etappe-overzicht' }"> Etappes</router-link>
         </div>
         <div class="navItem">
-          <router-link :to="{ name: 'uitslagen' }">
-            Uitslagen
-          </router-link>
+          <router-link :to="{ name: 'uitslagen' }"> Uitslagen </router-link>
         </div>
         <div class="navItem">
-          <router-link :to="{ name: 'Spelregels' }">
-            Spelregels
-          </router-link>
+          <router-link :to="{ name: 'Spelregels' }"> Spelregels </router-link>
         </div>
       </div>
       <div class="rightNav">
         <div class="rightNav__options" v-if="toggle" @click="toggle = !toggle">
           <ul>
             <li>
-              <router-link
-                :to="{ name: 'account' }"
-                style="text-transform: uppercase;"
-              >
+              <router-link :to="{ name: 'account' }" style="text-transform: uppercase">
                 Mijn account</router-link
               >
             </li>
-            <li class="logout" v-if="isAuthenticated" @click="logout">
-              Afmelden
-            </li>
+            <li class="logout" v-if="isAuthenticated" @click="logout">Afmelden</li>
           </ul>
         </div>
         <div
@@ -47,44 +36,30 @@
         >
           <ul>
             <li>
-              <router-link :to="{ name: 'Dashboard' }">
-                Dashboard
-              </router-link>
+              <router-link :to="{ name: 'Dashboard' }"> Dashboard </router-link>
             </li>
             <li>
-              <router-link :to="{ name: 'etappe-overzicht' }">
-                Etappes</router-link
-              >
+              <router-link :to="{ name: 'etappe-overzicht' }"> Etappes</router-link>
             </li>
             <li>
-              <router-link :to="{ name: 'uitslagen' }">
-                Uitslagen
-              </router-link>
+              <router-link :to="{ name: 'uitslagen' }"> Uitslagen </router-link>
             </li>
 
             <li>
-              <router-link :to="{ name: 'Spelregels' }">
-                Spelregels
-              </router-link>
+              <router-link :to="{ name: 'Spelregels' }"> Spelregels </router-link>
             </li>
           </ul>
         </div>
         <div class="rightNav__fixed">
           <div class="rightNav__fixed--user" v-if="isProfileLoaded">
-            <div
-              class="rightNav__fixed--user username"
-              @click="toggle = !toggle"
-            >
+            <div class="rightNav__fixed--user username" @click="toggle = !toggle">
               <font-awesome-icon :icon="['far', 'user']" />
               {{ username }}
               <font-awesome-icon :icon="['fas', 'caret-down']" />
             </div>
           </div>
 
-          <div
-            class="rightNav__fixed--sign"
-            v-if="!isAuthenticated && !authLoading"
-          >
+          <div class="rightNav__fixed--sign" v-if="!isAuthenticated && !authLoading">
             <router-link
               :to="{ name: 'Auth', params: { authType: 'signup' } }"
               class="rightNav__fixed--sign nav-link"
@@ -94,18 +69,14 @@
             </router-link>
             <router-link
               :to="{ name: 'Auth', params: { authType: 'signin' } }"
-              class="rightNav__fixed--sign
-              nav-link"
+              class="rightNav__fixed--sign nav-link"
               replace
             >
               Aanmelden
             </router-link>
           </div>
           <div class="rightNav__fixed--menu">
-            <font-awesome-icon
-              :icon="['fas', 'bars']"
-              @click="showMenu = !showMenu"
-            />
+            <font-awesome-icon :icon="['fas', 'bars']" @click="showMenu = !showMenu" />
           </div>
         </div>
       </div>
@@ -114,8 +85,8 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapState } from 'vuex';
-import { AUTH_LOGOUT } from '@/store/actions/auth';
+import { mapGetters, mapMutations, mapState } from "vuex";
+import { AUTH_LOGOUT } from "@/store/actions/auth";
 
 export default {
   data() {
@@ -128,12 +99,12 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['getProfile', 'isAuthenticated', 'isProfileLoaded']),
+    ...mapGetters(["getProfile", "isAuthenticated", "isProfileLoaded"]),
     ...mapState({
-      authLoading: (state) => state.auth.status === 'loading',
+      authLoading: (state) => state.auth.status === "loading",
       username: (state) => state.user.profile.name,
     }),
-    ...mapMutations(['setAuth']),
+    ...mapMutations(["setAuth"]),
   },
 
   methods: {
@@ -143,7 +114,7 @@ export default {
     //   this.setAuth(value);
     // },
     logout() {
-      this.$store.dispatch(AUTH_LOGOUT).then(() => this.$router.push('/auth'));
+      this.$store.dispatch(AUTH_LOGOUT).then(() => this.$router.push("/auth"));
     },
   },
   // mounted() {
@@ -163,10 +134,10 @@ export default {
 </script>
 
 <style lang="scss">
-@import '@/assets/styles.scss';
+@import "@/assets/styles.scss";
 
 nav {
-  border-bottom: 2px solid $primary-color;
+  border-bottom: 2px solid $secondary-color;
   .container {
     display: flex;
     align-items: center;
@@ -191,7 +162,7 @@ nav {
       display: flex;
       align-items: center;
       text-transform: uppercase;
-      color: $primary-color;
+      color: $text-color;
       font-weight: 700;
       position: relative;
 
@@ -216,7 +187,7 @@ nav {
         cursor: pointer;
         padding-top: 5px;
         margin-top: 10px;
-        border-top: 1px solid $primary-color;
+        border-top: 1px solid $text-color;
       }
 
       &__fixed {
@@ -225,8 +196,8 @@ nav {
 
         &::before {
           padding-right: 10px;
-          content: '';
-          border-left: 1px solid $primary-color;
+          content: "";
+          border-left: 1px solid $text-color;
         }
         &--user {
           display: flex;
@@ -237,7 +208,7 @@ nav {
 
             &:hover {
               cursor: pointer;
-              color: darken($color: $primary-color, $amount: 7);
+              color: $primary-color;
             }
 
             svg {

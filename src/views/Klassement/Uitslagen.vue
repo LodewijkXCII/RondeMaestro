@@ -40,13 +40,13 @@
 </template>
 
 <script>
-import { mapState, mapGetters, mapMutations, mapActions } from 'vuex';
-import config from '@/utils/config';
-import routes from '@/api/routes';
+import { mapMutations } from "vuex";
+import config from "@/utils/config";
+import routes from "@/api/routes";
 
 export default {
   //TODO bekijk of entrie al in ingevuld.
-  name: 'EtappeOverzicht',
+  name: "EtappeOverzicht",
   data() {
     return {
       etappes: {},
@@ -55,21 +55,21 @@ export default {
   },
   async created() {
     const result = await routes.find(
-      `stages?race=${config.race_id}&year=${config.currentYear}`
+      `stages?race_id=${config.race_id}&year=${config.currentYear}`
     );
 
     this.etappes = result.data.sort((a, b) => (a.date > b.date ? 1 : -1));
     this.ronde = result[0].name;
   },
   methods: {
-    ...mapMutations(['setEtappes']),
+    ...mapMutations(["setEtappes"]),
     setEtappe(etappe) {
       this.setEtappes(etappe);
     },
 
     pushStage(stage) {
       this.$router.push({
-        name: 'klassement-single',
+        name: "klassement-single",
         params: { etappeID: stage.id, stage: stage },
       });
     },
@@ -82,10 +82,7 @@ export default {
 .rmTable__body {
   display: grid;
   gap: 0.1rem;
-  grid-template-columns: minmax(5px, 10px) minmax(40px, 1fr) 4fr minmax(
-      15px,
-      20px
-    );
+  grid-template-columns: minmax(5px, 10px) minmax(40px, 1fr) 4fr minmax(15px, 20px);
   font-weight: normal;
 
   &:hover {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section>
     <modal v-if="showModal" @close="showModal = false" :stage="stage">
       <h3 slot="header">Etappeinfo</h3>
     </modal>
@@ -18,16 +18,18 @@
         <!-- Blok links -->
         <!-- links 1 -->
         <div class="rennerOverview-Left--left">
-          <div class="PrevNext">
-            <router-link to="/etappe-overzicht">
-              <span>Terug naar het etappe overzicht</span>
-            </router-link>
-          </div>
           <div class="rennerOverview-Left--title">
             <div class="label label-alert">
               <div @click="showModal = true">Etappe info</div>
             </div>
             <h1>Renners selecteren</h1>
+            <div class="rennerOverview-Left--title__subtitle">
+              <img :src="stage.stage_type" />
+              <h2>
+                {{ stage.stage_nr }}. {{ stage.start_city }} -
+                {{ stage.finish_city }}
+              </h2>
+            </div>
           </div>
         </div>
 
@@ -91,7 +93,7 @@
 
       <!-- Einde RIJ 2 -->
     </section>
-  </div>
+  </section>
 </template>
 
 <script>
@@ -112,6 +114,7 @@ export default {
     searchName: {
       type: String,
     },
+    stage_id: { type: Number, required: true },
   },
   name: "RennerOverview",
   components: {
@@ -234,15 +237,15 @@ export default {
       } else {
         this.sendButton = "Versturen...";
         const response = await routes.find(
-          `entries?users_id=${activeUser}&stage_id=${this.$route.params.etappeID}`
+          `entries?users_id=${activeUser}&stage_id=${this.stage_id}`
         );
 
         response.data.forEach(async (selected) => {
           await routes.update(
-            `entries?users_id=${this.activeUser}&stage_id=${this.$route.params.etappeID}`,
+            `entries?users_id=${this.activeUser}&stage_id=${this.stage_id}`,
             {
               users_id: +activeUser,
-              stage_id: +this.$route.params.etappeID,
+              stage_id: +this.stage_id,
               cyclist_id: selected.cyclist_id,
             }
           );
@@ -252,7 +255,7 @@ export default {
           try {
             await routes.create(`entries`, {
               users_id: +activeUser,
-              stage_id: +this.$route.params.etappeID,
+              stage_id: +this.stage_id,
               cyclist_id: +renner.cyclist_id,
             });
 
@@ -302,12 +305,12 @@ export default {
         selected: false,
       };
     });
-    const stage = await routes.find(`stages/${this.$route.params.etappeID}`);
+    const stage = await routes.find(`stages/${this.stage_id}`);
     this.stage = stage.data;
 
     if (this.activeUser) {
       const entries = await routes.find(
-        `entries?users_id=${this.activeUser}&stage_id=${this.$route.params.etappeID}`
+        `entries?users_id=${this.activeUser}&stage_id=${this.stage_id}`
       );
       if (entries.status === 200) {
         entries.data.forEach((cyclist) => {
@@ -383,7 +386,7 @@ export default {
 .team {
   margin-bottom: 2rem;
   .renner svg {
-    color: $primary-color;
+    color: $secondary-color;
   }
 }
 
@@ -391,7 +394,7 @@ export default {
   display: grid;
   row-gap: 1em;
   margin: 0 1rem;
-  margin-top: 2rem;
+  // margin-top: 2rem;
   &-Right {
     display: flex;
     flex-direction: column;
@@ -411,8 +414,14 @@ export default {
     row-gap: 1em;
     column-gap: 7em;
     padding: 0.5em 1.5em;
-    margin: 2rem auto 0;
+    margin: auto 0;
     &-Left {
+      &--title__subtitle {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.1rem;
+      }
       &--left {
         display: flex;
         flex-direction: column;
