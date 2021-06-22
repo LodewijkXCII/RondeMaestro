@@ -78,14 +78,9 @@ export default {
     RennerCard,
     EtappeInfo,
   },
-  methods: {
-    isCurrentUser() {},
-  },
 
-  async created() {
+  async mounted() {
     try {
-      console.log(this.user_id);
-      // TODO SET RACE_ID AS DYNAMIC
       const { data: results } = await routes.find(
         `results/userscore?user_id=${this.user_id}&race_id=${config.race_id}`
       );

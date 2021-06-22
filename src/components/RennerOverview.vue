@@ -59,7 +59,7 @@
             {{ countSelectie }}
             <span>/ 8</span>
           </h4>
-          <strong class="error">{{ errorMsg }}</strong>
+          <strong class="error" v-show="errorMsg">{{ errorMsg }}</strong>
         </div>
         <div class="selectedRiders__buttons">
           <button @click.prevent="delSelectie()" class="btn btn-danger">
@@ -144,7 +144,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["renner", "stage", "searchRenner", "searchTeam", "getProfile"]),
+    ...mapState(["renner", "searchRenner", "searchTeam", "getProfile"]),
     ...mapGetters(["countSelectie", "getProfile"]),
   },
   methods: {
@@ -172,9 +172,16 @@ export default {
       teamSelection[deletedRenner].selected = false;
     },
     toSelectie(renner) {
-      if (this.renner.selectie.includes(renner)) {
+      if (this.renner.selectie.some((e) => e.cyclist_id === renner.cyclist_id)) {
+        const indexToRemove = this.renner.selectie
+          .map((e) => {
+            return e.cyclist_id;
+          })
+          .indexOf(renner.cyclist_id);
+
+        this.removeFromSelectie(indexToRemove);
+
         renner.selected = false;
-        this.removeFromSelectie(this.renner.selectie.indexOf(renner));
       } else if (this.countSelectie >= 10) {
         console.error("teveel!");
       } else if (renner.withdraw == true) {
@@ -202,6 +209,7 @@ export default {
         .value();
     },
     async searchRidersTeam(team) {
+      console.log(team);
       if (team != 0) {
         const searchrider = await routes.find(
           `startlist/race?race_id=${config.race_id}&team=${team}`

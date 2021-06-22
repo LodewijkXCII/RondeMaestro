@@ -26,10 +26,7 @@ const mutations = {
     state.stage = etappe;
   },
   changeSelected: (state, renner) => {
-    console.log('state', state.selectie);
-    console.log('renner', renner);
     const index = state.selectie.findIndex((r) => r.id == renner.id);
-    console.log(index);
   },
 };
 

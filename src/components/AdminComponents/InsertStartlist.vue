@@ -22,7 +22,9 @@
           :value="team"
           class="checkBoxWrapper__team--input"
         />
-        <label :for="team" class="checkBoxWrapper__team--name">{{ team.name }}</label>
+        <label :for="team.name" class="checkBoxWrapper__team--name">{{
+          team.name
+        }}</label>
       </div>
     </div>
 
@@ -125,6 +127,8 @@ export default {
 
         await routes.create(`startlist`, trimmedRenners);
         this.message = "Succesvol toegevoegd";
+        this.renners = [];
+        this.selectedTeams = [];
       } else {
         window.alert("Er is geen race geselecteerd");
       }

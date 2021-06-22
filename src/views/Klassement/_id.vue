@@ -5,11 +5,11 @@
       <h2 style="margin-bottom: 1rem">
         {{ etappe.start_city }} - {{ etappe.finish_city }}
       </h2>
-      <section class="PrevNext">
-        <div @click="testing()">
+      <section>
+        <router-link to="/uitslagen" class="PrevNext">
           <img src="@/assets/icons/chevrons-left.svg" alt="chevron-left" />
           <span>Terug naar het overzicht</span>
-        </div>
+        </router-link>
       </section>
 
       <Main :scores="scores" :key="etappe.index" :etappe="etappe_id" />
@@ -43,11 +43,6 @@ export default {
     Aside,
     Main,
   },
-  async beforeRouteUpdate(to, from, next) {
-    this.etappe_id = +to.params.etappeID;
-    await this.getData();
-    next();
-  },
 
   mounted() {
     this.etappe_id = +this.$route.params.etappeID;
@@ -56,15 +51,13 @@ export default {
 
   methods: {
     ...mapGetters(["getProfile"]),
-    // async testing() {
-    //   const c = +this.$route.params.etappeID;
-    //   // TODO UPDATE TO DYNAMIC NEWSTAGE
-    //   const newStage = +c + 1;
-    //   await this.$router.push({
-    //     name: 'klassement-single',
-    //     params: { etappeID: +newStage },
-    //   });
-    // },
+    async testing() {
+      // TODO UPDATE TO DYNAMIC NEWSTAGE
+
+      await this.$router.push({
+        name: "uitslagen",
+      });
+    },
     async getData() {
       let currentEtappe;
       if (this.stage) {
@@ -144,7 +137,7 @@ export default {
 
 .PrevNext {
   display: flex;
-  justify-content: space-between;
+
   align-items: center;
   width: 100%;
   margin-bottom: 0.5em;

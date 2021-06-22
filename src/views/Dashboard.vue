@@ -6,14 +6,14 @@
       Deze pagina is nog in aanbouw. In de volgende versie zal hier een overzicht komen
       met de punten en de volgende etappes.
     </p>
-    <DashboardComp :user_id="getProfile.id" />
+    <DashboardComp v-if="getProfile.id" :user_id="getProfile.id" />
   </section>
 </template>
 
 <script>
 import DashboardComp from "@/components/DashboardComp";
 
-import { mapGetters, mapState } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   name: "Dashboard",
   components: {
@@ -25,11 +25,6 @@ export default {
   },
   computed: {
     ...mapGetters(["getProfile"]),
-    ...mapState({
-      name: (state) => {
-        state.user.profile.name;
-      },
-    }),
   },
 };
 </script>

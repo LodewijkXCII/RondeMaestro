@@ -25,7 +25,6 @@ const getters = {
 
 const actions = {
   [AUTH_REQUEST]: ({ commit, dispatch }, user) => {
-    console.log(user);
     return new Promise(async (resolve, reject) => {
       commit(AUTH_REQUEST);
 
