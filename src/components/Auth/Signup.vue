@@ -1,19 +1,18 @@
 <template>
   <div class="authcontainer__form--signup">
     <h1>Meld je aan</h1>
-    <div v-if="errorMessage" role="alert">{{ errorMessage }}</div>
+    <div v-if="errorMessage" role="alert" class="alertMessage">
+      {{ errorMessage }}
+    </div>
+    <div v-if="errorResponse" role="alert" class="alertMessage">
+      {{ errorResponse }}
+    </div>
 
     <form @submit.prevent="register()">
       <label for="name">Gebruikersnaam:</label>
       <input v-model="user.name" type="name" name="name" id="name" required />
       <label for="email">Email:</label>
-      <input
-        v-model="user.email"
-        type="email"
-        name="email"
-        id="email"
-        required
-      />
+      <input v-model="user.email" type="email" name="email" id="email" required />
 
       <div class="password__input">
         <label for="password">Wachtwoord:</label>
@@ -49,11 +48,7 @@
           </li>
         </ul>
       </div>
-      <button
-        class="btn "
-        :class="sigingIn ? 'btn-succes' : 'btn-primary'"
-        type="submit"
-      >
+      <button class="btn" :class="sigingIn ? 'btn-succes' : 'btn-primary'" type="submit">
         Aanmelden
       </button>
     </form>
@@ -65,15 +60,16 @@
 </template>
 
 <script>
-import routes from '@/api/routes';
-import validUser from '@/utils/validUser';
-import { AUTH_REQUEST } from '@/store/actions/auth';
-import { mapMutations } from 'vuex';
+import routes from "@/api/routes";
+import validUser from "@/utils/validUser";
+import { AUTH_REQUEST } from "@/store/actions/auth";
+import { mapMutations } from "vuex";
 
 export default {
   data() {
     return {
-      errorMessage: '',
+      errorMessage: "",
+      errorResponse: "",
       sigingIn: false,
       passwordCrit: {
         char: false,
@@ -81,17 +77,17 @@ export default {
         spec: false,
       },
       user: {
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
+        name: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
       },
     };
   },
   computed: {},
 
   methods: {
-    ...mapMutations(['setUser']),
+    ...mapMutations(["setUser"]),
 
     checkPassword() {
       if (this.user.password.length >= 8) {
@@ -104,7 +100,7 @@ export default {
       } else {
         this.passwordCrit.cap = false;
       }
-      if (this.user.password.match(/[\[\]`!@#$%\^&*()={}:;<>+'-]/g)) {
+      if (this.user.password.match(/[\[\]`!@#$%\^&*()={}:;<>+'-\_]/g)) {
         this.passwordCrit.spec = true;
       } else {
         this.passwordCrit.spec = false;
@@ -122,9 +118,9 @@ export default {
       };
 
       if (!validUser(user)) {
-        console.error('Er is iets mis gegaan, geen valid user');
+        console.error("Er is iets mis gegaan, geen valid user");
         this.errorMessage =
-          'Er is iets mis gegaan, neem contact op met rondemaestro@gmail.com om te achterhalen wat.';
+          "Er is iets mis gegaan, neem contact op met rondemaestro@gmail.com om te achterhalen wat.";
       }
       try {
         this.registerUser();
@@ -142,26 +138,39 @@ export default {
       };
       try {
         const postUser = await routes.create(`auth/signup`, body);
+        console.log(postUser);
         if (postUser.status === 200) {
-          const route = 'auth/login';
-          const email = this.user.email;
-          const password = this.user.password;
-          // TODO GET USER INFO TO VUEX
           try {
+            await routes.create("email/welkom", {
+              email: this.user.email,
+              user: this.user.name,
+            });
+            // TODO GET USER INFO TO VUEX
+          } catch (error) {
+            console.error(error);
+          }
+          try {
+            const route = "auth/login";
+            const email = this.user.email;
+            const password = this.user.password;
             this.$store
               .dispatch(AUTH_REQUEST, { email, password, route })
               .then(() => {
-                this.$router.push('/dashboard');
+                this.$router.push("/dashboard");
               })
               .catch((error) => console.error(error));
           } catch (error) {
             console.error(error);
           }
+        } else {
+          console.log(postUser);
+          this.errorResponse = postUser.error;
         }
       } catch (error) {
         console.error(error);
+        this.errorResponse = error.response.data.error;
         this.errorMessage =
-          'Er is iets mis gegaan, neem contact op met rondemaestro@gmail.com om te achterhalen wat.';
+          "Er is iets mis gegaan, neem contact op met rondemaestro@gmail.com om te achterhalen wat.";
       }
     },
   },
@@ -169,6 +178,8 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/assets/styles.scss";
+
 .password__rules {
   ul {
     padding: 0;
@@ -187,14 +198,14 @@ export default {
   li:before {
     opacity: 1;
     text-shadow: none;
-    content: '\2714';
+    content: "\2714";
     position: absolute;
     left: -25px;
     width: 20px;
     height: 20px;
     position: relative;
     display: inline-block;
-    font-family: 'Glyphicons Halflings';
+    font-family: "Glyphicons Halflings";
     font-style: normal;
     font-weight: 400;
     line-height: 1;
@@ -206,5 +217,11 @@ export default {
   .pass-green {
     color: green;
   }
+}
+.alertMessage {
+  color: $alert-color;
+  font-weight: 900;
+  font-size: 1.5rem;
+  text-transform: uppercase;
 }
 </style>

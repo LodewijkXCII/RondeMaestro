@@ -190,6 +190,20 @@ a {
   text-transform: uppercase;
   font-weight: 700;
 }
+
+.alertMessage {
+  color: $alert-color;
+  font-weight: 900;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+.succesMessage {
+  color: $succes-color;
+  font-weight: 900;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
 /*
     BUTTONS
 */
