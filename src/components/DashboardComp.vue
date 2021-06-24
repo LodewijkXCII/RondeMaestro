@@ -20,13 +20,13 @@
         </router-link>
       </etappe-info>
     </div>
-    <div>
+    <div v-show="nextSelection.length > 0">
       <h2>Selectie voor huidige etappe</h2>
       <div class="dashboard_renners">
         <RennerCard v-for="renner in selectie" :key="renner.id" :renner="renner" />
       </div>
     </div>
-    <div>
+    <div v-show="klassement.length > 0">
       <h2>Klassement</h2>
       <ol>
         <li v-for="user in klassement" :key="user.id">
@@ -92,7 +92,7 @@ export default {
       this.firstStage = commingStage;
 
       const currentStage = {
-        stage_nr: commingStage.stage_nr - 1,
+        stage_nr: commingStage.id - 1,
         race_id: commingStage.race_id,
       };
       const { data: currentSelection } = await routes.find(
