@@ -44,7 +44,7 @@ export default {
     try {
       const result = await routes.find(`results/totalscore?race_id=${config.race_id}`);
 
-      this.scores = result.data.sort((a, b) => b.sum - a.sum);
+      this.scores = result.data.sort((a, b) => b.points - a.points);
     } catch (error) {
       console.error(error);
     }

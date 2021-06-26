@@ -41,14 +41,14 @@
           <div class="rmTable__body--number">{{ index + 1 }}.</div>
           <div class="rmTable__body--user">{{ scores.name }}</div>
           <div class="rmTable__body--points">
-            {{ scores.sum }}
+            {{ scores.points }}
           </div>
         </div>
       </div>
       <router-link
         :to="{ name: 'algemeen-klassement' }"
         class="btn btn-alert"
-        style="display: inline-block;"
+        style="display: inline-block"
       >
         Ga naar het algemene klassement
       </router-link>
@@ -60,9 +60,7 @@
 export default {
   data() {
     return {
-      sortedUitslag: this.uitslag.sort((a, b) =>
-        a.points < b.points ? 1 : -1
-      ),
+      sortedUitslag: this.uitslag.sort((a, b) => (a.points < b.points ? 1 : -1)),
     };
   },
   props: {
