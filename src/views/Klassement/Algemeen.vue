@@ -21,7 +21,7 @@
         <div class="rmTable__body--number">{{ index + 1 }}.</div>
         <div class="rmTable__body--user">{{ score.name }}</div>
         <div class="rmTable__body--points">
-          {{ score.sum }}
+          {{ score.points }}
         </div>
       </div>
     </div>
@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import routes from '@/api/routes';
-import config from '@/utils/config';
+import routes from "@/api/routes";
+import config from "@/utils/config";
 
 export default {
   //TODO bekijk of entry al in ingevuld.
@@ -42,9 +42,7 @@ export default {
   },
   async created() {
     try {
-      const result = await routes.find(
-        `results/totalscore?race_id=${config.race_id}`
-      );
+      const result = await routes.find(`results/totalscore?race_id=${config.race_id}`);
 
       this.scores = result.data.sort((a, b) => b.sum - a.sum);
     } catch (error) {
@@ -53,7 +51,7 @@ export default {
   },
 };
 </script>
-
+f
 <style lang="scss" scoped>
 .algemeen {
   display: grid;

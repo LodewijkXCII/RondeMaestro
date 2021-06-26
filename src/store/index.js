@@ -4,6 +4,7 @@ import renner from './modules/renner';
 import auth from './modules/auth';
 import user from './modules/user';
 import stage from './modules/stage';
+import config from './modules/config';
 
 Vue.use(Vuex);
 
@@ -15,6 +16,7 @@ const store = new Vuex.Store({
     auth,
     user,
     stage,
+    config,
   },
   strict: debug,
 });

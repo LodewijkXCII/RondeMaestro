@@ -248,7 +248,7 @@ export default {
           `entries?users_id=${activeUser}&stage_id=${this.stage_id}`
         );
 
-        response.data.forEach(async (selected) => {
+        await response.data.forEach(async (selected) => {
           await routes.update(
             `entries?users_id=${this.activeUser}&stage_id=${this.stage_id}`,
             {
@@ -300,58 +300,63 @@ export default {
   async mounted() {
     this.loading = true;
     window.addEventListener("scroll", this.handleScroll);
+    try {
+      const response = await routes.find(`startlist/race?race_id=${config.race_id}`);
 
-    const response = await routes.find(`startlist/race?race_id=${config.race_id}`);
+      /*
+    Renners groepen en sorteren op team,
+    waarna er in de template over alle teams geidereerd kan worden
+  */
 
-    /*
-      Renners groepen en sorteren op team,
-      waarna er in de template over alle teams geidereerd kan worden
-    */
-    const cyclists = response.data.map((renner) => {
-      return {
-        ...renner,
-        selected: false,
-      };
-    });
-    const stage = await routes.find(`stages/${this.stage_id}`);
-    this.stage = stage.data;
+      const cyclists = response.data.map((renner) => {
+        return {
+          ...renner,
+          selected: false,
+        };
+      });
 
-    if (this.activeUser) {
-      const entries = await routes.find(
-        `entries?users_id=${this.activeUser}&stage_id=${this.stage_id}`
-      );
-      if (entries.status === 200) {
-        entries.data.forEach((cyclist) => {
-          const riderIndex = cyclists.findIndex(
-            (r) => r.cyclist_id == cyclist.cyclist_id
-          );
-          cyclists[riderIndex].selected = true;
+      const stage = await routes.find(`stages/${this.stage_id}`);
+      this.stage = stage.data;
 
-          this.addToSelectie(cyclist);
-        });
+      if (this.activeUser) {
+        const entries = await routes.find(
+          `entries?users_id=${this.activeUser}&stage_id=${this.stage_id}`
+        );
+        if (entries.status === 200) {
+          entries.data.forEach((cyclist) => {
+            const riderIndex = cyclists.findIndex(
+              (r) => r.cyclist_id == cyclist.cyclist_id
+            );
+            cyclists[riderIndex].selected = true;
 
-        this.renners = _(cyclists)
-          .orderBy((renner) => renner.race_number)
-          .groupBy((renner) => renner.team_name)
-          .value();
+            this.addToSelectie(cyclist);
+          });
 
-        /* Aparte teams zoeken om in een zoekveld te kunnen brengen */
-        this.teams = [
-          ...new Map(
-            cyclists.map((item) => [
-              item["team_name"],
-              {
-                team_name: item.team_name,
-                team_id: item.team_id,
-                team_img: item.team_img,
-              },
-            ])
-          ).values(),
-        ];
+          this.renners = _(cyclists)
+            .orderBy((renner) => renner.race_number)
+            .groupBy((renner) => renner.team_name)
+            .value();
+
+          /* Aparte teams zoeken om in een zoekveld te kunnen brengen */
+          this.teams = [
+            ...new Map(
+              cyclists.map((item) => [
+                item["team_name"],
+                {
+                  team_name: item.team_name,
+                  team_id: item.team_id,
+                  team_img: item.team_img,
+                },
+              ])
+            ).values(),
+          ];
+        }
       }
-    }
 
-    this.loading = false;
+      this.loading = false;
+    } catch (error) {
+      console.error(error);
+    }
   },
   watch: {
     removeFromSelectie(newValue, oldValue) {

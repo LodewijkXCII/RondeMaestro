@@ -8,18 +8,7 @@
         </li>
       </ul>
     </div>
-    <div>
-      <h2>Eerst volgende Etappe</h2>
-      <etappe-info :stage="firstStage" :showRenners="true" :selectie="nextSelection">
-        <router-link
-          slot="button"
-          :to="`/selectie/${firstStage.id}`"
-          class="btn btn-primary"
-        >
-          Selectie kiezen <font-awesome-icon :icon="['fas', 'arrow-right']" />
-        </router-link>
-      </etappe-info>
-    </div>
+    <CommingStage :race_id="race_id" />
     <div v-show="nextSelection.length > 0">
       <h2>Selectie voor huidige etappe</h2>
       <div class="dashboard_renners">
@@ -59,6 +48,9 @@ import config from "@/utils/config";
 
 import RennerCard from "@/components/Renner.vue";
 import EtappeInfo from "@/components/EtappeInfo.vue";
+import CommingStage from "./Dashboard/CommingStage.vue";
+
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -69,6 +61,7 @@ export default {
       klassement: [],
       uitslagLastStage: [],
       nextSelection: [],
+      race_id: null,
     };
   },
   props: {
@@ -77,45 +70,44 @@ export default {
   components: {
     RennerCard,
     EtappeInfo,
+    CommingStage,
+  },
+
+  computed: {
+    ...mapGetters(["getRaceID"]),
   },
 
   async mounted() {
-    try {
-      const { data: results } = await routes.find(
-        `results/userscore?user_id=${this.user_id}&race_id=${config.race_id}`
-      );
-      this.lastFive = results.slice(results.length - 5, results.length);
+    this.race_id = this.getRaceID;
 
-      const { data: commingStage } = await routes.find(
-        `stages?race_id=${config.race_id}&single=1`
-      );
-      this.firstStage = commingStage;
-
-      const currentStage = {
-        stage_nr: commingStage.id - 1,
-        race_id: commingStage.race_id,
-      };
-      const { data: currentSelection } = await routes.find(
-        `entries?stage_id=${currentStage.stage_nr}&users_id=${this.user_id}`
-      );
-      this.selectie = currentSelection;
-      const { data: nextSelection } = await routes.find(
-        `entries?stage_id=${commingStage.id}&users_id=${this.user_id}`
-      );
-      this.nextSelection = nextSelection;
-
-      const { data: klassement } = await routes.find(
-        `results/totalscore?race_id=${config.race_id}`
-      );
-      this.klassement = klassement.sort((a, b) => (a.points < b.points ? 1 : -1));
-
-      const { data: result } = await routes.find(
-        `results/totalscore?stage_id=${currentStage.stage_nr}`
-      );
-      this.uitslagLastStage = result.sort((a, b) => (a.points < b.points ? 1 : -1));
-    } catch (error) {
-      console.error(error);
-    }
+    // try {
+    // const { data: results } = await routes.find(
+    //   `results/userscore?user_id=${this.user_id}&race_id=${config.race_id}`
+    // );
+    // this.lastFive = results.slice(results.length - 5, results.length);
+    // const currentStage = {
+    //   stage_nr: commingStage.id - 1,
+    //   race_id: commingStage.race_id,
+    // };
+    // const { data: currentSelection } = await routes.find(
+    //   `entries?stage_id=${currentStage.stage_nr}&users_id=${this.user_id}`
+    // );
+    // this.selectie = currentSelection;
+    // const { data: nextSelection } = await routes.find(
+    //   `entries?stage_id=${commingStage.id}&users_id=${this.user_id}`
+    // );
+    // this.nextSelection = nextSelection;
+    // const { data: klassement } = await routes.find(
+    //   `results/totalscore?race_id=${config.race_id}`
+    // );
+    // this.klassement = klassement.sort((a, b) => (a.points < b.points ? 1 : -1));
+    // const { data: result } = await routes.find(
+    //   `results/totalscore?stage_id=${currentStage.stage_nr}`
+    // );
+    // this.uitslagLastStage = result.sort((a, b) => (a.points < b.points ? 1 : -1));
+    // } catch (error) {
+    //   console.error(error);
+    // }
   },
 };
 </script>
