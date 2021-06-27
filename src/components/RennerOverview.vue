@@ -252,6 +252,7 @@ export default {
           await routes.update(
             `entries?users_id=${this.activeUser}&stage_id=${this.stage_id}`,
             {
+              entry_id: selected.id,
               users_id: +activeUser,
               stage_id: +this.stage_id,
               cyclist_id: selected.cyclist_id,
