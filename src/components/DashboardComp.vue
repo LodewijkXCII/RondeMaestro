@@ -9,12 +9,7 @@
       </ul>
     </div>
     <CommingStage :race_id="race_id" />
-    <div v-show="nextSelection.length > 0">
-      <h2>Selectie voor huidige etappe</h2>
-      <div class="dashboard_renners">
-        <RennerCard v-for="renner in selectie" :key="renner.id" :renner="renner" />
-      </div>
-    </div>
+
     <div v-show="klassement.length > 0">
       <h2>Klassement</h2>
       <ol>
@@ -66,6 +61,7 @@ export default {
   },
   props: {
     user_id: Number,
+    race_id: Number,
   },
   components: {
     RennerCard,

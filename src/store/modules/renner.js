@@ -1,7 +1,6 @@
 import Vue from 'vue';
 
 const state = {
-  stage: '',
   selectie: [],
 };
 
@@ -20,11 +19,10 @@ const mutations = {
     state.selectie.splice(index, 1);
   },
   deleteSelectie: (state) => {
+    state.selectie.forEach((renner) => (renner.selected = false));
     state.selectie = [];
   },
-  setEtappes: (state, etappe) => {
-    state.stage = etappe;
-  },
+
   changeSelected: (state, renner) => {
     const index = state.selectie.findIndex((r) => r.id == renner.id);
   },

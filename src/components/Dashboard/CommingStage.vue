@@ -1,12 +1,8 @@
 <template>
   <div>
     <h2>Eerst volgende Etappe</h2>
-    <etappe-info :stage="firstStage" :showRenners="true" :selectie="nextSelection">
-      <router-link
-        slot="button"
-        :to="`/selectie/${firstStage.id}`"
-        class="btn btn-primary"
-      >
+    <etappe-info v-show="EtappeInfo" :stage="EtappeInfo" :showRenners="false">
+      <router-link slot="button" :to="`/selectie/${race.id}`" class="btn btn-primary">
         Selectie kiezen <font-awesome-icon :icon="['fas', 'arrow-right']" />
       </router-link>
     </etappe-info>
@@ -23,23 +19,15 @@ export default {
     EtappeInfo,
   },
   data() {
-    return {
-      firstStage: {},
-    };
+    return { EtappeInfo: {} };
   },
   props: {
-    race_id: Number,
+    race: Object,
   },
-  computed: {
-    async getData() {
-      const { data: commingStage } = await routes.find(
-        `stages?race_id=${this.race_id}&single=1`
-      );
-      this.firstStage = commingStage;
-    },
-  },
-  created() {
-    this.getData;
+
+  async created() {
+    this.EtappeInfo = this.race;
+    // this.firstStage = commingStage;
   },
 };
 </script>

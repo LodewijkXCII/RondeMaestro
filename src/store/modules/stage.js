@@ -2,7 +2,9 @@ const state = {
   stage: '',
 };
 
-const getters = {};
+const getters = {
+  getStage: (state) => state.stage,
+};
 
 const mutations = {
   setEtappes: (state, etappe) => {

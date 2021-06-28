@@ -44,7 +44,7 @@ export default {
     Main,
   },
 
-  mounted() {
+  created() {
     this.etappe_id = +this.$route.params.etappeID;
     this.getData();
   },
@@ -64,27 +64,27 @@ export default {
         currentEtappe = this.stage.id;
         this.etappe = this.stage;
       } else {
-        const res = await routes.find(`stages/${this.etappe_id}`);
-        this.etappe = res.data;
-        currentEtappe = res.data.id;
+        const { data: response } = await routes.find(`stages/${this.etappe_id}`);
+        this.etappe = response;
+        currentEtappe = response.id;
       }
 
-      const totalScore = await routes.find(
+      const { data: totalScore } = await routes.find(
         `results/totalscore?stage_id=${currentEtappe}`
       );
 
-      const response = totalScore.data.sort((a, b) => b.points - a.points);
-      this.scores = response.map((user) => ({ ...user, selection: [] }));
+      const scoreData = totalScore.sort((a, b) => b.points - a.points);
+      this.scores = scoreData.map((user) => ({ ...user, selection: [] }));
 
-      const totalScoreRace = await routes.find(
+      const { data: totalScoreRace } = await routes.find(
         `results/totalscore?race_id=${config.race_id}`
       );
+      this.totalScores = totalScoreRace.sort((a, b) => b.points - a.points);
 
-      this.totalScores = totalScoreRace.data.sort((a, b) => b.sum - a.sum);
-
-      const resultStage = await routes.find(`results?stage_id=${currentEtappe}`);
-
-      this.uitslag = resultStage.data.sort((a, b) => (b.position > a.position ? -1 : 1));
+      const { data: resultStage } = await routes.find(
+        `results?stage_id=${currentEtappe}`
+      );
+      this.uitslag = resultStage.sort((a, b) => (b.position > a.position ? -1 : 1));
     },
   },
 };

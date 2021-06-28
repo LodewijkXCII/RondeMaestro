@@ -4,12 +4,7 @@
     <label for="race">Kies de etappe:</label>
     <div class="formInline">
       <!-- <input type="number" min="2020" value="2020" v-model.number="year" /> -->
-      <select
-        name="stage"
-        id="stage"
-        v-model="stage"
-        @change="searchResult(stage)"
-      >
+      <select name="stage" id="stage" v-model="stage" @change="searchResult(stage)">
         <option :value="stage.id" v-for="stage in stages" :key="stage.index">
           {{ stage.stage_nr }}. {{ stage.start_city }}-{{ stage.finish_city }}
         </option>
@@ -20,11 +15,7 @@
       <label :for="input.position">{{ input.position }}:</label>
 
       <select v-model="input.id">
-        <option
-          v-for="renner in renners"
-          :key="renner.index"
-          :value="renner.cyclist_id"
-        >
+        <option v-for="renner in renners" :key="renner.index" :value="renner.cyclist_id">
           #{{ renner.race_number }} - {{ renner.first_name }}
           {{ renner.last_name }}
         </option>
@@ -38,14 +29,14 @@
 </template>
 
 <script>
-import routes from '@/api/routes';
-import config from '@/utils/config';
+import routes from "@/api/routes";
+import config from "@/utils/config";
 
 export default {
   data() {
     return {
       renners: [],
-      sendMessage: 'Verstuur',
+      sendMessage: "Verstuur",
       stages: [],
       stage: null,
       uitslag: [
@@ -68,12 +59,8 @@ export default {
     };
   },
   async created() {
-    const renners = await routes.find(
-      `startlist/race?race_id=${config.race_id}`
-    );
-    this.renners = renners.data.sort((a, b) =>
-      a.race_number > b.race_number ? 1 : -1
-    );
+    const renners = await routes.find(`startlist/race?race_id=${config.race_id}`);
+    this.renners = renners.data.sort((a, b) => (a.race_number > b.race_number ? 1 : -1));
 
     const stages = await routes.find(
       `stages?race=${config.race_id}&year=${config.currentYear}`
@@ -101,9 +88,7 @@ export default {
     },
     async etappeSubmit(stage) {
       console.log(stage);
-      const { data: prevResult } = await routes.find(
-        `results?stage_id=${stage}`
-      );
+      const { data: prevResult } = await routes.find(`results?stage_id=${stage}`);
       console.log(prevResult);
 
       prevResult.forEach(async (res) => {
@@ -120,10 +105,10 @@ export default {
         }
       });
 
-      this.sendMessage = 'Versturen';
+      this.sendMessage = "Versturen";
       this.uitslag.forEach(async (renner) => {
         try {
-          await routes.create('results', {
+          await routes.create("results", {
             position: renner.position,
             points: renner.points,
             stage_id: this.stage,
@@ -136,7 +121,10 @@ export default {
       await routes.update(`stages/${this.stage}`, {
         setDone: true,
       });
-      this.sendMessage = 'Verstuurd';
+      await routes.create(`email/result`, {
+        stage_id: this.stage,
+      });
+      this.sendMessage = "Verstuurd";
     },
   },
 };

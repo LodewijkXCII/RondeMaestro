@@ -34,7 +34,7 @@
           <div class="rmTable__header--points">Punten</div>
         </div>
         <div
-          v-for="(scores, index) in sortedTotalScore"
+          v-for="(scores, index) in totalScores"
           :key="scores.index"
           class="rmTable__body alg_klassement"
         >
@@ -61,7 +61,6 @@ export default {
   data() {
     return {
       sortedUitslag: this.uitslag.sort((a, b) => (a.points < b.points ? 1 : -1)),
-      sortedTotalScore: this.totalScores.sort((a, b) => (a.points < b.points ? 1 : -1)),
     };
   },
   props: {

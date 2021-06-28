@@ -29,7 +29,7 @@
 import Renner from "@/components/Renner";
 export default {
   props: {
-    stage: Object,
+    stage: { type: Object, required: false },
     showRenners: Boolean,
     selectie: { type: Array, required: false },
   },
