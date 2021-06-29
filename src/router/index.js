@@ -18,19 +18,20 @@ import { USER_REQUEST } from '@/store/actions/user';
 
 Vue.use(VueRouter);
 
+const ifAuthenticated = (to, from, next) => {
+  if (store.getters.isAuthenticated) {
+    next();
+    return;
+  }
+  next('/login');
+};
+
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home,
-    beforeEnter: (to, from, next) => {
-      if (store.getters.isAuthenticated) {
-        next({
-          path: '/dashboard',
-        });
-      }
-      next();
-    },
+    beforeEnter: ifAuthenticated,
   },
   {
     path: '/spelregels',
@@ -41,9 +42,7 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
-    meta: {
-      requiresAuth: true,
-    },
+    beforeEnter: ifAuthenticated,
   },
   {
     path: '/auth',
@@ -58,108 +57,63 @@ const routes = [
     path: '/etappe-overzicht',
     name: 'etappe-overzicht',
     component: EtappeOverzicht,
-    meta: {
-      requiresAuth: true,
-    },
+    beforeEnter: ifAuthenticated,
   },
   {
     path: '/etappe-overzicht/:etappeID',
     name: 'etappe-single',
     component: EtappeSingle,
-    meta: {
-      requiresAuth: true,
-    },
+    beforeEnter: ifAuthenticated,
   },
   {
     path: '/selectie/:etappeID',
     name: 'selectie',
     component: Selectie,
-    meta: {
-      requiresAuth: true,
-    },
+    beforeEnter: ifAuthenticated,
   },
 
   {
     path: '/score/',
     name: 'Score',
     component: Score,
-    meta: {
-      requiresAuth: true,
-    },
+    beforeEnter: ifAuthenticated,
   },
   {
     path: '/score/:etappeID',
     name: 'score-single',
     component: ScoreSingle,
-    meta: {
-      requiresAuth: true,
-    },
+    beforeEnter: ifAuthenticated,
   },
   {
     path: '/uitslagen/',
     name: 'uitslagen',
     component: Uitslagen,
 
-    meta: {
-      requiresAuth: true,
-    },
+    beforeEnter: ifAuthenticated,
   },
   {
     path: '/algemeen-klassement/',
     name: 'algemeen-klassement',
     component: AlgKlassement,
-    meta: {
-      requiresAuth: true,
-    },
+    beforeEnter: ifAuthenticated,
   },
   {
     path: '/klassement/:etappeID',
     name: 'klassement-single',
     props: true,
     component: KlassementSingle,
-    meta: {
-      requiresAuth: true,
-    },
+    beforeEnter: ifAuthenticated,
   },
   {
     path: '/account',
     name: 'account',
     component: account,
-    meta: {
-      requiresAuth: true,
-    },
+    beforeEnter: ifAuthenticated,
   },
 ];
 
 const router = new VueRouter({
   routes,
-});
-
-router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    store.dispatch(USER_REQUEST);
-
-    if (!store.getters.isAuthenticated) {
-      next({
-        path: '/auth',
-        query: { nextUrl: to.fullPath },
-      });
-    } else if (to.matched.some((record) => record.meta.isAdmin)) {
-      if (
-        store.getters.getProfile.user_type_id == 3 ||
-        store.getters.getProfile.user_type_id == 6
-      ) {
-        next();
-      } else {
-        console.error('Je hebt geen admin rechten');
-        next({ name: 'Dashboard' });
-      }
-    } else {
-      next();
-    }
-  } else {
-    next();
-  }
 });
 
 export default router;

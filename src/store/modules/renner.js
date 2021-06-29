@@ -2,12 +2,14 @@ import Vue from 'vue';
 
 const state = {
   selectie: [],
+  selectedID: null,
 };
 
 const getters = {
   countSelectie: (state) => {
     return state.selectie.length;
   },
+  selectedID: (state) => state.selectedID,
 };
 
 const mutations = {
@@ -16,11 +18,25 @@ const mutations = {
   },
   removeFromSelectie: (state, index) => {
     state.selectie[index].selected = false;
+    state.selectedID = state.selectie[index];
     state.selectie.splice(index, 1);
   },
   deleteSelectie: (state) => {
-    state.selectie.forEach((renner) => (renner.selected = false));
-    state.selectie = [];
+    const foo = new Promise((resolve, reject) => {
+      state.selectie.forEach(
+        function(renner, i) {
+          console.log(renner, i);
+          state.selectedID = renner;
+          state.selectie.splice(i, 1);
+          if (i === state.selectie.length - 1) resolve();
+        }
+        // (renner.selected = false)
+      );
+    });
+
+    foo.then(() => {
+      console.log('All done!');
+    });
   },
 
   changeSelected: (state, renner) => {
@@ -39,9 +55,9 @@ const actions = {
       resolve();
     });
   },
-  removeAll({ commit }) {
+  removeAll(e) {
     return new Promise((resolve, reject) => {
-      commit('deleteSelectie');
+      e.commit('deleteSelectie');
       resolve();
     });
   },

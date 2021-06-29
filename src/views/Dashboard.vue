@@ -6,10 +6,10 @@
       Deze pagina is nog in aanbouw. In de volgende versie zal hier een overzicht komen
       met de punten en de volgende etappes.
     </p>
-    <div class="dashboardComponent">
+    <!-- <div class="dashboardComponent">
       <CommingStage v-show="getStage" :race="getStage" />
       <current-selection :stage_id="commingStage.id" :user_id="getProfile.id" />
-    </div>
+    </div> -->
     <!-- <DashboardComp v-if="getProfile.id" :user_id="getProfile.id" /> -->
   </section>
 </template>

@@ -62,9 +62,9 @@
           <strong class="error" v-show="errorMsg">{{ errorMsg }}</strong>
         </div>
         <div class="selectedRiders__buttons">
-          <button @click.prevent="delSelectie()" class="btn btn-danger">
+          <!-- <button @click.prevent="delSelectie()" class="btn btn-danger">
             Wis selectie
-          </button>
+          </button> -->
 
           <button @click.prevent="submitSelectie()" class="btn btn-succes">
             {{ sendButton }}
@@ -145,7 +145,7 @@ export default {
   },
   computed: {
     ...mapState(["renner", "searchRenner", "searchTeam", "getProfile"]),
-    ...mapGetters(["countSelectie", "getProfile"]),
+    ...mapGetters(["countSelectie", "getProfile", "selectedID", "renner"]),
   },
   methods: {
     ...mapMutations(["addToSelectie", "setEtappes", "removeFromSelectie"]),
@@ -320,11 +320,12 @@ export default {
       this.stage = stage.data;
 
       if (this.activeUser) {
-        const entries = await routes.find(
+        const { status, data: entries } = await routes.find(
           `entries?users_id=${this.activeUser}&stage_id=${this.stage_id}`
         );
-        if (entries.status === 200) {
-          entries.data.forEach((cyclist) => {
+        if (status === 200) {
+          entries.forEach((cyclist) => {
+            cyclist["selected"] = true;
             const riderIndex = cyclists.findIndex(
               (r) => r.cyclist_id == cyclist.cyclist_id
             );
@@ -360,8 +361,11 @@ export default {
     }
   },
   watch: {
-    removeFromSelectie(newValue, oldValue) {
-      console.log(`Updating from ${oldValue} to ${newValue}`);
+    removeFromSelectie() {
+      console.log(`Updating`);
+    },
+    selectedID(renner) {
+      this.toggleSelected(renner);
     },
   },
 };
