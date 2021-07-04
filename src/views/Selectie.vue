@@ -24,7 +24,6 @@ export default {
   },
 
   created() {
-    console.log(parseInt(this.$route.params.etappeID));
     this.stage_id = parseInt(this.$route.params.etappeID);
   },
 
@@ -38,7 +37,6 @@ export default {
 
   methods: {
     changeStage(value) {
-      console.log(value);
       this.stage_id = value;
     },
   },

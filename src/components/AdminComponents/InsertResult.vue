@@ -69,7 +69,6 @@ export default {
   },
   methods: {
     async searchResult(stage) {
-      console.log(stage);
       const { data } = await routes.find(`results?stage_id=${stage}`);
       /* 
         Uitslag vergelijken met renners. Daarna toevoegen aan uitslag
@@ -87,13 +86,10 @@ export default {
       });
     },
     async etappeSubmit(stage) {
-      console.log(stage);
       const { data: prevResult } = await routes.find(`results?stage_id=${stage}`);
-      console.log(prevResult);
 
       prevResult.forEach(async (res) => {
         try {
-          console.log(res);
           await routes.update(`results/${res.id}`, {
             position: res.position,
             points: res.points,

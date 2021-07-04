@@ -23,11 +23,7 @@
           required
         />
 
-        <button
-          type="submit"
-          class="btn btn-succes"
-          @click.prevent="updateUser"
-        >
+        <button type="submit" class="btn btn-succes" @click.prevent="updateUser">
           Updaten
         </button>
       </form>
@@ -36,9 +32,9 @@
 </template>
 
 <script>
-import routes from '@/api/routes';
+import routes from "@/api/routes";
 
-import { mapGetters, mapState } from 'vuex';
+import { mapGetters, mapState } from "vuex";
 
 export default {
   data() {
@@ -48,7 +44,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['getProfile']),
+    ...mapGetters(["getProfile"]),
   },
   methods: {
     // async getUser(id) {
@@ -69,19 +65,17 @@ export default {
       });
 
       if (update.status == 200) {
-        this.message = 'Succesvol geupdate';
+        this.message = "Succesvol geupdate";
         return;
       } else {
-        this.message = 'Er is iets mis gegaan.';
+        this.message = "Er is iets mis gegaan.";
         console.error(update);
       }
     },
   },
 
   async created() {
-    console.log('starting', this.getProfile);
     const activeUser = this.getProfile.id;
-    console.log(activeUser);
 
     const response = await routes.find(`users/${activeUser}`);
     this.user = response.data;

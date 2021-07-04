@@ -5,7 +5,7 @@ export function decodeToken(token) {
 }
 
 export function isAuthenticated(token) {
-  const refreshToken = localStorage.getItem('refreshToken');
+  const refreshToken = localStorage.getItem('token');
 
   try {
     decode(token);

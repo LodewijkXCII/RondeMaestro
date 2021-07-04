@@ -10,6 +10,7 @@ const getters = {
     return state.selectie.length;
   },
   selectedID: (state) => state.selectedID,
+  selectedRiders: (state) => state.selectie,
 };
 
 const mutations = {
@@ -25,7 +26,6 @@ const mutations = {
     const foo = new Promise((resolve, reject) => {
       state.selectie.forEach(
         function(renner, i) {
-          console.log(renner, i);
           state.selectedID = renner;
           state.selectie.splice(i, 1);
           if (i === state.selectie.length - 1) resolve();
@@ -40,7 +40,7 @@ const mutations = {
   },
 
   changeSelected: (state, renner) => {
-    const index = state.selectie.findIndex((r) => r.id == renner.id);
+    return state.selectie.findIndex((r) => r.id == renner.id);
   },
 };
 
@@ -50,7 +50,6 @@ const actions = {
   },
   removeSelected({ commit }, renner) {
     return new Promise((resolve, reject) => {
-      console.log('vuex', renner);
       commit('changeSelected', renner);
       resolve();
     });

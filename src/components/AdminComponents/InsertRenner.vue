@@ -105,7 +105,7 @@ export default {
         this.preview = null;
         this.returnMsg = "Succesvol toegevoegd";
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     },
   },

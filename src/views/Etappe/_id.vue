@@ -8,20 +8,15 @@
     </section>
 
     <h1>Etappe {{ etappe.stage_nr }}</h1>
-    <h2>
-      {{ etappe.start_city }} - {{ etappe.finish_city }} ({{
-        etappe.distance
-      }}KM)
-    </h2>
+    <h2>{{ etappe.start_city }} - {{ etappe.finish_city }} ({{ etappe.distance }}KM)</h2>
     <img :src="etappe.image_url" alt class="etappeImg" />
     <h2>Tip van het RondeMaestro team</h2>
     <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos culpa
-      voluptate rerum? Impedit, recusandae accusantium repellat neque ratione,
-      ipsa assumenda voluptatibus harum deleniti, perspiciatis beatae eligendi!
-      Mollitia deserunt facere eum explicabo voluptatibus beatae, sint officiis.
-      Necessitatibus, ex tenetur voluptatem enim nam, obcaecati animi maiores
-      asperiores natus velit eos excepturi commodi!
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos culpa voluptate rerum?
+      Impedit, recusandae accusantium repellat neque ratione, ipsa assumenda voluptatibus
+      harum deleniti, perspiciatis beatae eligendi! Mollitia deserunt facere eum explicabo
+      voluptatibus beatae, sint officiis. Necessitatibus, ex tenetur voluptatem enim nam,
+      obcaecati animi maiores asperiores natus velit eos excepturi commodi!
     </p>
     <router-link
       :to="`/${this.$route.params.etappeID}/selectie`"
@@ -35,12 +30,12 @@
 </template>
 
 <script>
-import routes from '@/api/routes';
+import routes from "@/api/routes";
 
 export default {
   data() {
     return {
-      etappe: '',
+      etappe: "",
       etappe_id: null,
     };
   },
@@ -59,11 +54,10 @@ export default {
   },
   methods: {
     changeEtappe(c) {
-      console.log(c);
       // TODO UPDATE TO DYNAMIC NEWSTAGE
       const newStage = +c + 1;
       this.$router.push({
-        name: 'etappe-single',
+        name: "etappe-single",
         params: { etappeID: newStage },
       });
     },
@@ -80,17 +74,17 @@ export default {
       this.etappe = prevEtappe;
       if (prevEtappe > 0) {
         this.$router.push({
-          name: 'klassement-single',
+          name: "klassement-single",
           params: { etappeID: this.etappe },
         });
       } else {
-        console.log('kan niet meer');
+        console.error("kan niet meer");
       }
     },
     nextEtappe() {
       const nextEtappe = +this.$route.params.etappeID + 1;
       this.$router.push({
-        name: 'klassement-single',
+        name: "klassement-single",
         params: { etappeID: nextEtappe },
       });
       this.forceRerender();

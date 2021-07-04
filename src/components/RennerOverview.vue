@@ -144,8 +144,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(["renner", "searchRenner", "searchTeam", "getProfile"]),
-    ...mapGetters(["countSelectie", "getProfile", "selectedID", "renner"]),
+    ...mapState(["searchRenner", "searchTeam", "getProfile"]),
+    ...mapGetters(["countSelectie", "getProfile", "selectedID", "selectedRiders"]),
   },
   methods: {
     ...mapMutations(["addToSelectie", "setEtappes", "removeFromSelectie"]),
@@ -172,8 +172,10 @@ export default {
       teamSelection[deletedRenner].selected = false;
     },
     toSelectie(renner) {
-      if (this.renner.selectie.some((e) => e.cyclist_id === renner.cyclist_id)) {
-        const indexToRemove = this.renner.selectie
+      console.log(renner);
+
+      if (this.selectedRiders.some((e) => e.cyclist_id === renner.cyclist_id)) {
+        const indexToRemove = this.selectedRiders
           .map((e) => {
             return e.cyclist_id;
           })
@@ -260,7 +262,7 @@ export default {
           );
         });
 
-        await this.renner.selectie.forEach(async (renner) => {
+        await this.selectedRiders.forEach(async (renner) => {
           try {
             await routes.create(`entries`, {
               users_id: +activeUser,
