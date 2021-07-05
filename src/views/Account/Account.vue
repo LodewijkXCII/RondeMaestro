@@ -45,6 +45,7 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
+import { AUTH_LOGOUT } from "@/store/actions/auth";
 
 import UpdateGebruiker from "@/components/AdminComponents/UpdateGebruiker.vue";
 import InsertRenner from "@/components/AdminComponents/InsertRenner.vue";

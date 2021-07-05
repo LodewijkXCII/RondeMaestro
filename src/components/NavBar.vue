@@ -15,6 +15,9 @@
           <router-link :to="{ name: 'uitslagen' }"> Uitslagen </router-link>
         </div>
         <div class="navItem">
+          <router-link :to="{ name: 'algemeen-klassement' }"> Klassement </router-link>
+        </div>
+        <div class="navItem">
           <router-link :to="{ name: 'Spelregels' }"> Spelregels </router-link>
         </div>
       </div>
@@ -43,6 +46,11 @@
             </li>
             <li>
               <router-link :to="{ name: 'uitslagen' }"> Uitslagen </router-link>
+            </li>
+            <li>
+              <router-link :to="{ name: 'algemeen-klassement' }">
+                Klassement
+              </router-link>
             </li>
 
             <li>

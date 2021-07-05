@@ -172,8 +172,6 @@ export default {
       teamSelection[deletedRenner].selected = false;
     },
     toSelectie(renner) {
-      console.log(renner);
-
       if (this.selectedRiders.some((e) => e.cyclist_id === renner.cyclist_id)) {
         const indexToRemove = this.selectedRiders
           .map((e) => {
@@ -211,7 +209,6 @@ export default {
         .value();
     },
     async searchRidersTeam(team) {
-      console.log(team);
       if (team != 0) {
         const searchrider = await routes.find(
           `startlist/race?race_id=${config.race_id}&team=${team}`

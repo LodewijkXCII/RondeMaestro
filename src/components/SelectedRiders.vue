@@ -52,8 +52,6 @@ export default {
       this.ShowSelectie = !this.ShowSelectie;
     },
     toggleSelected(renner) {
-      const test = renner;
-      console.log("test", test);
       this.removeSelected(renner);
     },
   },
