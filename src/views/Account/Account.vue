@@ -47,7 +47,6 @@
 import { mapGetters, mapState } from "vuex";
 import { AUTH_LOGOUT } from "@/store/actions/auth";
 
-import UpdateGebruiker from "@/components/AdminComponents/UpdateGebruiker.vue";
 import InsertRenner from "@/components/AdminComponents/InsertRenner.vue";
 import UpdateRenner from "@/components/AdminComponents/UpdateRenner.vue";
 import InsertTeam from "@/components/AdminComponents/InsertTeam.vue";
@@ -58,6 +57,10 @@ import InsertResult from "@/components/AdminComponents/InsertResult.vue";
 import InsertStage from "@/components/AdminComponents/InsertStage.vue";
 import UpdateStage from "@/components/AdminComponents/UpdateStage.vue";
 import UpdateUser from "@/components/AdminComponents/UpdateUser.vue";
+
+import UpdateGebruiker from "@/components/UserComponents/UpdateGebruiker.vue";
+import EmailSettings from "@/components/UserComponents/EmailSettings.vue";
+import PoulesSettings from "@/components/UserComponents/PoulesSettings.vue";
 
 export default {
   components: {
@@ -72,6 +75,8 @@ export default {
     InsertStage,
     UpdateStage,
     UpdateUser,
+    EmailSettings,
+    PoulesSettings,
   },
 
   data() {
@@ -86,6 +91,10 @@ export default {
         {
           component: "EmailSettings",
           name: "Email voorkeuren",
+        },
+        {
+          component: "PoulesSettings",
+          name: "Ploegenspel overzicht",
         },
       ],
       adminLinks: [

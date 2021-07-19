@@ -27,8 +27,12 @@ export default {
     },
   },
   created() {
+    console.log(this.$route.query.request);
+
     if (this.authType) {
       this.currentAuth = this.authType;
+    } else {
+      this.currentAuth = "signup";
     }
   },
 };

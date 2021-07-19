@@ -16,7 +16,7 @@
     />
 
     <div v-show="loading">
-      <h1 class="loading">Ffkes wachten, aan het laden...</h1>
+      <h1 class="loadingText">Ffkes wachten, aan het laden...</h1>
     </div>
     <div :key="componentKey">
       <RennerCard
@@ -129,7 +129,7 @@ export default {
 </script>
 
 <style>
-.loading {
+.loadingText {
   text-align: center;
   margin: 2rem 0;
 }

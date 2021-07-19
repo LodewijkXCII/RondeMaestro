@@ -95,8 +95,8 @@ export default {
 
 .klassement_id {
   display: grid;
-  gap: 0.1rem;
-  grid-template-columns: minmax(5px, 20px) minmax(40px, 1fr) minmax(15px, 75px) minmax(
+  gap: 0.2rem;
+  grid-template-columns: minmax(8px, 25px) minmax(40px, 1fr) minmax(15px, 75px) minmax(
       15px,
       75px
     );

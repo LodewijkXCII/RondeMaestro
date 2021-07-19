@@ -24,7 +24,7 @@
         />
 
         <button type="submit" class="btn btn-succes" @click.prevent="updateUser">
-          Updaten
+          {{ message }}
         </button>
       </form>
     </div>
@@ -34,30 +34,22 @@
 <script>
 import routes from "@/api/routes";
 
-import { mapGetters, mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
     return {
       user: {},
       user_roles: [],
+      message: "Updaten",
     };
   },
   computed: {
     ...mapGetters(["getProfile"]),
   },
   methods: {
-    // async getUser(id) {
-    //   const userRoles = await routes.find(`user_role`);
-    //   this.user_roles = userRoles.data;
-
-    //   this.user = {};
-    //   const selectedUser = await routes.find(`users/${this.getProfile.id}`);
-    //   this.user = selectedUser.data;
-    // },
-
     async updateUser() {
-      // UPDATE USER
+      this.message = "Updaten";
       const update = await routes.update(`users/${this.user.id}`, {
         email: this.user.email,
         name: this.user.name,
@@ -77,8 +69,8 @@ export default {
   async created() {
     const activeUser = this.getProfile.id;
 
-    const response = await routes.find(`users/${activeUser}`);
-    this.user = response.data;
+    const { data } = await routes.find(`users/${activeUser}`);
+    this.user = data;
   },
 };
 </script>

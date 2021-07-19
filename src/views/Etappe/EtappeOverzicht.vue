@@ -54,7 +54,7 @@ export default {
     return {
       etappes: {},
       ronde: null,
-      link: ``,
+      link: "",
     };
   },
 

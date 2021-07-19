@@ -3,6 +3,8 @@
     <modal v-if="showModal" @close="showModal = false" :stage="stage">
       <h3 slot="header">Etappeinfo</h3>
     </modal>
+    <modal v-if="showStats" @close="showStats = false" :renners="stats" />
+
     <div class="backtotop" v-show="scY > 300" @click="toTop">
       <div class="backtotop__inner">
         <font-awesome-icon
@@ -19,8 +21,13 @@
         <!-- links 1 -->
         <div class="rennerOverview-Left--left">
           <div class="rennerOverview-Left--title">
-            <div class="label label-alert">
-              <div @click="showModal = true">Etappe info</div>
+            <div class="labels">
+              <div class="label label-danger" @click="showModal = true">
+                <div>Etappe info</div>
+              </div>
+              <div class="label label-danger" @click="showStats = true">
+                <div>Statistieken</div>
+              </div>
             </div>
             <h1>Renners selecteren</h1>
             <div class="rennerOverview-Left--title__subtitle">
@@ -135,12 +142,14 @@ export default {
       isSelected: false,
       sendButton: "verstuur",
       errorMsg: "",
-      loading: true,
+
       showModal: false,
+      showStats: false,
       stage: {},
       activeUser: null,
       scTimer: 0,
       scY: 0,
+      stats: {},
     };
   },
   computed: {
@@ -148,7 +157,12 @@ export default {
     ...mapGetters(["countSelectie", "getProfile", "selectedID", "selectedRiders"]),
   },
   methods: {
-    ...mapMutations(["addToSelectie", "setEtappes", "removeFromSelectie"]),
+    ...mapMutations([
+      "addToSelectie",
+      "setEtappes",
+      "removeFromSelectie",
+      "toggleLoading",
+    ]),
     ...mapActions(["removeSelectie"]),
     ...mapActions(["removeAll", "removeSelected"]),
 
@@ -298,7 +312,8 @@ export default {
     this.activeUser = activeUser;
   },
   async mounted() {
-    this.loading = true;
+    this.toggleLoading();
+
     window.addEventListener("scroll", this.handleScroll);
     try {
       const response = await routes.find(`startlist/race?race_id=${config.race_id}`);
@@ -351,13 +366,16 @@ export default {
               ])
             ).values(),
           ];
+
+          /* Zoek naar de stats van etappe */
+          const { data } = await routes.find(`stats?stage_id=${this.stage_id}`);
+          this.stats = data;
         }
       }
-
-      this.loading = false;
     } catch (error) {
       console.error(error);
     }
+    this.toggleLoading();
   },
   watch: {
     removeFromSelectie() {

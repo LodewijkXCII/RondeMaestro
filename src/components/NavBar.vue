@@ -18,6 +18,9 @@
           <router-link :to="{ name: 'algemeen-klassement' }"> Klassement </router-link>
         </div>
         <div class="navItem">
+          <router-link :to="{ name: 'ploegenspel' }"> Ploegenspel </router-link>
+        </div>
+        <div class="navItem">
           <router-link :to="{ name: 'Spelregels' }"> Spelregels </router-link>
         </div>
       </div>
@@ -51,6 +54,9 @@
               <router-link :to="{ name: 'algemeen-klassement' }">
                 Klassement
               </router-link>
+            </li>
+            <li>
+              <router-link :to="{ name: 'ploegenspel' }"> Ploegenspel </router-link>
             </li>
 
             <li>
@@ -145,12 +151,13 @@ export default {
 @import "@/assets/styles.scss";
 
 nav {
-  border-bottom: 2px solid $secondary-color;
+  border-bottom: 2px solid $primary-color;
   .container {
     display: flex;
     align-items: center;
     padding: 0.8rem 1.2em;
     margin-bottom: 0.5rem;
+    min-height: 75px;
     .brand {
       display: flex;
       justify-items: center;
@@ -170,7 +177,7 @@ nav {
       display: flex;
       align-items: center;
       text-transform: uppercase;
-      color: $text-color;
+      color: $black-color;
       font-weight: 700;
       position: relative;
 
@@ -195,7 +202,7 @@ nav {
         cursor: pointer;
         padding-top: 5px;
         margin-top: 10px;
-        border-top: 1px solid $text-color;
+        border-top: 1px solid $black-color;
       }
 
       &__fixed {
@@ -205,7 +212,7 @@ nav {
         &::before {
           padding-right: 10px;
           content: "";
-          border-left: 1px solid $text-color;
+          border-left: 1px solid $black-color;
         }
         &--user {
           display: flex;
@@ -253,7 +260,7 @@ nav {
 
 @media only screen and (min-width: 1224px) {
   nav .container {
-    max-width: 1200px;
+    max-width: 1385px;
     margin: auto;
     .leftNav {
       display: inherit;

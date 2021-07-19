@@ -24,7 +24,10 @@
       <div class="renner__info--team">{{ renner.team_name }}</div>
     </div>
     <div class="renner__extra">
-      <div class="renner__extra--teamIMG">
+      <div v-if="renner.percentage" class="renner__extra--stats">
+        <span class="perc">{{ parseFloat(renner.percentage, 0).toFixed(2) }}%</span>
+      </div>
+      <div v-else class="renner__extra--teamIMG">
         <img
           :src="`https://rondemaestro.s3.eu-central-1.amazonaws.com/teams/${renner.team_img}`"
           :alt="renner.team_name"
@@ -113,6 +116,19 @@ export default {
   }
 
   &__extra {
+    &--stats {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      align-content: center;
+      font-weight: 900;
+
+      .perc {
+        color: $primary-color;
+        font-size: 1rem;
+      }
+    }
+
     &--teamIMG {
       display: flex;
       justify-content: center;

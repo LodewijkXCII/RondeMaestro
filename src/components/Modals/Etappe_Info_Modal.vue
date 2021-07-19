@@ -6,7 +6,8 @@
           <font-awesome-icon :icon="['fas', 'times']" @click="$emit('close')" />
         </div>
 
-        <etappe-info :stage="stage" />
+        <etappe-info v-show="stage" :stage="stage" :selectie="renners"> </etappe-info>
+        <renner-stats v-show="renners" :renners="renners"> </renner-stats>
       </div>
     </div>
   </div>
@@ -14,10 +15,13 @@
 
 <script>
 import EtappeInfo from "../EtappeInfo.vue";
+import RennerStats from "../RennerStats.vue";
+import Renner from "../Renner.vue";
 export default {
-  components: { EtappeInfo },
+  components: { EtappeInfo, RennerStats, Renner },
   props: {
-    stage: Object,
+    stage: { type: Object, required: false },
+    renners: { type: Array, required: false },
   },
 };
 </script>

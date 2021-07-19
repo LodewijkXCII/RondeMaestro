@@ -23,6 +23,7 @@
     "vue-axios": "^3.2.0",
     "vue-flag-icon": "^1.0.6",
     "vue-router": "^3.4.9",
+    "vue-svg-loader": "^0.16.0",
     "vuex": "^3.6.0",
     "yup": "^0.31.1"
   },

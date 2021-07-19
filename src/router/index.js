@@ -13,6 +13,7 @@ import AlgKlassement from '../views/Klassement/Algemeen.vue';
 import KlassementSingle from '../views/Klassement/_id.vue';
 import Spelregels from '../views/Spelregels/Spelregels.vue';
 import account from '../views/Account/Account.vue';
+import Ploegenspel from '../views/Ploegenspel/Ploegenspel.vue';
 import store from '@/store';
 import { USER_REQUEST } from '@/store/actions/user';
 
@@ -23,7 +24,7 @@ const ifAuthenticated = (to, from, next) => {
     next();
     return;
   }
-  next('/login');
+  next('/auth');
 };
 
 const routes = [
@@ -31,7 +32,6 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home,
-    beforeEnter: ifAuthenticated,
   },
   {
     path: '/spelregels',
@@ -102,6 +102,12 @@ const routes = [
     name: 'klassement-single',
     props: true,
     component: KlassementSingle,
+    beforeEnter: ifAuthenticated,
+  },
+  {
+    path: '/ploegenspel',
+    name: 'ploegenspel',
+    component: Ploegenspel,
     beforeEnter: ifAuthenticated,
   },
   {

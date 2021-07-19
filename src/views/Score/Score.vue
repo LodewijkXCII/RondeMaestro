@@ -1,6 +1,7 @@
 <template>
   <section class="container">
     <h1>Etappe uitslagen</h1>
+    <h2>Hallo</h2>
 
     <!-- <div v-for="stage in results" :key="stage.key">
       <p>{{ stage }}</p>
@@ -60,9 +61,9 @@
 </template>
 
 <script>
-import routes from '@/api/routes';
-import config from '@/utils/config';
-import { mapGetters } from 'vuex';
+import routes from "@/api/routes";
+import config from "@/utils/config";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -74,7 +75,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters['getProfile'],
+    ...mapGetters["getProfile"],
   },
   async created() {
     const activeUser = this.getProfile.id;
@@ -82,14 +83,10 @@ export default {
     const etappe = await routes.find(`stages?race=${config.race_id}`);
     const etappes = etappe.data;
 
-    const totalScore = await routes.find(
-      `results/totalscore?user_id=${activeUser}`
-    );
+    const totalScore = await routes.find(`results/totalscore?user_id=${activeUser}`);
     this.totalScore = totalScore.data[0];
 
-    const results = await routes.find(
-      `results/userscore?user_id=${activeUser}`
-    );
+    const results = await routes.find(`results/userscore?user_id=${activeUser}`);
     const result = results.data;
 
     for (let i = 0; i < etappes.length; i++) {
@@ -108,10 +105,7 @@ export default {
 .rmTable__body {
   display: grid;
   gap: 0.1rem;
-  grid-template-columns: minmax(5px, 10px) minmax(40px, 1fr) 4fr minmax(
-      15px,
-      20px
-    );
+  grid-template-columns: minmax(5px, 10px) minmax(40px, 1fr) 4fr minmax(15px, 20px);
   font-weight: normal;
 }
 .rmTable {

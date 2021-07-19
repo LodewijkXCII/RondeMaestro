@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Eerst volgende Etappe</h2>
-    <etappe-info v-show="EtappeInfo" :stage="EtappeInfo" :showRenners="false">
+    <etappe-info v-show="EtappeInfo" :stage="race" :showRenners="false">
       <router-link slot="button" :to="`/selectie/${race.id}`" class="btn btn-primary">
         Selectie kiezen <font-awesome-icon :icon="['fas', 'arrow-right']" />
       </router-link>
@@ -25,10 +25,7 @@ export default {
     race: Object,
   },
 
-  async created() {
-    this.EtappeInfo = this.race;
-    // this.firstStage = commingStage;
-  },
+  async created() {},
 };
 </script>
 

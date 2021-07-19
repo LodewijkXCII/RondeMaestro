@@ -1,7 +1,8 @@
 <template>
   <div id="app">
     <NavBar />
-    <router-view />
+    <loading v-show="isLoading" />
+    <router-view v-show="!isLoading" />
     <Footer />
   </div>
 </template>
@@ -9,13 +10,17 @@
 <script>
 import NavBar from "@/components/NavBar.vue";
 import BottomNav from "@/components/BottomNav.vue";
-import Footer from "./components/Footer.vue";
+import Footer from "@/components/Footer.vue";
+import Loading from "@/components/Loading.vue";
 import { USER_REQUEST } from "@/store/actions/user";
+
+import { mapGetters, mapMutations, mapState } from "vuex";
 
 export default {
   components: {
     NavBar,
     BottomNav,
+    Loading,
     Footer,
   },
 
@@ -27,6 +32,7 @@ export default {
     isHome() {
       return this.$route.name === "Home";
     },
+    ...mapGetters({ isLoading: "getLoading" }),
   },
   created() {
     if (this.$store.getters.isAuthenticated) {
@@ -64,7 +70,11 @@ body {
     margin-bottom: 2rem;
   }
 }
-
+.labels {
+  display: flex;
+  flex-direction: row;
+  gap: 0.75em;
+}
 .label {
   background: $white-color;
   display: inline-block;
@@ -107,6 +117,10 @@ body {
   background: #ececec;
 }
 
+.bg-white {
+  background: white;
+}
+
 .show {
   display: inherit;
 }
@@ -115,12 +129,15 @@ body {
 @media only screen and (min-width: 1224px) {
   body {
     margin: auto;
-    padding: 1em 0 0;
+    padding: 0;
   }
 
   .container {
-    max-width: 1200px;
+    max-width: 1385px;
     margin: auto;
+    &-fluid {
+      max-width: 1065px;
+    }
   }
 
   .grid-1-2 {
@@ -186,7 +203,7 @@ small {
 a {
   text-decoration: none;
   cursor: pointer;
-  color: darken($color: $text-color, $amount: 2);
+  color: lighten($color: $black-color, $amount: 2);
   text-transform: uppercase;
   font-weight: 700;
 }
@@ -455,7 +472,7 @@ select {
       width: 5px;
       height: 100%;
 
-      right: 0;
+      left: 0;
       top: 0;
     }
     &.not-done::after {
@@ -465,7 +482,7 @@ select {
       width: 5px;
       height: 100%;
 
-      right: 0;
+      left: 0;
       top: 0;
     }
   }
@@ -538,6 +555,48 @@ select {
       }
     }
   } /* Styles */
+}
+
+.EtappeInfoContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0.5rem;
+  background: $white-color;
+  margin: 2rem 0;
+
+  &--image {
+    max-width: 95%;
+    margin: auto;
+  }
+
+  &--info {
+    .btn {
+      margin-top: 2rem;
+    }
+    h2 {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+  }
+}
+
+/* Desktops and laptops ----------- */
+@media only screen and (min-width: 1224px) {
+  .EtappeInfoContainer {
+    padding: 2rem 3rem;
+    border-radius: 15px;
+
+    &--image {
+      border-radius: 15px;
+    }
+    &--info {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+  }
 }
 
 footer {
