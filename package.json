@@ -18,7 +18,7 @@
     "flag-icon-css": "^3.5.0",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.20",
-    "moment": "^2.29.1",
+    "moment": "^2.29.4",
     "vue": "^2.6.12",
     "vue-axios": "^3.2.0",
     "vue-flag-icon": "^1.0.6",
