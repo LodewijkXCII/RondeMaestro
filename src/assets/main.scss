@@ -1,0 +1,38 @@
+@import "./base.css";
+@import "./table.scss";
+@import "./input.scss";
+
+.btn {
+  padding: 0.55rem 1rem;
+  display: inline-block;
+  border-radius: 6px;
+  margin: 0.5rem 1rem 0 0;
+  font-weight: 900;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &-action {
+    background: var(--clr-accent);
+    color: var(--clr-text-black);
+    transition: background 200ms ease-in;
+
+    &:hover {
+      background: transparent;
+      color: var(--clr-text);
+      outline: 2px solid var(--clr-accent);
+    }
+  }
+  &-danger {
+    color: var(--clr-text-black);
+    background: var(--clr-secondary);
+    transition: background 200ms ease-in;
+
+    &:hover {
+      background: transparent;
+      color: var(--clr-text);
+      outline: 2px solid var(--clr-secondary);
+    }
+  }
+}

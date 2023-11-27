@@ -1,0 +1,98 @@
+<template>
+  <div class="rmTable rmStageTable">
+    <div class="rmTable__header">
+      <div class="rmTable__header--number">#</div>
+      <div class="rmTable__header--date">Datum</div>
+      <div class="rmTable__header--city">Start en Finish</div>
+      <div class="rmTable__header--type">Profiel</div>
+      <div class="rmTable__header--distance">Afstand</div>
+      <div class="rmTable__header--action"></div>
+    </div>
+
+    <div
+      class="rmTable__row"
+      :class="stage.done ? 'done' : 'active'"
+      v-for="stage in stageInfo"
+      @click="handleRouteFunction(routerAction, stage)"
+    >
+      <div class="rmTable__row--number">{{ stage.stage_nr }}</div>
+      <div class="rmTable__row--date">
+        {{ getTime(stage.date) }}
+      </div>
+      <div class="rmTable__row--city">
+        {{ stage.start_city }} - {{ stage.finish_city }}
+      </div>
+      <div class="rmTable__row--type">
+        <img :src="stage.stage_type" alt="" srcset="" />
+      </div>
+      <div class="rmTable__row--distance">{{ stage.distance }} km</div>
+      <div class="rmTable__row--action">
+        <div v-if="stage.done == false">
+          <unicon name="users-alt" />
+          <p>Team invullen</p>
+        </div>
+        <div v-else>
+          <unicon name="trophy" />
+          <p>Bekijk uitslag</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+import { useRouter } from "vue-router";
+import { DateTime } from "luxon";
+
+defineProps({
+  stageInfo: Object,
+  routerAction: String,
+});
+
+const router = useRouter();
+
+function getTime(timestamp) {
+  return DateTime.fromISO(timestamp).setLocale("nl").toFormat("d MMM y");
+}
+function handleRouteFunction(action, stage) {
+  console.log(action);
+  if (action == "stage") {
+    if (stage.done) {
+      return goToResult(stage);
+    }
+    return goToStage(stage);
+  }
+  if (action == "result") {
+    if (stage.done) {
+      return goToResult(stage);
+    }
+    return goToStage(stage);
+  }
+  console.log(action);
+}
+function goToResult(stage) {
+  router.push({
+    name: "resultOverview",
+    params: {
+      race_id: stage.race_id,
+    },
+    query: {
+      etappe_id: stage.id,
+    },
+  });
+}
+function goToStage(stage) {
+  router.push({
+    name: "stageCyclistOverview",
+    params: {
+      race_id: stage.race_id,
+      stage_id: stage.id,
+      city: `${stage.start_city
+        .replaceAll(" ", "-")
+        .toLowerCase()}-${stage.finish_city
+        .replaceAll(" ", "-")
+        .toLowerCase()}`,
+    },
+  });
+}
+</script>

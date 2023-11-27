@@ -1,0 +1,132 @@
+/* color palette from <https://github.com/vuejs/theme> */
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Roboto:wght@100;400;700;900&display=swap");
+
+:root {
+  --clr-text: hsl(0, 7%, 3%);
+  --clr-text-black: hsl(0, 7%, 3%);
+  --clr-text-white: hsl(20, 6%, 90%);
+  --clr-background: #e7e5e4;
+  --clr-background-mute: hsl(20, 6%, 99%);
+  --clr-primary: #54759a;
+  --clr-secondary: #3cc4cc;
+  --clr-accent: #db5461;
+  --clr-accent-green: #3bc14a;
+
+  --ff-base: "Nunito", sans-serif;
+  --ff-heading: "Roboto", sans-serif;
+
+  --fs-200: clamp(0.56rem, calc(0.87rem + -0.4vw), 0.79rem);
+  --fs-300: clamp(0.8rem, calc(0.92rem + -0.16vw), 0.89rem);
+  --fs-400: clamp(1rem, calc(0.96rem + 0.22vw), 1.13rem);
+  --fs-500: clamp(1.13rem, calc(0.96rem + 0.81vw), 1.59rem);
+  --fs-600: clamp(1.27rem, calc(0.92rem + 1.71vw), 2.25rem);
+  --fs-700: clamp(1.42rem, calc(0.81rem + 3.06vw), 3.18rem);
+  --fs-800: clamp(1.6rem, calc(0.59rem + 5.04vw), 4.5rem);
+  --fs-900: clamp(1.8rem, calc(0.22rem + 7.93vw), 6.36rem);
+
+  /*  */
+  --rider-card-width: 435px;
+  --rider-card-height: 85px;
+}
+
+/* @media (prefers-color-scheme: dark) {
+  :root {
+    --clr-text: hsl(20, 6%, 90%);
+    --clr-background: hsl(0, 7%, 3%);
+    --clr-background-mute: hsl(0, 7%, 15%);
+    --clr-primary: #344c6c;
+    --clr-secondary: #3cc4cc;
+    --clr-accent: #db5461;
+    --clr-accent-green: #3bc14a;
+  }
+} */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  color-scheme: light dark;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+body {
+  font-family: var(--ff-base);
+  line-height: 1.6;
+  font-size: var(--fs-400);
+  color: var(--clr-text);
+
+  background: var(--clr-background);
+  /* min-height: 100vh;
+  color: var(--color-text);
+  transition: color 0.5s, background-color 0.5s;
+  font-family: Roboto, sans-serif;
+  font-size: 0.9rem;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; */
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--ff-heading);
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: var(--fs-700);
+  color: var(--clr-primary);
+}
+
+h2 {
+  font-size: var(--fs-600);
+  color: var(--clr-primary);
+}
+h3 {
+  font-size: var(--fs-500);
+}
+
+a {
+  color: var(--clr-primary);
+}
+
+a:hover,
+a:focus {
+  color: var(--clr-accent);
+}
+
+::marker {
+  color: var(--clr-accent);
+}
+
+.wrapper {
+  width: min(100% - 3rem, 200ch);
+  margin-inline: auto;
+}
+
+.wrapper-small {
+  width: min(100% - 3rem, 125ch);
+}
+
+.flow > * + * {
+  margin-top: 1em;
+}
+
+.hidden {
+  display: none;
+}
+
+.strong {
+  font-weight: 800;
+}
