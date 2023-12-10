@@ -7,14 +7,10 @@
   &__row {
     display: grid;
     align-items: center;
-    padding: 0.5rem 0 0 0.5rem;
-    grid-template-columns:
-      50px
-      minmax(70px, 120px)
-      auto
-      minmax(100px, 250px)
-      minmax(75px, 100px)
-      150px;
+    grid-template-columns: minmax(4ch, 50px) minmax(30px, 80px) minmax(
+        10ch,
+        85ch
+      ) minmax(5px, 110px) minmax(20px, 110px) minmax(80px, 110px);
     border-bottom: 1px solid var(--clr-background);
     position: relative;
 
@@ -35,6 +31,10 @@
         font-size: 0.75rem;
         font-weight: 100;
       }
+    }
+
+    @media (max-width: 768px) {
+      // display: none;
     }
   }
 

@@ -6,7 +6,7 @@
   --clr-text-black: hsl(0, 7%, 3%);
   --clr-text-white: hsl(20, 6%, 90%);
   --clr-background: #e7e5e4;
-  --clr-background-mute: hsl(20, 6%, 99%);
+  --clr-background-mute: #f2f3f5;
   --clr-primary: #54759a;
   --clr-secondary: #3cc4cc;
   --clr-accent: #db5461;
@@ -65,16 +65,7 @@ body {
   line-height: 1.6;
   font-size: var(--fs-400);
   color: var(--clr-text);
-
   background: var(--clr-background);
-  /* min-height: 100vh;
-  color: var(--color-text);
-  transition: color 0.5s, background-color 0.5s;
-  font-family: Roboto, sans-serif;
-  font-size: 0.9rem;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; */
 }
 
 h1,
@@ -121,6 +112,18 @@ a:focus {
 
 .flow > * + * {
   margin-top: 1em;
+}
+
+@media (max-width: 576px) {
+  main {
+    margin-top: calc(45px + 1rem);
+  }
+  .wrapper {
+    width: min(100% - 1rem, 200ch);
+  }
+  .wrapper-small {
+    width: 100%;
+  }
 }
 
 .hidden {

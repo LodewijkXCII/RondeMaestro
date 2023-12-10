@@ -77,12 +77,12 @@ export default {
 
   display: grid;
   grid-template-columns:
-    calc(var(--avatar-size) + 1rem) 4fr minmax(25px, 1fr)
+    calc(var(--avatar-size) + 1rem) 3fr minmax(25px, 1fr)
     auto;
   align-items: center;
   height: var(--rider-card-height);
   max-width: var(--rider-card-width);
-  border-radius: 3px;
+  border-radius: 5px;
 
   &--avatar {
     aspect-ratio: 1/1;
@@ -165,7 +165,7 @@ export default {
 
 .selected {
   background-color: var(--clr-primary);
-  cursor: default !important;
+
   * {
     fill: var(--color-text);
   }

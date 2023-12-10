@@ -25,28 +25,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss">
-.stage_list {
-  padding: 0;
-  &__item {
-    display: grid;
-    grid-template-columns: 3ch 7ch auto;
-    padding: 0 1rem 0 1rem;
-
-    &.active {
-      background: var(--clr-primary);
-      font-weight: 600;
-      color: var(--clr-text-white);
-      border-radius: 5px 0 0 5px;
-    }
-
-    &:hover {
-      outline: 2px solid var(--clr-primary);
-      border-radius: 5px 0 0 5px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-  }
-}
-</style>

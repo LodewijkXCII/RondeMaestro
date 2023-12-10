@@ -1,21 +1,18 @@
 <template>
-  <div class="user-result--item">
-    <div class="user-info">
-      <div class="user-info__position">{{ position }}.</div>
-      <div
-        class="user-info__name"
-        :class="userResult.id == user_id ? 'strong' : ''"
-      >
+  <div class="result--item">
+    <div class="info">
+      <div class="info__position">{{ position }}.</div>
+      <div class="info__name" :class="userResult.id == user_id ? 'strong' : ''">
         {{ userResult.name }}
       </div>
-      <div class="user-info__points">
+      <div class="info__points">
         <strong>{{ userResult.points }}</strong> pnt
       </div>
-      <div class="user-info__icon" @click="getResults(userResult.id)">
+      <div class="info__icon" @click="getResults(userResult.id)">
         <unicon name="info-circle" />
       </div>
     </div>
-    <div class="user-selection" v-if="showSelection">
+    <div class="selection" v-if="showSelection">
       <RennerSmallCard
         v-for="cyclist in userSelection"
         :renner="cyclist"
@@ -56,7 +53,6 @@ export default defineComponent({
         return;
       }
       try {
-        console.log("hiero");
         const { data } = await axios.get(
           `${
             import.meta.env.VITE_API_URL
@@ -77,34 +73,36 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-// .user-result--item {
-//   &:nth-child(2n) {
-//     background: var(--clr-background-mute);
-//   }
+.result--item {
+  background: #c5c7ca;
+  &:nth-child(odd) {
+    background: #8f99a6;
+  }
 
-//   &:first-child {
-//     border-radius: 5px 5px 0 0;
-//   }
+  &:first-child {
+    border-radius: 5px 5px 0 0;
+  }
 
-//   &:last-child {
-//     border-radius: 0 0 5px 5px;
-//   }
-// }
+  &:last-child {
+    border-radius: 0 0 5px 5px;
+  }
 
-.user-info {
-  display: grid;
-  grid-template-columns: 2ch auto 8ch 4ch;
-  grid-template-rows: auto auto;
-  padding: 0.75rem 0.5rem;
-  align-items: center;
-  // border: 1px solid var(--clr-background-mute);
+  .info {
+    display: grid;
+    grid-template-columns: 2ch auto 8ch 4ch;
+    grid-template-rows: auto auto;
+    padding: 0.75rem;
+    align-items: center;
+    // border: 1px solid var(--clr-background-mute);
 
-  &__icon .unicon {
-    display: flex;
+    &__icon .unicon {
+      cursor: pointer;
+      display: flex;
+    }
   }
 }
 
-.user-selection {
+.selection {
   display: grid;
   grid-template-rows: repeat(4, 1fr);
   grid-auto-flow: column;

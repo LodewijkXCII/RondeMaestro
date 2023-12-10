@@ -1,6 +1,7 @@
 @import "./base.css";
 @import "./table.scss";
 @import "./input.scss";
+@import "./mixins.scss";
 
 .btn {
   padding: 0.55rem 1rem;
@@ -33,6 +34,51 @@
       background: transparent;
       color: var(--clr-text);
       outline: 2px solid var(--clr-secondary);
+    }
+  }
+}
+
+.errormessage {
+  font-weight: 900;
+  background: var(--clr-accent);
+  color: var(--clr-text-white);
+  border: 2px solid var(--clr-accent);
+  border-radius: 5px;
+  margin-top: 1rem;
+  margin-right: 0.75rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.stage_list {
+  padding: 0;
+  &__item {
+    display: grid;
+    grid-template-columns: 3ch 7ch auto;
+    padding: 0.75rem 0.5rem;
+
+    &.active {
+      background: var(--clr-primary);
+      font-weight: 600;
+      color: var(--clr-text-white);
+      border-radius: 5px 0 0 5px;
+    }
+
+    &:hover {
+      outline: 2px solid var(--clr-primary);
+      border-radius: 5px 0 0 5px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+  }
+}
+
+@media (max-width: 576px) {
+  .stage_list {
+    &__item {
+      &.active,
+      &:hover {
+        border-radius: 5px;
+      }
     }
   }
 }

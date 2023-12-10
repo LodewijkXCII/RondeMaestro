@@ -2,9 +2,9 @@
   <div class="rmTable rmStageTable">
     <div class="rmTable__header">
       <div class="rmTable__header--number">#</div>
-      <div class="rmTable__header--date">Datum</div>
+      <div class="rmTable__header--date"></div>
       <div class="rmTable__header--city">Start en Finish</div>
-      <div class="rmTable__header--type">Profiel</div>
+      <div class="rmTable__header--type"></div>
       <div class="rmTable__header--distance">Afstand</div>
       <div class="rmTable__header--action"></div>
     </div>
@@ -52,7 +52,7 @@ defineProps({
 const router = useRouter();
 
 function getTime(timestamp) {
-  return DateTime.fromISO(timestamp).setLocale("nl").toFormat("d MMM y");
+  return DateTime.fromISO(timestamp).setLocale("nl").toFormat("dd-MM");
 }
 function handleRouteFunction(action, stage) {
   console.log(action);

@@ -32,6 +32,11 @@ const router = createRouter({
       component: () => import("../views/StagesView.vue"),
     },
     {
+      path: "/:race_id/:race/klassement",
+      name: "klassementOverview",
+      component: () => import("../views/KlassementOverview.vue"),
+    },
+    {
       path: "/:race_id/etappe/:stage_id/:city",
       name: "stageCyclistOverview",
       component: () => import("../views/OverviewView.vue"),

@@ -2,7 +2,7 @@
   <main class="">
     <h2>Teams en renners</h2>
     <div class="cyclistSelector">
-      <div v-for="(item, index) in teams">
+      <div v-for="(item, index) in startlistStore.teams">
         <div class="team-info">
           <h3>{{ index }}</h3>
           <img
@@ -28,17 +28,50 @@
 </template>
 
 <script>
+import { onMounted, defineComponent } from "vue";
+import { useRoute } from "vue-router";
+
 import { useCyclistStore } from "../stores/selectedRiders";
+import { useStartlistStore } from "../stores/startlistRace";
 import RennerSmallCard from "./RennerSmallCard.vue";
-export default {
+import { useAuthStore } from "../stores/userAuth";
+
+import axios from "axios";
+import _ from "lodash";
+
+export default defineComponent({
   components: {
     RennerSmallCard,
   },
-  props: {
-    teams: Object,
-  },
+
   setup() {
     const riderStore = useCyclistStore();
+    const startlistStore = useStartlistStore();
+    const route = useRoute();
+
+    onMounted(async () => {
+      try {
+        const { data, status } = await axios({
+          method: "get",
+          url: `${import.meta.env.VITE_API_URL}/startlist?race_id=${parseInt(
+            route.params.race_id
+          )}`,
+        });
+
+        if (status == 200) {
+          data.forEach((cyclist) => {
+            cyclist.selected = false;
+          });
+          startlistStore.teams = _(data)
+            .orderBy((renner) => renner.race_number)
+            .groupBy((renner) => renner.team_name)
+            .value();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    });
+
     const toSelectie = (renner) => {
       if (
         riderStore.riders.renners.some((e) => e.cyclist_id == renner.cyclist_id)
@@ -47,20 +80,22 @@ export default {
         return riderStore.removeRider(renner);
       }
       renner.selected = true;
+      riderStore.madeChange();
       return riderStore.addRider(renner);
     };
 
     return {
       toSelectie,
+      startlistStore,
     };
   },
-};
+});
 </script>
 
 <style lang="scss">
 .cyclistSelector {
   display: grid;
-  grid-template-columns: repeat(3, var(--rider-card-width));
+  grid-template-columns: repeat(2, var(--rider-card-width));
   grid-auto-rows: auto;
   gap: 1rem;
   position: relative;
@@ -73,6 +108,10 @@ export default {
     background: var(--clr-primary);
     position: absolute;
     right: calc(var(--border-width) * -2);
+  }
+
+  @media (min-width: 1870px) {
+    grid-template-columns: repeat(3, var(--rider-card-width));
   }
 }
 .selectedCyclists {

@@ -1,8 +1,8 @@
 <template>
   <main class="wrapper flow">
     <h1>Uitslagen van de etappes</h1>
-    <section class="results">
-      <div class="results__stages">
+    <div class="results">
+      <aside class="results__stages">
         <h3>Etappes</h3>
         <ol class="stage_list">
           <ResultStage
@@ -12,8 +12,9 @@
             @click="getResults(stage.id)"
           />
         </ol>
-      </div>
-      <div class="results__userResult">
+      </aside>
+
+      <section class="results__userResult" v-if="userResult || cyclistResult">
         <h3>Jouw selectie</h3>
         <div class="results__userResult--cyclists">
           <RennerSmallCard
@@ -32,7 +33,7 @@
         </div>
         <h3>Dagklassement</h3>
         <div class="results__userResult--users">
-          <div class="user-result--list">
+          <div class="result--list">
             <ResultStageTable
               v-for="(user, index) in totalScore"
               :key="user.id"
@@ -42,9 +43,9 @@
             />
           </div>
         </div>
-      </div>
+      </section>
 
-      <div class="results_stage">
+      <section class="results_stage" v-if="userResult || cyclistResult">
         <h3>Daguitslag</h3>
         <div class="results_stage--list">
           <div class="list-item" v-for="(cyclist, index) in cyclistResult">
@@ -69,8 +70,8 @@
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </main>
 </template>
 
@@ -118,24 +119,25 @@ export default defineComponent({
 
     onMounted(async () => {
       getRaceInfo();
-      console.log("hiero", route);
+
       if (route.query.etappe_id) {
         active_stage.value = +route.query.etappe_id;
+        getResults(+route.query.etappe_id);
       }
       if (route.params.etappe_id) {
         active_stage.value = +route.params.etappe_id;
+        getResults(+route.params.etappe_id);
       }
-      console.log(active_stage.value);
-      getResults(active_stage.value);
     });
 
     async function getResults(stage_id) {
-      console.log(stage_id);
       try {
         const { data } = await axios.get(
           `${
             import.meta.env.VITE_API_URL
-          }/results?stage_id=${stage_id}&user_id=${user_id.value}`
+          }/results?stage_id=${stage_id}&user_id=${
+            user_id.value
+          }&stage_result=true`
         );
 
         const { data: totalDataScore } = await axios.get(
@@ -181,11 +183,12 @@ export default defineComponent({
 <style lang="scss">
 .results {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: minmax(28ch, 55ch) auto minmax(24ch, 40ch);
   gap: 1rem;
 
   &__stages {
     border-right: 3px solid var(--clr-primary);
+    height: 100%;
   }
 
   h3 {
@@ -198,18 +201,37 @@ export default defineComponent({
   padding-right: 1rem;
 
   &--cyclists {
-    width: calc(2 * var(--rider-card-width) + 1rem);
     display: grid;
     grid-template-rows: repeat(4, 1fr);
+    grid-template-columns: repeat(2, var(--rider-card-width));
+    column-gap: 1rem;
     grid-auto-flow: column;
-
     margin-top: -12px;
+  }
+}
+@media (max-width: 566px) {
+  .results {
+    grid-template-columns: 1fr;
+
+    &__stages {
+      border-right: none;
+    }
+  }
+
+  .results__userResult {
+    border: none;
+    padding: 0;
+    --rider-card-width: 100%;
+    &--cyclists {
+      grid-template-rows: repeat(8, 1fr);
+      grid-template-columns: 1fr;
+    }
   }
 }
 
 .totalScore {
   width: var(--rider-card-width);
-  height: calc(var(--rider-card-height) / 2);
+  height: calc(var(--rider-card-height) / 1.3);
   display: flex;
   justify-content: space-between;
   color: var(--clr-text-white);
@@ -217,8 +239,8 @@ export default defineComponent({
 
   align-items: center;
   background: var(--clr-accent);
-  border-radius: 3px;
-  margin-bottom: 1rem;
+  border-radius: 5px;
+  margin: 0.5rem 0 1rem 0;
 
   span.points {
     font-weight: 700;

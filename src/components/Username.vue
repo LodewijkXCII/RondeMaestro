@@ -3,7 +3,7 @@ import { ref, watch } from "vue";
 import { useAuthStore } from "../stores/userAuth";
 
 const userAuth = useAuthStore();
-const currentUser = ref("");
+const currentUser = ref();
 
 currentUser.value = userAuth.getUserName;
 
@@ -14,7 +14,10 @@ watch(userAuth.isLoggedIn, () => {
 </script>
 
 <template>
-  <div class="username">Hoi, {{ currentUser }}</div>
+  <div class="username">
+    Hoi,
+    {{ currentUser ? currentUser : "Username" }}
+  </div>
 </template>
 
 <style lang="scss">

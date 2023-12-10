@@ -3,7 +3,7 @@
     <StageComponent :stage="stage" />
 
     <section class="cyclistOverview">
-      <Startlist :key="compkey" :teams="teams" />
+      <Startlist :key="compkey" />
 
       <aside>
         <h2>Geselecteerde renners</h2>
@@ -54,7 +54,6 @@ export default defineComponent({
     const riderStore = useCyclistStore();
 
     onMounted(async () => {
-      getCyclistData();
       getStageData();
     });
     watch(route, () => {
@@ -65,29 +64,9 @@ export default defineComponent({
       };
 
       compkey.value += 1;
-      getCyclistData();
+
       getStageData();
     });
-
-    const getCyclistData = async () => {
-      try {
-        const { data, status } = await axios({
-          method: "get",
-          url: `${import.meta.env.VITE_API_URL}/startlist?race_id=${parseInt(
-            route.params.race_id
-          )}`,
-        });
-
-        if (status == 200) {
-          teams.value = _(data)
-            .orderBy((renner) => renner.race_number)
-            .groupBy((renner) => renner.team_name)
-            .value();
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
 
     const getStageData = async () => {
       try {
@@ -99,7 +78,6 @@ export default defineComponent({
         });
 
         if (data) {
-          console.log(data);
           stage.value = data;
         }
       } catch (error) {
@@ -108,7 +86,6 @@ export default defineComponent({
     };
 
     return {
-      getCyclistData,
       getStageData,
       compkey,
       teams,
@@ -122,11 +99,15 @@ export default defineComponent({
 <style lang="scss" scoped>
 .cyclistOverview {
   display: grid;
-  grid-template-columns: 75% auto;
+  grid-template-columns: auto auto;
   gap: 2rem;
 
   h2 {
     margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 1870px) {
+    grid-template-columns: 75% auto;
   }
 }
 </style>

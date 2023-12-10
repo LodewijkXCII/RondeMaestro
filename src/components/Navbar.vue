@@ -1,6 +1,6 @@
 <template>
   <nav class="wrapper">
-    <div class="wrapper navbar">
+    <div class="navbar">
       <router-link to="/">
         <img src="../assets/logo.svg" class="brand-logo" />
       </router-link>
@@ -31,7 +31,7 @@
 
         <router-link
           :to="{
-            name: 'raceStageOverview',
+            name: 'klassementOverview',
             params: {
               race_id: 39,
               race: 'le-tour-de-france-2023',
@@ -60,8 +60,19 @@
           Volgende etappe:
 
           <span v-if="nextStage">
-            {{ nextStage.stage_nr }}. {{ nextStage.start_city }} -
-            {{ nextStage.finish_city }}
+            <router-link
+              :to="{
+                name: 'stageCyclistOverview',
+                params: {
+                  race_id: nextStage.race_id,
+                  stage_id: nextStage.id,
+                  city: getCityNextStage(nextStage),
+                },
+              }"
+            >
+              {{ nextStage.stage_nr }}. {{ nextStage.start_city }} -
+              {{ nextStage.finish_city }}
+            </router-link>
           </span>
         </div>
         <Username />
@@ -97,6 +108,14 @@ export default defineComponent({
       });
     },
 
+    getCityNextStage(nextStage) {
+      return `${nextStage.start_city
+        .replaceAll(" ", "-")
+        .toLowerCase()}-${nextStage.finish_city
+        .replaceAll(" ", "-")
+        .toLowerCase()}`;
+    },
+
     getTime(timestamp) {
       return DateTime.fromISO(timestamp).setLocale("nl").toFormat("d MMM y");
     },
@@ -124,23 +143,47 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 nav {
-  padding: 1rem 2rem;
+  padding: 1rem;
   background: var(--clr-background-mute);
   margin-bottom: 1em;
   width: 100%;
+  position: relative;
 
   .navbar {
     display: flex;
     gap: 1em;
+    align-items: center;
   }
   .brand-logo {
     max-width: 100px;
     margin-right: 2rem;
   }
   .nav-links {
-    display: flex;
     gap: 1rem;
     align-items: center;
+    display: flex;
+
+    @media (max-width: 576px) {
+      align-items: center;
+      position: absolute;
+      bottom: -45px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      background: var(--clr-primary);
+      padding: 0.75rem;
+      margin-left: -1rem;
+    }
+
+    .router-link-active {
+      font-weight: 900;
+      --border-size: 2px;
+      border-bottom: var(--border-size) solid var(--clr-primary);
+      margin-bottom: calc(var(--border-size) * -1);
+      @media (max-width: 576px) {
+        border-color: var(--clr-text-white);
+      }
+    }
   }
   .nav-right {
     margin-left: auto;
@@ -161,11 +204,17 @@ nav {
       border-bottom: var(--border-size) solid var(--clr-primary);
       margin-bottom: calc(var(--border-size) * -1);
     }
+
+    @media (max-width: 576px) {
+      color: var(--clr-text-white);
+    }
   }
 
   .nav-next-stage {
     font-weight: 100;
     text-transform: initial;
+    width: 20ch;
+    color: var(--clr-text);
 
     span {
       color: var(--clr-secondary);
@@ -173,7 +222,7 @@ nav {
       text-transform: uppercase;
       font-size: var(--fs-300);
       font-weight: bold;
-      // display: block;
+      display: block;
       cursor: pointer;
     }
 
