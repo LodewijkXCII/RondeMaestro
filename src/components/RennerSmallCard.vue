@@ -165,9 +165,10 @@ export default {
 
 .selected {
   background-color: var(--clr-primary);
+  color: var(--clr-text-white);
 
   * {
-    fill: var(--color-text);
+    fill: var(--color-text-white);
   }
 }
 
