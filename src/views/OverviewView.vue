@@ -106,7 +106,20 @@ export default defineComponent({
     margin-bottom: 1.5rem;
   }
 
-  @media (min-width: 1870px) {
+  @include sm {
+    grid-template-columns: var(--rider-card-width);
+  }
+  @include md {
+    grid-template-columns: var(--rider-card-width) var(--rider-card-width);
+    justify-content: center;
+  }
+  @include lg {
+    grid-template-columns: calc(2 * var(--rider-card-width) + 1rem) var(
+        --rider-card-width
+      );
+    justify-content: center;
+  }
+  @include xl {
     grid-template-columns: 75% auto;
   }
 }

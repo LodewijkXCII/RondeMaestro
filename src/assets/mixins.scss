@@ -1,12 +1,12 @@
 // Breakpoints
-$breakpoint-mobile: 576px;
-$breakpoint-tablet: 768px;
-$breakpoint-laptop: 992px;
-$breakpoint-desktop: 1200px;
+$breakpoint-mobile: 780px;
+$breakpoint-tablet: 950px;
+$breakpoint-laptop: 1450px;
+$breakpoint-desktop: 1870px;
 
 // Small devices
 @mixin sm {
-  @media (min-width: #{$breakpoint-mobile}) {
+  @media (max-width: #{$breakpoint-mobile}) {
     @content;
   }
 }

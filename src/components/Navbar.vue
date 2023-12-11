@@ -163,7 +163,7 @@ nav {
     align-items: center;
     display: flex;
 
-    @media (max-width: 576px) {
+    @include sm {
       align-items: center;
       position: absolute;
       bottom: -45px;
@@ -180,7 +180,7 @@ nav {
       --border-size: 2px;
       border-bottom: var(--border-size) solid var(--clr-primary);
       margin-bottom: calc(var(--border-size) * -1);
-      @media (max-width: 576px) {
+      @include sm {
         border-color: var(--clr-text-white);
       }
     }
@@ -205,7 +205,7 @@ nav {
       margin-bottom: calc(var(--border-size) * -1);
     }
 
-    @media (max-width: 576px) {
+    @media (var(--br-xs)) {
       color: var(--clr-text-white);
     }
   }

@@ -95,7 +95,7 @@ export default defineComponent({
 <style lang="scss">
 .cyclistSelector {
   display: grid;
-  grid-template-columns: repeat(2, var(--rider-card-width));
+  grid-template-columns: var(--rider-card-width);
   grid-auto-rows: auto;
   gap: 1rem;
   position: relative;
@@ -110,7 +110,16 @@ export default defineComponent({
     right: calc(var(--border-width) * -2);
   }
 
-  @media (min-width: 1870px) {
+  // @include md {
+
+  // }
+  @include md {
+    grid-template-columns: var(--rider-card-width);
+  }
+  @include lg {
+    grid-template-columns: repeat(2, var(--rider-card-width));
+  }
+  @include xl {
     grid-template-columns: repeat(3, var(--rider-card-width));
   }
 }
