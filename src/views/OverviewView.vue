@@ -1,13 +1,15 @@
 <template>
   <main class="wrapper flow">
-    <StageComponent :stage="stage" />
-
     <section class="cyclistOverview">
+      <StageComponent :stage="stage" />
       <Startlist :key="compkey" />
 
       <aside>
-        <h2>Geselecteerde renners</h2>
-        <SelectedRiders :key="compkey" />
+        <div class="selecterd-riders">
+          <h2>Geselecteerde renners</h2>
+          <StageTimer :date="stage.date" :key="compkey" />
+          <SelectedRiders :key="compkey" />
+        </div>
       </aside>
     </section>
   </main>
@@ -22,6 +24,7 @@ import RennerSmallCard from "../components/RennerSmallCard.vue";
 import SelectedRiders from "../components/SelectedRiders.vue";
 import StageComponent from "../components/StageComponent.vue";
 import Startlist from "../components/Startlist.vue";
+import StageTimer from "../components/StageTimer.vue";
 
 import { useCyclistStore } from "../stores/selectedRiders";
 
@@ -33,6 +36,7 @@ export default defineComponent({
     SelectedRiders,
     StageComponent,
     Startlist,
+    StageTimer,
   },
 
   setup() {
@@ -44,6 +48,7 @@ export default defineComponent({
       distance: Number,
       name: String,
       stage_type: String,
+      date: String,
     });
     const compkey = ref(0);
     const route = useRoute();
@@ -54,9 +59,13 @@ export default defineComponent({
     const riderStore = useCyclistStore();
 
     onMounted(async () => {
-      getStageData();
+      riderStore.riders = {
+        stage: route.params.stage_id,
+        renners: [],
+      };
+      await getStageData();
     });
-    watch(route, () => {
+    watch(route, async () => {
       teams.value = [];
       riderStore.riders = {
         stage: route.params.stage_id,
@@ -65,7 +74,7 @@ export default defineComponent({
 
       compkey.value += 1;
 
-      getStageData();
+      await getStageData();
     });
 
     const getStageData = async () => {
@@ -102,12 +111,22 @@ export default defineComponent({
   grid-template-columns: auto auto;
   gap: 2rem;
 
-  h2 {
-    margin-bottom: 1.5rem;
+  aside {
+    grid-area: auto;
+  }
+  @include xs {
+    grid-template-columns: var(--rider-card-width);
+
+    aside {
+      grid-area: 2;
+    }
   }
 
   @include sm {
     grid-template-columns: var(--rider-card-width);
+    aside {
+      grid-area: 2;
+    }
   }
   @include md {
     grid-template-columns: var(--rider-card-width) var(--rider-card-width);
@@ -120,7 +139,24 @@ export default defineComponent({
     justify-content: center;
   }
   @include xl {
-    grid-template-columns: 75% auto;
+    grid-template-columns: calc(3 * (var(--rider-card-width) + 1rem)) var(
+        --rider-card-width
+      );
+  }
+
+  .stage-section {
+    grid-area: 1/3/1/1;
+
+    @include xs {
+      grid-area: 1/1;
+    }
+    @include sm {
+      grid-area: 1/1;
+    }
+  }
+  .selecterd-riders {
+    position: sticky;
+    top: 2rem;
   }
 }
 </style>

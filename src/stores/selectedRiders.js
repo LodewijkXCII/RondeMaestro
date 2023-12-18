@@ -7,11 +7,13 @@ export const useCyclistStore = defineStore("selectedRiders", {
       renners: [],
     },
     changesMade: false,
+    errorMessage: "",
   }),
   getters: {
     ridersCount: (state) => state.riders.renners.length,
     selectedRiders: (state) => state.riders.renners,
     selectionChanges: (state) => state.changesMade,
+    getErrorMessage: (state) => state.errorMessage,
   },
   actions: {
     addRider(rider) {

@@ -2,7 +2,7 @@
   <main class="">
     <h2>Teams en renners</h2>
     <div class="cyclistSelector">
-      <div v-for="(item, index) in startlistStore.teams">
+      <div class="team-selection" v-for="(item, index) in startlistStore.teams">
         <div class="team-info">
           <h3>{{ index }}</h3>
           <img
@@ -20,7 +20,6 @@
           :icon="'plus'"
           @click="toSelectie(renner)"
           :key="renner.id"
-          class="selectie"
         />
       </div>
     </div>
@@ -73,15 +72,28 @@ export default defineComponent({
     });
 
     const toSelectie = (renner) => {
-      if (
-        riderStore.riders.renners.some((e) => e.cyclist_id == renner.cyclist_id)
-      ) {
-        renner.selected = false;
-        return riderStore.removeRider(renner);
+      // 1 minder dan de huidige count
+      if (riderStore.ridersCount <= 9) {
+        console.log(riderStore.ridersCount);
+        if (
+          riderStore.riders.renners.some(
+            (e) => e.cyclist_id == renner.cyclist_id
+          )
+        ) {
+          renner.selected = false;
+          return riderStore.removeRider(renner);
+        }
+        renner.selected = true;
+        riderStore.madeChange();
+        return riderStore.addRider(renner);
       }
-      renner.selected = true;
-      riderStore.madeChange();
-      return riderStore.addRider(renner);
+
+      riderStore.errorMessage =
+        "Je kunt maximaal 10 renners in je voorselectie zetten";
+      setTimeout(() => {
+        riderStore.errorMessage = "";
+        return;
+      }, 5000);
     };
 
     return {
@@ -110,9 +122,18 @@ export default defineComponent({
     right: calc(var(--border-width) * -2);
   }
 
-  // @include md {
-
-  // }
+  @include xs {
+    grid-template-columns: var(--rider-card-width);
+    &::after {
+      content: none;
+    }
+  }
+  @include sm {
+    grid-template-columns: var(--rider-card-width);
+    &::after {
+      content: none;
+    }
+  }
   @include md {
     grid-template-columns: var(--rider-card-width);
   }

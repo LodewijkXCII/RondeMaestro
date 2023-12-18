@@ -11,9 +11,9 @@
 
     <div
       class="rmTable__row"
-      :class="stage.done ? 'done' : 'active'"
+      :class="checkStageStatus(stage)"
       v-for="stage in stageInfo"
-      @click="handleRouteFunction(routerAction, stage)"
+      @click="handleRouteFunction(stage)"
     >
       <div class="rmTable__row--number">{{ stage.stage_nr }}</div>
       <div class="rmTable__row--date">
@@ -46,7 +46,6 @@ import { DateTime } from "luxon";
 
 defineProps({
   stageInfo: Object,
-  routerAction: String,
 });
 
 const router = useRouter();
@@ -54,22 +53,25 @@ const router = useRouter();
 function getTime(timestamp) {
   return DateTime.fromISO(timestamp).setLocale("nl").toFormat("dd-MM");
 }
-function handleRouteFunction(action, stage) {
-  console.log(action);
-  if (action == "stage") {
-    if (stage.done) {
-      return goToResult(stage);
-    }
-    return goToStage(stage);
+function handleRouteFunction(stage) {
+  if (
+    stage.done ||
+    DateTime.now().hasSame(DateTime.fromISO(stage.date), "day")
+  ) {
+    return goToResult(stage);
   }
-  if (action == "result") {
-    if (stage.done) {
-      return goToResult(stage);
-    }
-    return goToStage(stage);
-  }
-  console.log(action);
+  return goToStage(stage);
 }
+
+function checkStageStatus(stage) {
+  if (stage.done) {
+    return "done";
+  } else if (DateTime.now().hasSame(DateTime.fromISO(stage.date), "day")) {
+    return "active";
+  }
+  return;
+}
+
 function goToResult(stage) {
   router.push({
     name: "resultOverview",

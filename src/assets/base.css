@@ -18,7 +18,7 @@
   --fs-200: clamp(0.56rem, calc(0.87rem + -0.4vw), 0.79rem);
   --fs-300: clamp(0.8rem, calc(0.92rem + -0.16vw), 0.89rem);
   --fs-400: clamp(1rem, calc(0.96rem + 0.22vw), 1.13rem);
-  --fs-500: clamp(1.13rem, calc(0.96rem + 0.81vw), 1.59rem);
+  --fs-500: clamp(1.1rem, calc(0.96rem + 0.81vw), 1.48rem);
   --fs-600: clamp(1.27rem, calc(0.92rem + 1.71vw), 2.25rem);
   --fs-700: clamp(1.42rem, calc(0.81rem + 3.06vw), 3.18rem);
   --fs-800: clamp(1.6rem, calc(0.59rem + 5.04vw), 4.5rem);

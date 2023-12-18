@@ -163,7 +163,7 @@ nav {
     align-items: center;
     display: flex;
 
-    @include sm {
+    @include xs {
       align-items: center;
       position: absolute;
       bottom: -45px;

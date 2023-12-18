@@ -21,6 +21,7 @@
     <div class="ranking-stage">
       <div class="ranking-stage--stages">
         <h3>Etappes</h3>
+        <p class="strong">Selecter de etappe om de uitslag te zien.</p>
         <div class="stage_list">
           <div
             v-for="stage in stageInfo"

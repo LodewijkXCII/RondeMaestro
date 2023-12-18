@@ -1,5 +1,5 @@
 <template>
-  <section v-show="stage" class="stage-section">
+  <section class="stage-section">
     <div class="stage-section--race">
       {{ stage.name }}
     </div>

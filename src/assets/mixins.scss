@@ -5,29 +5,35 @@ $breakpoint-laptop: 1450px;
 $breakpoint-desktop: 1870px;
 
 // Small devices
-@mixin sm {
+@mixin xs {
   @media (max-width: #{$breakpoint-mobile}) {
     @content;
   }
 }
 
 // Medium devices
-@mixin md {
-  @media (min-width: #{$breakpoint-tablet}) {
+@mixin sm {
+  @media (min-width: calc(#{$breakpoint-mobile} + 1px)) and (max-width: #{$breakpoint-tablet}) {
     @content;
   }
 }
 
 // Large devices
-@mixin lg {
-  @media (min-width: #{$breakpoint-laptop}) {
+@mixin md {
+  @media (min-width: calc(#{$breakpoint-tablet} + 1px))  and (max-width: #{$breakpoint-laptop}) {
     @content;
   }
 }
 
 // Extra large devices
+@mixin lg {
+  @media (min-width: calc(#{$breakpoint-laptop} + 1px)) and (max-width: #{$breakpoint-desktop}) {
+    @content;
+  }
+}
+
 @mixin xl {
-  @media (min-width: #{$breakpoint-desktop}) {
+  @media (min-width: calc(#{$breakpoint-desktop} + 1px)) {
     @content;
   }
 }

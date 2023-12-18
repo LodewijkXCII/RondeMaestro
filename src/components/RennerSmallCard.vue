@@ -68,13 +68,10 @@ export default {
 <style lang="scss" scoped>
 .cyclistCard {
   --avatar-size: 45px;
-
   font-size: 0.9rem;
-
   background-color: var(--clr-background-mute);
   margin: 0.5rem 0;
   padding: 0.25rem 0.75rem;
-
   display: grid;
   grid-template-columns:
     calc(var(--avatar-size) + 1rem) 3fr minmax(25px, 1fr)
@@ -144,15 +141,16 @@ export default {
       fill: var(--clr-primary);
     }
   }
+
+  &:hover {
+    transition: transform ease-in-out 0.3s;
+    transform: scale(1.03);
+    outline: 2px solid hsl(from var(--clr-primary) h calc(s - 0.1) l / 0.9);
+    color: var(--clr-text);
+    cursor: pointer;
+  }
 }
 
-.selectie:hover {
-  transition: transform ease-in-out 0.3s;
-  transform: scale(1.03);
-  outline: 2px solid var(--clr-primary);
-  color: var(--clr-text);
-  cursor: pointer;
-}
 .withdraw {
   background: var(--clr-background-mute);
   pointer-events: none;
@@ -169,6 +167,14 @@ export default {
 
   * {
     fill: var(--color-text-white);
+  }
+
+  &:nth-child(n + 9) {
+    background-color: var(--clr-accent);
+
+    &:hover {
+      outline-color: hsl(from var(--clr-accent) h calc(s - 0.1) l / 0.9);
+    }
   }
 }
 

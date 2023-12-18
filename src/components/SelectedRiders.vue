@@ -6,8 +6,8 @@
 
     <div class="btn btn-action" @click="sendSelection">{{ sendButton }}</div>
     <div class="btn btn-danger" @click="wisSelection">Wis selectie</div>
-    <div v-show="errorMsg.length >= 1" class="errormessage">
-      {{ errorMsg }}
+    <div v-show="riderStore.errorMessage.length >= 1" class="errormessage">
+      {{ riderStore.errorMessage }}
     </div>
   </div>
   <div class="selectedCyclists">
@@ -45,16 +45,16 @@ export default defineComponent({
     const avoidRouteLeave = ref(false);
     // const user_id = ref(useAuthStore().getUserID);
     const user_id = ref(1);
-    const errorMsg = ref("");
+    const errorMsg = riderStore.getErrorMessage;
 
     const sendButton = ref("Verstuur selectie");
 
     function sendSelection() {
       if (riderStore.ridersCount > 8) {
-        errorMsg.value =
+        riderStore.errorMessage =
           "Je hebt teveel renners geselecteerd! Kies er maximaal 8.";
         setTimeout(() => {
-          errorMsg.value = "";
+          riderStore.errorMessage = "";
         }, 5000);
         return;
       }

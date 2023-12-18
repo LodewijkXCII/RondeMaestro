@@ -7,10 +7,9 @@
   &__row {
     display: grid;
     align-items: center;
-    grid-template-columns: minmax(4ch, 50px) minmax(30px, 80px) minmax(
-        10ch,
-        85ch
-      ) minmax(5px, 110px) minmax(20px, 110px) minmax(80px, 110px);
+    grid-template-columns:
+      minmax(4ch, 50px) minmax(30px, 80px) minmax(10ch, 85ch)
+      minmax(5px, 110px) minmax(20px, 110px) minmax(80px, 110px);
     border-bottom: 1px solid var(--clr-background);
     position: relative;
 
@@ -55,7 +54,7 @@
   }
 
   .active::before {
-    background: var(--clr-secondary);
+    background: var(--clr-accent-green);
   }
 
   &__header {
@@ -76,6 +75,15 @@
       cursor: pointer;
       font-weight: 600;
       background-color: hsl(0, 0%, 100%, 20%);
+    }
+
+    &::before {
+      content: "";
+
+      height: 100%;
+      position: absolute;
+      width: 0.4rem;
+      background: var(--clr-secondary);
     }
   }
 }

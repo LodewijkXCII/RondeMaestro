@@ -73,35 +73,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.result--item {
-  background: #c5c7ca;
-  &:nth-child(odd) {
-    background: #8f99a6;
-  }
-
-  &:first-child {
-    border-radius: 5px 5px 0 0;
-  }
-
-  &:last-child {
-    border-radius: 0 0 5px 5px;
-  }
-
-  .info {
-    display: grid;
-    grid-template-columns: 2ch auto 8ch 4ch;
-    grid-template-rows: auto auto;
-    padding: 0.75rem;
-    align-items: center;
-    // border: 1px solid var(--clr-background-mute);
-
-    &__icon .unicon {
-      cursor: pointer;
-      display: flex;
-    }
-  }
-}
-
 .selection {
   display: grid;
   grid-template-rows: repeat(4, 1fr);

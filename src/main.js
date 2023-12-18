@@ -6,6 +6,7 @@ import router from "./router";
 import setupInterceptors from "./api/api";
 
 import FlagIcon from "vue-flag-icon";
+import VueCountdown from "@chenfengyuan/vue-countdown";
 
 // Unicon icons //
 import Unicon from "vue-unicons";
@@ -37,6 +38,7 @@ const app = createApp(App);
 
 app.use(Unicon);
 app.use(FlagIcon);
+app.component(VueCountdown.name, VueCountdown);
 app.use(createPinia());
 app.use(router);
 

@@ -4,6 +4,7 @@
     <div class="results">
       <aside class="results__stages">
         <h3>Etappes</h3>
+        <p class="strong">Selecter de etappe om de uitslag te zien.</p>
         <ol class="stage_list">
           <ResultStage
             :stage="stage"
@@ -183,11 +184,11 @@ export default defineComponent({
 <style lang="scss">
 .results {
   display: grid;
-  grid-template-columns: minmax(28ch, 55ch) auto minmax(24ch, 40ch);
+  grid-template-columns: 1fr;
   gap: 1rem;
 
   &__stages {
-    border-right: 3px solid var(--clr-primary);
+    // border-right: 3px solid var(--clr-primary);
     height: 100%;
   }
 
@@ -197,24 +198,41 @@ export default defineComponent({
 }
 
 .results__userResult {
-  border-right: 3px solid var(--clr-primary);
+  // border-right: 3px solid var(--clr-primary);
   padding-right: 1rem;
 
   &--cyclists {
     display: grid;
-    grid-template-rows: repeat(4, 1fr);
-    grid-template-columns: repeat(2, var(--rider-card-width));
+    grid-template-rows: repeat(8, 1fr);
+    grid-template-columns: var(--rider-card-width);
     column-gap: 1rem;
     grid-auto-flow: column;
     margin-top: -12px;
   }
 }
-@media (max-width: 566px) {
+
+@include sm {
   .results {
     grid-template-columns: 1fr;
+  }
+
+  .results__userResult {
+    border: none;
+    padding: 0;
+    --rider-card-width: 100%;
+    &--cyclists {
+      grid-template-rows: repeat(8, 1fr);
+      grid-template-columns: var(--rider-card-width);
+    }
+  }
+}
+
+@include md {
+  .results {
+    grid-template-columns: 40ch 1fr;
 
     &__stages {
-      border-right: none;
+      border-right: 3px solid var(--clr-primary);
     }
   }
 
@@ -224,7 +242,46 @@ export default defineComponent({
     --rider-card-width: 100%;
     &--cyclists {
       grid-template-rows: repeat(8, 1fr);
-      grid-template-columns: 1fr;
+      grid-template-columns: var(--rider-card-width);
+    }
+  }
+}
+
+@include lg {
+  .results {
+    grid-template-columns: 40ch calc(2 * var(--rider-card-width) + 3rem);
+    &__stages {
+      border-right: 3px solid var(--clr-primary);
+    }
+  }
+  .results__userResult {
+    border: none;
+    padding: 0;
+    --rider-card-width: 100%;
+    &--cyclists {
+      grid-template-rows: repeat(4, auto);
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+@include xl {
+  .results {
+    grid-template-columns: 40ch calc(2 * var(--rider-card-width) + 3rem) minmax(
+        24ch,
+        40ch
+      );
+    &__stages {
+      border-right: 3px solid var(--clr-primary);
+    }
+  }
+  .results__userResult {
+    border-right: 3px solid var(--clr-primary);
+    padding: 2rem;
+    --rider-card-width: 100%;
+    &--cyclists {
+      grid-template-rows: repeat(4, auto);
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 }
