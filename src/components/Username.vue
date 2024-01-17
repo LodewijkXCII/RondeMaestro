@@ -6,11 +6,6 @@ const userAuth = useAuthStore();
 const currentUser = ref();
 
 currentUser.value = userAuth.getUserName;
-
-watch(userAuth.isLoggedIn, () => {
-  console.log("er gebeurt iets");
-  currentUser.value = userAuth.getUserName;
-});
 </script>
 
 <template>

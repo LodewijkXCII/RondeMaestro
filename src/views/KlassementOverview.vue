@@ -80,7 +80,7 @@ export default {
     const stageResult = ref([]);
 
     const getTime = (timestamp) => {
-      return DateTime.fromISO(timestamp).setLocale("nl").toFormat("d - MM");
+      return DateTime.fromISO(timestamp).setLocale("nl").toFormat("dd - MM");
     };
 
     const getRaceInfo = async () => {

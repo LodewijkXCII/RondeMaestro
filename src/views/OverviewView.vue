@@ -8,7 +8,7 @@
         <div class="selecterd-riders">
           <h2>Geselecteerde renners</h2>
           <StageTimer :date="stage.date" :key="compkey" />
-          <SelectedRiders :key="compkey" />
+          <SelectedRiders :key="compkey" :stage="stage" />
         </div>
       </aside>
     </section>

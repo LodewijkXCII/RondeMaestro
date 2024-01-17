@@ -32,14 +32,13 @@ Unicon.add([
 
 import "./assets/main.scss";
 
-setupInterceptors();
-
 const app = createApp(App);
 
+app.use(router);
 app.use(Unicon);
 app.use(FlagIcon);
 app.component(VueCountdown.name, VueCountdown);
 app.use(createPinia());
-app.use(router);
 
+setupInterceptors();
 app.mount("#app");

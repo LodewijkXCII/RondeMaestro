@@ -18,7 +18,7 @@ export default defineComponent({
   },
   setup() {
     const getTime = (timestamp) => {
-      return DateTime.fromISO(timestamp).setLocale("nl").toFormat("d - MM");
+      return DateTime.fromISO(timestamp).setLocale("nl").toFormat("dd - MM");
     };
 
     return { getTime };

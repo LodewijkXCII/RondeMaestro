@@ -27,14 +27,15 @@
       </div>
       <div class="rmTable__row--distance">{{ stage.distance }} km</div>
       <div class="rmTable__row--action">
-        <div v-if="stage.done == false">
-          <unicon name="users-alt" />
-          <p>Team invullen</p>
-        </div>
-        <div v-else>
+        <div v-if="stage.closed == true && stage.done == true">
           <unicon name="trophy" />
           <p>Bekijk uitslag</p>
         </div>
+        <div v-else-if="stage.closed == false && stage.done == false">
+          <unicon name="users-alt" />
+          <p>Team invullen</p>
+        </div>
+        <div v-else></div>
       </div>
     </div>
   </div>
@@ -54,22 +55,25 @@ function getTime(timestamp) {
   return DateTime.fromISO(timestamp).setLocale("nl").toFormat("dd-MM");
 }
 function handleRouteFunction(stage) {
-  if (
-    stage.done ||
-    DateTime.now().hasSame(DateTime.fromISO(stage.date), "day")
-  ) {
+  if (stage.done || DateTime.now() >= DateTime.fromISO(stage.date)) {
     return goToResult(stage);
   }
   return goToStage(stage);
 }
 
 function checkStageStatus(stage) {
+  console.log(DateTime.now() <= DateTime.fromISO(stage.date));
+  // console.log(DateTime.now().hasSame(DateTime.fromISO(stage.date), "day"));
   if (stage.done) {
+    stage.closed = true;
     return "done";
-  } else if (DateTime.now().hasSame(DateTime.fromISO(stage.date), "day")) {
+  } else if (DateTime.now() >= DateTime.fromISO(stage.date)) {
+    stage.closed = true;
+    return "closed";
+  } else {
+    stage.closed = false;
     return "active";
   }
-  return;
 }
 
 function goToResult(stage) {

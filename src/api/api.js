@@ -1,28 +1,29 @@
 import axios from "axios";
-// import { useAuthStore } from "../stores/auth";
+import router from "../router";
 
-async function refreshAccessToken() {
-  try {
-    // const authStore = useAuthStore();
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_API_URL}/users/refresh`
-    );
-    const accessToken = data.token;
-    localStorage.setItem("token", accessToken);
-    userStore.accesToken = accessToken;
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-}
+// async function refreshAccessToken() {
+//   try {
+//     const { data } = await axios.post(
+//       `${import.meta.env.VITE_API_URL}/users/refresh`
+//     );
+//     const accessToken = data.token;
+//     localStorage.setItem("token", accessToken);
+//     userStore.accesToken = accessToken;
+//   } catch (error) {
+//     console.log(error);
+//     throw error;
+//   }
+// }
 
 const setup = (store) => {
   axios.interceptors.request.use(
     (setting) => {
       const accesToken = localStorage.getItem("token");
-      console.log("hierzo", accesToken);
+
       if (accesToken) {
-        setting.headers["Authorization"] = accesToken;
+        setting.headers.Authorization = accesToken
+          ? `Bearer ${accesToken}`
+          : "";
       }
       return setting;
     },
@@ -38,13 +39,20 @@ const setup = (store) => {
     },
     (error) => {
       const originalRequest = error.config;
-      console.log("daarzo");
-      if (error.response.status === 401 && !originalRequest._retry) {
-        originalRequest._retry = true;
-        return refreshAccessToken().then((response) => {
-          originalRequest.headers.Authorization = response.accessToken;
-          return axios(originalRequest);
-        });
+      console.log("hiero", originalRequest, error);
+      if (
+        error.response.status === 401
+        // && !originalRequest._retry
+      ) {
+        // originalRequest._retry = true;
+        // return refreshAccessToken().then((response) => {
+        //   originalRequest.headers.Authorization = response.accessToken;
+        //   return axios(originalRequest);
+        // });
+        // router.push("/aanmelden");
+        console.log("error");
+        // console.error(error);
+        return error;
       }
       return Promise.reject(error);
     }

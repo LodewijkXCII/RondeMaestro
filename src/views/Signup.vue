@@ -1,6 +1,6 @@
 <template>
   <div class="login-card__left active">
-    <h1>Inloggen</h1>
+    <h1>Registreren</h1>
 
     <form>
       <div class="form__group field">
@@ -28,10 +28,6 @@
       <button class="send-btn" @click.prevent="getUserData">Verstuur</button>
       <div v-if="errorMSG">{{ errorMSG }}</div>
     </form>
-    <p>
-      Nog geen account bij RondeMaestro? Maak een
-      <router-link to="/registeren">account</router-link> aan.
-    </p>
   </div>
   <div class="login-card__right">
     <h2>Welkom bij RondeMaestro!</h2>
@@ -54,22 +50,18 @@ export default defineComponent({
   setup() {
     const errorMSG = ref();
     const loginData = ref({
-      email: "loekzweers@gmail.com",
-      password: "L_zwe1992",
+      email: "",
+      password: "",
     });
     const authStore = useAuthStore();
 
     async function getUserData() {
       const response = await authStore.login(loginData.value);
 
-      if (response) {
-        console.log(response);
-      }
-
       if (authStore.getLoggedInValue == true) {
         errorMSG.value = response.message;
-        return router.replace({
-          name: "home",
+        return router.push({
+          name: "dashboard",
         });
       }
 
@@ -91,11 +83,9 @@ export default defineComponent({
 <style lang="scss">
 .login-card {
   &__left {
-    display: grid;
     border-radius: var(--_border-radius);
     background-color: var(--clr-background);
     padding: var(--_padding);
-    box-shadow: 15px 0px 15px 0px rgba(0, 0, 0, 0.2);
 
     .send-btn {
       padding: 0.5rem 1rem;
@@ -105,9 +95,6 @@ export default defineComponent({
       border-radius: 5px;
       border: 1px solid var(--clr-primary);
       float: right;
-    }
-    p {
-      font-size: var(--fs-300);
     }
   }
   &__right {

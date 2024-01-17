@@ -8,11 +8,6 @@
     <div class="login-card">
       <slot />
     </div>
-    <!-- <img
-      src="../assets/img/matt-noble-sXBlqLvWkVk-unsplash.jpg"
-      alt="woman"
-      class="login-image"
-    /> -->
   </main>
 </template>
 
@@ -37,17 +32,19 @@ nav {
   display: grid;
   place-items: center;
   height: 100vh;
+  width: 100%;
 
   &:before {
     content: "";
     position: absolute;
     background-image: url("../assets/img/matt-noble-sXBlqLvWkVk-unsplash.jpg");
     background-size: cover;
-    filter: grayscale(80%);
+    filter: grayscale(90%) blur(2px) opacity(0.6);
     overflow: hidden;
     z-index: -10;
     height: 100vh;
     width: 100%;
+    // overflow: hidden;
   }
 }
 .login-card {

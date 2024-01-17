@@ -13,25 +13,26 @@
         <span>
           <h3>{{ days }}</h3>
         </span>
-        dagen
+        <p v-if="days > 1 || days == 0">dagen</p>
+        <p v-else>dag</p>
       </div>
       <div class="counter-hours">
         <span>
           <h3>{{ hours }}</h3>
         </span>
-        uur
+        <p>uur</p>
       </div>
       <div class="counter-minutes">
         <span>
           <h3>{{ minutes }}</h3>
         </span>
-        minuten
+        <p>minuten</p>
       </div>
       <div class="counter-seconds">
         <span>
           <h3>{{ seconds }}</h3>
         </span>
-        seconden
+        <p>seconden</p>
       </div>
     </vue-countdown>
   </div>

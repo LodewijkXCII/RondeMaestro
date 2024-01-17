@@ -10,7 +10,7 @@
             name: 'raceStageOverview',
             params: {
               race_id: 39,
-              race: 'le-tour-de-france-2023',
+              race: 'giro-d-italia',
             },
           }"
           class="nav-item"
@@ -34,7 +34,7 @@
             name: 'klassementOverview',
             params: {
               race_id: 39,
-              race: 'le-tour-de-france-2023',
+              race: 'giro-d-italia',
             },
           }"
           class="nav-item"
@@ -47,7 +47,7 @@
             name: 'raceStageOverview',
             params: {
               race_id: 39,
-              race: 'le-tour-de-france-2023',
+              race: 'giro-d-italia',
             },
           }"
           class="nav-item"
@@ -58,7 +58,6 @@
       <div class="nav-right">
         <div class="nav-item nav-next-stage">
           Volgende etappe:
-
           <span v-if="nextStage">
             <router-link
               :to="{
@@ -162,6 +161,7 @@ nav {
     gap: 1rem;
     align-items: center;
     display: flex;
+    align-self: stretch;
 
     @include xs {
       align-items: center;
@@ -177,9 +177,10 @@ nav {
 
     .router-link-active {
       font-weight: 900;
-      --border-size: 2px;
-      border-bottom: var(--border-size) solid var(--clr-primary);
+      --border-size: 12px;
+      border-bottom: var(--border-size) solid var(--clr-background-mute);
       margin-bottom: calc(var(--border-size) * -1);
+      box-shadow: 0px 3px 0 0px var(--clr-primary);
       @include sm {
         border-color: var(--clr-text-white);
       }
@@ -200,9 +201,10 @@ nav {
     fill: var(--clr-text);
 
     &:hover {
-      --border-size: 2px;
-      border-bottom: var(--border-size) solid var(--clr-primary);
+      --border-size: 12px;
+      border-bottom: var(--border-size) solid var(--clr-background-mute);
       margin-bottom: calc(var(--border-size) * -1);
+      box-shadow: 0px 3px 0 0px var(--clr-primary);
     }
 
     @media (var(--br-xs)) {
@@ -213,7 +215,8 @@ nav {
   .nav-next-stage {
     font-weight: 100;
     text-transform: initial;
-    width: 20ch;
+    width: max-content;
+    padding: 0 0.25rem;
     color: var(--clr-text);
 
     span {

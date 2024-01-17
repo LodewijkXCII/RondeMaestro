@@ -80,6 +80,8 @@
 import { defineComponent, ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 
+import { useAuthStore } from "../stores/userAuth";
+
 import ResultStage from "../components/result/Stage.vue";
 import ResultStageTable from "../components/result/ResultStage.vue";
 import RennerSmallCard from "../components/RennerSmallCard.vue";
@@ -100,7 +102,8 @@ export default defineComponent({
     const userResult = ref();
     const totalUserPoints = ref();
     const totalScore = ref();
-    const user_id = ref(1);
+    // const user_id = ref(1);
+    const user_id = ref(useAuthStore().getUserID);
     const active_stage = ref();
 
     const getRaceInfo = async () => {
@@ -163,7 +166,7 @@ export default defineComponent({
     }
 
     const getTime = (timestamp) => {
-      return DateTime.fromISO(timestamp).setLocale("nl").toFormat("d - MM");
+      return DateTime.fromISO(timestamp).setLocale("nl").toFormat("dd - MM");
     };
 
     return {
@@ -277,7 +280,7 @@ export default defineComponent({
   }
   .results__userResult {
     border-right: 3px solid var(--clr-primary);
-    padding: 2rem;
+
     --rider-card-width: 100%;
     &--cyclists {
       grid-template-rows: repeat(4, auto);

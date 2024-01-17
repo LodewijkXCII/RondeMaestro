@@ -1,11 +1,17 @@
 <template>
   <div class="selectedInfo">
-    <div :class="riderStore.ridersCount > 8 ? 'red' : ''">
+    <div :class="countRiders(riderStore.ridersCount)">
       Geselecteerd: {{ riderStore.ridersCount }} van 8 renners
     </div>
 
-    <div class="btn btn-action" @click="sendSelection">{{ sendButton }}</div>
-    <div class="btn btn-danger" @click="wisSelection">Wis selectie</div>
+    <div
+      class="btn"
+      :class="countRiders(riderStore.ridersCount)"
+      @click="sendSelection"
+    >
+      {{ sendButton }}
+    </div>
+    <div class="btn danger" @click="wisSelection">Wis selectie</div>
     <div v-show="riderStore.errorMessage.length >= 1" class="errormessage">
       {{ riderStore.errorMessage }}
     </div>
@@ -35,18 +41,17 @@ import router from "../router";
 
 export default defineComponent({
   components: { RennerSmallCard },
+  props: { stage: Object },
 
-  setup() {
+  setup(props) {
     const riderStore = useCyclistStore();
     const startlistStore = useStartlistStore();
     const stage_id = riderStore.riders.stage;
     const route = useRoute();
     const raceInfo = ref();
     const avoidRouteLeave = ref(false);
-    // const user_id = ref(useAuthStore().getUserID);
-    const user_id = ref(1);
+    const user_id = ref(useAuthStore().getUserID);
     const errorMsg = riderStore.getErrorMessage;
-
     const sendButton = ref("Verstuur selectie");
 
     function sendSelection() {
@@ -57,6 +62,9 @@ export default defineComponent({
           riderStore.errorMessage = "";
         }, 5000);
         return;
+      } else if (riderStore.ridersCount < 8) {
+        riderStore.errorMessage =
+          "Je hebt nog geen 8 renners geselecteerd. Weet je zeker dat je deze renners wilt opslaan?";
       }
 
       sendButton.value = "Versturen...";
@@ -87,10 +95,10 @@ export default defineComponent({
 
       avoidRouteLeave.value = true;
 
-      riderStore.clearStore();
+      // riderStore.clearStore();
       router.push({
-        name: "raceStageOverview",
-        params: { race_id: raceInfo.value.id, race: raceInfo.value.name },
+        name: "stageCyclistOverview_confirm",
+        params: { stage_id },
       });
     }
 
@@ -106,8 +114,6 @@ export default defineComponent({
       riderStore.madeChange();
       startlistStore.removeSelected(renner);
       riderStore.removeRiderByIndex(rennerIndex);
-
-      return;
     }
 
     function setCyclistSelected(cyclist) {
@@ -116,6 +122,17 @@ export default defineComponent({
       );
 
       selectedRider.selected = true;
+    }
+
+    function countRiders(count) {
+      if (count != 8) {
+        if (count > 8) {
+          return "danger";
+        } else {
+          return "alert";
+        }
+      }
+      return "action";
     }
 
     onMounted(async () => {
@@ -174,6 +191,7 @@ export default defineComponent({
       sendSelection,
       sendButton,
       errorMsg,
+      countRiders,
     };
   },
 });
@@ -184,7 +202,12 @@ export default defineComponent({
   margin-top: 2rem;
 }
 
-.red {
+.alert {
+  color: var(--clr-alert);
+  font-weight: 900;
+}
+
+.danger {
   color: var(--clr-accent);
   font-weight: 900;
 }

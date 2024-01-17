@@ -14,9 +14,20 @@
     cursor: pointer;
   }
 
-  &-action {
-    background: var(--clr-accent);
+  &.action {
+    background: var(--clr-secondary);
     color: var(--clr-text-black);
+    transition: background 200ms ease-in;
+
+    &:hover {
+      background: transparent;
+      color: var(--clr-text);
+      outline: 2px solid var(--clr-secondary);
+    }
+  }
+  &.danger {
+    color: var(--clr-text-black);
+    background: var(--clr-accent);
     transition: background 200ms ease-in;
 
     &:hover {
@@ -25,15 +36,15 @@
       outline: 2px solid var(--clr-accent);
     }
   }
-  &-danger {
+  &.alert {
     color: var(--clr-text-black);
-    background: var(--clr-secondary);
+    background: var(--clr-alert);
     transition: background 200ms ease-in;
 
     &:hover {
       background: transparent;
       color: var(--clr-text);
-      outline: 2px solid var(--clr-secondary);
+      outline: 2px solid var(--clr-alert);
     }
   }
 }
