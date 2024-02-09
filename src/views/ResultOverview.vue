@@ -102,7 +102,6 @@ export default defineComponent({
     const userResult = ref();
     const totalUserPoints = ref();
     const totalScore = ref();
-    // const user_id = ref(1);
     const user_id = ref(useAuthStore().getUserID);
     const active_stage = ref();
 
@@ -191,7 +190,6 @@ export default defineComponent({
   gap: 1rem;
 
   &__stages {
-    // border-right: 3px solid var(--clr-primary);
     height: 100%;
   }
 
@@ -201,7 +199,6 @@ export default defineComponent({
 }
 
 .results__userResult {
-  // border-right: 3px solid var(--clr-primary);
   padding-right: 1rem;
 
   &--cyclists {

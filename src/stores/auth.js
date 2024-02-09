@@ -31,7 +31,6 @@ export const useAuthStore = defineStore({
           }
         );
 
-        console.log(data);
         localStorage.setItem("acces-token", data.accesToken);
         localStorage.setItem("refresh-token", data.refreshToken);
 

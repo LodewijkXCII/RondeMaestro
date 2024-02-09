@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useCyclistStore } from "../stores/selectedRiders";
-// import { useAuthStore } from "../stores/userAuth";
+import { useCurrentRaceStore } from "../stores/currentRace";
+
 import { authGuard } from "../guards/authGuard";
 
 const router = createRouter({
@@ -11,6 +12,13 @@ const router = createRouter({
       name: "home",
       component: () => import("../views/HomeView.vue"),
       meta: { requiresAuth: true },
+      beforeEnter(next) {
+        const currentRaceStore = useCurrentRaceStore();
+        if (!currentRaceStore.currentRace.race_id.value) {
+          currentRaceStore.setCurrentRace();
+        }
+        next();
+      },
     },
     {
       path: "/about",
@@ -59,7 +67,6 @@ const router = createRouter({
       name: "stageCyclistOverview_confirm",
       component: () => import("../views/ConfirmView.vue"),
       beforeEnter: (to, from, next) => {
-        console.log(from);
         if (from.name == "stageCyclistOverview" && from.params) {
           return next();
         } else {
@@ -84,17 +91,6 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
-  // const hasToken = localStorage.getItem("token");
-  // if (hasToken) {
-  // }
-
-  // const isAuthenticated = useAuthStore().getLoggedInValue;
-
-  // console.log("hastoken", hasToken);
-  //
-  // if (to.name !== "aanmelden" && !isAuthenticated && from.path !== "aanmelden")
-  //   return next({ name: "aanmelden" });
-  // else return next();
 });
 
 export default router;

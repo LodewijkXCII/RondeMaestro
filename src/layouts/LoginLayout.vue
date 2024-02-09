@@ -44,7 +44,6 @@ nav {
     z-index: -10;
     height: 100vh;
     width: 100%;
-    // overflow: hidden;
   }
 }
 .login-card {
@@ -54,7 +53,6 @@ nav {
   width: clamp(46ch, 50%, 92ch);
   display: grid;
   grid-template-columns: 1fr 1fr;
-  // gap: 3rem;
 
   border-radius: var(--_border-radius);
 }

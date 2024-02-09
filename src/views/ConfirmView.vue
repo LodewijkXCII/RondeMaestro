@@ -92,7 +92,7 @@ export default defineComponent({
       <div class="btn danger" @click="goToOverview">Etappe overzicht</div>
       <div class="btn action" @click="goToStage">Selectie aanpassen</div>
 
-      <div class="selectedCyclists">
+      <div class="selectedCyclists-overview">
         <RennerLargeCard
           v-for="renner in riderStore.riders.renners"
           :renner="renner"
@@ -104,7 +104,7 @@ export default defineComponent({
 </template>
 
 <style lang="scss">
-.selectedCyclists {
+.selectedCyclists-overview {
   display: grid;
   grid-template-columns: repeat(4, min-content);
   gap: 1rem;

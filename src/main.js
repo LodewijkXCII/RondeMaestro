@@ -3,7 +3,7 @@ import { createPinia } from "pinia";
 
 import App from "./App.vue";
 import router from "./router";
-import setupInterceptors from "./api/api";
+import setupInterceptors from "./utils/api";
 
 import FlagIcon from "vue-flag-icon";
 import VueCountdown from "@chenfengyuan/vue-countdown";

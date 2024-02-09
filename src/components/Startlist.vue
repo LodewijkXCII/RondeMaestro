@@ -74,7 +74,6 @@ export default defineComponent({
     const toSelectie = (renner) => {
       // 1 minder dan de huidige count
       if (riderStore.ridersCount <= 9) {
-        console.log(riderStore.ridersCount);
         if (
           riderStore.riders.renners.some(
             (e) => e.cyclist_id == renner.cyclist_id

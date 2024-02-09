@@ -9,8 +9,8 @@
           :to="{
             name: 'raceStageOverview',
             params: {
-              race_id: 39,
-              race: 'giro-d-italia',
+              race_id: currentRaceStore.currentRace.race_id,
+              race: currentRaceStore.currentRace.race_name,
             },
           }"
           class="nav-item"
@@ -21,7 +21,7 @@
           :to="{
             name: 'resultOverview',
             params: {
-              race_id: 39,
+              race_id: currentRaceStore.currentRace.race_id,
             },
           }"
           class="nav-item"
@@ -33,8 +33,8 @@
           :to="{
             name: 'klassementOverview',
             params: {
-              race_id: 39,
-              race: 'giro-d-italia',
+              race_id: currentRaceStore.currentRace.race_id,
+              race: currentRaceStore.currentRace.race_name,
             },
           }"
           class="nav-item"
@@ -46,8 +46,8 @@
           :to="{
             name: 'raceStageOverview',
             params: {
-              race_id: 39,
-              race: 'giro-d-italia',
+              race_id: currentRaceStore.currentRace.race_id,
+              race: currentRaceStore.currentRace.race_name,
             },
           }"
           class="nav-item"
@@ -87,6 +87,8 @@ import Username from "./Username.vue";
 import axios from "axios";
 import router from "../router";
 
+import { useCurrentRaceStore } from "../stores/currentRace";
+
 export default defineComponent({
   components: {
     Username,
@@ -123,6 +125,8 @@ export default defineComponent({
     const nextStage = ref();
     const showDropdown = ref(false);
 
+    const currentRaceStore = useCurrentRaceStore();
+
     const token = ref();
     token.value = localStorage.getItem("token");
 
@@ -135,7 +139,7 @@ export default defineComponent({
         console.error(err);
       });
 
-    return { nextStage, showDropdown, token };
+    return { nextStage, showDropdown, currentRaceStore, token };
   },
 });
 </script>

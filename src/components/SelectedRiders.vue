@@ -12,9 +12,8 @@
       {{ sendButton }}
     </div>
     <div class="btn danger" @click="wisSelection">Wis selectie</div>
-    <div v-show="riderStore.errorMessage.length >= 1" class="errormessage">
-      {{ riderStore.errorMessage }}
-    </div>
+    <SelectError v-show="errorMessage.length > 0" :message="errorMessage">
+    </SelectError>
   </div>
   <div class="selectedCyclists">
     <RennerSmallCard
@@ -32,39 +31,40 @@ import { ref, onMounted, defineComponent } from "vue";
 import { onBeforeRouteLeave, useRoute } from "vue-router";
 import axios from "axios";
 
+import messages from "../utils/responseError";
+
 import RennerSmallCard from "../components/RennerSmallCard.vue";
 
 import { useCyclistStore } from "../stores/selectedRiders";
 import { useStartlistStore } from "../stores/startlistRace";
 import { useAuthStore } from "../stores/userAuth";
 import router from "../router";
+import SelectError from "./modals/SelectError.vue";
 
 export default defineComponent({
-  components: { RennerSmallCard },
-  props: { stage: Object },
+  components: { RennerSmallCard, SelectError },
 
-  setup(props) {
-    const riderStore = useCyclistStore();
-    const startlistStore = useStartlistStore();
-    const stage_id = riderStore.riders.stage;
+  setup() {
     const route = useRoute();
+
     const raceInfo = ref();
     const avoidRouteLeave = ref(false);
+    const errorMessage = ref("");
     const user_id = ref(useAuthStore().getUserID);
-    const errorMsg = riderStore.getErrorMessage;
+
+    const riderStore = useCyclistStore();
+    const startlistStore = useStartlistStore();
+
+    const stage_id = riderStore.riders.stage;
+
     const sendButton = ref("Verstuur selectie");
 
     function sendSelection() {
       if (riderStore.ridersCount > 8) {
-        riderStore.errorMessage =
-          "Je hebt teveel renners geselecteerd! Kies er maximaal 8.";
-        setTimeout(() => {
-          riderStore.errorMessage = "";
-        }, 5000);
+        errorMessage.value = messages.LESS_THAN_EIGTH;
         return;
       } else if (riderStore.ridersCount < 8) {
-        riderStore.errorMessage =
-          "Je hebt nog geen 8 renners geselecteerd. Weet je zeker dat je deze renners wilt opslaan?";
+        errorMessage.value = messages.LESS_THAN_EIGTH;
       }
 
       sendButton.value = "Versturen...";
@@ -95,7 +95,6 @@ export default defineComponent({
 
       avoidRouteLeave.value = true;
 
-      // riderStore.clearStore();
       router.push({
         name: "stageCyclistOverview_confirm",
         params: { stage_id },
@@ -190,7 +189,7 @@ export default defineComponent({
       startlistStore,
       sendSelection,
       sendButton,
-      errorMsg,
+      errorMessage,
       countRiders,
     };
   },

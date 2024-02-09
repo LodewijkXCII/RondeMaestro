@@ -1,20 +1,6 @@
 import axios from "axios";
 import router from "../router";
-
-// async function refreshAccessToken() {
-//   try {
-//     const { data } = await axios.post(
-//       `${import.meta.env.VITE_API_URL}/users/refresh`
-//     );
-//     const accessToken = data.token;
-//     localStorage.setItem("token", accessToken);
-//     userStore.accesToken = accessToken;
-//   } catch (error) {
-//     console.log(error);
-//     throw error;
-//   }
-// }
-
+// TODO CHECK OUT THIS MESS
 const setup = (store) => {
   axios.interceptors.request.use(
     (setting) => {
@@ -50,7 +36,7 @@ const setup = (store) => {
         //   return axios(originalRequest);
         // });
         // router.push("/aanmelden");
-        console.log("error");
+        console.error("error");
         // console.error(error);
         return error;
       }

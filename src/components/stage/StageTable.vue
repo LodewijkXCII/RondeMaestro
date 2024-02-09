@@ -62,8 +62,6 @@ function handleRouteFunction(stage) {
 }
 
 function checkStageStatus(stage) {
-  console.log(DateTime.now() <= DateTime.fromISO(stage.date));
-  // console.log(DateTime.now().hasSame(DateTime.fromISO(stage.date), "day"));
   if (stage.done) {
     stage.closed = true;
     return "done";
