@@ -54,8 +54,8 @@ export default defineComponent({
   setup() {
     const errorMSG = ref();
     const loginData = ref({
-      email: "loekzweers@gmail.com",
-      password: "L_zwe1992",
+      email: "",
+      password: "",
     });
     const authStore = useAuthStore();
 

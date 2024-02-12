@@ -12,7 +12,7 @@ const router = createRouter({
       name: "home",
       component: () => import("../views/HomeView.vue"),
       meta: { requiresAuth: true },
-      beforeEnter(next) {
+      beforeEnter(to, from, next) {
         const currentRaceStore = useCurrentRaceStore();
         if (!currentRaceStore.currentRace.race_id.value) {
           currentRaceStore.setCurrentRace();
