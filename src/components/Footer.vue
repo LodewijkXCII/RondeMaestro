@@ -32,6 +32,11 @@ footer {
   .footer-wrapper {
     margin-top: 2rem;
     border-top: 2px solid var(--clr-primary);
+
+    a {
+      display: inline-block;
+      width: auto;
+    }
   }
 
   .footer-links {

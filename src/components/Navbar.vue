@@ -233,6 +233,16 @@ nav {
       cursor: pointer;
     }
 
+    a {
+      text-decoration: none;
+
+      &:hover,
+      &:active,
+      &:focus {
+        color: var(--clr-primary);
+      }
+    }
+
     &:hover {
       border: none;
       margin-bottom: 0;

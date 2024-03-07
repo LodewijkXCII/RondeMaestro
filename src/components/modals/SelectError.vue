@@ -1,7 +1,6 @@
 <template>
-  <div class="errormessage">
-    Dikke tieten
-
+  <div class="errormessage" :class="type">
+    <span v-show="confirm">kruisje</span>
     {{ message }}
   </div>
 </template>
@@ -9,7 +8,5 @@
 <script setup>
 import { ref } from "vue";
 
-const props = defineProps({ message: String });
-
-const showConfirm = ref()
+const props = defineProps({ message: String, confirm: Boolean, type: String });
 </script>

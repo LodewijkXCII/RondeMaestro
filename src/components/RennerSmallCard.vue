@@ -155,6 +155,7 @@ export default {
   background: var(--clr-background-mute);
   pointer-events: none;
   opacity: 0.5;
+  user-select: none;
 
   * {
     filter: grayscale(100%);

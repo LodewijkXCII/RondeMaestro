@@ -123,9 +123,9 @@ export default defineComponent({
     onMounted(async () => {
       getRaceInfo();
 
-      if (route.query.etappe_id) {
-        active_stage.value = +route.query.etappe_id;
-        getResults(+route.query.etappe_id);
+      if (route.query.etappe) {
+        active_stage.value = +route.query.etappe;
+        getResults(+route.query.etappe);
       }
       if (route.params.etappe_id) {
         active_stage.value = +route.params.etappe_id;

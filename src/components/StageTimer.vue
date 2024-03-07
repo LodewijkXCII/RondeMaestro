@@ -1,6 +1,6 @@
 <template>
   <div class="stage-timer">
-    Tijd om de etappe in te vullen:
+    <p class="strong">Etappe sluit over:</p>
 
     <vue-countdown
       :time="time"
@@ -80,23 +80,30 @@ onMounted(async () => {
 </script>
 
 <style lang="scss">
-.counter {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
+.stage-timer {
+  width: var(--rider-card-width);
+  background: var(--clr-background-mute);
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
 
-  span {
-    background: var(--clr-background-mute);
-    display: block;
-    margin-top: 0.5rem;
-    margin-bottom: 0.2rem;
-    padding: 1rem 0.5rem;
-    color: var(--clr-primary);
-    border-radius: 5px;
+  .counter {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+
+    span {
+      background: var(--clr-background);
+      display: block;
+      margin-top: 0.5rem;
+      margin-bottom: 0.2rem;
+      padding: 1rem 0.5rem;
+      color: var(--clr-primary);
+      border-radius: 5px;
+    }
   }
 }
 </style>

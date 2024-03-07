@@ -26,7 +26,7 @@
     }
   }
   &.danger {
-    color: var(--clr-text-black);
+    color: var(--clr-text-white);
     background: var(--clr-accent);
     transition: background 200ms ease-in;
 
@@ -51,13 +51,21 @@
 
 .errormessage {
   font-weight: 900;
-  background: var(--clr-accent);
-  color: var(--clr-text-white);
-  border: 2px solid var(--clr-accent);
+
   border-radius: 5px;
   margin-top: 1rem;
   margin-right: 0.75rem;
   padding: 0.5rem 0.75rem;
+
+  &.danger {
+    border: 2px solid var(--clr-accent);
+    color: var(--clr-text-black);
+  }
+
+  &.alert {
+    border: 2px solid var(--clr-alert);
+    color: var(--clr-text-black);
+  }
 }
 
 .stage_list {

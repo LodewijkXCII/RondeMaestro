@@ -81,7 +81,7 @@ function goToResult(stage) {
       race_id: stage.race_id,
     },
     query: {
-      etappe_id: stage.id,
+      etappe: stage.id,
     },
   });
 }

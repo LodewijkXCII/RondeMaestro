@@ -77,7 +77,7 @@ const router = createRouter({
       props: true,
     },
     {
-      path: "/uitslag/:race_id/",
+      path: "/uitslag/:race_id",
       name: "resultOverview",
       component: () => import("../views/ResultOverview.vue"),
       meta: { requiresAuth: true },

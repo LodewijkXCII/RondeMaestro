@@ -7,6 +7,8 @@ export const useCyclistStore = defineStore("selectedRiders", {
       renners: [],
     },
     changesMade: false,
+    confirmNeeded: false,
+    userConfirm: false,
   }),
   getters: {
     ridersCount: (state) => state.riders.renners.length,
@@ -17,6 +19,7 @@ export const useCyclistStore = defineStore("selectedRiders", {
   actions: {
     addRider(rider) {
       this.riders.renners.push(rider);
+      this.madeChange();
     },
     removeRider(renner) {
       const index = this.riders.renners.findIndex(
@@ -24,12 +27,15 @@ export const useCyclistStore = defineStore("selectedRiders", {
       );
 
       this.removeRiderByIndex(index);
+      this.madeChange();
     },
     removeRiderByIndex(index) {
       this.riders.renners.splice(index, 1);
+      this.madeChange();
     },
     removeSelected() {
       this.riders.renners = [];
+      this.madeChange();
     },
     madeChange() {
       this.changesMade = true;
@@ -37,6 +43,9 @@ export const useCyclistStore = defineStore("selectedRiders", {
     clearStore() {
       this.riders.stage = null;
       this.riders.renners = [];
+    },
+    needConfirm(value) {
+      this.confirmNeeded = value;
     },
   },
 });

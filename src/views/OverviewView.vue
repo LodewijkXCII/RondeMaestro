@@ -1,13 +1,16 @@
 <template>
   <main class="wrapper flow">
     <section class="cyclistOverview">
-      <StageComponent :stage="stage" />
+      <div class="cyclistOverview-cards">
+        <StageComponent :stage="stage" />
+        <StageTimer :date="stage.date" :key="compkey" />
+      </div>
       <Startlist :key="compkey" />
 
       <aside>
         <div class="selecterd-riders">
           <h2>Geselecteerde renners</h2>
-          <StageTimer :date="stage.date" :key="compkey" />
+
           <SelectedRiders :key="compkey" :stage="stage" />
         </div>
       </aside>
@@ -144,8 +147,10 @@ export default defineComponent({
       );
   }
 
-  .stage-section {
+  &-cards {
     grid-area: 1/3/1/1;
+    display: flex;
+    gap: 1rem;
 
     @include xs {
       grid-area: 1/1;
@@ -154,7 +159,7 @@ export default defineComponent({
       grid-area: 1/1;
     }
   }
-  .selecterd-riders {
+  .selected-riders {
     position: sticky;
     top: 2rem;
   }
