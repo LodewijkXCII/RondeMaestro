@@ -16,6 +16,7 @@ watch(
         (await import(/* @vite-ignore */ `./${metaLayout.layout}.vue`));
 
       layout.value = markRaw(component.default || DefaultLayout);
+      console.log(component, layout.value);
     } catch (error) {
       layout.value = markRaw(DefaultLayout);
     }

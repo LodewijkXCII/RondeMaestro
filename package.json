@@ -13,11 +13,11 @@
     "axios": "^1.6.2",
     "lodash": "^4.17.21",
     "luxon": "^3.3.0",
-    "pinia": "^2.0.32",
+    "pinia": "^2.1.7",
     "qs": "^6.11.1",
     "sass": "^1.61.0",
-    "sweetalert2": "^11.10.5",
-    "vue": "^3.2.47",
+    "sweetalert2": "^11.6.13",
+    "vue": "^3.4.21",
     "vue-flag-icon": "^2.1.0",
     "vue-router": "^4.1.6",
     "vue-unicons": "^3.3.1"
@@ -26,6 +26,6 @@
     "@vitejs/plugin-vue": "^4.0.0",
     "node-sass": "^8.0.0",
     "sass-loader": "^13.2.2",
-    "vite": "^5.0.7"
+    "vite": "^5.1.5"
   }
 }
