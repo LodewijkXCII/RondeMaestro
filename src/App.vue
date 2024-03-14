@@ -1,9 +1,7 @@
-<script setup>
-import AppLayout from "./layouts/AppLayout.vue";
-</script>
+<script setup></script>
 
 <template>
-  <AppLayout />
+  <router-view />
 </template>
 
 <style scoped></style>

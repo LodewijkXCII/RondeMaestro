@@ -1,75 +1,81 @@
 <template>
-  <main class="wrapper wrapper-small flow">
-    <h1>Klassementen</h1>
-    <div class="ranking-gc">
-      <h2>Algemeen klassement</h2>
-      <div class="result--list">
-        <div class="result--item" v-for="(gcUser, index) in gcStandings">
-          <div class="info">
-            <div class="info__position">{{ index + 1 }}.</div>
-            <div class="info__name">
-              {{ gcUser.name }}
-            </div>
-            <div class="info__points">
-              <strong>{{ gcUser.points }}</strong> pnt
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <h2>Etappe klassement</h2>
-    <div class="ranking-stage">
-      <div class="ranking-stage--stages">
-        <h3>Etappes</h3>
-        <p class="strong">Selecter de etappe om de uitslag te zien.</p>
-        <div class="stage_list">
-          <div
-            v-for="stage in stageInfo"
-            class="stage_list__item"
-            @click="loadStageResult(stage.id)"
-            :class="activeStage == stage.id ? 'active' : ''"
-          >
-            <div class="stage_number">{{ stage.stage_nr }}.</div>
-            <div class="stage_date">{{ getTime(stage.date) }}</div>
-            <div class="stage_info">
-              {{ stage.start_city }} - {{ stage.finish_city }} ({{
-                stage.distance
-              }}km)
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="ranking-stage--result">
-        <h3>Uitslag</h3>
+  <DefaultLayout>
+    <main class="wrapper wrapper-small flow">
+      <h1>Klassementen</h1>
+      <div class="ranking-gc">
+        <h2>Algemeen klassement</h2>
         <div class="result--list">
-          <div class="result--item" v-for="(user, index) in stageResult">
+          <div class="result--item" v-for="(gcUser, index) in gcStandings">
             <div class="info">
               <div class="info__position">{{ index + 1 }}.</div>
               <div class="info__name">
-                {{ user.name }}
+                {{ gcUser.name }}
               </div>
               <div class="info__points">
-                <strong>{{ user.points }}</strong> pnt
+                <strong>{{ gcUser.points }}</strong> pnt
               </div>
             </div>
           </div>
-          <div class="result--message" v-if="stageResult.length <= 0">
-            <p>De uitslag voor deze etappe is nog niet bekend!</p>
+        </div>
+      </div>
+      <h2>Etappe klassement</h2>
+      <div class="ranking-stage">
+        <div class="ranking-stage--stages">
+          <h3>Etappes</h3>
+          <p class="strong">Selecter de etappe om de uitslag te zien.</p>
+          <div class="stage_list">
+            <div
+              v-for="stage in stageInfo"
+              class="stage_list__item"
+              @click="loadStageResult(stage.id)"
+              :class="activeStage == stage.id ? 'active' : ''"
+            >
+              <div class="stage_number">{{ stage.stage_nr }}.</div>
+              <div class="stage_date">{{ getTime(stage.date) }}</div>
+              <div class="stage_info">
+                {{ stage.start_city }} - {{ stage.finish_city }} ({{
+                  stage.distance
+                }}km)
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ranking-stage--result">
+          <h3>Uitslag</h3>
+          <div class="result--list">
+            <div class="result--item" v-for="(user, index) in stageResult">
+              <div class="info">
+                <div class="info__position">{{ index + 1 }}.</div>
+                <div class="info__name">
+                  {{ user.name }}
+                </div>
+                <div class="info__points">
+                  <strong>{{ user.points }}</strong> pnt
+                </div>
+              </div>
+            </div>
+            <div class="result--message" v-if="stageResult.length <= 0">
+              <p>De uitslag voor deze etappe is nog niet bekend!</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </main>
+    </main>
+  </DefaultLayout>
 </template>
 
 <script>
-import { ref } from "vue";
+import { ref, defineComponent } from "vue";
 import { useRoute } from "vue-router";
 
 import axios from "axios";
 import { DateTime } from "luxon";
+import DefaultLayout from "../layouts/DefaultLayout.vue";
 
-export default {
+export default defineComponent({
+  components: {
+    DefaultLayout,
+  },
   setup() {
     const route = useRoute();
 
@@ -159,7 +165,7 @@ export default {
       loadStageResult,
     };
   },
-};
+});
 </script>
 
 <style lang="scss">

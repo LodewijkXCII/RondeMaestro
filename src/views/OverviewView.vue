@@ -1,21 +1,23 @@
 <template>
-  <main class="wrapper flow">
-    <section class="cyclistOverview">
-      <div class="cyclistOverview-cards">
-        <StageComponent :stage="stage" />
-        <StageTimer :date="stage.date" :key="compkey" />
-      </div>
-      <Startlist :key="compkey" />
-
-      <aside>
-        <div class="selecterd-riders">
-          <h2>Geselecteerde renners</h2>
-
-          <SelectedRiders :key="compkey" :stage="stage" />
+  <DefaultLayout>
+    <main class="wrapper flow">
+      <section class="cyclistOverview">
+        <div class="cyclistOverview-cards">
+          <StageComponent :stage="stage" />
+          <StageTimer :date="stage.date" :key="compkey" />
         </div>
-      </aside>
-    </section>
-  </main>
+        <Startlist :key="compkey" />
+
+        <aside>
+          <div class="selecterd-riders">
+            <h2>Geselecteerde renners</h2>
+
+            <SelectedRiders :key="compkey" :stage="stage" />
+          </div>
+        </aside>
+      </section>
+    </main>
+  </DefaultLayout>
 </template>
 
 <script>
@@ -32,6 +34,7 @@ import StageTimer from "../components/StageTimer.vue";
 import { useCyclistStore } from "../stores/selectedRiders";
 
 import _ from "lodash";
+import DefaultLayout from "../layouts/DefaultLayout.vue";
 
 export default defineComponent({
   components: {
@@ -40,6 +43,7 @@ export default defineComponent({
     StageComponent,
     Startlist,
     StageTimer,
+    DefaultLayout,
   },
 
   setup() {

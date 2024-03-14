@@ -1,9 +1,9 @@
 <template>
-  <Navbar></Navbar>
+  <Navbar />
   <div class="wrapper">
     <slot />
   </div>
-  <Footer></Footer>
+  <Footer />
 </template>
 
 <script>

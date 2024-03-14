@@ -1,53 +1,57 @@
 <template>
-  <div class="login-card__left active">
-    <h1>Inloggen</h1>
+  <LoginLayout>
+    <div class="login-card__left active">
+      <h1>Inloggen</h1>
 
-    <form>
-      <div class="form__group field">
-        <input
-          type="email"
-          class="form__field"
-          placeholder="Email"
-          v-model="loginData.email"
-          required
-          name="email"
-        />
-        <label for="email" class="form__label"> Email </label>
-      </div>
-      <div class="form__group field">
-        <input
-          type="password"
-          class="form__field"
-          placeholder="Wachtwoord"
-          name="password"
-          v-model="loginData.password"
-        />
-        <label for="password" class="form__label">Password</label>
-      </div>
+      <form>
+        <div class="form__group field">
+          <input
+            type="email"
+            class="form__field"
+            placeholder="Email"
+            v-model="loginData.email"
+            required
+            name="email"
+          />
+          <label for="email" class="form__label"> Email </label>
+        </div>
+        <div class="form__group field">
+          <input
+            type="password"
+            class="form__field"
+            placeholder="Wachtwoord"
+            name="password"
+            v-model="loginData.password"
+          />
+          <label for="password" class="form__label">Password</label>
+        </div>
 
-      <button class="send-btn" @click.prevent="getUserData">Verstuur</button>
-      <div v-if="errorMSG">{{ errorMSG }}</div>
-    </form>
-    <p>
-      Nog geen account bij RondeMaestro? Maak een
-      <router-link to="/registeren">account</router-link> aan.
-    </p>
-  </div>
-  <div class="login-card__right">
-    <h2>Welkom bij RondeMaestro!</h2>
-    <p>
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque sint
-      aspernatur itaque possimus deleniti id sed distinctio, dignissimos tempore
-      facilis dolorem saepe autem hic nemo illum debitis vel blanditiis! Eius
-      similique recusandae culpa, aliquam esse facere a necessitatibus et libero
-      amet ipsum, aut totam omnis, repudiandae magni alias quibusdam tenetur!
-    </p>
-  </div>
+        <button class="send-btn" @click.prevent="getUserData">Verstuur</button>
+        <div v-if="errorMSG">{{ errorMSG }}</div>
+      </form>
+      <p>
+        Nog geen account bij RondeMaestro? Maak een
+        <router-link to="/registeren">account</router-link> aan.
+      </p>
+    </div>
+    <div class="login-card__right">
+      <h2>Welkom bij RondeMaestro!</h2>
+      <p>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque
+        sint aspernatur itaque possimus deleniti id sed distinctio, dignissimos
+        tempore facilis dolorem saepe autem hic nemo illum debitis vel
+        blanditiis! Eius similique recusandae culpa, aliquam esse facere a
+        necessitatibus et libero amet ipsum, aut totam omnis, repudiandae magni
+        alias quibusdam tenetur!
+      </p>
+    </div>
+  </LoginLayout>
 </template>
 
 <script>
 import { defineComponent, ref } from "vue";
 import { useAuthStore } from "../stores/userAuth";
+import LoginLayout from "../layouts/LoginLayout.vue";
 import router from "../router";
 
 export default defineComponent({

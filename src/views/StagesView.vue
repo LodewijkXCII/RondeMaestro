@@ -1,9 +1,11 @@
 <template>
-  <main class="wrapper wrapper-small flow">
-    <h1>Ritoverzicht</h1>
-    <Legenda />
-    <StageTable :stageInfo="stageInfo" :routerAction="'stage'" />
-  </main>
+  <DefaultLayout>
+    <main class="wrapper wrapper-small flow">
+      <h1>Ritoverzicht</h1>
+      <Legenda />
+      <StageTable :stageInfo="stageInfo" :routerAction="'stage'" />
+    </main>
+  </DefaultLayout>
 </template>
 
 <script>
@@ -13,11 +15,13 @@ import StageTable from "../components/stage/StageTable.vue";
 import Legenda from "../components/Legenda.vue";
 
 import axios from "axios";
+import DefaultLayout from "../layouts/DefaultLayout.vue";
 
 export default {
   components: {
     StageTable,
     Legenda,
+    DefaultLayout,
   },
 
   setup() {

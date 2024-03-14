@@ -1,79 +1,81 @@
 <template>
-  <main class="wrapper flow">
-    <h1>Uitslagen van de etappes</h1>
-    <div class="results">
-      <aside class="results__stages">
-        <h3>Etappes</h3>
-        <p class="strong">Selecter de etappe om de uitslag te zien.</p>
-        <ol class="stage_list">
-          <ResultStage
-            :stage="stage"
-            :class="active_stage == stage.id ? 'active' : ''"
-            v-for="stage in raceInfo"
-            @click="getResults(stage.id)"
-          />
-        </ol>
-      </aside>
+  <DefaultLayout>
+    <main class="wrapper flow">
+      <h1>Uitslagen van de etappes</h1>
+      <div class="results">
+        <aside class="results__stages">
+          <h3>Etappes</h3>
+          <p class="strong">Selecter de etappe om de uitslag te zien.</p>
+          <ol class="stage_list">
+            <ResultStage
+              :stage="stage"
+              :class="active_stage == stage.id ? 'active' : ''"
+              v-for="stage in raceInfo"
+              @click="getResults(stage.id)"
+            />
+          </ol>
+        </aside>
 
-      <section class="results__userResult" v-if="userResult || cyclistResult">
-        <h3>Jouw selectie</h3>
-        <div class="results__userResult--cyclists">
-          <RennerSmallCard
-            v-for="cyclist in userResult"
-            :renner="cyclist"
-            :key="cyclist.id"
-            :speciality="false"
-            :points="cyclist.points"
-          />
-        </div>
-        <div class="totalScore">
-          Gescoorde punten:
-          <span>
-            <span class="points">{{ totalUserPoints }}</span> pnt
-          </span>
-        </div>
-        <h3>Dagklassement</h3>
-        <div class="results__userResult--users">
-          <div class="result--list">
-            <ResultStageTable
-              v-for="(user, index) in totalScore"
-              :key="user.id"
-              :user-result="user"
-              :position="index + 1"
-              :user_id="user_id"
+        <section class="results__userResult" v-if="userResult || cyclistResult">
+          <h3>Jouw selectie</h3>
+          <div class="results__userResult--cyclists">
+            <RennerSmallCard
+              v-for="cyclist in userResult"
+              :renner="cyclist"
+              :key="cyclist.id"
+              :speciality="false"
+              :points="cyclist.points"
             />
           </div>
-        </div>
-      </section>
-
-      <section class="results_stage" v-if="userResult || cyclistResult">
-        <h3>Daguitslag</h3>
-        <div class="results_stage--list">
-          <div class="list-item" v-for="(cyclist, index) in cyclistResult">
-            <div class="list-item__position">{{ index + 1 }}.</div>
-            <div class="list-item__avatar">
-              <img
-                :src="`https://ui-avatars.com/api/?name=${cyclist.first_name}+${cyclist.last_name}`"
-                alt=""
+          <div class="totalScore">
+            Gescoorde punten:
+            <span>
+              <span class="points">{{ totalUserPoints }}</span> pnt
+            </span>
+          </div>
+          <h3>Dagklassement</h3>
+          <div class="results__userResult--users">
+            <div class="result--list">
+              <ResultStageTable
+                v-for="(user, index) in totalScore"
+                :key="user.id"
+                :user-result="user"
+                :position="index + 1"
+                :user_id="user_id"
               />
             </div>
-            <div class="list-item__cyclist">
-              <div class="list-item__cyclist--name">
-                {{ cyclist.first_name }}
-                <strong>{{ cyclist.last_name }}</strong>
+          </div>
+        </section>
+
+        <section class="results_stage" v-if="userResult || cyclistResult">
+          <h3>Daguitslag</h3>
+          <div class="results_stage--list">
+            <div class="list-item" v-for="(cyclist, index) in cyclistResult">
+              <div class="list-item__position">{{ index + 1 }}.</div>
+              <div class="list-item__avatar">
+                <img
+                  :src="`https://ui-avatars.com/api/?name=${cyclist.first_name}+${cyclist.last_name}`"
+                  alt=""
+                />
               </div>
-              <div class="list-item__cyclist--team">
-                {{ cyclist.team_name }}
+              <div class="list-item__cyclist">
+                <div class="list-item__cyclist--name">
+                  {{ cyclist.first_name }}
+                  <strong>{{ cyclist.last_name }}</strong>
+                </div>
+                <div class="list-item__cyclist--team">
+                  {{ cyclist.team_name }}
+                </div>
               </div>
-            </div>
-            <div class="list-item__points">
-              <span>{{ cyclist.points }}</span> pnt
+              <div class="list-item__points">
+                <span>{{ cyclist.points }}</span> pnt
+              </div>
             </div>
           </div>
-        </div>
-      </section>
-    </div>
-  </main>
+        </section>
+      </div>
+    </main>
+  </DefaultLayout>
 </template>
 
 <script>
@@ -87,12 +89,14 @@ import ResultStageTable from "../components/result/ResultStage.vue";
 import RennerSmallCard from "../components/RennerSmallCard.vue";
 
 import axios from "axios";
+import DefaultLayout from "../layouts/DefaultLayout.vue";
 
 export default defineComponent({
   components: {
     ResultStage,
     ResultStageTable,
     RennerSmallCard,
+    DefaultLayout,
   },
 
   setup() {
