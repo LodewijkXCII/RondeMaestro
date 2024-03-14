@@ -21,8 +21,8 @@ const router = createRouter({
       },
     },
     {
-      path: "/aanmelden",
-      name: "aanmelden",
+      path: "/inloggen",
+      name: "inloggen",
       component: () => import("../views/Login.vue"),
       meta: { layout: "LoginLayout" },
     },

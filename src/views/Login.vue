@@ -55,6 +55,10 @@ import LoginLayout from "../layouts/LoginLayout.vue";
 import router from "../router";
 
 export default defineComponent({
+  components: {
+    LoginLayout,
+  },
+
   setup() {
     const errorMSG = ref();
     const loginData = ref({

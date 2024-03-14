@@ -51,6 +51,37 @@ export const useAuthStore = defineStore("userAuth", {
       }
     },
 
+    async register(registerData) {
+      try {
+        const { data, status } = await axios.post(
+          `${import.meta.env.VITE_API_URL}/users/register`,
+          {
+            name: registerData.name,
+            email: registerData.email,
+            password: registerData.password,
+          }
+        );
+
+        if (data.token) {
+          this.user.userRole = data.user.user_role_id;
+          this.user.userId = data.user.id;
+          this.user.userName = data.user.name;
+          response = {
+            message: "Succesvol ingelogd!",
+            code: status,
+          };
+
+          localStorage.setItem("token", data.token);
+          return response;
+        }
+      } catch (error) {
+        return {
+          message: error.response.data.errors,
+          code: error.response.status,
+        };
+      }
+    },
+
     async checkedToken(userData) {
       try {
         localStorage.removeItem("token");

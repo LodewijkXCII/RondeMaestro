@@ -6,10 +6,21 @@
       <form>
         <div class="form__group field">
           <input
+            type="text"
+            class="form__field"
+            placeholder="Gebruikersnaam"
+            v-model="registerData.name"
+            required
+            name="userName"
+          />
+          <label for="userName" class="form__label"> Gebruikersnaam </label>
+        </div>
+        <div class="form__group field">
+          <input
             type="email"
             class="form__field"
             placeholder="Email"
-            v-model="loginData.email"
+            v-model="registerData.email"
             required
             name="email"
           />
@@ -21,12 +32,12 @@
             class="form__field"
             placeholder="Wachtwoord"
             name="password"
-            v-model="loginData.password"
+            v-model="registerData.password"
           />
           <label for="password" class="form__label">Password</label>
         </div>
 
-        <button class="send-btn" @click.prevent="getUserData">Verstuur</button>
+        <button class="send-btn" @click.prevent="registerUser">Verstuur</button>
         <div v-if="errorMSG">{{ errorMSG }}</div>
       </form>
     </div>
@@ -51,16 +62,21 @@ import router from "../router";
 import LoginLayout from "../layouts/LoginLayout.vue";
 
 export default defineComponent({
+  components: {
+    LoginLayout,
+  },
   setup() {
     const errorMSG = ref();
-    const loginData = ref({
+    const registerData = ref({
+      name: "",
       email: "",
       password: "",
     });
     const authStore = useAuthStore();
 
-    async function getUserData() {
-      const response = await authStore.login(loginData.value);
+    async function registerUser() {
+      console.log(registerData.value);
+      const response = await authStore.register(registerData.value);
 
       if (authStore.getLoggedInValue == true) {
         errorMSG.value = response.message;
@@ -76,8 +92,8 @@ export default defineComponent({
 
     return {
       authStore,
-      loginData,
-      getUserData,
+      registerData,
+      registerUser,
       errorMSG,
     };
   },

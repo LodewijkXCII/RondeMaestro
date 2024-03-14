@@ -26,7 +26,7 @@ export const authGuard = async (to, from, next) => {
         // next()
       }
     } catch (error) {
-      next("/aanmelden");
+      next("/inloggen");
     }
   }
 };
