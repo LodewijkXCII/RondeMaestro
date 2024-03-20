@@ -9,7 +9,7 @@ import axios from "axios";
 import DefaultLayout from "../layouts/DefaultLayout.vue";
 
 export default defineComponent({
-  components: { RennerLargeCard },
+  components: { RennerLargeCard, DefaultLayout },
 
   setup() {
     const riderStore = useCyclistStore();

@@ -8,7 +8,7 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: "/",
+      path: "/dashboard",
       name: "home",
       component: () => import("../views/HomeView.vue"),
       meta: { requiresAuth: true },

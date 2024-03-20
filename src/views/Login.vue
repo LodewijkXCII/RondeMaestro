@@ -72,6 +72,7 @@ export default defineComponent({
 
       if (response) {
         console.log(response);
+        console.log(authStore.getLoggedInValue == true);
       }
 
       if (authStore.getLoggedInValue == true) {
